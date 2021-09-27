@@ -1,0 +1,54 @@
+[
+  {
+    "title_category": "email",
+    "survey": [
+      {
+        "question": "Question 1",
+        "answer": [
+          "Réponse 1",
+          "Réponse 2",
+          "Réponse 3",
+          "Réponse 4"
+        ],
+        "correct_answer": 2,
+        "solution": {
+          "description": "Description de l'attaque",
+          "tips": [
+            "Conseil 1",
+            "Conseil 2",
+            "Conseil 3",
+            "Conseil 4",
+            "Conseil 5"
+          ],
+          "link": "https://google.fr"
+        }
+      }
+    ]
+  },
+  {
+    "title_category": "test",
+    "survey": [
+      {
+        "question": "Question 1",
+        "answer": [
+          "Réponse 1",
+          "Réponse 2",
+          "Réponse 3",
+          "Réponse 4"
+        ],
+        "correct_answer": 3,
+        "solution": {
+          "description": "Description de l'attaque",
+          "tips": [
+            "Conseil 1",
+            "Conseil 2",
+            "Conseil 3",
+            "Conseil 4",
+            "Conseil 5"
+          ],
+          "link": "https://google.fr"
+        }
+      }
+    ]
+  }
+]

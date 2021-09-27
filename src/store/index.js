@@ -1,12 +1,14 @@
 import { createStore } from 'vuex'
+import dataset from '../assets/dataset.json'
+
+let categories = []
+for (const data of dataset) {
+  categories.push(data['title_category'])
+}
 
 export default createStore({
   state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
+    Dataset: dataset,
+    Categories: categories
   }
 })
