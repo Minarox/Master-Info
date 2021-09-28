@@ -3,8 +3,8 @@
     <h1>{{ Dataset[category]['title_category'] }}</h1>
     <article>
       <h2>{{ survey['question'] }}</h2>
-      <div id="responses">
-        <a v-for="i in survey['answer'].length" :key="i" href="#" class="response" @click.prevent>{{ survey['answer'][i-1] }}</a>
+      <div id="anwsers">
+        <a v-for="i in survey['answer'].length" :key="i" href="#" class="anwser" :id="'answer-' + i" @click.prevent="answer(i)">{{ survey['answer'][i-1] }}</a>
       </div>
     </article>
     <article id="help">
@@ -23,18 +23,29 @@ import {mapState} from "vuex";
 
 export default {
   name: 'Survey',
-  mounted() {
-    let buttons = document.getElementsByClassName('response')
-    let help = document.getElementById('help')
-    let toggle = true
-    for (const button of buttons) {
-      button.addEventListener('click', function () {
-        if (toggle) {
+  data() {
+    return {
+      toggle: false
+    }
+  },
+  methods: {
+    answer(id) {
+      if (!this.toggle) {
+        let anwsers = document.getElementsByClassName('anwser')
+        let button = document.getElementById('answer-' + id)
+        let help = document.getElementById('help')
+        if (this.survey['correct_answer'] !== id) {
+          button.style.backgroundColor = 'red';
+          document.getElementById('answer-' + this.survey['correct_answer']).style.backgroundColor = 'lightgreen';
+        } else {
           button.style.backgroundColor = 'lightgreen';
-          help.style.display = 'block';
-          toggle = false;
         }
-      })
+        help.style.display = 'block';
+        for (const anwser of anwsers) {
+          anwser.style.pointerEvents = 'none';
+        }
+        this.toggle = true
+      }
     }
   },
   computed: {
@@ -93,7 +104,7 @@ article h2 {
   font-size: 2.4em;
 }
 
-#responses {
+#anwsers {
   padding: 20px;
   width: calc(100% - 30px * 2);
   position: absolute;
@@ -103,7 +114,7 @@ article h2 {
   gap: 0 20px;
 }
 
-#responses a {
+#anwsers a {
   flex: 1 0 33%;
   cursor: pointer;
   margin: 10px 0;
@@ -120,7 +131,7 @@ article h2 {
   text-decoration: none;
 }
 
-#responses a:hover {
+#anwsers a:hover {
   background-color: #DDDDDD;
   transform: scale(1.05);
   transition: background-color .15s, transform .15s;

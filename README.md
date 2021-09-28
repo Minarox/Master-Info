@@ -1,4 +1,9 @@
-# untitled
+# Workshop EPSI 2021
+Création d'un [site web informatif](https://workshop.minarox.fr) visant à améliorer les connaissances en cybersécurité.
+
+## Dépendances
+* [VueJS](https://vuejs.org/)
+* [MySQL](https://www.mysql.com/fr/)
 
 ## Project setup
 ```
