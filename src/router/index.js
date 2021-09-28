@@ -1,10 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home from '../views/Home.vue'
-import Survey from '../views/Survey.vue'
+import Home from '@/views/Home.vue'
+import Survey from '@/views/Survey.vue'
+import Cours from "@/views/Cours";
+import NotFound from "@/views/NotFound";
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/survey/:category/:question', name: 'Survey', component: Survey }
+  { path: '/cours/:name', name: 'Cours', component: Cours },
+  { path: '/survey/:category/:question', name: 'Survey', component: Survey },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 
 const router = createRouter({

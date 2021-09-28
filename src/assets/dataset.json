@@ -1,52 +1,123 @@
 [
   {
-    "title_category": "email",
+    "title_category": "Mot de passe",
     "survey": [
       {
-        "question": "Question 1",
+        "question": "Un mot de passe de 8 caractères contenants des minuscules, des majuscules et des chiffres est piratable en :",
         "answer": [
-          "Réponse 1",
-          "Réponse 2",
-          "Réponse 3",
-          "Réponse 4"
+          "1 heure",
+          "1 jour",
+          "1 mois",
+          "1 an"
         ],
-        "correct_answer": 2,
+        "correct_answer": 1,
         "solution": {
-          "description": "Description de l'attaque",
+          "description": "L'invention d'ordinateurs de plus en plus puissants rend capable des attaques informatiques de plus en plus rapides et complexes. En testant toutes les combinaisons possibles les unes après les autres, il faut environ 1 heure pour trouver le bon mot de passe, si aucune sécurité n'est mise en place pour empêcher une attaque de type brute force.",
           "tips": [
-            "Conseil 1",
-            "Conseil 2",
-            "Conseil 3",
-            "Conseil 4",
-            "Conseil 5"
+            "L'agence nationale de la sécurité des systèmes d'information (ANSSI) recommande d'utiliser des mots de passe de minimum 12 caractères.",
+            "Utilisez des mots de passe contenant un mélange de chiffre, majuscules, minuscules et symboles",
+            "Changez régulièrement votre mot de passe. S'il s'agit de mot de passe associé à des comptes sensibles, il est conseillé de le changer tous les 3 mois.",
+            "Ne notez pas vos mots de passe dans un fichier sur votre ordinateur, ni sur une feuille.",
+            "N'utilisez pas vos dates de naissances, les prénoms de votre entourage ou de vos animaux, ni même le nom de l'entreprise pour laquelle vous travaillez."
           ],
-          "link": "https://google.fr"
+          "link": "https://www.ssi.gouv.fr/guide/mot-de-passe/"
+        }
+      },
+      {
+        "question": "Quel est selon vous le mot de passe le plus sécurisé parmis la liste ci-dessous",
+        "answer": [
+          "Jean1999kiwi",
+          "pamplemousse",
+          "MDPaChanger",
+          "Cr3v377e(!)P1zz4*"
+        ],
+        "correct_answer": 4,
+        "solution": {
+          "description": "La bonne réponse est la question 4. En effet, le premier choix comporte un prénom, sans doute une date de naissance, et ne comporte pas de caractères spéciaux. Le 2eme et 3eme ne comportent ni nombres, ni caractères spéciaux. Seul le 4eme répond à des exigences de complexités.",
+          "tips": [
+            "Il est conseillé de varier minuscules, majuscules, chiffres et symboles.",
+            "Un mot de passe supérieur à 12 caractères est recommandé par l'Agence nationale de la sécurité des systèmes d'information (ANSSI)",
+            "N'utilisez pas de données personnelles facilement accessible (date de naissance, ville de résidence)."
+          ],
+          "link": "https://www.ssi.gouv.fr/guide/mot-de-passe/"
         }
       }
     ]
   },
   {
-    "title_category": "test",
+    "title_category": "Phishing",
     "survey": [
       {
-        "question": "Question 1",
+        "question": "Votre banque est Boursorama banque. Vous recevez ce mail. Que faites-vous ?",
         "answer": [
-          "Réponse 1",
-          "Réponse 2",
-          "Réponse 3",
-          "Réponse 4"
+          "Il s'agit de ma banque, je peux lui faire confiance.",
+          "Je supprime directement le lien car j'ai trop peur que ce soit une technique d'arnaque.",
+          "Je remarque quelque chose d'étrange dans ce mail et je détermine qu'il ne faut pas cliquer sur le lien."
         ],
         "correct_answer": 3,
         "solution": {
-          "description": "Description de l'attaque",
+          "description": "On remarque ici que l'adresse mail de l'expéditeur est étrange. En effet, le m a été remplacé par deux n; bien que le mail semble authentique, on comprend ici que l'expéditeur n'est pas réellement Boursorama. Il ne faut cependant pas avoir une peur bleue d'Internet, il suffit d'être alerte et vigilant sur votre utilisation d'Internet. ",
           "tips": [
-            "Conseil 1",
-            "Conseil 2",
-            "Conseil 3",
-            "Conseil 4",
-            "Conseil 5"
+            "Vérifiez bien l'expéditeur d'un mail avant d'ouvrir des pièces-jointes ou de cliquer sur un lien.",
+            "Vous pouvez comparer l'adresse de l'expéditeur à un précédent mail dont vous êtes sur que l'expéditeur est le bon.",
+            "Si vous travaillez en entreprise, avertissez l'administrateur du Système d'Information, car les campagnes de phishing visent généralement l'entreprise entière dans l'espoir qu'un ou plusieurs employés non vigilents clique sur le lien.",
+            "Vous pouvez également mettre sur liste noir (blacklist) l'adresse frauduleuse, afin que les prochains mails de sa part soient automatiquement bloqué."
           ],
-          "link": "https://google.fr"
+          "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
+        }
+      },
+      {
+        "question": "Une personne que vous ne connaissez pas vous envoie un mail en anglais avec une pièce-jointe que faites-vous ?",
+        "answer": [
+          "Vous cliquez sur la pièce-jointe, pour savoir ce que veut cette personne.",
+          "Vous estimez que le contenu du mail ne vous prouve pas de la fiabilité de l'expéditeur, vous supprimez le mail."
+        ],
+        "correct_answer": 2,
+        "solution": {
+          "description": "La bonne pratique est de supprimez le mail car le risque d’être infecté par un virus est fort.",
+          "tips": [
+            "Méfiez-vous d'un expéditeur inconnu. Si vous avez le moindre doute, n'ouvrez pas les pièces jointes et ne vous rendez pas sur les liens contenus dans le mail.",
+            "Si vous travaillez en entreprise, avertissez l'administrateur du Système d'Information, car les campagnes de phishing visent généralement l'entreprise entière dans l'espoir qu'un ou plusieurs employés non vigilents clique sur le lien."
+          ],
+          "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
+        }
+      }
+    ]
+  },
+  {
+    "title_category": "Matériel informatique",
+    "survey": [
+      {
+        "question": "Sur mon ordinateur en entreprise :",
+        "answer": [
+          "Je verrouille mon ordinateur dès que je quitte mon bureau.",
+          "Je verrouille mon ordinateur seulement le midi à la pause repas.",
+          "Je ne verrouille pas mon ordinateur car j'ai confiance en mes collègues."
+        ],
+        "correct_answer": 1,
+        "solution": {
+          "description": "Il est fortement recommandé de verrouiller mon ordinateur dès que je quitte mon poste de travail, même pour un court instant. En effet, bien que vous puissiez avoir confiance en vos collègues, rien n'indique que des personnes extérieures (des clients, des livreurs) ne soient pas en mesure de faire des actions sur votre ordinateur, comme par exemple y installer un virus.",
+          "tips": [
+            "Verrouillez votre écran, même si vous vous absentez que 2 minutes"
+          ],
+          "link": ""
+        }
+      },
+      {
+        "question": "Je trouve une clef USB juste devant l'entreprise, que faut-il faire ?",
+        "answer": [
+          "Je récupère la clef et je la branche au PC de mon entreprise pour voir son contenu et essayer de trouver son propriétaire",
+          "Je jette immédiatement la clef dans la poubelle.",
+          "J'en ai déjà plusieurs, je n'en ai pas besoin et l'offre à un collègue.",
+          "Je demande aux personnes de l'entreprise si l'une d'elle à perdu sa clef. Si je n'ai aucune réponse après un certain temps, je décide de la jeter car je ne connais pas son contenu."
+        ],
+        "correct_answer": 4,
+        "solution": {
+          "description": "Les clés USB sont si pratiques que la distinction entre matériel personnel et matériel professionnel devient floue quand il s’agit de transférer un fichier dans l’urgence. Brancher une clé USB d’une provenance inconnue présente un risque avéré de propagation de virus. Cette faille de sécurité provient directement du logiciel servant au fonctionnement de la clé. Ce logiciel peut être virussé sans que les utilisateurs ne s’en rendent compte. De cette manière, une clé contenant un virus informatique infectera toutes les machines sur lesquelles on la branchera.",
+          "tips": [
+            "Ne branchez pas de clefs USB où de disques durs si vous ne connaissez pas le contenu."
+          ],
+          "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
         }
       }
     ]
