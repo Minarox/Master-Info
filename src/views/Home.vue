@@ -1,5 +1,5 @@
 <template>
-  <article class="home">
+  <article>
     <section>
       <h1>
         Testez vos connaissances en matière de sécurité
@@ -9,6 +9,9 @@
         Grâce à nos différents quiz que nous vous proposons, vous pourrez tester vos connaissances sur bon nombre de domaines et ainsi améliorer vos capacités à vous protéger en approfondissant vos connaissances.
       </p>
     </section>
+  </article>
+
+  <article>
     <section>
       <h2>
         Vous êtes un particulier ?
@@ -17,6 +20,9 @@
         Découvrez les quiz sur des domaines qui vous permettrons de mieux reconnaitre et déjouer les attaques auxquelles vous pouvez faire face durant votre navigation sur internet :
       </p>
     </section>
+  </article>
+
+  <article>
     <section>
       <h2>
         Vous êtes un professionnel ?
@@ -33,3 +39,37 @@ export default {
   name: 'Home',
 }
 </script>
+
+<style scoped>
+article {
+  padding: 20px 12px;
+}
+
+article:nth-of-type(1) {
+  margin: 20px 0;
+}
+
+article:nth-of-type(2) {
+  background-color: #DDDDDD;
+}
+
+section {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  text-align: center;
+  font-size: 2em;
+}
+
+h2 {
+  margin: 0 0 12px;
+}
+
+p {
+  margin: 0;
+  font-size: 1.1em;
+}
+</style>

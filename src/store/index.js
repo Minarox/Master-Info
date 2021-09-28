@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import dataset from '../assets/dataset.json'
+import accounts from '../assets/accounts.json'
 
 let categories = []
 for (const data of dataset) {
@@ -9,6 +10,7 @@ for (const data of dataset) {
 export default createStore({
   state: {
     Dataset: dataset,
-    Categories: categories
+    Categories: categories,
+    Accounts: accounts
   }
 })

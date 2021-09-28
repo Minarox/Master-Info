@@ -1,22 +1,28 @@
 <template>
   <div id="navbar">
     <header>
-      <!-- Logo -->
-      <a href="/" @click.prevent="$router.go('/')" id="logo">
-        <img alt="Logo" src="@/assets/logo.png">
-      </a>
-      <!-- Links for Phone -->
-      <a href="#" id="mobile_menu">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-          <path fill="#fff" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z">
-          </path>
-        </svg>
-      </a>
-      <!-- Links for PC -->
-      <nav>
-        <router-link to="/">Accueil</router-link>
-        <router-link v-for="i in Categories.length" :key="i" :to="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
-      </nav>
+      <div>
+        <!-- Logo -->
+        <a href="/" id="logo">
+          <img alt="Logo" src="@/assets/logo.png">
+        </a>
+        <!-- Links for Phone -->
+        <a href="#" id="mobile_menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path fill="#fff" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z">
+            </path>
+          </svg>
+        </a>
+        <!-- Links for PC -->
+        <nav>
+          <a href="/">Accueil</a>
+          <a href="#">Nos cours</a>
+          <a v-for="i in Categories.length" :key="i" :href="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</a>
+        </nav>
+      </div>
+      <div>
+        <a href="/">{{ Accounts[0]['name'] }}</a>
+      </div>
     </header>
   </div>
 </template>
@@ -27,7 +33,7 @@ import {mapState} from "vuex";
 export default {
   name: "navbar",
   computed: {
-    ...mapState(['Categories'])
+    ...mapState(['Categories', 'Accounts'])
   }
 }
 </script>
@@ -51,6 +57,18 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-between;
+}
+
+#navbar header div:first-of-type {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+#navbar header div:last-of-type a {
+  color: var(--primary-text);
+  text-decoration: none;
 }
 
 #logo, #logo * {
