@@ -164,29 +164,8 @@ section:nth-of-type(1) hr {
 #progress_bar progress {
   width: 100%;
   height: 36px;
-  background: red;
-  border-radius: 100%;
 }
 
-/*progress {
-  color: lightblue;
-}
-
-progress::-webkit-progress-value {
-  background: lightblue;
-}
-
-progress::-moz-progress-bar {
-  background: lightcolor;
-}
-
-progress::-webkit-progress-value {
-  background: red;
-}
-
-progress::-webkit-progress-bar {
-  background: blue;
-}*/
 
 section:nth-of-type(2) {
   margin: 0 auto 40px;
