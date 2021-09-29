@@ -153,7 +153,8 @@ export default {
 article {
   margin: 0;
   background-image: url("../assets/img/background.svg");
-  background-position: top;
+  background-position: center top;
+  background-size: 100.1% auto;
   background-repeat: no-repeat;
   background-position-y: -340px;
 }
@@ -324,6 +325,12 @@ section:nth-of-type(4) a:hover {
 
 .hide {
   display: none;
+}
+
+@media screen and (max-width: 1919px) {
+  article {
+    background-size: auto;
+  }
 }
 
 @media screen and (max-width: 700px) {

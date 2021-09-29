@@ -58,8 +58,8 @@ export default {
 article {
   background-image: url("../assets/img/background.svg");
   background-repeat: no-repeat;
-  background-position: top;
-  margin: 0;
+  background-position: center top;
+  background-size: 100.1% auto;
 }
 
 section {
@@ -161,6 +161,12 @@ section:last-of-type p {
 
 #target div:first-of-type {
   max-width: 800px;
+}
+
+@media screen and (max-width: 1919px) {
+  article {
+    background-size: auto;
+  }
 }
 
 @media screen and (max-width: 750px) {

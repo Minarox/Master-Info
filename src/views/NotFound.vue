@@ -16,7 +16,8 @@ export default {
 <style scoped>
 article {
   background-image: url("../assets/img/background.svg");
-  background-position: top;
+  background-position: center top;
+  background-size: 100.1% auto;
   background-repeat: no-repeat;
   background-position-y: -360px;
 }
@@ -56,5 +57,11 @@ a:hover {
   background-color: #DDDDDD;
   transform: scale(1.04);
   transition: background-color .15s, transform .15s;
+}
+
+@media screen and (max-width: 1919px) {
+  article {
+    background-size: auto;
+  }
 }
 </style>
