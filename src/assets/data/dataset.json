@@ -10,7 +10,8 @@
           "1 mois",
           "1 an"
         ],
-        "correct_answer": 1,
+        "correct_answer": [1],
+        "type_answer": "buttons",
         "solution": {
           "description": "L'invention d'ordinateurs de plus en plus puissants rend capable des attaques informatiques de plus en plus rapides et complexes. En testant toutes les combinaisons possibles les unes après les autres, il faut environ 1 heure pour trouver le bon mot de passe, si aucune sécurité n'est mise en place pour empêcher une attaque de type brute force.",
           "tips": [
@@ -31,7 +32,8 @@
           "MDPaChanger",
           "Cr3v377e(!)P1zz4*"
         ],
-        "correct_answer": 4,
+        "correct_answer": [4],
+        "type_answer": "buttons",
         "solution": {
           "description": "La bonne réponse est la question 4. En effet, le premier choix comporte un prénom, sans doute une date de naissance, et ne comporte pas de caractères spéciaux. Le 2eme et 3eme ne comportent ni nombres, ni caractères spéciaux. Seul le 4eme répond à des exigences de complexités.",
           "tips": [
@@ -54,7 +56,8 @@
           "Je supprime directement le lien car j'ai trop peur que ce soit une technique d'arnaque.",
           "Je remarque quelque chose d'étrange dans ce mail et je détermine qu'il ne faut pas cliquer sur le lien."
         ],
-        "correct_answer": 3,
+        "correct_answer": [3],
+        "type_answer": "buttons",
         "solution": {
           "description": "On remarque ici que l'adresse mail de l'expéditeur est étrange. En effet, le m a été remplacé par deux n; bien que le mail semble authentique, on comprend ici que l'expéditeur n'est pas réellement Boursorama. Il ne faut cependant pas avoir une peur bleue d'Internet, il suffit d'être alerte et vigilant sur votre utilisation d'Internet. ",
           "tips": [
@@ -72,7 +75,8 @@
           "Vous cliquez sur la pièce-jointe, pour savoir ce que veut cette personne.",
           "Vous estimez que le contenu du mail ne vous prouve pas de la fiabilité de l'expéditeur, vous supprimez le mail."
         ],
-        "correct_answer": 2,
+        "correct_answer": [2],
+        "type_answer": "buttons",
         "solution": {
           "description": "La bonne pratique est de supprimez le mail car le risque d’être infecté par un virus est fort.",
           "tips": [
@@ -94,7 +98,8 @@
           "Je verrouille mon ordinateur seulement le midi à la pause repas.",
           "Je ne verrouille pas mon ordinateur car j'ai confiance en mes collègues."
         ],
-        "correct_answer": 1,
+        "correct_answer": [1],
+        "type_answer": "buttons",
         "solution": {
           "description": "Il est fortement recommandé de verrouiller mon ordinateur dès que je quitte mon poste de travail, même pour un court instant. En effet, bien que vous puissiez avoir confiance en vos collègues, rien n'indique que des personnes extérieures (des clients, des livreurs) ne soient pas en mesure de faire des actions sur votre ordinateur, comme par exemple y installer un virus.",
           "tips": [
@@ -111,7 +116,8 @@
           "J'en ai déjà plusieurs, je n'en ai pas besoin et l'offre à un collègue.",
           "Je demande aux personnes de l'entreprise si l'une d'elle à perdu sa clef. Si je n'ai aucune réponse après un certain temps, je décide de la jeter car je ne connais pas son contenu."
         ],
-        "correct_answer": 4,
+        "correct_answer": [4],
+        "type_answer": "buttons",
         "solution": {
           "description": "Les clés USB sont si pratiques que la distinction entre matériel personnel et matériel professionnel devient floue quand il s’agit de transférer un fichier dans l’urgence. Brancher une clé USB d’une provenance inconnue présente un risque avéré de propagation de virus. Cette faille de sécurité provient directement du logiciel servant au fonctionnement de la clé. Ce logiciel peut être virussé sans que les utilisateurs ne s’en rendent compte. De cette manière, une clé contenant un virus informatique infectera toutes les machines sur lesquelles on la branchera.",
           "tips": [

@@ -53,32 +53,70 @@ export default {
   data() {
     return {
       toggle: false,
+      choices: [],
       msg_btn: ''
     }
   },
   methods: {
     answer(id) {
       if (!this.toggle) {
-        this.toggle = true
-        let answers = document.getElementsByClassName('answer')
-        let button = document.getElementById('answer-' + id)
-        let section = document.getElementsByClassName('hide')
         let warning = document.getElementById('warning')
+        let answers = document.getElementsByClassName('answer')
+        let section = document.getElementsByClassName('hide')
 
-        if (this.survey['correct_answer'] !== id) {
-          button.style.backgroundColor = "#FF6E6E";
-          warning.style.display = "inline-block";
-          document.getElementById('answer-' + this.survey['correct_answer']).style.backgroundColor = 'lightgreen';
-        } else {
-          button.style.backgroundColor = 'lightgreen';
-        }
+        if (this.survey['type_answer'] === "buttons" && this.survey['correct_answer'].length <= 1) {
+          this.toggle = true
+          let button = document.getElementById('answer-' + id)
 
-        for (const sectionElement of section) {
-          sectionElement.style.display = "block";
-        }
+          if (this.survey['correct_answer'][0] !== id) {
+            button.style.backgroundColor = "#FF6E6E";
+            warning.style.display = "inline-block";
+            document.getElementById('answer-' + this.survey['correct_answer'][0]).style.backgroundColor = 'lightgreen';
+          } else {
+            button.style.backgroundColor = 'lightgreen';
+          }
 
-        for (const answer of answers) {
-          answer.style.pointerEvents = 'none';
+          for (const answer of answers) {
+            answer.style.pointerEvents = 'none';
+          }
+
+          for (const sectionElement of section) {
+            sectionElement.style.display = "block";
+          }
+
+        } else if (this.survey['type_answer'] === "buttons" && this.survey['correct_answer'].length > 1) {
+          let index = this.choices.indexOf(id);
+          if (index > -1) {
+            this.choices.splice(index, 1)
+            document.getElementById('answer-' + id).style.backgroundColor = "white";
+          } else {
+            this.choices.push(id)
+            document.getElementById('answer-' + id).style.backgroundColor = "#DDDDDD";
+          }
+
+          if (this.choices.length === this.survey['correct_answer'].length) {
+            this.toggle = true
+
+            for (const correct_answer of this.survey['correct_answer']) {
+              document.getElementById('answer-' + correct_answer).style.backgroundColor = 'lightgreen';
+            }
+
+            for (const choice of this.choices) {
+              if (this.survey['correct_answer'].indexOf(choice) === -1) {
+                document.getElementById('answer-' + choice).style.backgroundColor = '#FF6E6E';
+                warning.style.display = "inline-block";
+              }
+            }
+
+            for (const answer of answers) {
+              answer.style.pointerEvents = 'none';
+            }
+
+            for (const sectionElement of section) {
+              sectionElement.style.display = "block";
+            }
+
+          }
         }
       }
     }
