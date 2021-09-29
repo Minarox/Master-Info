@@ -1,34 +1,48 @@
 <template>
-  <div id="survey">
+  <article>
     <section>
       <h1>{{ Dataset[category]['title_category'] }}</h1>
       <hr>
-      <progress max="100" value="70"></progress>
-    </section>
-    <article>
-      <h2>{{ survey['question'] }}</h2>
-      <div id="anwsers">
-        <a v-for="i in survey['answer'].length" :key="i" href="#" class="anwser" :id="'answer-' + i" @click.prevent="answer(i)">{{ survey['answer'][i-1] }}</a>
+      <div id="progress_bar">
+        <p>Progression :</p>
+        <progress max="100" :value="(100 / Dataset[category]['survey'].length) * (parseInt(question) + 1)"></progress>
       </div>
-    </article>
-    <article id="help">
+    </section>
+
+    <section>
+      <h2>Question {{ parseInt(question) + 1 }} :</h2>
+      <p>{{ survey['question'] }}</p>
+      <div id="answers">
+        <a v-for="i in survey['answer'].length" :key="i" href="#" class="answer" :id="'answer-' + i" @click.prevent="answer(i)">{{ survey['answer'][i-1] }}</a>
+      </div>
+    </section>
+
+    <section class="hide">
+      <h3>Description</h3>
       <p>{{ survey['solution']['description'] }}</p>
-      <h3>
-        <svg id="warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-exclamation-triangle fa-w-18 fa-3x">
+
+      <div>
+        <svg id="warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline&#45;&#45;fa fa-exclamation-triangle fa-w-18 fa-3x">
           <path fill="#ff4f4f" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" class="">
           </path>
         </svg>
-        Astuces / consignes de sécurité :
-      </h3>
+        <h3>
+          Astuces / consignes de sécurité :
+        </h3>
+      </div>
       <ul>
         <li v-for="i in survey['solution']['tips'].length" :key="i">{{ survey['solution']['tips'][i-1] }}</li>
       </ul>
+
       <p>
-        Informations complémentaires:
-        <a :href="survey['solution']['link']">{{ survey['solution']['link'] }}</a></p>
-    </article>
-    <a id="next" :href="next">{{ msg_btn }}</a>
-  </div>
+        Informations complémentaires :
+        <a :href="survey['solution']['link']">{{ survey['solution']['link'] }}</a>
+      </p>
+    </section>
+    <section>
+      <a class="hide" id="next" :href="next">{{ msg_btn }}</a>
+    </section>
+  </article>
 </template>
 
 <script>
@@ -45,25 +59,32 @@ export default {
   methods: {
     answer(id) {
       if (!this.toggle) {
-        let anwsers = document.getElementsByClassName('anwser')
+        this.toggle = true
+        let answers = document.getElementsByClassName('answer')
         let button = document.getElementById('answer-' + id)
-        let help = document.getElementById('help')
-        let next = document.getElementById('next')
+        let section = document.getElementsByClassName('hide')
         let warning = document.getElementById('warning')
+
         if (this.survey['correct_answer'] !== id) {
-          button.style.backgroundColor = "#ff4f4f";
+          button.style.backgroundColor = "#FF6E6E";
           warning.style.display = "inline-block";
           document.getElementById('answer-' + this.survey['correct_answer']).style.backgroundColor = 'lightgreen';
         } else {
           button.style.backgroundColor = 'lightgreen';
         }
-        help.style.display = next.style.display ='block';
-        for (const anwser of anwsers) {
-          anwser.style.pointerEvents = 'none';
+
+        for (const sectionElement of section) {
+          sectionElement.style.display = "block";
         }
-        this.toggle = true
+
+        for (const answer of answers) {
+          answer.style.pointerEvents = 'none';
+        }
       }
     }
+  },
+  mounted() {
+
   },
   computed: {
     ...mapState(['Dataset']),
@@ -91,79 +112,110 @@ export default {
 </script>
 
 <style scoped>
-#survey {
+article {
+  margin: 0;
+  background-image: url("../assets/img/background.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-position-y: -340px;
+}
+
+section {
   padding: 0 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+section:nth-of-type(1) {
+  padding: 20px 12px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  color: var(--title);
+}
+
+section:nth-of-type(1) h1 {
+  margin: 0;
+  font-size: 1.8em;
+  font-family: "Montserrat", Roboto, Arial, sans-serif;
+}
+
+section:nth-of-type(1) hr {
+  margin: 0 50px;
+  width: 1px;
+  height: 60px;
+  border: none;
+  border-left: 2px solid var(--title);
+}
+
+#progress_bar {
+  flex: 1 0 50%;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
 }
 
-#survey section {
-  max-width: 800px;
+#progress_bar p {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+#progress_bar progress {
   width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: left;
+  height: 36px;
+  background: red;
+  border-radius: 100%;
 }
 
-#survey section h1 {
-  font-size: 1.8em;
+/*progress {
+  color: lightblue;
 }
 
-#survey section hr {
-  margin: 0 30px;
-  width: 1px;
-  height: 60px;
-  border: none;
-  border-left: 1px solid black;
+progress::-webkit-progress-value {
+  background: lightblue;
 }
 
-#survey section progress {
-  flex: 1 0 50%;
-  height: 35px;
+progress::-moz-progress-bar {
+  background: lightcolor;
 }
 
-article {
-  padding: 12px;
-  max-width: 800px;
-  height: auto;
-  background-color: #EFEFEF;
-  border-radius: 8px;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.11),
-    0 2px 2px rgba(0,0,0,0.11),
-    0 4px 4px rgba(0,0,0,0.11),
-    0 6px 8px rgba(0,0,0,0.11),
-    0 8px 16px rgba(0,0,0,0.11);
+progress::-webkit-progress-value {
+  background: red;
 }
 
-article:last-of-type {
-  display: none;
-  height: auto;
-  margin: 20px 0;
+progress::-webkit-progress-bar {
+  background: blue;
+}*/
+
+section:nth-of-type(2) {
+  margin: 0 auto 40px;
+  padding: 30px 30px 26px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0 1px 1px, rgba(0, 0, 0, 0.07) 0 2px 2px, rgba(0, 0, 0, 0.07) 0 4px 4px, rgba(0, 0, 0, 0.07) 0 8px 8px, rgba(0, 0, 0, 0.07) 0 16px 16px;
 }
 
-article h2 {
-  margin: 30px 12px;
-  width: calc(100% - 12px * 2);
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6em;
-  font-weight: 600;
+section:nth-of-type(2) h2 {
+  margin: 0;
+}
+
+section:nth-of-type(2) p {
+  max-width: 900px;
+  margin: 8px auto 0;
   text-align: center;
+  font-size: 1.5em;
 }
 
-#anwsers {
+#answers {
+  margin-top: 36px;
   padding: 0 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 0 20px;
 }
 
-#anwsers a {
+#answers a {
   flex: 1 0 33%;
   cursor: pointer;
   margin: 10px 0;
@@ -175,33 +227,47 @@ article h2 {
   transform: scale(1);
   transition: background-color .15s, transform .15s;
   font-size: 1.3em;
-  color: var(--primary-text);
+  color: var(--text);
   text-decoration: none;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px, rgba(0, 0, 0, 0.24) 0 1px 2px;
 }
 
-#anwsers a:hover {
+#answers a:hover {
   background-color: #DDDDDD;
-  transform: scale(1.05);
+  transform: scale(1.04);
   transition: background-color .15s, transform .15s;
 }
 
-article:last-of-type p {
-  margin: 0;
+.answer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
-#next {
-  display: none;
-  background-color: #EFEFEF;
-  border-radius: 8px;
-  padding: 12px 40px;
-  color: var(--primary-text);
-  text-decoration: none;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.11),
-  0 2px 2px rgba(0,0,0,0.11),
-  0 4px 4px rgba(0,0,0,0.11),
-  0 6px 8px rgba(0,0,0,0.11),
-  0 8px 16px rgba(0,0,0,0.11);
-  margin-bottom: 20px;
+section:nth-of-type(3) h3 {
+  margin: 0;
+  font-size: 1.4em;
+}
+
+section:nth-of-type(3) p, section:nth-of-type(3) li {
+  margin: 8px 0 0;
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
+section:nth-of-type(3) div {
+  margin-top: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0 12px;
+}
+
+section:nth-of-type(3) p:last-of-type {
+  margin: 40px 0 0;
+  font-size: 1em;
+  font-weight: 400;
 }
 
 #warning {
@@ -210,28 +276,58 @@ article:last-of-type p {
   width: auto;
 }
 
+section:nth-of-type(4) {
+  margin: 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+section:nth-of-type(4) a {
+  font-size: 1em;
+  text-align: center;
+  padding: 12px 100px;
+  margin: 40px 0;
+  border-radius: 8px;
+  color: var(--text) !important;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
+  transform: scale(1);
+  transition: background-color .15s, transform .15s;
+}
+
+section:nth-of-type(4) a:hover {
+  background-color: #DDDDDD;
+  transform: scale(1.04);
+  transition: background-color .15s, transform .15s;
+}
+
+.hide {
+  display: none;
+}
+
 @media screen and (max-width: 700px) {
-  #anwsers a {
-    flex: 1 0 90%;
-  }
-
-  #next {
-    width: calc(100% - 40px * 2);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  #survey section {
+  section:nth-of-type(1) {
+    padding: 12px;
     flex-flow: column nowrap;
+    gap: 20px 0;
   }
 
-  #survey section progress {
-    flex: none;
-    width: 100%;
-  }
-
-  #survey section hr {
+  section:nth-of-type(1) hr {
     display: none;
+  }
+
+  section:nth-of-type(1) progress {
+    width: calc(100vw - 12px * 2) !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  #answers a {
+    flex: 1 0 50%;
   }
 }
 </style>

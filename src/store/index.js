@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
-import dataset from '../assets/dataset.json'
-import accounts from '../assets/accounts.json'
+import dataset from '../assets/data/dataset.json'
+import accounts from '../assets/data/accounts.json'
 
 let categories = []
 for (const data of dataset) {

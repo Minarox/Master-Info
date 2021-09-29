@@ -15,13 +15,19 @@ export default {
 
 <style scoped>
 article {
-  margin: 20px auto 0;
-  padding: 12px;
+  background-image: url("../assets/img/background.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-position-y: -360px;
 }
 
 h1 {
+  margin: 0;
+  padding: 30px 12px;
   text-align: center;
-  font-size: 1.6em;
+  font-size: 1.8em;
+  color: var(--title);
+  font-family: "Montserrat", Roboto, Arial, sans-serif;
 }
 
 section {
@@ -32,12 +38,23 @@ section {
 }
 
 a {
-  padding: 12px 20px;
+  font-size: 1em;
   text-align: center;
-  font-size: 1.1em;
+  padding: 12px 100px;
+  margin-bottom: 40px;
   border-radius: 8px;
-  background-color: #DFDFDF;
-  color: var(--primary-text);
+  color: var(--text) !important;
   text-decoration: none;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  transform: scale(1);
+  transition: background-color .15s, transform .15s;
+}
+
+a:hover {
+  background-color: #DDDDDD;
+  transform: scale(1.04);
+  transition: background-color .15s, transform .15s;
 }
 </style>

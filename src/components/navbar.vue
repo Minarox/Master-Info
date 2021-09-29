@@ -4,7 +4,7 @@
       <article>
         <!-- Logo -->
         <a href="/" id="logo">
-          <img alt="Logo" src="@/assets/logo.png">
+          <img alt="Logo" src="@/assets/img/logo.png">
         </a>
         <!-- Links for PC -->
         <nav>
@@ -57,7 +57,10 @@
         </section>
         <section id="profile" class="dropdown" @mouseover="openDropdown('dropdown-profile')" @mouseleave="closeDropdown('dropdown-profile')">
           <p>
-            {{ Accounts[0]['name'] }}
+            <svg id="profile-img" xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24">
+              <path id="Tracé_1" data-name="Tracé 1" d="M10.5,12a6,6,0,1,0-6-6A6,6,0,0,0,10.5,12Zm4.2,1.5h-.783a8.16,8.16,0,0,1-6.834,0H6.3A6.3,6.3,0,0,0,0,19.8v1.95A2.251,2.251,0,0,0,2.25,24h16.5A2.251,2.251,0,0,0,21,21.75V19.8A6.3,6.3,0,0,0,14.7,13.5Z"/>
+            </svg>
+            Utilisateur
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-caret-down fa-w-10 fa-3x">
               <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" class="">
               </path>
@@ -84,11 +87,13 @@ export default {
   methods: {
     openDropdown(id) {
       let div = document.getElementById(id)
-      div.style.display = "flex";
+      div.style.visibility = "visible";
+      div.style.opacity = "1";
     },
     closeDropdown(id) {
       let div = document.getElementById(id)
-      div.style.display = "none";
+      div.style.visibility = "hidden";
+      div.style.opacity = "0";
     }
   }
 }
@@ -101,14 +106,14 @@ export default {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #DFDFDF;
-  border-bottom: 1px solid grey;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.07) 0 1px 1px, rgba(0, 0, 0, 0.07) 0 2px 2px, rgba(0, 0, 0, 0.07) 0 4px 4px, rgba(0, 0, 0, 0.07) 0 8px 8px, rgba(0, 0, 0, 0.07) 0 16px 16px;
 }
 
 #navbar header {
   margin: 0 auto;
   padding: 0 12px;
-  max-width: 1420px;
+  max-width: 1200px;
   height: 100%;
   display: flex;
   flex-flow: row nowrap;
@@ -123,7 +128,7 @@ export default {
 }
 
 #navbar header article:last-of-type a {
-  color: var(--primary-text);
+  color: var(--text);
   text-decoration: none;
   padding: 18px;
 }
@@ -151,7 +156,7 @@ export default {
   padding: 18px;
   font-size: 1.1em;
   font-weight: 600;
-  color: var(--primary-text);
+  color: var(--text);
   text-decoration: none;
   transition: color .15s;
 }
@@ -163,7 +168,7 @@ export default {
 }
 
 .dropdown p:hover {
-  color: var(--secondary-text);
+  color: var(--text);
   transition: color .15s;
 }
 
@@ -177,30 +182,40 @@ export default {
   font-weight: 400 !important;
 }
 
+#profile-img {
+  margin-right: 8px;
+}
+
 .dropdown div {
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   background-color: white;
-  min-width: 130px;
+  border-radius: 6px;
+  border: 1px solid black;
+  min-width: 140px;
   flex-flow: column nowrap;
   position: absolute;
+  top: 56px;
+  transition: visibility .2s, opacity .2s;
 }
+
 
 #navbar article:last-of-type section div {
   right: 0;
 }
 
 .dropdown div a {
-  font-size: .9em !important;
-  padding: 14px;
-  background-color: white;
-  color: var(--primary-text);
-  transition: background-color .15s;
+  font-size: .94em !important;
+  color: var(--text);
+  border-radius: inherit;
+  transition: background-color .15s !important;
+  padding: 12px !important;
 }
 
 .dropdown div a:hover {
-  color: var(--primary-text);
   background-color: #DFDFDF;
-  transition: background-color .15s;
+  transition: background-color .15s !important;
 }
 
 svg {
@@ -218,13 +233,14 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #ccc;
-  margin: 8px 0;
+  border-top: 1px solid black;
+  margin: 4px 0;
   padding: 0;
 }
 
 #dropdown-mobile {
   display: none;
+  font-weight: 500 !important;
 }
 
 @media screen and (max-width: 700px) {
