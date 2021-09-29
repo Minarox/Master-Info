@@ -70,9 +70,12 @@ export default {
 
           if (this.survey['correct_answer'][0] !== id) {
             button.style.backgroundColor = "#FF6E6E";
+            button.style.transitionDelay = '.15s';
             warning.style.display = "inline-block";
+            document.getElementById('answer-' + this.survey['correct_answer'][0]).style.transitionDelay = '.15s';
             document.getElementById('answer-' + this.survey['correct_answer'][0]).style.backgroundColor = 'lightgreen';
           } else {
+            button.style.transitionDelay = '.15s';
             button.style.backgroundColor = 'lightgreen';
           }
 
@@ -98,11 +101,13 @@ export default {
             this.toggle = true
 
             for (const correct_answer of this.survey['correct_answer']) {
+              document.getElementById('answer-' + correct_answer).style.transitionDelay = '.15s';
               document.getElementById('answer-' + correct_answer).style.backgroundColor = 'lightgreen';
             }
 
             for (const choice of this.choices) {
               if (this.survey['correct_answer'].indexOf(choice) === -1) {
+                document.getElementById('answer-' + choice).style.transitionDelay = '.15s';
                 document.getElementById('answer-' + choice).style.backgroundColor = '#FF6E6E';
                 warning.style.display = "inline-block";
               }
@@ -115,14 +120,10 @@ export default {
             for (const sectionElement of section) {
               sectionElement.style.display = "block";
             }
-
           }
         }
       }
     }
-  },
-  mounted() {
-
   },
   computed: {
     ...mapState(['Dataset']),
