@@ -3,9 +3,11 @@ import Home from '@/views/Home.vue'
 import Survey from '@/views/Survey.vue'
 import Cours from "@/views/Cours";
 import NotFound from "@/views/NotFound";
+import News from "@/views/News";
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/news', name: 'News', component: News },
   //{ path: '/cours/:name', name: 'Cours', component: Cours },
   { path: '/cours', name: 'Cours', component: Cours },
   { path: '/survey/:category/:question', name: 'Survey', component: Survey },

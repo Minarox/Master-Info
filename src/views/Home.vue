@@ -40,6 +40,33 @@
         </div>
       </div>
     </section>
+
+    <section>
+      <h3>Dernières actualités :</h3>
+      <div id="news">
+        <a href="#">
+          <img src="@/assets/img/news/directeur_cybersecurite_emprisonne.png" alt="Directeur d'une société de cybersécurité emprisonné">
+          <header>
+            Le directeur d’une société de cybersécurité emprisonné pour haute trahison !
+          </header>
+        </a>
+        <hr>
+        <a href="#">
+          <img src="@/assets/img/news/t-mobile.jpg" alt="Vol de données chez T-Mobile">
+          <header>
+            Vol de données chez T-MOBILE : 100 million de personne aurait été pirater !
+          </header>
+        </a>
+        <hr>
+        <a href="#">
+          <img src="@/assets/img/news/netflix.jpg" alt="Netflix, plateforme la moins respectueuses des données">
+          <header>
+            NETFLIX la plateforme là moins respectueuse des données de ces utilisateurs !
+          </header>
+        </a>
+      </div>
+      <a href="/news" id="more_news">Plus d'actualités</a>
+    </section>
   </article>
   <footerbar />
 </template>
@@ -65,9 +92,10 @@ article {
 section {
   margin: 0 auto;
   max-width: 1200px;
+  padding: 0 12px;
 }
 
-section:first-of-type {
+section:nth-of-type(1) {
   padding: 40px 0;
   display: flex;
   flex-flow: row nowrap;
@@ -90,7 +118,7 @@ h1 {
   height: auto;
 }
 
-section:last-of-type {
+section:nth-of-type(2) {
   margin: 20px auto 40px;
   padding: 20px;
   background-color: white;
@@ -98,14 +126,14 @@ section:last-of-type {
   box-shadow: rgba(0, 0, 0, 0.07) 0 1px 1px, rgba(0, 0, 0, 0.07) 0 2px 2px, rgba(0, 0, 0, 0.07) 0 4px 4px, rgba(0, 0, 0, 0.07) 0 8px 8px, rgba(0, 0, 0, 0.07) 0 16px 16px;
 }
 
-section:last-of-type h2 {
+section:nth-of-type(2) h2 {
   text-align: center;
   font-size: 1.2em;
   font-weight: 600;
   margin: 0;
 }
 
-section:last-of-type p {
+section:nth-of-type(2) p {
   text-align: center;
   margin: 4px 0;
   font-size: 1.1em;
@@ -160,12 +188,85 @@ section:last-of-type p {
 }
 
 #target div:first-of-type {
-  max-width: 800px;
+  max-width: 700px;
+}
+
+#news {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  justify-content: space-evenly;
+  gap: 28px 0;
+}
+
+#news a {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 0;
+  text-align: center;
+  color: var(--text);
+  text-decoration: none;
+  transform: scale(1);
+  transition: transform .15s;
+}
+
+#news a:hover {
+  transform: scale(1.04);
+  transition: transform .15s;
+}
+
+#news img {
+  aspect-ratio: 16/9;
+  width: 260px;
+  height: auto;
+}
+
+#news header {
+  max-width: 320px;
+}
+
+#news hr {
+  margin: 0 20px;
+  width: 1px;
+  height: 130px;
+  border: none;
+  border-left: 2px solid var(--text);
+}
+
+#more_news {
+  display: block;
+  font-size: 1em;
+  text-align: center;
+  width: 340px;
+  padding: 12px 0;
+  margin: 30px auto 40px;
+  border-radius: 8px;
+  color: var(--text) !important;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
+  transform: scale(1);
+  transition: background-color .15s, transform .15s;
+}
+
+#more_news:hover {
+  background-color: #DDDDDD;
+  transform: scale(1.04);
+  transition: background-color .15s, transform .15s;
 }
 
 @media screen and (max-width: 1919px) {
   article {
     background-size: auto;
+  }
+}
+
+@media screen and (max-width: 950px) and (min-width: 550px) {
+  #news a:nth-of-type(3), #news hr:nth-of-type(2) {
+    display: none;
   }
 }
 
@@ -176,12 +277,28 @@ section:last-of-type p {
 
   #survey a {
     flex: 1 0 50%;
+    min-width: 150px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  #news {
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+
+  #news hr {
+    display: none;
   }
 }
 
 @media screen and (max-width: 500px) {
   h1 {
     font-size: 2em;
+  }
+
+  #more_news {
+    width: 100%;
   }
 }
 </style>

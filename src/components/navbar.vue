@@ -9,6 +9,7 @@
         <!-- Links for PC -->
         <nav>
           <a href="/">Accueil</a>
+          <a href="/news">Actualités</a>
           <section class="dropdown" @mouseover="openDropdown('dropdown-cours')" @mouseleave="closeDropdown('dropdown-cours')">
             <p>
               Nos cours
@@ -243,7 +244,7 @@ hr {
   font-weight: 500 !important;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 840px) {
   #navbar article:first-of-type nav, #navbar article:last-of-type section:last-of-type {
     display: none;
   }
