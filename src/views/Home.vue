@@ -36,7 +36,25 @@
           <p>Découvrez les quiz sur des domaines qui vous permettrons de mieux reconnaitre et déjouer les attaques auxquelles vous pouvez faire face durant votre navigation sur internet.</p>
         </div>
         <div>
-          composant
+          <span>
+            <a href="#" @click.prevent="survey_list = 'particulier'">
+              <span v-if="survey_list === 'particulier'">
+                <strong>Particulier</strong>
+              </span>
+              <span v-else>
+                Particulier
+              </span>
+            </a>
+            &nbsp;|&nbsp; <a href="#" @click.prevent="survey_list = 'professionnel'">
+              <span v-if="survey_list === 'professionnel'">
+                <strong>Professionnel</strong>
+              </span>
+              <span v-else>
+                Professionnel
+              </span>
+            </a>
+          </span>
+          <Survey_list :list="survey_list" />
         </div>
       </div>
     </section>
@@ -73,11 +91,19 @@
 
 <script>
 import Footerbar from "@/components/footerbar";
+import Survey_list from "@/components/survey_list";
+
 export default {
   name: 'Home',
   components: {
+    Survey_list,
     Footerbar
   },
+  data() {
+    return {
+      survey_list: 'particulier'
+    }
+  }
 }
 </script>
 
@@ -174,10 +200,15 @@ section:nth-of-type(2) p {
   margin-top: 8px;
 }
 
+section:nth-of-type(2) hr {
+  margin: 16px 0;
+}
+
 #target {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 20px 0;
 }
 
@@ -187,6 +218,18 @@ section:nth-of-type(2) p {
 
 #target div:first-of-type {
   max-width: 700px;
+}
+
+#target div:last-of-type {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 12px 0;
+}
+
+#target div:last-of-type a {
+  color: var(--text);
+  text-decoration: none;
 }
 
 #news {
