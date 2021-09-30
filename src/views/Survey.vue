@@ -362,16 +362,20 @@ section:nth-of-type(4) a:hover {
 
 .appear {
   display: block;
-  animation-duration: .4s;
+  animation-duration: .6s;
   animation-name: show;
 }
 
 @keyframes show {
-  from {
+  0% {
     transform: translateY(-46px);
     opacity: 0;
   }
-  to {
+  40% {
+    transform: translateY(-46px);
+    opacity: 0;
+  }
+  100% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -394,7 +398,7 @@ section:nth-of-type(4) a:hover {
     display: none;
   }
 
-  section:nth-of-type(1) progress {
+  #progress {
     width: calc(100vw - 12px * 2) !important;
   }
 }
