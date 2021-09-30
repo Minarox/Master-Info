@@ -43,6 +43,46 @@
           ],
           "link": "https://www.ssi.gouv.fr/guide/mot-de-passe/"
         }
+      },
+      {
+        "question": "Combien y a t-il de mots de passe différents composés de 6 caractères avec uniquement des chiffres et des lettres majuscules ?",
+        "answer": [
+          "Environ 2 millions",
+          "Environ 2 milliards",
+          "Environ 20 milliards",
+          "Environ 200 milliards"
+        ],
+        "correct_answer": [2],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "Des majuscules et des chiffres font un total de 36 caractères différents. Pour chaque élément du mot de passe, il y a 36 possibilités. Le nombre de possibilités est donc de 36*36*36*36*36*36 soit environ 2 milliards. Cependant, attention. Cela peut paraitre un grand nombre par rapport aux nombres que nous avons l'habitude d'utiliser, mais dans le monde informatique, ce nombre est très petit ! Par conséquent, un tel mot de passe n'est pas sécurisé.",
+          "tips": [
+            "Il est conseillé de varier minuscules, majuscules, chiffres et symboles.",
+            "Un mot de passe supérieur à 12 caractères est recommandé par l'Agence nationale de la sécurité des systèmes d'information (ANSSI)",
+            "N'utilisez pas de données personnelles facilement accessible (date de naissance, ville de résidence)."
+          ],
+          "link": "https://www.ssi.gouv.fr/guide/mot-de-passe/"
+        }
+      },
+      {
+        "question": "Retenir un mot de passe long et complexe est parfois une tâche difficile. Où est le meilleur endroit pour stocker un mot de passe en dehors de notre mémoire ?",
+        "answer": [
+          "Sur un post-it collé à côté de l'écran.",
+          "Dans un fichier texte sur le bureau de l'ordinateur.",
+          "Dans un gestionnaire de mot de passe.",
+          "Sur un tatouage sur l'avant-bras."
+        ],
+        "correct_answer": [3],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "Quand vous accumulez beaucoup de comptes et par conséquent de mots de passe, il devient très vite compliqué de retenir de longs mots de passe complexe. Une solution peut-être de tout stocker dans un gestionnaire de mot de passe, comme Keypass, Bitwarden ou Lastpass. Cependant un mot de passe 'maître' complexe devra être nécessaire pour accéder à tous vos autres mots de passe !",
+          "tips": [
+            "N'indiquez jamais vos mots de passe sur un bout de papier, n'importe qui pourrait vous volez le précieux mot de passe.",
+            "Noter les mots de passe dans un fichier texte sur l'ordinateur est très risqué. Si une personne malveillante arrive à se connecter à votre ordinateur, vous lui offrez sur un plat d'argent la totalité de vos mots de passe.",
+            "Renseignez-vous sur la sécurité et la fiabilité des gestionnaires de mot de passe avant de faire votre choix."
+          ],
+          "link": ""
+        }
       }
     ]
   },
@@ -85,6 +125,27 @@
           ],
           "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
         }
+      },
+      {
+        "question": "Qu'est-ce que le phishing ?",
+        "answer": [
+          "Il s'agit d'une méthode d'intégration dans les start-up consistant à passer une après-midi à la pêche.",
+          "C'est une méthode de travail qui permet aux développeurs de coder beaucoup plus vite.",
+          "C'est une technique frauduleuse destinée à leurrer l'internaute pour l'inciter à communiquer des données personnelles en se faisant passer pour un tiers de confiance.",
+          "C'est une technique de piratage qui consiste à essayer beaucoup de mots de passe sur un compte jusqu'à trouver le bon."
+        ],
+        "correct_answer": [3],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "L’hameçonnage (phishing en anglais) est une technique frauduleuse destinée à leurrer l’internaute pour l’inciter à communiquer des données personnelles (comptes d’accès, mots de passe…) et/ou bancaires en se faisant passer pour un tiers de confiance. Soyez vigilants sur les informations que vous communiquez !",
+          "tips": [
+            "Vérifiez l'expéditeur du mail.",
+            "Le phishing peut avoir lieu par mail, par SMS ou par appel téléphonique.",
+            "Ne vous sentez jamais contraint de donner des informations personnelles. Si votre interlocuteur est dans l'incapacité de prouver son identité, ne communiquez aucune information.",
+            "Si vous avez le moindre doute, ne donnez pas d'informations personnelles, quelqu'elles soient."
+          ],
+          "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
+        }
       }
     ]
   },
@@ -124,6 +185,62 @@
             "Ne branchez pas de clefs USB où de disques durs si vous ne connaissez pas le contenu."
           ],
           "link": "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Phishing-hameconnage"
+        }
+      }
+    ]
+  },
+  {
+    "title_category": "Sécurité",
+    "survey": [
+      {
+        "question": "Quel url vous semble le plus sécurisé ?",
+        "answer": [
+          "https://www.google.fr",
+          "http://www.google.fr",
+          "https://wwww.googl.fr",
+          "http://www.gooogle.fr"
+        ],
+        "correct_answer": [1],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "Dans notre cas nous pouvons observer qu'il y a des urls non sécuriser et d'autre non officiel.",
+          "tips": [
+            "Afin d'éviter le vol de données vous devez absolument faire attention aux  urls pour ne pas vous connecter a un site web dangereuxou alors de télécharger du contenu dangereux."
+          ],
+          "link": ""
+        }
+      },
+      {
+        "question": "Selon vous, un mot de passe :",
+        "answer": [
+          "Peut être utilisé pour tout les service (banque, mail, etc…) si le mot de passe est suffisamment robuste.",
+          "Doit être changé pour chaque site."
+        ],
+        "correct_answer": [2],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "",
+          "tips": [
+            "Pour être le moins impacté que possible il est fortement recommandé de changer de mots de passe entre les divers sites afin d'éviter de fournir le mot de passe d'autres site (banque,mail...) en cas de vol de mot de passe"
+          ],
+          "link": ""
+        }},
+      {
+        "question": "Parmi la liste suivante, quel élément ne désigne pas un type d'attaque informatique ? ",
+        "answer": [
+          "Phishing",
+          "Ransomwares",
+          "Ticketing",
+          "Brute-force"
+        ],
+        "correct_answer": [3],
+        "type_answer": "buttons",
+        "solution": {
+          "description": "Le phishing, les ransomwares et le brute-force sont 3 catégories d'attaque dans le milieu informatique. Le premier consiste à récupérer les informations personnelles de sa cible dans un but malveillant. Le second consiste a bloquer l'accès à des données tant que la cible n'a pas payé une rançon. Le dernier consiste à tester plusieurs mots de passe d'une compte jusqu'à trouver le bon.",
+          "tips": [
+            "La connaissance de ces attaques, et la vigilance face à nos actions sur un ordinateur ou sur Internet sont les maitres clés pour se protéger des actions malveillantes."
+          ],
+          "link": ""
         }
       }
     ]

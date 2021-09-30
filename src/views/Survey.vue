@@ -4,7 +4,7 @@
       <h1>{{ Dataset[category]['title_category'] }}</h1>
       <hr>
       <div id="progress_bar">
-        <p>Progression : {{ (100 / Dataset[category]['survey'].length) * (parseInt(question) + 1) }}%</p>
+        <p>Progression : {{ Math.floor((100 / Dataset[category]['survey'].length) * (parseInt(question) + 1)).toFixed(0) }}%</p>
         <div id="progress">
           <div id="progress-value"></div>
         </div>
@@ -20,8 +20,8 @@
     </section>
 
     <section class="hide">
-      <h3>Description</h3>
-      <p>{{ survey['solution']['description'] }}</p>
+      <h3 v-if="survey['solution']['description']">Description</h3>
+      <p v-if="survey['solution']['description']">{{ survey['solution']['description'] }}</p>
 
       <div>
         <svg id="warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline&#45;&#45;fa fa-exclamation-triangle fa-w-18 fa-3x">
@@ -36,7 +36,7 @@
         <li v-for="i in survey['solution']['tips'].length" :key="i">{{ survey['solution']['tips'][i-1] }}</li>
       </ul>
 
-      <p>
+      <p id="link" v-if="survey['solution']['link'] !== ''">
         Informations complémentaires :
         <a :href="survey['solution']['link']">{{ survey['solution']['link'] }}</a>
       </p>
@@ -313,7 +313,7 @@ section:nth-of-type(3) div {
   gap: 0 12px;
 }
 
-section:nth-of-type(3) p:last-of-type {
+#link {
   margin: 40px 0 0;
   font-size: 1em;
   font-weight: 400;
