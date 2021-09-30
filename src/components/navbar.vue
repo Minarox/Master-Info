@@ -114,7 +114,7 @@ export default {
 #navbar header {
   margin: 0 auto;
   padding: 0 12px;
-  max-width: 1200px;
+  max-width: 1500px;
   height: 100%;
   display: flex;
   flex-flow: row nowrap;
@@ -135,7 +135,7 @@ export default {
 }
 
 #logo, #logo * {
-  width: 46px;
+  width: auto;
   height: 46px;
   margin-right: 16px;
 }
@@ -244,7 +244,7 @@ hr {
   font-weight: 500 !important;
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 900px) {
   #navbar article:first-of-type nav, #navbar article:last-of-type section:last-of-type {
     display: none;
   }
