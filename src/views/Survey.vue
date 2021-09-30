@@ -4,8 +4,10 @@
       <h1>{{ Dataset[category]['title_category'] }}</h1>
       <hr>
       <div id="progress_bar">
-        <p>Progression :</p>
-        <progress max="100" :value="(100 / Dataset[category]['survey'].length) * (parseInt(question) + 1)"></progress>
+        <p>Progression : {{ (100 / Dataset[category]['survey'].length) * (parseInt(question) + 1) }}%</p>
+        <div id="progress">
+          <div id="progress-value"></div>
+        </div>
       </div>
     </section>
 
@@ -56,6 +58,10 @@ export default {
       choices: [],
       msg_btn: ''
     }
+  },
+  mounted() {
+    document.querySelector('#progress-value').style.setProperty('--ns', (100 / this.$store.state.Dataset[this.category]['survey'].length) * parseInt(this.question) + '%')
+    document.querySelector('#progress-value').style.setProperty('--ne', (100 / this.$store.state.Dataset[this.category]['survey'].length) * (parseInt(this.question) + 1) + '%')
   },
   methods: {
     answer(id) {
@@ -193,6 +199,7 @@ section:nth-of-type(1) hr {
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  gap: 8px 0;
 }
 
 #progress_bar p {
@@ -200,11 +207,36 @@ section:nth-of-type(1) hr {
   font-size: 1.2em;
 }
 
-#progress_bar progress {
+#progress {
+  background: white;
+  justify-content: flex-start;
+  border-radius: 100px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  height: 26px;
   width: 100%;
-  height: 36px;
 }
 
+#progress-value {
+  animation: load 2s normal forwards;
+  box-shadow: 0 10px 40px -10px #fff;
+  border-radius: 100px;
+  background: lightgreen;
+  height: 26px;
+  width: 0;
+  text-align: center;
+  color: var(--text);
+}
+
+@keyframes load {
+  from {
+    width: var(--ns, 0%);
+  }
+  to {
+    width: var(--ne, 100%);
+  }
+}
 
 section:nth-of-type(2) {
   margin: 0 auto 40px;
