@@ -84,7 +84,7 @@ export default {
           }
 
           for (const sectionElement of section) {
-            sectionElement.style.display = "block";
+            sectionElement.classList.add('appear')
           }
 
         } else if (this.survey['type_answer'] === "buttons" && this.survey['correct_answer'].length > 1) {
@@ -118,7 +118,7 @@ export default {
             }
 
             for (const sectionElement of section) {
-              sectionElement.style.display = "block";
+              sectionElement.classList.add('appear')
             }
           }
         }
@@ -324,7 +324,25 @@ section:nth-of-type(4) a:hover {
 }
 
 .hide {
+  z-index: 0 !important;
   display: none;
+}
+
+.appear {
+  display: block;
+  animation-duration: .4s;
+  animation-name: show;
+}
+
+@keyframes show {
+  from {
+    transform: translateY(-46px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 1919px) {
