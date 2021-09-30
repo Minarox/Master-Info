@@ -83,7 +83,7 @@ import {mapState} from "vuex";
 export default {
   name: "navbar",
   computed: {
-    ...mapState(['Categories', 'Accounts'])
+    ...mapState(['Categories'])
   },
   methods: {
     openDropdown(id) {

@@ -225,7 +225,6 @@ section:nth-of-type(1) hr {
   background: lightgreen;
   height: 26px;
   width: 0;
-  text-align: center;
   color: var(--text);
 }
 
