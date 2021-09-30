@@ -394,7 +394,7 @@ section:nth-of-type(4) a:hover {
     display: none;
   }
 
-  section:nth-of-type(1) progress {
+  #progress {
     width: calc(100vw - 12px * 2) !important;
   }
 }
