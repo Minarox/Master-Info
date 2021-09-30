@@ -1,29 +1,30 @@
 # Workshop EPSI 2021
 Création d'un [site web informatif](https://workshop.minarox.fr) visant à améliorer les connaissances en cybersécurité.
+![screenshot.png](src/assets/img/screenshot.png)
 
-## Dépendances
+## Fonctionnalités
+* Actualités concernant le monde de la cybersécurité
+* Cours et WiKi
+* Questionnaires sur des domaines spécifiques :
+  * Possibilité de réponse simple ou multiples selon les questions
+  * Description de l'attaque
+  * Conseil sur la protection
+
+## Technologie utilisée
 * [VueJS](https://vuejs.org/)
-* [MySQL](https://www.mysql.com/fr/)
 
-## Project setup
-```
+## Installation et lancement
+Commande d'installation des dépendances nécessaires au bon fonctionnement du site web :
+```shell
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+Exécution du site web :
+```shell
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
+Compilation pour une mise en production :
+```shell
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
