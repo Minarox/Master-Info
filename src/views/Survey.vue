@@ -177,7 +177,6 @@ section:nth-of-type(1) {
 section:nth-of-type(1) h1 {
   margin: 0;
   font-size: 1.8em;
-  font-family: "Montserrat", Roboto, Arial, sans-serif;
 }
 
 section:nth-of-type(1) hr {

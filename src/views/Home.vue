@@ -109,7 +109,6 @@ h1 {
   color: var(--title);
   text-align: center;
   font-size: 2.4em;
-  font-family: "Montserrat", Roboto, Arial, sans-serif;
 }
 
 #devices {
@@ -170,7 +169,6 @@ section:nth-of-type(2) p {
 }
 
 #survey p {
-  font-family: "Montserrat", Roboto, Arial, sans-serif;
   font-weight: 600;
   font-size: 1.2em;
   margin-top: 8px;

@@ -61,9 +61,7 @@ section:nth-of-type(1) h1 {
   margin: 0;
   font-size: 2.2em;
   color: var(--title);
-  text-align: center;
-  font-family: "Montserrat", Roboto, Arial, sans-serif;
-}
+  text-align: center;}
 
 section:nth-of-type(2) {
   margin: 0 auto 20px;
