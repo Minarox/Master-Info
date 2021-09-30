@@ -80,16 +80,15 @@ export default {
 
 <style scoped>
 article {
-  max-width: 480px;
+  width: 480px;
   background-image: none !important;
-  width: 100%;
 }
 
 section {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -139,5 +138,26 @@ p {
 
 .no-mode-fade-enter-from, .no-mode-fade-leave-to {
   opacity: 0
+}
+
+@media screen and (max-width: 800px) {
+  article {
+    width: 100%;
+  }
+
+  a {
+    flex: 1 0 28%;
+    max-width: unset;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  a:nth-of-type(5), a:nth-of-type(6) {
+    display: none;
+  }
+
+  a {
+    flex: 1 0 100%;
+  }
 }
 </style>

@@ -32,7 +32,7 @@
       <hr>
       <div id="target">
         <div>
-          <h3>Vous êtes un particulier ? Un professionnel ?</h3>
+          <h3>Vous êtes un particulier ? <span>Un professionnel ?</span></h3>
           <p>Découvrez les quiz sur des domaines qui vous permettrons de mieux reconnaitre et déjouer les attaques auxquelles vous pouvez faire face durant votre navigation sur internet.</p>
         </div>
         <div>
@@ -206,10 +206,14 @@ section:nth-of-type(2) hr {
 
 #target {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
   gap: 20px 0;
+}
+
+#target h3 span {
+  display: inline-block;
 }
 
 #target p {
@@ -217,7 +221,8 @@ section:nth-of-type(2) hr {
 }
 
 #target div:first-of-type {
-  max-width: 700px;
+  width: 100%;
+  margin-right: 20px;
 }
 
 #target div:last-of-type {
@@ -311,6 +316,12 @@ section:nth-of-type(2) hr {
   }
 }
 
+@media screen and (max-width: 800px) {
+  #target {
+    flex-flow: column nowrap;
+  }
+}
+
 @media screen and (max-width: 750px) {
   #devices {
     display: none;
@@ -322,7 +333,7 @@ section:nth-of-type(2) hr {
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 570px) {
   #news {
     flex-flow: column nowrap;
     align-items: center;
