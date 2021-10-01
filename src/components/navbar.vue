@@ -9,21 +9,6 @@
         <!-- Links for PC -->
         <nav>
           <a href="/">Accueil</a>
-          <a href="/news">Actualités</a>
-          <section class="dropdown" @mouseover="openDropdown('dropdown-cours')" @mouseleave="closeDropdown('dropdown-cours')">
-            <p>
-              Nos cours
-              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-caret-down fa-w-10 fa-3x">
-                <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" class="">
-                </path>
-              </svg>
-            </p>
-            <div id="dropdown-cours">
-              <a href="/cours/cours_1">Cours 1</a>
-              <a href="/cours/cours_2">Cours 2</a>
-              <a href="/cours/cours_3">Cours 3</a>
-            </div>
-          </section>
           <section class="dropdown" @mouseover="openDropdown('dropdown-cat')" @mouseleave="closeDropdown('dropdown-cat')">
             <p>
               Questionnaires
@@ -36,6 +21,21 @@
               <a v-for="i in Categories.length" :key="i" :href="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</a>
             </div>
           </section>
+          <section class="dropdown" @mouseover="openDropdown('dropdown-cours')" @mouseleave="closeDropdown('dropdown-cours')">
+            <p>
+              Nos cours
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-caret-down fa-w-10 fa-3x">
+                <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" class="">
+                </path>
+              </svg>
+            </p>
+            <div id="dropdown-cours">
+              <a href="/cours">Cours 1</a>
+              <a href="/cours">Cours 2</a>
+              <a href="/cours">Cours 3</a>
+            </div>
+          </section>
+          <a href="/news">Actualités</a>
         </nav>
       </article>
       <article>
