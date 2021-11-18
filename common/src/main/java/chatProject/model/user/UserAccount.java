@@ -36,7 +36,7 @@ public class UserAccount {
      * @return the username
      */
     public String getUsername() {
-        return "test";
+        return username;
     }
 
     @Override
