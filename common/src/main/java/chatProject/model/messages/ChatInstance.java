@@ -28,7 +28,7 @@ public class ChatInstance<T> {
 
     public ChatInstance(List<Chatroom<T>> chatrooms, Map<UserInfo, LocalTime> users) {
         this.chatrooms = chatrooms;
-        this.users = users;
+        this.users = new HashMap<UserInfo, LocalTime>();
     }
 
     /**
@@ -82,7 +82,7 @@ public class ChatInstance<T> {
      * @return the collection of users in the chat.
      */
     public Map<UserInfo, LocalTime> getUsers() {
-        return new HashMap<UserInfo, LocalTime>();
+        return users;
     }
 
     /**
