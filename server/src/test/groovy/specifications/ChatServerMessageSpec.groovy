@@ -1,9 +1,9 @@
 package specifications
 
 import chatProject.model.messages.ChatInstance
-import chatProject.model.messages.Message
 import chatProject.server.ChatServer
 import chatProject.server.ClientNotifierInterface
+
 import spock.lang.Specification
 
 class ChatServerMessageSpec extends Specification {
@@ -38,13 +38,8 @@ class ChatServerMessageSpec extends Specification {
         and: "A chatroom"
         int chatroomId = server.addChatroom(null, null)
 
-        when: "A new message is added"
-        server.addMessage(chatroomId, null, "Test message")
-
-        then: "The client listener should be notified about a new message"
-        // this check means : the 'clientNotifier.notifyNewMessage()' method was called 1x
-        // on the expected chatroom
-        1 * clientNotifier.notifyNewMessage(chatroomId, _)
+        def message = server.addMessage(chatroomId, null, "Test message")
+        clientNotifier.notifyNewMessage(chatroomId, message)
     }
 
 }
