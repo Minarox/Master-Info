@@ -21,7 +21,7 @@ public class ChatInstance<T> {
 
     /**
      * The list of users in the chat.
-     * The key is the user infomation
+     * The key is the user information
      * The value is the last login time
      */
     private final Map<UserInfo, LocalTime> users;
@@ -49,7 +49,6 @@ public class ChatInstance<T> {
         this.chatrooms.add(newChatroom);
         return this.chatrooms.indexOf(newChatroom);
     }
-
 
     /**
      * Adds a new {@link UserInfo} in the chat.
@@ -83,7 +82,7 @@ public class ChatInstance<T> {
      * @return the collection of users in the chat.
      */
     public Map<UserInfo, LocalTime> getUsers() {
-        return null;
+        return new HashMap<UserInfo, LocalTime>();
     }
 
     /**
@@ -92,7 +91,7 @@ public class ChatInstance<T> {
      * @return the new chat instance
      */
     public static <T> ChatInstance<T> initEmptyChat() {
-        return new ChatInstance<T>(Collections.emptyList(), null);
+        return new ChatInstance<T>(new ArrayList<Chatroom<T>>(), null);
     }
 
 }
