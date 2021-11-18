@@ -189,7 +189,7 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
             );
         } else {
             user = new UserInfo(
-                    new UserAccount(/* Générer id */ 0, userName),
+                    new UserAccount(userName),
                     Status.ACTIVE
             );
             chatInstance.addUser(user);

@@ -19,11 +19,11 @@ import static java.util.Arrays.asList;
  */
 public class FakeInstances {
 
-    public static final UserAccount UNKNOWN_USER = new UserAccount(-1, "?");
+    public static final UserAccount UNKNOWN_USER = new UserAccount("?");
     public static final UserInfo UNKNOWN_USER_INFO = new UserInfo(UNKNOWN_USER, Status.REVOKED);
 
-    public static final UserAccount DUMMY_ACCOUNT_1 = new UserAccount(3, "User1");
-    public static final UserAccount DUMMY_ACCOUNT_2 = new UserAccount(7, "User2");
+    public static final UserAccount DUMMY_ACCOUNT_1 = new UserAccount("User1");
+    public static final UserAccount DUMMY_ACCOUNT_2 = new UserAccount("User2");
 
     public static final UserInfo DUMMY_ACTIVE_USER = new UserInfo(DUMMY_ACCOUNT_1, Status.ACTIVE);
     public static final UserInfo DUMMY_LOGOUT_USER = new UserInfo(DUMMY_ACCOUNT_2, Status.INACTIVE);
@@ -35,9 +35,9 @@ public class FakeInstances {
     }
 
     public static final Message<String> DUMMY_MESSAGE_1 =
-            new Message<>(0, DUMMY_ACTIVE_USER, "Hello");
+            new Message<>(DUMMY_ACTIVE_USER, "Hello");
     public static final Message<String> DUMMY_MESSAGE_2 =
-            new Message<>(1, DUMMY_LOGOUT_USER, "Bye");
+            new Message<>(DUMMY_LOGOUT_USER, "Bye");
 
     public static final Chatroom<String> DUMMY_CHATROOM_1 =
             new Chatroom<>(

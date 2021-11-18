@@ -8,27 +8,13 @@ import java.util.Objects;
  * There is no need for an ID.
  */
 public class UserAccount {
-
-    /**
-     * The ID of a user (not needed).
-     */
-    private final int id;
     /**
      * The name of a user.
      */
     private final String username;
 
-    public UserAccount(int id, String username) {
-        this.id = id;
+    public UserAccount(String username) {
         this.username = username;
-    }
-
-    /**
-     * Gets the ID of a user (not needed).
-     * @return the user unique ID
-     */
-    public int getId() {
-        return id;
     }
 
     /**
@@ -44,7 +30,7 @@ public class UserAccount {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserAccount that = (UserAccount) o;
-        return id == that.id;
+        return Objects.equals(username, that.username);
     }
 
     @Override

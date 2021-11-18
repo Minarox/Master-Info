@@ -2,6 +2,8 @@ package chatProject.model.messages;
 
 import chatProject.model.user.UserInfo;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * A model for a message sent in the chat.
@@ -22,9 +24,13 @@ public class Message<T> {
      * The content of the message.
      */
     private final T content;
+    /**
+     * Generate unique id
+     */
+    private static final AtomicInteger ID_GENERATOR = new AtomicInteger();
 
-    public Message(int id, UserInfo sender, T content) {
-        this.id = id;
+    public Message(UserInfo sender, T content) {
+        this.id = ID_GENERATOR.getAndIncrement();
         this.sender = (sender == null) ? null : new MessageOwnerConcrete(sender.getAccount(), sender.getCurrentStatus());
         this.content = content;
     }
