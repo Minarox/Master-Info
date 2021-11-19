@@ -40,7 +40,7 @@ class ChatServerChatroomSpec extends Specification {
         // a chatroom
         def chatroom = new Chatroom("Test chatroom", null, null)
         // create a server with the chatroom in the model
-        def server = new ChatServer(new ChatInstance([chatroom], null), null, null)
+        def server = new ChatServer(new ChatInstance([chatroom]), null, null)
 
         expect: "The chatroom model should be retrieved from its ID"
         // there is only 1 chatroom in the model - get it

@@ -5,8 +5,8 @@ import chatProject.client.gui.text.helpers.GUIHelpers;
 import chatProject.model.listener.MessageListener;
 import chatProject.model.listener.UserListener;
 import chatProject.model.messages.Message;
-import chatProject.model.user.UserInfo;
 import chatProject.model.user.Status;
+import chatProject.model.user.UserInfo;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 
@@ -161,15 +161,13 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
 
 
     @Override
-    public Message<T> notifyNewMessage(int chatroomId, Message<T> message) {
+    public void notifyNewMessage(int chatroomId, Message<T> message) {
         messages.addLine(messageAsString(message));
-        return message;
     }
 
     @Override
-    public UserInfo notifyUserChange(UserInfo user) {
+    public void notifyUserChange(UserInfo user) {
         // a user changed - refresh the messages (best effort)
         // the content is already refreshed by the refresh thread every second
-        return user;
     }
 }

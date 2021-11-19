@@ -14,12 +14,12 @@ public interface MessageAlgo<T> extends MessageListener<T> {
 
     /**
      * Adds a new {@link Message} in the model and notifies clients about it.
+     *
      * @param chatroomId the ID of the chatroom that contains the message
-     * @param user the use who sent the message
-     * @param content the content of the message
-     * @return the new message added to the model
+     * @param user       the use who sent the message
+     * @param content    the content of the message
      */
-    Message<T> addMessage(int chatroomId, UserInfo user, T content);
+    void addMessage(int chatroomId, UserInfo user, T content);
 
     /**
      * Gets the list of messages in a chatroom.

@@ -1,14 +1,15 @@
 package chatProject;
 
-import chatProject.model.user.Status;
-import chatProject.model.user.UserAccount;
 import chatProject.model.messages.ChatInstance;
 import chatProject.model.messages.Chatroom;
 import chatProject.model.messages.Message;
+import chatProject.model.user.Status;
+import chatProject.model.user.UserAccount;
 import chatProject.model.user.UserInfo;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class FakeInstances {
             new Chatroom<>(
                     "ROOM 1",
                     DUMMY_ACTIVE_USER,
-                    new ArrayList<>(asList(DUMMY_MESSAGE_2))
+                    new ArrayList<>(Collections.singletonList(DUMMY_MESSAGE_2))
             );
     public static final Chatroom<String> DUMMY_CHATROOM_2 =
             new Chatroom<>(
@@ -54,8 +55,7 @@ public class FakeInstances {
 
     public static final ChatInstance<String> DUMMY_CHAT_INSTANCE =
             new ChatInstance<>(
-                    new ArrayList<>(asList(DUMMY_CHATROOM_1, DUMMY_CHATROOM_2)),
-                    DUMMY_USERS_MAP
+                    new ArrayList<>(asList(DUMMY_CHATROOM_1, DUMMY_CHATROOM_2))
                     );
 
 }

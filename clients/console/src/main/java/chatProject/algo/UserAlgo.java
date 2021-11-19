@@ -12,8 +12,9 @@ public interface UserAlgo extends UserListener {
 
     /**
      * Logs in the given user.
+     *
      * @param userName the username to login
-     * @return the logged in user, if any
+     * @return the logged-in user, if any
      */
     UserInfo login(String userName);
 
