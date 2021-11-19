@@ -6,12 +6,12 @@ import chatProject.algo.UserAlgo;
 import chatProject.model.messages.ChatInstance;
 import chatProject.model.messages.Chatroom;
 import chatProject.model.messages.Message;
-import chatProject.model.user.UserInfo;
 import chatProject.model.user.Status;
 import chatProject.model.user.UserAccount;
+import chatProject.model.user.UserInfo;
 import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -63,13 +63,13 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
 
     /**
      * The entry point to generate an instance of this class using an empty {@link ChatInstance} model.
+     *
      * @param socketPort the port of the socket to open on this server.
-     * @param json the Json (de)serializer to use
-     * @param <T> the type of messages to use
+     * @param json       the Json (de)serializer to use
+     * @param <T>        the type of messages to use
      * @return a new instance of this class to use as a server
-     * @throws IOException not sure when ?
      */
-    public static <T> ChatServer<T> initEmptyChat(int socketPort, Gson json) throws IOException {
+    public static <T> ChatServer<T> initEmptyChat(int socketPort, Gson json) {
 
         // instantiate a new instance of this class with an empty model.
         final ChatServer<T> server = new ChatServer<>(
@@ -78,14 +78,11 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
                 json);
 
         // open a dedicated thread to manage the socket for notifications.
-        final Thread socketThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    server.openSocket(socketPort);
-                } catch (IOException e) {
-                    throw new RuntimeException("Unable to open new socket on port " + socketPort, e);
-                }
+        final Thread socketThread = new Thread(() -> {
+            try {
+                server.openSocket(socketPort);
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to open new socket on port " + socketPort, e);
             }
         });
         server.socketThread = socketThread;
@@ -234,7 +231,7 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public UserInfo notifyUserChange(UserInfo user) {
+    public void notifyUserChange(UserInfo user) {
         // notify a user change only if the user did change
         if (chatInstance.addUser(user)) {
             // notify all clients
@@ -242,7 +239,6 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
                     client -> client.notifyUserChange(user)
             );
         }
-        return user;
     }
 
     /* **************************** Chatroom part *********************/
@@ -291,13 +287,12 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public Chatroom<T> notifyNewChatroom(Chatroom<T> newChatroom) {
+    public void notifyNewChatroom(Chatroom<T> newChatroom) {
         if (clientNotifiers != null) {
             clientNotifiers.forEach(
                     client -> client.notifyNewChatroom(newChatroom)
             );
         }
-        return newChatroom;
     }
 
     /* **************************** Messages part *********************/

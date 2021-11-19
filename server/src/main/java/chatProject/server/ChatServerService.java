@@ -46,19 +46,17 @@ public class ChatServerService<T> {
         );
 
         put("/chatroom/:chatroomName", (request, response) ->
-            json.toJson(
-                    server.addChatroom(
-                            request.params("chatroomName"),
-                            json.fromJson(request.body(), UserInfo.class)
-                    )
-            )
+                json.toJson(
+                        server.addChatroom(
+                                request.params("chatroomName"),
+                                json.fromJson(request.body(), UserInfo.class)
+                        )
+                )
         );
 
-        get("/messages/:chatroomId", (request, response) -> {
-                    return json.toJson(
-                            server.getChatroomMessages(Integer.parseInt(request.params("chatroomId")))
-                    );
-                }
+        get("/messages/:chatroomId", (request, response) -> json.toJson(
+                        server.getChatroomMessages(Integer.parseInt(request.params("chatroomId")))
+                )
         );
 
         post("/login", (request, response) ->

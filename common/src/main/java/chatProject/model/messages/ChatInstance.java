@@ -26,13 +26,14 @@ public class ChatInstance<T> {
      */
     private final Map<UserInfo, LocalTime> users;
 
-    public ChatInstance(List<Chatroom<T>> chatrooms, Map<UserInfo, LocalTime> users) {
+    public ChatInstance(List<Chatroom<T>> chatrooms) {
         this.chatrooms = chatrooms;
-        this.users = new HashMap<UserInfo, LocalTime>();
+        this.users = new HashMap<>();
     }
 
     /**
      * Gets the list of chatrooms in the chat.
+     *
      * @return the list of {@link Chatroom} in the model
      */
     public List<Chatroom<T>> getCurentChatrooms() {
@@ -41,7 +42,18 @@ public class ChatInstance<T> {
     }
 
     /**
+     * Creates a new chat with no {@link Chatroom} no {@link Message} and no {@link UserInfo}.
+     *
+     * @param <T> the type of messages in the chat
+     * @return the new chat instance
+     */
+    public static <T> ChatInstance<T> initEmptyChat() {
+        return new ChatInstance<>(new ArrayList<>());
+    }
+
+    /**
      * Adds a new {@link Chatroom} in the chat.
+     *
      * @param newChatroom the chatroom to add
      * @return the ID of the new chatroom added
      */
@@ -51,7 +63,17 @@ public class ChatInstance<T> {
     }
 
     /**
+     * Gets the list of all registered users.
+     *
+     * @return the collection of users in the chat.
+     */
+    public Map<UserInfo, LocalTime> getUsers() {
+        return users;
+    }
+
+    /**
      * Adds a new {@link UserInfo} in the chat.
+     *
      * @param newUser the user to add
      */
     public boolean addUser(UserInfo newUser) {
@@ -70,28 +92,10 @@ public class ChatInstance<T> {
             final UserInfo userInfo = accountAlreadyPresent.get();
             userInfo.setCurrentStatus(newUser.getCurrentStatus());
             users.replace(userInfo, LocalTime.now());
-            return true;
         } else {
             users.put(newUser, LocalTime.now());
-            return true;
         }
-    }
-
-    /**
-     * Gets the list of all registered users.
-     * @return the collection of users in the chat.
-     */
-    public Map<UserInfo, LocalTime> getUsers() {
-        return users;
-    }
-
-    /**
-     * Creates a new chat with no {@link Chatroom} no {@link Message} and no {@link UserInfo}.
-     * @param <T> the type of messages in the chat
-     * @return the new chat instance
-     */
-    public static <T> ChatInstance<T> initEmptyChat() {
-        return new ChatInstance<T>(new ArrayList<Chatroom<T>>(), null);
+        return true;
     }
 
 }

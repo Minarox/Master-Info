@@ -162,13 +162,12 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public UserInfo notifyUserChange(UserInfo user) {
+    public void notifyUserChange(UserInfo user) {
         if (chatInstance.addUser(user)) {
             usersListeners.forEach(
                     userListener -> userListener.notifyUserChange(user)
             );
         }
-        return user;
     }
 
     /**
@@ -226,16 +225,15 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public int addChatroom(String chatroomName, UserInfo owner) {
+    public void addChatroom(String chatroomName, UserInfo owner) {
         try {
             final String response = Request.Put(serverUrl + "/chatroom/" + chatroomName).bodyString(
                     json.toJson(owner),
                     ContentType.APPLICATION_JSON
             ).execute().returnContent().asString();
-            return json.fromJson(response, Integer.class);
+            json.fromJson(response, Integer.class);
         } catch (IOException e) {
             System.err.println("Cannot add chatroom");
-            return -1;
         }
     }
 
@@ -251,11 +249,10 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public Chatroom<T> notifyNewChatroom(Chatroom<T> newChatroom) {
+    public void notifyNewChatroom(Chatroom<T> newChatroom) {
         chatroomListeners.forEach(
                 listener -> listener.notifyNewChatroom(newChatroom)
         );
-        return newChatroom;
     }
 
     /**
@@ -281,7 +278,7 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public Message<T> addMessage(int chatroomId, UserInfo currentUser, T content) {
+    public void addMessage(int chatroomId, UserInfo currentUser, T content) {
 
         final String response;
         try {
@@ -290,8 +287,9 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
                             json.toJson(new AddMessageForm<>(chatroomId, currentUser, content.toString())),
                             ContentType.APPLICATION_JSON
                     ).execute().returnContent().asString();
-            Type messageT = new TypeToken<Message<T>>() {}.getType();
-            return json.fromJson(response, messageT);
+            Type messageT = new TypeToken<Message<T>>() {
+            }.getType();
+            json.fromJson(response, messageT);
         } catch (IOException e) {
             throw new RuntimeException(
                     "Unable to add the message in chatroom " + chatroomId
@@ -325,14 +323,13 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      * {@inheritDoc}
      */
     @Override
-    public Message<T> notifyNewMessage(int chatroomId, Message<T> message) {
+    public void notifyNewMessage(int chatroomId, Message<T> message) {
         Optional.ofNullable(
                 messageListeners.get(chatroomId)
         ).ifPresent(listeners -> listeners.forEach(
-                listener -> listener.notifyNewMessage(chatroomId, message)
+                        listener -> listener.notifyNewMessage(chatroomId, message)
                 )
         );
-        return message;
     }
 
     /**

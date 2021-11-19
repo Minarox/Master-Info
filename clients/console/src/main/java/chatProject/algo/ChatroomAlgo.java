@@ -27,10 +27,10 @@ public interface ChatroomAlgo<T> extends ChatroomsListener<T> {
 
     /**
      * Adds a new {@link Chatroom} in the model and notifies clients about it.
+     *
      * @param chatroomName the name of the chatroom to create
-     * @param owner the user who created the chatroom
-     * @return the new chatroom ID
+     * @param owner        the user who created the chatroom
      */
-    int addChatroom(String chatroomName, UserInfo owner);
+    void addChatroom(String chatroomName, UserInfo owner);
 
 }
