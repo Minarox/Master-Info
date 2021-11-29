@@ -10,7 +10,7 @@ Prénom :
 
 Vous venez de récupérer le code source d’un projet Java dont l’objectif était la création d’un serveur de chat. Malheureusement, ce projet a été abandonné car il ne fonctionnait pas correctement.
 
-L’objectif de ce TP est travailler en binôme afin de finir ce projet et de le valider en s’aidant des principes de l’intégration continue.
+L’objectif de ce TP est de travailler en binôme afin de finir ce projet et de le valider en s’aidant des principes de l’intégration continue.
 
 ## Résultat attendu
 
@@ -45,7 +45,7 @@ Le gestionnaire de versions a 2 objectifs principaux dans une intégration conti
 En intégration continue, il est important d’intégrer le plus régulièrement possible ses modifications (dans un commit) afin de limiter les changements à tester / valider.
 
 * Utiliser le gestionnaire de versions git pour intégrer et partager les modifications du projet au sein du binôme. On pourra utiliser une version hébergée (Github, Bitbucket, Gitlab, ...)
-* Configurer IntelliJ pour associer le versionning Git au projet.
+* Configurer IntelliJ pour associer le versioning Git au projet.
 
 ### Les tests unitaires et de comportement
 
@@ -56,14 +56,14 @@ Le projet utilise 2 frameworks de tests :
 * Junit 4 pour les tests unitaires (exemple : `MessageTest`)
 * Spock (http://spockframework.org/) pour les tests de comportement (exemple : `ChatServerMessageSpec`) 
 
-Il est très compliqué de définir une couverture de test nécessaire et suffisante, car cela dépend énormement du code à tester : on privilégiera donc toujours la qualité du test sur les statistiques de sa couverture de code.
-Les classes ayant des dépendances externes sont en général difficiles à tester (ex : on pourra omettre la classe `ChatServerService` qui sera plus facile à tester dans un serveur d’intégration avec toutes les dépéndances du projet).
+Il est très compliqué de définir une couverture de test nécessaire et suffisante, car cela dépend énormément du code à tester : on privilégiera donc toujours la qualité du test sur les statistiques de sa couverture de code.
+Les classes ayant des dépendances externes sont en général difficiles à tester (ex : on pourra omettre la classe `ChatServerService` qui sera plus facile à tester dans un serveur d’intégration avec toutes les dépendances du projet).
 Au contraire, les classes contenant majoritairement du code métier sont les plus critiques : on essaiera par exemple de tester au moins 75 % des lignes de code présentes dans le package model.
 
 * On activera la couverture de test dans l’IDE afin de vérifier que les classes sont bien testées 
 * On ajoutera les tests unitaires et/ou de comportement nécessaires.
 * Si besoin, on modifiera le code source de l’application pour corriger les bugs trouvés.
-* On pourra aussi lancer l’application et réaliser des tests de fonctionalité à la main.
+* On pourra aussi lancer l’application et réaliser des tests de fonctionnalité à la main.
 
 > Scénarios de test réalisés à la main :
 
@@ -71,7 +71,7 @@ Au contraire, les classes contenant majoritairement du code métier sont les plu
 
 La qualité du code ne se limite pas aux tests !
 De nombreuses métriques peuvent être mises en place pour limiter les bugs et faciliter la maintenance du code.
-Par exemple, pour simplifier la compréhension du code on limitera la profondeur d'heritage dans les classes Java du projet à 2.
+Par exemple, pour simplifier la compréhension du code on limitera la profondeur d'héritage dans les classes Java du projet à 2.
 
 * Utiliser les outils d’analyse de l’IDE pour détecter d’éventuels problèmes dans l’application et améliorer la qualité de celle-ci.
 * En plus de la profondeur d’héritage, on choisira quelles analyses paraissent pertinentes (on pourra laisser de côté les problèmes liés aux boucles et aux threads qui peuvent demander un refactoring conséquent). Par exemple : < 15 lignes de code dupliquées, ...
@@ -88,7 +88,7 @@ Pour éviter cela, on peut essayer de partager au maximum ces critères de 2 man
 * en déployant un serveur d’intégration dédié (prochain cours)
 Ces 2 méthodes ne sont pas incompatibles.
 
-* En utilisant des plugins Gradle, intégrer les différent critères qualité directement dans la phase de build du projet. On pourra regarder les plugins `pmd`, `findbugs`, `checkstyle` et `jacoco`.
+* En utilisant des plugins Gradle, intégrer les différents critères qualité directement dans la phase de build du projet. On pourra regarder les plugins `pmd`, `findbugs`, `checkstyle` et `jacoco`.
 La commande `gradle build` devra donc automatiquement vérifier la qualité du projet.
   
 Le plugin `build-dashboard` déjà configuré permet de centraliser l’accès aux rapports après le build dans le fichier `build/reports/buildDashboard/index.html`

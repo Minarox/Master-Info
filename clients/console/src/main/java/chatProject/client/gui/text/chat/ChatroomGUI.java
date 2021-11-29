@@ -81,41 +81,10 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
         GUIHelpers.addTitle(chat.getChatroomName(chatroomId), contentPanel);
         messagesComponent();
         addNewMessageBox();
-        addCloseButton();
+        GUIHelpers.addCloseButton(contentPanel, window);
 
         window.setComponent(contentPanel);
     }
-
-    private void addCloseButton() {
-
-        final Runnable action =  () -> {
-            window.close();
-            msgUpdateThread.interrupt();
-        };
-
-        // add an horizontal space
-        contentPanel.addComponent(
-                new EmptySpace()
-                        .setLayoutData(
-                                GridLayout.createHorizontallyFilledLayoutData(1)));
-
-        // add an horizontal separator
-        contentPanel.addComponent(
-                new Separator(Direction.HORIZONTAL)
-                        .setLayoutData(
-                                GridLayout.createHorizontallyFilledLayoutData(1)));
-
-        // add the button with the action
-        contentPanel.addComponent(
-                new Button("Close", action).setLayoutData(
-                        GridLayout.createHorizontallyEndAlignedLayoutData(1)));
-
-        // the button is added
-
-        contentPanel.getChildCount();
-        contentPanel.getChildCount();
-    }
-
 
     private void messagesComponent() {
         fillMessagesContent();
@@ -167,7 +136,7 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
 
     @Override
     public void notifyUserChange(UserInfo user) {
-        // a user changed - refresh the messages (best effort)
+        // a user changed - refresh the messages (the best effort)
         // the content is already refreshed by the refresh thread every second
     }
 }

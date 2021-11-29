@@ -152,7 +152,7 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
 
     @Override
     public void close() {
-
+        // TODO: this
         /* 1. we should end infinite loops before closing... */
 
         // 2. terminate all threads :

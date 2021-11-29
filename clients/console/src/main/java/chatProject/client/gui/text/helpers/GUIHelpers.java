@@ -28,7 +28,6 @@ public class GUIHelpers {
     public static void addCloseButton(Panel contentPanel, Window window) {
         final Runnable action = window::close;
 
-
         // add a horizontal space
         contentPanel.addComponent(
                 new EmptySpace()
