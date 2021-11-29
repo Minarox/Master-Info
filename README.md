@@ -21,30 +21,30 @@ L'application doit respecter les besoins suivants :
 
 ## Manuel utilisateur ##
 
-Le projet SimpleChat utilise un build multi-projet `Gradle`.
+Le projet SimpleChat utilise un build multiprojet `Gradle`.
 Le répertoire est composé de 3 projets :
 
-* Un projet `server` contennant le service du serveur.
+* Un projet `server` contenant le service du serveur.
 * Un projet `clients/console` contenant le service d'un client lourd en Java.
 * Un projet `common` contenant le code source partagé par ces 2 services.
 
 Le serveur utilise 2 ports :
 
 * Un port exposant des web services pour les requêtes du client
-* Un port ouvrant une socket avec les clients pour gérer les notifications
+* Un port ouvrant un socket avec les clients pour gérer les notifications
 
 Le client se connecte donc à ces 2 ports également.
 
-En effet, certains événements demandent un synchronisation entre le serveur et le client :
+En effet, certains événements demandent une synchronisation entre le serveur et le client :
 
 * Le serveur notifie le client (par la websocket) lors de la création d'une chatroom, d'un message ou lors du changement d'état d'un utilisateur
 * Le client se connecte sur le serveur régulièrement (web service de login) pour notifier que l'utilisateur est toujours actif
 
-### Dépendences du serveur ###
+### Dépendances du serveur ###
 
 Le serveur utilise le micro framework [Spark Java](http://sparkjava.com/) pour ouvrir les webservices.
 
-### Dépendences du client ###
+### Dépendances du client ###
 
 Le client utilise le framework [Lanterna](https://github.com/mabe02/lanterna) pour créer une interface utilisateur sur la console.
 
@@ -54,7 +54,7 @@ Les appels aux web services sont réalisés à travers l'API [Fluent](https://hc
 
 `gradlew :server:run --args="<port Socket> <port web services>"`
 
-Exemple:
+Exemple :
 
 `gradlew :server:run --args="1234 2345"`
 
@@ -66,7 +66,7 @@ Exemple:
 
 `gradlew :clients:console:run --args="<IP du serveur> <port socket du serveur> <port web services du serveur>"
 
-Exemple:
+Exemple :
 
 `gradlew :clients:console:run --args="127.0.0.1 1234 2345"`
 
