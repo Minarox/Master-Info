@@ -57,4 +57,5 @@ public class FakeInstances {
             new ChatInstance<>(
                     new ArrayList<>(asList(DUMMY_CHATROOM_1, DUMMY_CHATROOM_2))
                     );
+
 }

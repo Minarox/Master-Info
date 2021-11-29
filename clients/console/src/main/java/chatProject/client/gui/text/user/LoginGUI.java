@@ -14,6 +14,7 @@ import com.googlecode.lanterna.gui2.*;
  * @param <T> the type of messages to use
  */
 public class LoginGUI<T> {
+
     private final ChatClient<T> chat;
     private final Window window;
     private final Panel contentPanel;

@@ -27,4 +27,5 @@ public interface MessageAlgo<T> extends MessageListener<T> {
      * @return the list of messages in this chatroom
      */
     List<Message<T>> getChatroomMessages(int chatroomId);
+
 }

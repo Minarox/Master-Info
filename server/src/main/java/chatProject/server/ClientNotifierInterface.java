@@ -27,4 +27,5 @@ public interface ClientNotifierInterface<T> {
      * @param user the new user to use
      */
     void notifyUserChange(UserInfo user);
+
 }

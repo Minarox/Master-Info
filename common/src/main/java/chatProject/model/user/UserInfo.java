@@ -63,4 +63,5 @@ public class UserInfo {
     public int hashCode() {
         return Objects.hash(account);
     }
+
 }

@@ -98,7 +98,6 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
         contentPanel.addComponent(
                 new Button("Send", sendButtonAction(chatroomId, messageContent))
         );
-
     }
 
     @SuppressWarnings("unchecked")
@@ -128,7 +127,6 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
         ) + "> " + msg.getMessage().toString();
     }
 
-
     @Override
     public void notifyNewMessage(int chatroomId, Message<T> message) {
         messages.addLine(messageAsString(message));
@@ -139,4 +137,5 @@ public class ChatroomGUI<T> implements MessageListener<T>, UserListener {
         // a user changed - refresh the messages (the best effort)
         // the content is already refreshed by the refresh thread every second
     }
+
 }

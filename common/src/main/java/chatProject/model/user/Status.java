@@ -20,4 +20,5 @@ public enum Status {
     public String getPrintableRepresentation() {
         return this.printable;
     }
+
 }

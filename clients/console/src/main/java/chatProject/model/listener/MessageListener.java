@@ -15,4 +15,5 @@ public interface MessageListener<T> {
      * @param message    the new message
      */
     void notifyNewMessage(int chatroomId, Message<T> message);
+
 }

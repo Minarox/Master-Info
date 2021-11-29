@@ -24,7 +24,8 @@ public class Main {
             // init the UI
             MainGUI terminal = MainGUI.init(client);
             terminal.close();
-
+            System.exit(0);
         }
     }
+
 }

@@ -23,4 +23,5 @@ public interface UserAlgo extends UserListener {
      * @return the users stored in the chat.
      */
     Collection<UserInfo> getUsers();
+
 }
