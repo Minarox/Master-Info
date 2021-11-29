@@ -75,7 +75,6 @@ public class SocketReader<T> extends Thread {
                             default:
                                 break;
                         }
-
                     }
                 } catch (IOException ex) {
                     // socket closed
@@ -97,4 +96,5 @@ public class SocketReader<T> extends Thread {
             this.socket.close();
         }
     }
+
 }

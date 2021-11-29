@@ -93,4 +93,5 @@ public class MainWindowGUI<T> implements ChatroomsListener<T> {
     public void notifyNewChatroom(Chatroom<T> newChatroom) {
         chatroomComboBox.addItem(newChatroom.getName());
     }
+
 }

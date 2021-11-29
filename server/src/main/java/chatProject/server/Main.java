@@ -26,6 +26,6 @@ public class Main {
 
         // start the web services
         new ChatServerService<>(server, json).serve(webServerPort);
-
     }
+
 }

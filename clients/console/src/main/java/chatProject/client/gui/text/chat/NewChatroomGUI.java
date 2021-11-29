@@ -31,7 +31,7 @@ public class NewChatroomGUI<T> {
         gridLayout.setHorizontalSpacing(2);
 
         // init instance
-        final NewChatroomGUI<T> instance = new NewChatroomGUI<>( chat, window, contentPanel);
+        final NewChatroomGUI<T> instance = new NewChatroomGUI<>(chat, window, contentPanel);
         instance.createWindow();
 
         // render the window

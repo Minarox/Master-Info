@@ -46,7 +46,6 @@ public class GUIHelpers {
                         GridLayout.createHorizontallyEndAlignedLayoutData(1)));
 
         // the button is added
-
         contentPanel.getChildCount();
         contentPanel.getChildCount();
     }
@@ -71,4 +70,5 @@ public class GUIHelpers {
     public static String getUserRepresentation(UserInfo user) {
         return user.toString();
     }
+
 }

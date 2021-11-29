@@ -4,6 +4,7 @@ import chatProject.model.listener.ChatroomsListener;
 import chatProject.model.messages.Chatroom;
 import chatProject.model.user.UserInfo;
 
+import java.io.IOException;
 import java.util.List;
 
 /**

@@ -43,4 +43,5 @@ public class UserAccountTest {
         assertEquals("The toString() method of a UserAccount should print the username",
                 "MyUser", user.toString());
     }
+
 }

@@ -41,4 +41,5 @@ public class AddMessageForm<T> {
     public T getContent() {
         return content;
     }
+
 }

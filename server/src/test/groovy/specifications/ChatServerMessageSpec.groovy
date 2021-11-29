@@ -38,7 +38,9 @@ class ChatServerMessageSpec extends Specification {
         and: "A chatroom"
         int chatroomId = server.addChatroom(null, null)
 
+        when: "A new message is added"
         def message = server.addMessage(chatroomId, null, "Test message")
+        then: "The client listener should be notified about a new message"
         clientNotifier.notifyNewMessage(chatroomId, message)
     }
 

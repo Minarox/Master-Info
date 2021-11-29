@@ -13,4 +13,5 @@ public interface UserListener {
      * @param user the user that changed.
      */
     void notifyUserChange(UserInfo user);
+
 }

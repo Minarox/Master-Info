@@ -4,7 +4,6 @@ import chatProject.model.user.UserInfo;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
  * A model for a message sent in the chat.
  * A message has a content (of a generic type T), a unique ID and a sender.
@@ -67,4 +66,5 @@ public class Message<T> {
                 ", content=" + content +
                 '}';
     }
+
 }

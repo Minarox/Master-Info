@@ -8,6 +8,7 @@ import java.util.Objects;
  * There is no need for an ID.
  */
 public class UserAccount {
+
     /**
      * The name of a user.
      */
@@ -42,4 +43,5 @@ public class UserAccount {
     public String toString() {
         return username;
     }
+
 }

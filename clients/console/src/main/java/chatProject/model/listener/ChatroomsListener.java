@@ -1,6 +1,5 @@
 package chatProject.model.listener;
 
-
 import chatProject.model.messages.Chatroom;
 
 /**
@@ -15,4 +14,5 @@ public interface ChatroomsListener<T> {
      * @param newChatroom the new chatroom
      */
     void notifyNewChatroom(Chatroom<T> newChatroom);
+
 }

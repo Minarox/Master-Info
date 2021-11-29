@@ -77,4 +77,5 @@ public class Chatroom<T> {
             return name + " (" + owner.getAccount() + ')';
         }
     }
+
 }

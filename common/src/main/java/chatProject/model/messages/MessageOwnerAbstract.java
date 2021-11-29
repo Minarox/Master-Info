@@ -13,4 +13,5 @@ public abstract class MessageOwnerAbstract extends UserInfo {
     public MessageOwnerAbstract(UserAccount account, Status currentStatus) {
         super(account, currentStatus);
     }
+
 }

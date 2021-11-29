@@ -38,6 +38,8 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
 
     private Thread pingThread = null;
 
+    private boolean loop;
+
     public ChatClient(ChatInstance<T> chatInstance,
                       UserInfo currentUser,
                       Map<Integer, Collection<MessageListener<T>>> messageListeners,
@@ -98,7 +100,6 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
     @Override
     public void close() throws IOException {
         // close all threads on exit
-
         pingThread.interrupt();
         // cleanly close the socket on exit
         socketListener.closeSocket();
@@ -137,7 +138,6 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
         this.currentUser = user;
         return user;
     }
-
 
     /**
      * {@inheritDoc}
@@ -231,6 +231,9 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
                     json.toJson(owner),
                     ContentType.APPLICATION_JSON
             ).execute().returnContent().asString();
+            if (Objects.equals(response, "-1")) {
+                System.err.println("chatroom already exist");
+            }
             json.fromJson(response, Integer.class);
         } catch (IOException e) {
             System.err.println("Cannot add chatroom");

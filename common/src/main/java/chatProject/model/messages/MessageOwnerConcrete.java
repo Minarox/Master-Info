@@ -13,4 +13,5 @@ public class MessageOwnerConcrete extends MessageOwnerAbstract {
     public MessageOwnerConcrete(UserAccount account, Status currentStatus) {
         super(account, currentStatus);
     }
+
 }

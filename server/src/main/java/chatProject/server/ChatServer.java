@@ -53,12 +53,18 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      */
     private Thread checkIdleClients = null;
 
+    /**
+     * A boolean for infinite loops
+     */
+    private boolean loop;
+
     public ChatServer(ChatInstance<T> chatInstance,
                       Collection<ClientNotifierInterface<T>> clientNotifiers,
                       Gson json) {
         this.chatInstance = chatInstance;
         this.clientNotifiers = clientNotifiers;
         this.json = json;
+        this.loop = true;
     }
 
     /**
@@ -105,7 +111,7 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
             // loop forever to accept all new clients
-            while(true) {
+            while(this.loop) {
 
                 // Socket.accept() is blocking - wait for a new client
                 final Socket client = serverSocket.accept();
@@ -124,7 +130,7 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      */
     public void checkIdleClients() {
         this.checkIdleClients = new Thread(() -> {
-            while(true) {
+            while(this.loop) {
                 try {
                     Thread.sleep(100); // check every 100ms
                     // avoid removing instances during the iteration - store members to update
@@ -152,11 +158,9 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
 
     @Override
     public void close() {
-        // TODO: this
         /* 1. we should end infinite loops before closing... */
-
+        this.loop = false;
         // 2. terminate all threads :
-
         // cleanly close the check for idle clients
         checkIdleClients.interrupt();
         // cleanly close the socket on exit
@@ -270,6 +274,10 @@ public class ChatServer<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
      */
     @Override
     public int addChatroom(String chatroomName, UserInfo owner) {
+        // Check if chatroom not already exist
+        if (getCurrentChatroomNames().contains(chatroomName)) {
+            return -1;
+        }
 
         // instantiate the chatroom
         final Chatroom<T> newChatroom = new Chatroom<>(chatroomName, owner, new ArrayList<>());
