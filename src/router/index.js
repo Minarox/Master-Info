@@ -15,7 +15,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory,
+  history: createWebHistory(process.env.BASE_URL),
   scrollBehavior(to, from, SavedPosition) {
     if (to.hash) {
       let id = window.location.href.split("#")[1];
