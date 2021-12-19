@@ -6,16 +6,16 @@ import NotFound from "@/views/NotFound";
 import News from "@/views/News";
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/news', name: 'News', component: News },
-  //{ path: '/cours/:name', name: 'Cours', component: Cours },
-  { path: '/cours', name: 'Cours', component: Cours },
-  { path: '/survey/:category/:question', name: 'Survey', component: Survey },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+  { path: '/Workshop/', name: 'Home', component: Home },
+  { path: '/Workshop/news', name: 'News', component: News },
+  //{ path: '/Workshop/cours/:name', name: 'Cours', component: Cours },
+  { path: '/Workshop/cours', name: 'Cours', component: Cours },
+  { path: '/Workshop/survey/:category/:question', name: 'Survey', component: Survey },
+  { path: '/Workshop/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory,
   scrollBehavior(to, from, SavedPosition) {
     if (to.hash) {
       let id = window.location.href.split("#")[1];
