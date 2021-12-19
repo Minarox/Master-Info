@@ -5,13 +5,15 @@ import Cours from "@/views/Cours";
 import NotFound from "@/views/NotFound";
 import News from "@/views/News";
 
+const BaseURL = "Workshop/";
+
 const routes = [
-  { path: '/Workshop/', name: 'Home', component: Home },
-  { path: '/Workshop/news', name: 'News', component: News },
-  //{ path: '/Workshop/cours/:name', name: 'Cours', component: Cours },
-  { path: '/Workshop/cours', name: 'Cours', component: Cours },
-  { path: '/Workshop/survey/:category/:question', name: 'Survey', component: Survey },
-  { path: '/Workshop/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+  { path: '/', name: 'Home', component: Home },
+  { path: BaseURL + '/news', name: 'News', component: News },
+  //{ path: BaseURL + '/cours/:name', name: 'Cours', component: Cours },
+  { path: BaseURL + '/cours', name: 'Cours', component: Cours },
+  { path: BaseURL + '/survey/:category/:question', name: 'Survey', component: Survey },
+  { path: BaseURL + '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 
 const router = createRouter({
