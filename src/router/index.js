@@ -5,7 +5,7 @@ import Cours from "@/views/Cours";
 import NotFound from "@/views/NotFound";
 import News from "@/views/News";
 
-const BaseURL = "Workshop/";
+const BaseURL = "/Workshop";
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
