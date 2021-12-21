@@ -38,8 +38,6 @@ public class ChatClient<T> implements UserAlgo, ChatroomAlgo<T>, MessageAlgo<T>,
 
     private Thread pingThread = null;
 
-    private boolean loop;
-
     public ChatClient(ChatInstance<T> chatInstance,
                       UserInfo currentUser,
                       Map<Integer, Collection<MessageListener<T>>> messageListeners,
