@@ -1,10 +1,13 @@
 ﻿# Cas pratique I : Intégration continue d’un serveur de chat grâce à l’IDE IntelliJ  
 
-Nom :
-Prénom :
+Nom : BENALI BETCHIM
+Prénom : Mohamed Cherif
 
-Nom :
-Prénom :
+Nom : MIGEAT
+Prénom : Théo
+
+Nom : SERRIERES MANIECKI
+Prénom : Mathis
 
 ## Présentation du projet
 
