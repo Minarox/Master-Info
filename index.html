@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta http-equiv="refresh" content="1">-->
+    <title>Recherche de SIRET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font: inherit;
+            color: #0f2027;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0f2027;
+            background: linear-gradient(to right,#2c5364, #203a43, #0f2027);
+            font-family: 'Open Sans', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+            /*overflow: hidden;*/
+        }
+
+        #app {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 50px;
+            padding-top: 50px;
+        }
+
+        #app > * {
+            width: 80vw;
+            max-width: 1120px;
+        }
+
+        #app > section {
+            background-color: white;
+            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25) , 0 8px 16px -8px rgba(0,0,0,0.3) , 0 -6px 16px -6px rgba(0,0,0,0.025);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 500;
+            color: white;
+        }
+
+        form {
+            padding-top: 30px;
+            display: flex;
+            flex-flow: row nowrap;
+            gap: 0 20px;
+        }
+
+        form div {
+            width: 70%;
+            position: relative;
+        }
+
+        form div:nth-of-type(2) {
+            width: 30%;
+        }
+
+        input {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 42px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 0 solid red;
+            outline: none;
+            box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25) , 0 8px 16px -8px rgba(0,0,0,0.3) , 0 -6px 16px -6px rgba(0,0,0,0.025);
+            transition: all .2s ease-in-out;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        label, form div p {
+            z-index: 0;
+            position: absolute;
+            left: 10px;
+            top: 0;
+            color: white;
+            transform: translateY(0);
+            transition: transform .15s ease-in;
+        }
+
+        form div p {
+            top: auto;
+            bottom: 0;
+            color: red;
+            transform: translateY(0);
+            transition: transform .2s ease-in-out;
+        }
+
+        .show {
+            transform: translateY(-26px);
+            transition: transform .2s ease-out;
+        }
+
+        .error {
+            transition: all .15s ease-in-out;
+        }
+
+        .error > input {
+            padding: 6px 10px;
+            border: 2px solid red;
+        }
+
+        .error > p {
+            transform: translateY(26px);
+        }
+
+        form button {
+            width: 42px;
+            height: 42px;
+            background-color: white;
+            border-radius: 6px;
+            border: none;
+            padding: 6px;
+            font-size: 1.4em;
+            cursor: pointer;
+            box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3), 0 -6px 16px -6px rgba(0,0,0,0.025);
+        }
+    </style>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+    <article id="app">
+        <header>
+            <h1>Information SIRET</h1>
+            <form @submit.prevent="fetchAPI">
+                <div :class="(error === 'siren') ? 'error' : ''">
+                    <p>Le code SIREN est invalide.</p>
+                    <label for="siren" :class="(siren) ? 'show' : ''">Code SIREN</label>
+                    <input type="number" name="siren" id="siren" placeholder="Code SIREN" required v-model="siren">
+                </div>
+                <div :class="(error === 'establishment') ? 'error' : ''">
+                    <p>Le code Établissement est invalide.</p>
+                    <label for="establishment" :class="(establishment) ? 'show' : ''">Code Établissement</label>
+                    <input type="number" name="establishment" id="establishment" placeholder="Code Établissement" v-model="establishment">
+                </div>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </header>
+        <section v-if="response && siret">
+            <h2>Avec SIRET</h2>
+            <p>{{ JSON.stringify(response) }}</p>
+        </section>
+        <section v-if="response && !siret">
+            <h2>Sans SIRET</h2>
+            <p>{{ JSON.stringify(response) }}</p>
+        </section>
+    </article>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    siren: '',
+                    establishment: '',
+                    headers: {
+                        headers: {
+                            "Authorization": "Bearer bf96b255-8239-33b3-9fcd-07043eb3a821",
+                            "Content-Type": "application/json"
+                        }
+                    },
+                    response: null,
+                    error: false
+                }
+            },
+            methods: {
+                fetchAPI() {
+                    if (this.siren.length < 9) {
+                        this.error = "siren";
+                        return;
+                    }
+                    if (this.establishment.length >= 1 && this.establishment.length < 5) {
+                        this.error = "establishment";
+                        return;
+                    }
+                    if (this.siret) {
+                        axios.get("https://api.insee.fr/entreprises/sirene/V3/siret/" + this.siret.toString(), this.headers).then(response => {
+                            this.response = response.data;
+                        });
+                    } else if (!this.establishment) {
+                        axios.get("https://api.insee.fr/entreprises/sirene/V3/siren/" + this.siren.toString(), this.headers).then(response => {
+                            this.response = response.data;
+                        });
+                    }
+                }
+            },
+            watch: {
+                siren: function (value) {
+                    this.error = false;
+                    this.siren = value.replace(/[^\d.-]/g, '').substring(0, 9);
+                },
+                establishment: function (value) {
+                    this.error = false;
+                    this.establishment = value.replace(/[^\d.-]/g, '').substring(0, 5);
+                }
+            },
+            computed: {
+                siret: function () {
+                    if (this.siren.length === 9 && this.establishment.length === 5)
+                        return this.siren.toString() + this.establishment.toString();
+                    return false;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
