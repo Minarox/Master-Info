@@ -356,84 +356,83 @@
                 </header>
                 <!-- Valeurs -->
                 <div>
-                    <p v-if="response['siren']">siren: {{ response["siren"] }}</p>
-                    <p v-if="response['nic']">nic: {{ response["nic"] }}</p>
-                    <p v-if="response['siret']">siret: {{ response["siret"] }}</p>
-                    <p v-if="response['statutDiffusionEtablissement']">statutDiffusionEtablissement: {{ response["statutDiffusionEtablissement"] }}</p>
-                    <p v-if="response['dateCreationEtablissement']">dateCreationEtablissement: {{ response["dateCreationEtablissement"] }}</p>
-                    <p v-if="response['trancheEffectifsEtablissement']">trancheEffectifsEtablissement: {{ response["trancheEffectifsEtablissement"] }}</p>
-                    <p v-if="response['anneeEffectifsEtablissement']">anneeEffectifsEtablissement: {{ response["anneeEffectifsEtablissement"] }}</p>
-                    <p v-if="response['activitePrincipaleRegistreMetiersEtablissement']">activitePrincipaleRegistreMetiersEtablissement: {{ response["activitePrincipaleRegistreMetiersEtablissement"] }}</p>
-                    <p v-if="response['dateDernierTraitementEtablissement']">dateDernierTraitementEtablissement: {{ response["dateDernierTraitementEtablissement"] }}</p>
-                    <p v-if="response['etablissementSiege']">etablissementSiege: {{ response["etablissementSiege"] }}</p>
+                    <p v-if="response['siren']">Code SIREN : {{ response["siren"] }}</p>
+                    <p v-if="response['nic']">Code Établissement (NIC) : {{ response["nic"] }}</p>
+                    <p v-if="response['siret']">Code SIRET : {{ response["siret"] }}</p>
+                    <p v-if="response['dateCreationEtablissement']">Date de création : {{ parseDate(response["dateCreationEtablissement"]) }}</p>
+                    <p v-if="response['etablissementSiege']">Siège de l'établissement : {{ response["etablissementSiege"] }}</p>
+                    <p v-if="response['activitePrincipaleRegistreMetiersEtablissement']">Activité principale enregistré au registre des métiers : {{ response["activitePrincipaleRegistreMetiersEtablissement"] }}</p>
+                    <p v-if="response['statutDiffusionEtablissement']">Statut de diffusion : {{ response["statutDiffusionEtablissement"] }}</p>
+                    <p v-if="response['trancheEffectifsEtablissement']">Tranche d'effectifs : {{ response["trancheEffectifsEtablissement"] }}</p>
+                    <p v-if="response['anneeEffectifsEtablissement']">Année des effectifs : {{ response["anneeEffectifsEtablissement"] }}</p>
                 </div>
             </section>
             <!-- Unité légale -->
-            <section>
+            <section v-if="response['uniteLegale']">
                 <!-- Titre de section -->
                 <header>
                     <h2>Unité légale</h2>
-                    <p v-if="response['dateDernierTraitementUniteLegale']">Dernière mise à jour : {{ new Date(response["dateDernierTraitementUniteLegale"]).toLocaleString('fr-FR') }}</p>
+                    <p v-if="response['uniteLegale']['dateDernierTraitementUniteLegale']">Dernière mise à jour : {{ new Date(response['uniteLegale']["dateDernierTraitementUniteLegale"]).toLocaleString('fr-FR') }}</p>
                 </header>
                 <!-- Valeurs -->
                 <div>
-                    <p v-if="response['etatAdministratifUniteLegale']">etatAdministratifUniteLegale: {{ response["etatAdministratifUniteLegale"] }}</p>
-                    <p v-if="response['statutDiffusionUniteLegale']">statutDiffusionUniteLegale: {{ response["statutDiffusionUniteLegale"] }}</p>
-                    <p v-if="response['dateCreationUniteLegale']">dateCreationUniteLegale: {{ response["dateCreationUniteLegale"] }}</p>
-                    <p v-if="response['categorieJuridiqueUniteLegale']">categorieJuridiqueUniteLegale: {{ response["categorieJuridiqueUniteLegale"] }}</p>
-                    <p v-if="response['denominationUniteLegale']">denominationUniteLegale: {{ response["denominationUniteLegale"] }}</p>
-                    <p v-if="response['sigleUniteLegale']">sigleUniteLegale: {{ response["sigleUniteLegale"] }}</p>
-                    <p v-if="response['denominationUsuelle1UniteLegale']">denominationUsuelle1UniteLegale: {{ response["denominationUsuelle1UniteLegale"] }}</p>
-                    <p v-if="response['denominationUsuelle2UniteLegale']">denominationUsuelle2UniteLegale: {{ response["denominationUsuelle2UniteLegale"] }}</p>
-                    <p v-if="response['denominationUsuelle3UniteLegale']">denominationUsuelle3UniteLegale: {{ response["denominationUsuelle3UniteLegale"] }}</p>
-                    <p v-if="response['sexeUniteLegale']">sexeUniteLegale: {{ response["sexeUniteLegale"] }}</p>
-                    <p v-if="response['nomUniteLegale']">nomUniteLegale: {{ response["nomUniteLegale"] }}</p>
-                    <p v-if="response['nomUsageUniteLegale']">nomUsageUniteLegale: {{ response["nomUsageUniteLegale"] }}</p>
-                    <p v-if="response['prenom1UniteLegale']">prenom1UniteLegale: {{ response["prenom1UniteLegale"] }}</p>
-                    <p v-if="response['prenom2UniteLegale']">prenom2UniteLegale: {{ response["prenom2UniteLegale"] }}</p>
-                    <p v-if="response['prenom3UniteLegale']">prenom3UniteLegale: {{ response["prenom3UniteLegale"] }}</p>
-                    <p v-if="response['prenom4UniteLegale']">prenom4UniteLegale: {{ response["prenom4UniteLegale"] }}</p>
-                    <p v-if="response['prenomUsuelUniteLegale']">prenomUsuelUniteLegale: {{ response["prenomUsuelUniteLegale"] }}</p>
-                    <p v-if="response['pseudonymeUniteLegale']">pseudonymeUniteLegale: {{ response["pseudonymeUniteLegale"] }}</p>
-                    <p v-if="response['activitePrincipaleUniteLegale']">activitePrincipaleUniteLegale: {{ response["activitePrincipaleUniteLegale"] }}</p>
-                    <p v-if="response['nomenclatureActivitePrincipaleUniteLegale']">nomenclatureActivitePrincipaleUniteLegale: {{ response["nomenclatureActivitePrincipaleUniteLegale"] }}</p>
-                    <p v-if="response['identifiantAssociationUniteLegale']">identifiantAssociationUniteLegale: {{ response["identifiantAssociationUniteLegale"] }}</p>
-                    <p v-if="response['economieSocialeSolidaireUniteLegale']">economieSocialeSolidaireUniteLegale: {{ response["economieSocialeSolidaireUniteLegale"] }}</p>
-                    <p v-if="response['caractereEmployeurUniteLegale']">caractereEmployeurUniteLegale: {{ response["caractereEmployeurUniteLegale"] }}</p>
-                    <p v-if="response['trancheEffectifsUniteLegale']">trancheEffectifsUniteLegale: {{ response["trancheEffectifsUniteLegale"] }}</p>
-                    <p v-if="response['anneeEffectifsUniteLegale']">anneeEffectifsUniteLegale: {{ response["anneeEffectifsUniteLegale"] }}</p>
-                    <p v-if="response['nicSiegeUniteLegale']">nicSiegeUniteLegale: {{ response["nicSiegeUniteLegale"] }}</p>
-                    <p v-if="response['dateDernierTraitementUniteLegale']">dateDernierTraitementUniteLegale: {{ response["dateDernierTraitementUniteLegale"] }}</p>
-                    <p v-if="response['categorieEntreprise']">categorieEntreprise: {{ response["categorieEntreprise"] }}</p>
-                    <p v-if="response['anneeCategorieEntreprise']">anneeCategorieEntreprise: {{ response["anneeCategorieEntreprise"] }}</p>
+                    <p v-if="response['uniteLegale']['etatAdministratifUniteLegale']">État administratif : {{ response["uniteLegale"]["etatAdministratifUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['statutDiffusionUniteLegale']">Statut de diffusion : {{ response["uniteLegale"]["statutDiffusionUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['dateCreationUniteLegale']">Date de création : {{ parseDate(response["uniteLegale"]["dateCreationUniteLegale"]) }}</p>
+                    <p v-if="response['uniteLegale']['categorieJuridiqueUniteLegale']">Catégorie juridique : {{ response["uniteLegale"]["categorieJuridiqueUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['denominationUniteLegale']">Dénomination : {{ response["uniteLegale"]["denominationUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['sigleUniteLegale']">Sigle : {{ response["uniteLegale"]["sigleUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['denominationUsuelle1UniteLegale']">Dénomination usuelle 1 : {{ response["uniteLegale"]["denominationUsuelle1UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['denominationUsuelle2UniteLegale']">Dénomination usuelle 2 : {{ response["uniteLegale"]["denominationUsuelle2UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['denominationUsuelle3UniteLegale']">Dénomination usuelle 3 : {{ response["uniteLegale"]["denominationUsuelle3UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['sexeUniteLegale']">Sexe : {{ response["uniteLegale"]["sexeUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['nomUniteLegale']">Nom : {{ response["uniteLegale"]["nomUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['nomUsageUniteLegale']">Nom d'usage : {{ response["uniteLegale"]["nomUsageUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['prenom1UniteLegale']">Prénom 1 : {{ response["uniteLegale"]["prenom1UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['prenom2UniteLegale']">Prénom 2 : {{ response["uniteLegale"]["prenom2UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['prenom3UniteLegale']">Prénom 3 : {{ response["uniteLegale"]["prenom3UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['prenom4UniteLegale']">Prénom 4 : {{ response["uniteLegale"]["prenom4UniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['prenomUsuelUniteLegale']">Prénom usuel : {{ response["uniteLegale"]["prenomUsuelUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['pseudonymeUniteLegale']">Pseudonyme : {{ response["uniteLegale"]["pseudonymeUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['activitePrincipaleUniteLegale']">Activité principale : {{ response["uniteLegale"]["activitePrincipaleUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['nomenclatureActivitePrincipaleUniteLegale']">Nomenclature de l'activité principale : {{ response["uniteLegale"]["nomenclatureActivitePrincipaleUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['identifiantAssociationUniteLegale']">Identifiant de l'association : {{ response["uniteLegale"]["identifiantAssociationUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['economieSocialeSolidaireUniteLegale']">Économie sociale et Solidaire : {{ response["uniteLegale"]["economieSocialeSolidaireUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['caractereEmployeurUniteLegale']">Caractère de l'employer : {{ response["uniteLegale"]["caractereEmployeurUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['trancheEffectifsUniteLegale']">Tranche d'effectifs : {{ response["uniteLegale"]["trancheEffectifsUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['anneeEffectifsUniteLegale']">Année d'effectifs : {{ response["uniteLegale"]["anneeEffectifsUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['nicSiegeUniteLegale']">Code Établissement (NIC) : {{ response["uniteLegale"]["nicSiegeUniteLegale"] }}</p>
+                    <p v-if="response['uniteLegale']['categorieEntreprise']">Catégorie de l'entreprise : {{ response["uniteLegale"]["categorieEntreprise"] }}</p>
+                    <p v-if="response['uniteLegale']['anneeCategorieEntreprise']">Année de catégorie de l'entreprise : {{ response["uniteLegale"]["anneeCategorieEntreprise"] }}</p>
                 </div>
             </section>
             <!-- Adresse de l'établissement -->
-            <section>
+            <section v-if="response['adresseEtablissement']">
                 <!-- Titre de section -->
                 <header>
                     <h2>Adresse de l'établissement</h2>
                 </header>
                 <!-- Valeurs -->
                 <div>
-                    <p v-if="response['complementAdresseEtablissement']">complementAdresseEtablissement: {{ response["complementAdresseEtablissement"] }}</p>
-                    <p v-if="response['numeroVoieEtablissement']">numeroVoieEtablissement: {{ response["numeroVoieEtablissement"] }}</p>
-                    <p v-if="response['indiceRepetitionEtablissement']">indiceRepetitionEtablissement: {{ response["indiceRepetitionEtablissement"] }}</p>
-                    <p v-if="response['typeVoieEtablissement']">typeVoieEtablissement: {{ response["typeVoieEtablissement"] }}</p>
-                    <p v-if="response['libelleVoieEtablissement']">libelleVoieEtablissement: {{ response["libelleVoieEtablissement"] }}</p>
-                    <p v-if="response['codePostalEtablissement']">codePostalEtablissement: {{ response["codePostalEtablissement"] }}</p>
-                    <p v-if="response['libelleCommuneEtablissement']">libelleCommuneEtablissement: {{ response["libelleCommuneEtablissement"] }}</p>
-                    <p v-if="response['libelleCommuneEtrangerEtablissement']">libelleCommuneEtrangerEtablissement: {{ response["libelleCommuneEtrangerEtablissement"] }}</p>
-                    <p v-if="response['distributionSpecialeEtablissement']">distributionSpecialeEtablissement: {{ response["distributionSpecialeEtablissement"] }}</p>
-                    <p v-if="response['codeCommuneEtablissement']">codeCommuneEtablissement: {{ response["codeCommuneEtablissement"] }}</p>
-                    <p v-if="response['codeCedexEtablissement']">codeCedexEtablissement: {{ response["codeCedexEtablissement"] }}</p>
-                    <p v-if="response['libelleCedexEtablissement']">libelleCedexEtablissement: {{ response["libelleCedexEtablissement"] }}</p>
-                    <p v-if="response['codePaysEtrangerEtablissement']">codePaysEtrangerEtablissement: {{ response["codePaysEtrangerEtablissement"] </p>
-                    <p v-if="response['libellePaysEtrangerEtablissement']">libellePaysEtrangerEtablissement: {{ response["libellePaysEtrangerEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['complementAdresseEtablissement']">complementAdresseEtablissement: {{ response["adresseEtablissement"]["complementAdresseEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['numeroVoieEtablissement']">Numéro de voie : {{ response["adresseEtablissement"]["numeroVoieEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['indiceRepetitionEtablissement']">Indice de répétition : {{ response["adresseEtablissement"]["indiceRepetitionEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['typeVoieEtablissement']">Type de voie : {{ response["adresseEtablissement"]["typeVoieEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['libelleVoieEtablissement']">Libellé de voie : {{ response["adresseEtablissement"]["libelleVoieEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['codePostalEtablissement']">Code postal : {{ response["adresseEtablissement"]["codePostalEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['libelleCommuneEtablissement']">Libellé de commune : {{ response["adresseEtablissement"]["libelleCommuneEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['libelleCommuneEtrangerEtablissement']">Libellé de commune à l'étranger: {{ response["adresseEtablissement"]["libelleCommuneEtrangerEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['distributionSpecialeEtablissement']">Distribution spéciale : {{ response["adresseEtablissement"]["distributionSpecialeEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['codeCommuneEtablissement']">Code de la commune : {{ response["adresseEtablissement"]["codeCommuneEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['codeCedexEtablissement']">Code Cedex: {{ response["adresseEtablissement"]["codeCedexEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['libelleCedexEtablissement']">Libellé Cedex : {{ response["adresseEtablissement"]["libelleCedexEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['codePaysEtrangerEtablissement']">Code pays à l'étranger: {{ response["adresseEtablissement"]["codePaysEtrangerEtablissement"] }}</p>
+                    <p v-if="response['adresseEtablissement']['libellePaysEtrangerEtablissement']">Libellé du pays à l'étranger : {{ response["adresseEtablissement"]["libellePaysEtrangerEtablissement"] }}</p>
+                    <p v-if="address">Adresse complète : {{ address }}</p>
                 </div>
             </section>
             <!-- Périodes -->
-            <section>
+            <section v-if="response['periodesEtablissement']">
                 <!-- Titre de section -->
                 <header>
                     <h2>Périodes</h2>
@@ -445,24 +444,19 @@
                         <!-- Titre de la période -->
                         <header>
                             <h2 v-if="periods['dateFin']">Du {{ parseDate(periods["dateDebut"]) }} au {{ parseDate(periods["dateFin"]) }}</h2>
-                            <h2 v-else>Du {{ parseDate(periods["dateDebut"]) }}</h2>
+                            <h2 v-else>Depuis le {{ parseDate(periods["dateDebut"]) }}</h2>
                             <p><i class="fas fa-chevron-down"></i></p>
                         </header>
                         <!-- Valeurs -->
                         <div>
-                            <p v-if="response['etatAdministratifEtablissement']">etatAdministratifEtablissement: {{ response["etatAdministratifEtablissement"] }}</p>
-                            <p v-if="response['changementEtatAdministratifEtablissement']">changementEtatAdministratifEtablissement: {{ response["changementEtatAdministratifEtablissement"] }}</p>
-                            <p v-if="response['enseigne1Etablissement']">enseigne1Etablissement: {{ response["enseigne1Etablissement"] }}</p>
-                            <p v-if="response['enseigne2Etablissement']">enseigne2Etablissement: {{ response["enseigne2Etablissement"] }}</p>
-                            <p v-if="response['enseigne3Etablissement']">enseigne3Etablissement: {{ response["enseigne3Etablissement"] }}</p>
-                            <p v-if="response['changementEnseigneEtablissement']">changementEnseigneEtablissement: {{ response["changementEnseigneEtablissement"] }}</p>
-                            <p v-if="response['denominationUsuelleEtablissement']">denominationUsuelleEtablissement: {{ response["denominationUsuelleEtablissement"] }}</p>
-                            <p v-if="response['changementDenominationUsuelleEtablissement']">changementDenominationUsuelleEtablissement: {{ response["changementDenominationUsuelleEtablissement"] }}</p>
-                            <p v-if="response['activitePrincipaleEtablissement']">activitePrincipaleEtablissement: {{ response["activitePrincipaleEtablissement"] }}</p>
-                            <p v-if="response['nomenclatureActivitePrincipaleEtablissement']">nomenclatureActivitePrincipaleEtablissement: {{ response["nomenclatureActivitePrincipaleEtablissement"] }}</p>
-                            <p v-if="response['changementActivitePrincipaleEtablissement']">changementActivitePrincipaleEtablissement: {{ response["changementActivitePrincipaleEtablissement"] }}</p>
-                            <p v-if="response['caractereEmployeurEtablissement']">caractereEmployeurEtablissement: {{ response["caractereEmployeurEtablissement"] }}</p>
-                            <p v-if="response['changementCaractereEmployeurEtablissement']">changementCaractereEmployeurEtablissement: {{ response["changementCaractereEmployeurEtablissement"] }}</p>
+                            <p v-if="periods['etatAdministratifEtablissement']">État administratif : {{ periods["etatAdministratifEtablissement"] }}</p>
+                            <p v-if="periods['enseigne1Etablissement']">Enseigne 1 : {{ periods["enseigne1Etablissement"] }}</p>
+                            <p v-if="periods['enseigne2Etablissement']">Enseigne 2 : {{ periods["enseigne2Etablissement"] }}</p>
+                            <p v-if="periods['enseigne3Etablissement']">Enseigne 3 : {{ periods["enseigne3Etablissement"] }}</p>
+                            <p v-if="periods['denominationUsuelleEtablissement']">Dénomination usuelle : {{ periods["denominationUsuelleEtablissement"] }}</p>
+                            <p v-if="periods['activitePrincipaleEtablissement']">Activité principale : {{ periods["activitePrincipaleEtablissement"] }}</p>
+                            <p v-if="periods['nomenclatureActivitePrincipaleEtablissement']">Nomenclature de l'activité principale : {{ periods["nomenclatureActivitePrincipaleEtablissement"] }}</p>
+                            <p v-if="periods['caractereEmployeurEtablissement']">Caractère de l'employeur : {{ periods["caractereEmployeurEtablissement"] }}</p>
                         </div>
                     </section>
                 </article>
@@ -499,7 +493,7 @@
                 </div>
             </section>
             <!-- Périodes -->
-            <section>
+            <section v-if="response['periodesEtablissement']">
                 <!-- Titre de section -->
                 <header v-if="response['periodesUniteLegale']">
                     <h2>Périodes</h2>
@@ -511,7 +505,7 @@
                         <!-- Titre de la période -->
                         <header >
                             <h2 v-if="periods['dateFin']">Du {{ parseDate(periods["dateDebut"]) }} au {{ parseDate(periods["dateFin"]) }}</h2>
-                            <h2 v-else>Du {{ parseDate(periods["dateDebut"]) }}</h2>
+                            <h2 v-else>Depuis le {{ parseDate(periods["dateDebut"]) }}</h2>
                             <p><i class="fas fa-chevron-down"></i></p>
                         </header>
                         <!-- Valeurs -->
@@ -563,7 +557,7 @@
             data() {
                 return {
                     siren: '399134691',
-                    establishment: '', // 00191
+                    establishment: '00191', // 00191
                     headers: {
                         headers: {
                             "Authorization": "Bearer bf96b255-8239-33b3-9fcd-07043eb3a821",
@@ -626,6 +620,13 @@
                     if (this.siren.length === 9 && this.establishment.length === 5)
                         return this.siren.toString() + this.establishment.toString();
                     return false;
+                },
+                address: function() {
+                    return this.response["adresseEtablissement"]["numeroVoieEtablissement"] + ' '
+                        + this.response["adresseEtablissement"]["typeVoieEtablissement"] + ' '
+                        + this.response["adresseEtablissement"]["libelleVoieEtablissement"] + ', '
+                        + this.response["adresseEtablissement"]["codePostalEtablissement"] + ' '
+                        + this.response["adresseEtablissement"]["libelleCommuneEtablissement"];
                 }
             }
         })
