@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
-<!--    <meta http-equiv="refresh" content="1">-->
     <title>Recherche de SIRET</title>
     <style>
         * {
@@ -23,18 +22,16 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             scroll-behavior: smooth;
-            /*overflow: hidden;*/
+            overflow-x: hidden;
         }
 
         #app {
-            width: 100vw;
-            height: 100vh;
             display: flex;
             flex-flow: column nowrap;
             align-items: center;
             justify-content: flex-start;
-            gap: 50px;
-            padding-top: 50px;
+            gap: 40px;
+            padding: 50px 0;
         }
 
         #app > * {
@@ -45,8 +42,17 @@
         #app > section {
             background-color: white;
             border-radius: 6px;
-            padding: 16px;
+            padding: 20px;
             box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25) , 0 8px 16px -8px rgba(0,0,0,0.3) , 0 -6px 16px -6px rgba(0,0,0,0.025);
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all .3s ease-out;
+        }
+
+        .open_section {
+            opacity: 1 !important;
+            transform: translateY(0)!important;
+            transition: all .3s ease-in-out;
         }
 
         h1 {
@@ -54,6 +60,11 @@
             font-size: 2.2em;
             font-weight: 500;
             color: white;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            margin: 20px 0 12px;
         }
 
         form {
@@ -150,6 +161,72 @@
             cursor: pointer;
             box-shadow: 0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3), 0 -6px 16px -6px rgba(0,0,0,0.025);
         }
+
+        #app > section > h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .content {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            gap: 6px 20px;
+        }
+
+        .content p {
+            flex: 1 0 45%;
+        }
+
+        .title {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            margin: 46px 0 12px;
+        }
+
+        .title:first-of-type {
+            margin-top: 0;
+        }
+
+        .title h2 {
+            margin: 0;
+        }
+
+        .title p {
+            font-weight: 400;
+            font-size: .9em;
+        }
+
+        .list {
+            margin: 0 12px 20px;
+            border-radius: 6px;
+            background-color: #FAFAFA;
+            box-shadow: rgba(0, 0, 0, 0.15) 0 8px 16px 0;
+        }
+
+        .list:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .list .title {
+            margin-bottom: 0 !important;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: #203a43;
+            font-size: .8em;
+            box-shadow: rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0.1) 0 20px 25px -5px, rgba(0, 0, 0, 0.04) 0 10px 10px -5px;
+        }
+
+        .list .title * {
+            color: white;
+        }
+
+        .list .content {
+            margin-top: 0;
+            padding: 16px;
+        }
     </style>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
@@ -159,7 +236,7 @@
 
     <article id="app">
         <header>
-            <h1>Information SIRET</h1>
+            <h1 @click="open = !open">Information SIRET</h1>
             <form @submit.prevent="fetchAPI">
                 <div :class="(error === 'siren') ? 'error' : ''">
                     <p>Le code SIREN est invalide.</p>
@@ -174,13 +251,62 @@
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </header>
+
         <section v-if="response && siret">
             <h2>Avec SIRET</h2>
             <p>{{ JSON.stringify(response) }}</p>
         </section>
-        <section v-if="response && !siret">
-            <h2>Sans SIRET</h2>
-            <p>{{ JSON.stringify(response) }}</p>
+
+        <section v-if="response && !siret" :class="(response && !siret && open) ? 'open_section' : ''">
+            <div class="title">
+                <h2>Unité légale</h2>
+                <p v-if="response['dateDernierTraitementUniteLegale']">Dernière mise à jour : {{ new Date(response["dateDernierTraitementUniteLegale"]).toLocaleString('fr-FR') }}</p>
+            </div>
+            <div class="content">
+                <p v-if="response['siren']">Code SIREN : {{ response["siren"] }}</p>
+                <p v-if="response['dateCreationUniteLegale']">Date de création : {{ parseDate(response["dateCreationUniteLegale"]) }}</p>
+                <p v-if="response['categorieEntreprise']">Catégorie de l'entreprise : {{ response["categorieEntreprise"] }}</p>
+                <p v-if="response['statutDiffusionUniteLegale']">Statut de diffusion : {{ response["statutDiffusionUniteLegale"] }}</p>
+                <p v-if="response['sigleUniteLegale']">Sigle : {{ response["sigleUniteLegale"] }}</p>
+                <p v-if="response['sexeUniteLegale']">Sexe : {{ response["sexeUniteLegale"] }}</p>
+                <p v-if="response['prenom1UniteLegale']">Prénom 1 : {{ response["prenom1UniteLegale"] }}</p>
+                <p v-if="response['prenom2UniteLegale']">Prénom 2 : {{ response["prenom2UniteLegale"] }}</p>
+                <p v-if="response['prenom3UniteLegale']">Prénom 3 : {{ response["prenom3UniteLegale"] }}</p>
+                <p v-if="response['prenom4UniteLegale']">Prénom 4 : {{ response["prenom4UniteLegale"] }}</p>
+                <p v-if="response['prenomUsuelUniteLegale']">Prénom usuel : {{ response["prenomUsuelUniteLegale"] }}</p>
+                <p v-if="response['pseudonymeUniteLegale']">Pseudonyme : {{ response["pseudonymeUniteLegale"] }}</p>
+                <p v-if="response['identifiantAssociationUniteLegale']">Identifiant Association : {{ response["identifiantAssociationUniteLegale"] }}</p>
+                <p v-if="response['trancheEffectifsUniteLegale']">Tranche d'effectifs : {{ response["trancheEffectifsUniteLegale"] }}</p>
+                <p v-if="response['anneeEffectifsUniteLegale']">Année effectifs : {{ response["anneeEffectifsUniteLegale"] }}</p>
+                <p v-if="response['anneeCategorieEntreprise']">Année de catégorie de l'entreprise : {{ response["anneeCategorieEntreprise"] }}</p>
+            </div>
+        </section>
+        <section v-if="response && !siret" :class="(response && !siret && open) ? 'open_section' : ''">
+            <div class="title" v-if="response['periodesUniteLegale']">
+                <h2>Périodes</h2>
+                <p>{{ response["nombrePeriodesUniteLegale"] }} valeurs</p>
+            </div>
+            <div class="list" v-for="periods in response['periodesUniteLegale']" :key="periods">
+                <div class="title">
+                    <h2 v-if="periods['dateFin']">Du {{ parseDate(periods["dateDebut"]) }} au {{ parseDate(periods["dateFin"]) }}</h2>
+                    <h2 v-else>Du {{ parseDate(periods["dateDebut"]) }}</h2>
+                </div>
+                <div class="content">
+                    <p v-if="periods['denominationUniteLegale']">Denomination : {{ periods["denominationUniteLegale"] }}</p>
+                    <p v-if="periods['denominationUsuelle1UniteLegale']">Dénomination usuelle 1 : {{ periods["denominationUsuelle1UniteLegale"] }}</p>
+                    <p v-if="periods['denominationUsuelle2UniteLegale']">Dénomination usuelle 2 : {{ periods["denominationUsuelle2UniteLegale"] }}</p>
+                    <p v-if="periods['denominationUsuelle3UniteLegale']">Dénomination usuelle 3 : {{ periods["denominationUsuelle3UniteLegale"] }}</p>
+                    <p v-if="periods['nomUniteLegale']">Nom : {{ periods["nomUniteLegale"] }}</p>
+                    <p v-if="periods['nomUsageUniteLegale']">Nom d'usage : {{ periods["nomUsageUniteLegale"] }}</p>
+                    <p v-if="periods['nicSiegeUniteLegale']">Code NIC du siège : {{ periods["nicSiegeUniteLegale"] }}</p>
+                    <p v-if="periods['activitePrincipaleUniteLegale']">Activité principale : {{ periods["activitePrincipaleUniteLegale"] }}</p>
+                    <p v-if="periods['categorieJuridiqueUniteLegale']">Catégorie juridique : {{ periods["categorieJuridiqueUniteLegale"] }}</p>
+                    <p v-if="periods['nomenclatureActivitePrincipaleUniteLegale']">Nomenclature de l'activité principale : {{ periods["nomenclatureActivitePrincipaleUniteLegale"] }}</p>
+                    <p v-if="periods['economieSocialeSolidaireUniteLegale']">Économie sociale et solidaire : {{ periods["economieSocialeSolidaireUniteLegale"] }}</p>
+                    <p v-if="periods['caractereEmployeurUniteLegale']">Caractère de l'employeur : {{ periods["caractereEmployeurUniteLegale"] }}</p>
+                    <p v-if="periods['etatAdministratifUniteLegale']">État administratif : {{ periods["etatAdministratifUniteLegale"] }}</p>
+                </div>
+            </div>
         </section>
     </article>
 
@@ -189,20 +315,27 @@
             el: '#app',
             data() {
                 return {
-                    siren: '',
-                    establishment: '',
+                    siren: '399134691',
+                    establishment: '', // 00191
                     headers: {
                         headers: {
                             "Authorization": "Bearer bf96b255-8239-33b3-9fcd-07043eb3a821",
                             "Content-Type": "application/json"
                         }
                     },
-                    response: null,
-                    error: false
+                    response: '',
+                    error: false,
+                    open: false,
                 }
             },
+            /*mounted() {
+                axios.get("./siren.json", this.headers).then(response => {
+                    this.response = response.data["uniteLegale"];
+                })
+            },*/
             methods: {
                 fetchAPI() {
+                    this.open = false;
                     if (this.siren.length < 9) {
                         this.error = "siren";
                         return;
@@ -213,13 +346,26 @@
                     }
                     if (this.siret) {
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siret/" + this.siret.toString(), this.headers).then(response => {
-                            this.response = response.data;
+                            this.response = response.data["etablissement"];
+                            this.open = true;
+                        }).catch(() => {
+                            this.response = '';
+                            this.error = "response_siret";
                         });
                     } else if (!this.establishment) {
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siren/" + this.siren.toString(), this.headers).then(response => {
-                            this.response = response.data;
+                            this.response = response.data["uniteLegale"];
+                            this.open = true;
+                        }).catch(() => {
+                            this.response = '';
+                            this.error = "response_siren";
                         });
+                    } else {
+                        this.error = "response";
                     }
+                },
+                parseDate(date) {
+                    return new Date(date).toLocaleString('fr-FR').split(',', 1)[0]
                 }
             },
             watch: {
