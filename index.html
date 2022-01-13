@@ -8,7 +8,9 @@
         /* Variables CSS */
         :root {
             --bg-color-left: #2c5364;
+            --bg-color-semi-left: #264755;
             --bg-color-center: #203a43;
+            --bg-color-semi-right: #172C34;
             --bg-color-right: #0f2027;
             --bg-color-section: white;
             --text-color: #0f2027;
@@ -221,7 +223,8 @@
             padding: 12px;
             margin-bottom: 0;
             border-radius: 6px;
-            background-color: var(--bg-color-center);
+            background: var(--bg-color-center);
+            background: linear-gradient(to right, var(--bg-color-semi-left), var(--bg-color-center), var(--bg-color-semi-right));
             box-shadow: rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, .1) 0 20px 25px -5px, rgba(0, 0, 0, .04) 0 10px 10px -5px;
             cursor: pointer;
         }
