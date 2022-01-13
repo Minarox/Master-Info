@@ -100,13 +100,14 @@
         }
 
         label, form div p {
+            opacity: 0;
             z-index: 0;
             position: absolute;
             left: 10px;
             top: 0;
             color: white;
             transform: translateY(0);
-            transition: transform .15s ease-in;
+            transition: all .15s ease-in;
         }
 
         form div p {
@@ -114,10 +115,11 @@
             bottom: 0;
             color: red;
             transform: translateY(0);
-            transition: transform .2s ease-in-out;
+            transition: all .2s ease-in-out;
         }
 
         .show {
+            opacity: 1;
             transform: translateY(-26px);
             transition: transform .2s ease-out;
         }
@@ -132,6 +134,7 @@
         }
 
         .error > p {
+            opacity: 1;
             transform: translateY(26px);
         }
 
