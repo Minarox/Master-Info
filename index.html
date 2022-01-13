@@ -231,21 +231,31 @@
             font-size: 1.1em;
         }
 
+        #app > article section:last-of-type article section header h2 {
+            padding-right: 12px;
+        }
+
         #app > article section:last-of-type article section header i {
-            padding-left: 12px;
-        }
-
-        #app > article section:last-of-type article section div {
-            padding: 16px;
-            /*max-height: 0;*/
-            /*overflow-y: hidden;*/
-        }
-
-        /* Affichage des erreurs */
-        .error {
             transition: all .15s ease-in-out;
         }
 
+        #app > article section:last-of-type article section div {
+            padding: 0 16px;
+            max-height: 0;
+            overflow-y: hidden;
+            transition: all .24s ease-in-out;
+        }
+
+        .open_periods header i {
+            transform: rotate(180deg);
+        }
+
+        .open_periods div {
+            padding: 16px !important;
+            max-height: 200px !important;
+        }
+
+        /* Affichage des erreurs */
         .error > input {
             padding: 6px 8px !important;
             border: 2px solid red !important;
@@ -442,7 +452,7 @@
                 <article>
                     <section v-for="periods in response['periodesEtablissement']" :key="periods">
                         <!-- Titre de la période -->
-                        <header>
+                        <header @click="togglePeriod">
                             <h2 v-if="periods['dateFin']">Du {{ parseDate(periods["dateDebut"]) }} au {{ parseDate(periods["dateFin"]) }}</h2>
                             <h2 v-else>Depuis le {{ parseDate(periods["dateDebut"]) }}</h2>
                             <p><i class="fas fa-chevron-down"></i></p>
@@ -493,9 +503,9 @@
                 </div>
             </section>
             <!-- Périodes -->
-            <section v-if="response['periodesEtablissement']">
+            <section v-if="response['periodesUniteLegale']">
                 <!-- Titre de section -->
-                <header v-if="response['periodesUniteLegale']">
+                <header>
                     <h2>Périodes</h2>
                     <p v-if="response['nombrePeriodesUniteLegale']">{{ response["nombrePeriodesUniteLegale"] }} valeurs</p>
                 </header>
@@ -503,7 +513,7 @@
                 <article>
                     <section v-for="periods in response['periodesUniteLegale']" :key="periods">
                         <!-- Titre de la période -->
-                        <header >
+                        <header @click="togglePeriod">
                             <h2 v-if="periods['dateFin']">Du {{ parseDate(periods["dateDebut"]) }} au {{ parseDate(periods["dateFin"]) }}</h2>
                             <h2 v-else>Depuis le {{ parseDate(periods["dateDebut"]) }}</h2>
                             <p><i class="fas fa-chevron-down"></i></p>
@@ -603,6 +613,9 @@
                 },
                 parseDate(date) {
                     return new Date(date).toLocaleString('fr-FR').split(',', 1)[0]
+                },
+                togglePeriod() {
+                    event.target.parentNode.classList.toggle('open_periods');
                 }
             },
             watch: {
