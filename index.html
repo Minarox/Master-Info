@@ -157,12 +157,12 @@
                 <div :class="(error === 'siren') ? 'error' : ''">
                     <p>Le code SIREN est invalide.</p>
                     <label for="siren" :class="(siren) ? 'show' : ''">Code SIREN</label>
-                    <input type="number" name="siren" id="siren" placeholder="Code SIREN" required v-model="siren">
+                    <input type="number" name="siren" id="siren" placeholder="Code SIREN" pattern="/[^\d]/g" required v-model="siren">
                 </div>
                 <div :class="(error === 'establishment') ? 'error' : ''">
                     <p>Le code Établissement est invalide.</p>
                     <label for="establishment" :class="(establishment) ? 'show' : ''">Code Établissement</label>
-                    <input type="number" name="establishment" id="establishment" placeholder="Code Établissement" v-model="establishment">
+                    <input type="number" name="establishment" id="establishment" placeholder="Code Établissement" pattern="/[^\d]/g" v-model="establishment">
                 </div>
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
@@ -220,11 +220,11 @@
             watch: {
                 siren: function (value) {
                     this.error = false;
-                    this.siren = value.replace(/[^\d.-]/g, '').substring(0, 9);
+                    this.siren = value.replace(/[^\d]/g, '').substring(0, 9);
                 },
                 establishment: function (value) {
                     this.error = false;
-                    this.establishment = value.replace(/[^\d.-]/g, '').substring(0, 5);
+                    this.establishment = value.replace(/[^\d]/g, '').substring(0, 5);
                 }
             },
             computed: {
