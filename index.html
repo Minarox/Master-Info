@@ -12,6 +12,12 @@
             --bg-color-center: #203a43;
             --bg-color-semi-right: #172C34;
             --bg-color-right: #0f2027;
+
+            --bg-color-error-section: #F8D7DA;
+            --bg-color-error-border: #FFA3AA;
+            --color-error: red;
+            --text-color-error: #842029;
+
             --bg-color-section: white;
             --text-color: #0f2027;
         }
@@ -101,7 +107,7 @@
             height: 42px;
             padding: 10px;
             border-radius: 6px;
-            border: 0 solid red;
+            border: 0 solid var(--color-error);
             outline: none;
             letter-spacing: 1px;
             box-shadow: 0 13px 27px -5px rgba(50, 50, 93, .25), 0 8px 16px -8px rgba(0, 0, 0, .3), 0 -6px 16px -6px rgba(0, 0, 0, .025);
@@ -135,7 +141,7 @@
         #app > header form div p {
             top: auto;
             bottom: 0;
-            color: red;
+            color: var(--color-error);
             transform: translateY(0);
             transition: all .2s ease-in-out;
         }
@@ -261,7 +267,7 @@
         /* Affichage des erreurs */
         .error > input {
             padding: 6px 8px !important;
-            border: 2px solid red !important;
+            border: 2px solid var(--color-error) !important;
         }
 
         .error > p {
@@ -269,7 +275,31 @@
             transform: translateY(26px) !important;
         }
 
-        /* TODO: CSS de l'affichage des erreurs */
+        .error > section {
+            border: 2px solid var(--bg-color-error-border);
+            background-color: var(--bg-color-error-section) !important;
+        }
+
+        .error > section header {
+            margin-bottom: 0 !important;
+            flex-flow: column nowrap !important;
+        }
+
+        .error > section header * {
+            color: var(--text-color-error);
+            font-size: 1.1em !important;
+            font-weight: 400;
+            text-align: center;
+            width: 100%;
+        }
+
+        .error > section header h2 i {
+            margin-bottom: 10px !important;
+            font-size: 1.3em !important;
+            font-weight: bold !important;
+        }
+
+        /* TODO: Transitions entre les réponses */
 
         /* Affichage mobile */
         @media screen and (max-width: 700px) {
@@ -318,9 +348,6 @@
                 flex-flow: row nowrap;
                 align-items: center;
             }
-
-            /* Affichage des erreurs */
-            /* TODO: CSS de l'affichage des erreurs sur mobile */
         }
     </style>
     <!-- Ajout de la bibliothèque FontAwesome pour les icones -->
@@ -358,6 +385,9 @@
             </form>
         </header>
 
+        <transition name="slide">
+
+        </transition>
         <!-- Réponse pour le code SIRET (SIREN + Établissement) -->
         <article v-if="response && response['siret']">
             <!-- Établissement -->
@@ -548,17 +578,18 @@
             <section>
                 <!-- Titre de section -->
                 <header>
-                    <h2 v-if="error === 'response_siret'">
+                    <h2>
                         <i class="fas fa-exclamation-triangle"></i>
                         <!-- Message d'erreur pour le code SIRET -->
                         <span v-if="error === 'response_siret'">
-                            La combinaison des codes que vous avez renseigné ne correspond à aucun numéro de SIRET existant.
+                            Le code SIRET que vous avez renseigné ne correspond à aucun établissement.
                         </span>
                         <!-- Message d'erreur pour le code SIREN -->
                         <span v-if="error === 'response_siren'">
-                            Aucune correspondance trouvé avec le code SIREN que vous avez renseigné.
+                            Le code SIREN que vous avez renseigné ne correspond à aucune unité légale.
                         </span>
                     </h2>
+                    <p>Veuillez effectuer une nouvelle recherche.</p>
                 </header>
             </section>
         </article>
