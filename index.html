@@ -603,7 +603,7 @@
             </article>
 
             <!-- Réponse en cas d'erreurs -->
-            <article class="error" v-if="error === 'response_siret' || error === 'response_siren'">
+            <article class="error" v-if="error === 'response_siret' || error === 'response_siren' || error === 'error'">
                 <!-- Erreur -->
                 <section>
                     <!-- Titre de section -->
@@ -612,14 +612,18 @@
                             <i class="fas fa-exclamation-triangle"></i>
                             <!-- Message d'erreur pour le code SIRET -->
                             <span v-if="error === 'response_siret'">
-                            Le code SIRET que vous avez renseigné ne correspond à aucun établissement.
-                        </span>
+                                Le code SIRET que vous avez renseigné ne correspond à aucun établissement.
+                            </span>
                             <!-- Message d'erreur pour le code SIREN -->
                             <span v-if="error === 'response_siren'">
-                            Le code SIREN que vous avez renseigné ne correspond à aucune unité légale.
-                        </span>
+                                Le code SIREN que vous avez renseigné ne correspond à aucune unité légale.
+                            </span>
+                            <!-- Autre erreur -->
+                            <span v-if="error === 'error'">
+                                Erreur d'exécution.
+                            </span>
                         </h2>
-                        <p>Veuillez effectuer une nouvelle recherche.</p>
+                        <p>Veuillez vérifier les informations saisies.</p>
                     </header>
                 </section>
             </article>
@@ -678,7 +682,8 @@
                             this.error = "response_siren";
                         });
                     } else {
-                        this.error = "response";
+                        // Message d'erreur si aucun appel API à été effectué
+                        this.error = "error";
                     }
                 },
                 parseDate(date) {
