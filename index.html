@@ -409,7 +409,11 @@
                     <input type="number" name="establishment" id="establishment" placeholder="Code Établissement" pattern="/[^\d]/g" v-model="establishment">
                 </div>
                 <!-- Bouton d'envoie -->
-                <button type="submit"><span>Lancer la recherche</span><i class="fas fa-search"></i></button>
+                <button type="submit">
+                    <span>Lancer la recherche</span>
+                    <i v-if="load" class="fas fa-spinner fa-pulse"></i>
+                    <i v-else class="fas fa-search"></i>
+                </button>
             </form>
         </header>
 
@@ -635,38 +639,41 @@
                             "Content-Type": "application/json"
                         }
                     },
+                    load: false,
                     response: '',
                     error: false
                 }
             },
-            /*mounted() {
-                axios.get("./siren.json", this.headers).then(response => {
-                    this.response = response.data["uniteLegale"];
-                })
-            },*/
             methods: {
                 async fetchAPI() {
+                    this.load = true;
                     this.response = '';
                     await this.sleep(500)
                     if (this.siren.length < 9) {
+                        this.load = false;
                         this.error = "siren";
                         return;
                     }
                     if (this.establishment.length >= 1 && this.establishment.length < 5) {
+                        this.load = false;
                         this.error = "establishment";
                         return;
                     }
                     if (this.siret) {
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siret/" + this.siret.toString(), this.headers).then(response => {
+                            this.load = false;
                             this.response = response.data["etablissement"];
                         }).catch(() => {
+                            this.load = false;
                             this.response = '';
                             this.error = "response_siret";
                         });
                     } else if (!this.establishment) {
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siren/" + this.siren.toString(), this.headers).then(response => {
+                            this.load = false;
                             this.response = response.data["uniteLegale"];
                         }).catch(() => {
+                            this.load = false;
                             this.response = '';
                             this.error = "response_siren";
                         });
