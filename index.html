@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
-    <title>Recherche de SIRET</title>
+    <title>Information Sirene</title>
     <style>
         /* Variables CSS */
         :root {
@@ -390,7 +390,7 @@
         <!-- Formulaire de saisie -->
         <header>
             <!-- Titre général -->
-            <h1>Information SIRET</h1>
+            <h1>Information Sirene</h1>
             <form @submit.prevent="fetchAPI">
                 <!-- Code SIREN -->
                 <div :class="(error === 'siren') ? 'error' : ''">
@@ -631,8 +631,8 @@
             el: '#app',
             data() {
                 return {
-                    siren: '399134691',
-                    establishment: '00191', // 00191
+                    siren: '', // 399134691
+                    establishment: '', // 00191
                     headers: {
                         headers: {
                             "Authorization": "Bearer bf96b255-8239-33b3-9fcd-07043eb3a821",
