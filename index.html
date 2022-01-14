@@ -20,6 +20,7 @@
 
             --bg-color-section: white;
             --text-color: #0f2027;
+            --text-color-alt: white;
         }
 
         /* Modification de la barre de défilement */
@@ -60,7 +61,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             scroll-behavior: smooth;
-            /*overflow-x: hidden;*/
         }
 
         #app {
@@ -81,7 +81,7 @@
             text-align: center;
             font-size: 2.2em;
             font-weight: 500;
-            color: white;
+            color: var(--text-color-alt);
         }
 
         #app > header form {
@@ -133,7 +133,7 @@
             position: absolute;
             left: 10px;
             top: 0;
-            color: white;
+            color: var(--text-color-alt);
             transform: translateY(0);
             transition: all .15s ease-in;
         }
@@ -152,7 +152,7 @@
             justify-content: center;
             width: 42px;
             height: 42px;
-            background-color: white;
+            background-color: var(--bg-color-section);
             border-radius: 6px;
             border: none;
             padding: 6px;
