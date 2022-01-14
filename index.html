@@ -650,9 +650,7 @@
             },
             methods: {
                 async fetchAPI() {
-                    this.load = true;
-                    this.response = '';
-                    await this.sleep(500)
+                    // Vérification des codes renseignés
                     if (this.siren.length < 9) {
                         this.load = false;
                         this.error = "siren";
@@ -663,20 +661,30 @@
                         this.error = "establishment";
                         return;
                     }
+                    // Lancement de l'animation de chargement et suppression de la précédente réponse
+                    this.load = true;
+                    this.response = '';
+                    await this.sleep(500)
+                    // Appels vers l'API
                     if (this.siret) {
+                        // Avec un code SIRET (SIREN + Établissement)
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siret/" + this.siret.toString(), this.headers).then(response => {
+                            // Supprimer l'animation de chargement et charger la réponse de l'API
                             this.load = false;
                             this.response = response.data["etablissement"];
                         }).catch(() => {
+                            // Message d'erreur si non trouvé
                             this.load = false;
                             this.response = '';
                             this.error = "response_siret";
                         });
                     } else if (!this.establishment) {
                         axios.get("https://api.insee.fr/entreprises/sirene/V3/siren/" + this.siren.toString(), this.headers).then(response => {
+                            // Supprimer l'animation de chargement et charger la réponse de l'API
                             this.load = false;
                             this.response = response.data["uniteLegale"];
                         }).catch(() => {
+                            // Message d'erreur si non trouvé
                             this.load = false;
                             this.response = '';
                             this.error = "response_siren";
@@ -687,32 +695,39 @@
                     }
                 },
                 parseDate(date) {
+                    // Change le format de la date en JJ-MM-AAAA
                     return new Date(date).toLocaleString('fr-FR').split(',', 1)[0]
                 },
                 togglePeriod() {
+                    // Basculer l'affichage des périodes
                     event.target.parentNode.classList.toggle('open_periods');
                 },
                 sleep(ms) {
+                    // Effectue une pause d'exécution du programme
                     return new Promise(resolve => setTimeout(resolve, ms));
                 }
             },
             watch: {
                 siren: function (value) {
+                    // Formatage du champ de saisie du code SIREN
                     this.error = false;
                     this.siren = value.replace(/[^\d]/g, '').substring(0, 9);
                 },
                 establishment: function (value) {
+                    // Formatage du champ de saisie du code Établissement
                     this.error = false;
                     this.establishment = value.replace(/[^\d]/g, '').substring(0, 5);
                 }
             },
             computed: {
                 siret: function () {
+                    // Génération automatique du code SIRET en fonction des informations des champs de saisie
                     if (this.siren.length === 9 && this.establishment.length === 5)
                         return this.siren.toString() + this.establishment.toString();
                     return false;
                 },
                 address: function() {
+                    // Génération automatique de l'adresse complète
                     return this.response["adresseEtablissement"]["numeroVoieEtablissement"] + ' '
                         + this.response["adresseEtablissement"]["typeVoieEtablissement"] + ' '
                         + this.response["adresseEtablissement"]["libelleVoieEtablissement"] + ', '
