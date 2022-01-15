@@ -28,8 +28,7 @@ return function (Request $request, RequestHandler $handler): Response {
         ->withHeader("Access-Control-Allow-Methods", implode(',', $methods))
         ->withHeader("Access-Control-Allow-Headers", $requestHeaders)
         ->withHeader("Access-Control-Allow-Credentials", "true")
-        ->withHeader("Content-Type", "application/json")
-        ->withStatus($handler->handle($request)->getStatusCode());
+        ->withHeader("Content-Type", "application/json");
 
     if ($request->getMethod() == "OPTIONS") return $response->withStatus(200);
     return $response;
