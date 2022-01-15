@@ -19,11 +19,12 @@ class SuccessCodeTest extends TestCase
     private SuccessCode $successCode;
 
     /**
-     * Test Success function
+     * Test Success function in "Response" mode
      */
-    public function testSuccess()
+    public function testSuccessResponse()
     {
         $result = $this->successCode->success();
+
         self::assertSame(
             json_encode([
                 "code_value" => 200,
@@ -32,8 +33,15 @@ class SuccessCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
+    }
 
+    /**
+     * Test Success function in "Response" mode with custom description
+     */
+    public function testSuccessResponseCustom()
+    {
         $result = $this->successCode->success("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 200,
@@ -42,17 +50,15 @@ class SuccessCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
+    }
 
-        $result = $this->successCode->success("Success", false);
-        self::assertSame(
-            json_encode([
-                "code_value" => 200,
-                "code_description" => "Success"
-            ]),
-            $result
-        );
-
+    /**
+     * Test Success function in "string" mode
+     */
+    public function testSuccessString()
+    {
         $result = $this->successCode->success("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 200,
@@ -63,11 +69,12 @@ class SuccessCodeTest extends TestCase
     }
 
     /**
-     * Test Created function
+     * Test Created function in "Response" mode
      */
-    public function testCreated()
+    public function testCreatedResponse()
     {
         $result = $this->successCode->created();
+
         self::assertSame(
             json_encode([
                 "code_value" => 201,
@@ -76,8 +83,15 @@ class SuccessCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(201, $result->getStatusCode());
+    }
 
+    /**
+     * Test Created function in "Response" mode with custom description
+     */
+    public function testCreatedResponseCustom()
+    {
         $result = $this->successCode->created("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 201,
@@ -86,17 +100,15 @@ class SuccessCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(201, $result->getStatusCode());
+    }
 
-        $result = $this->successCode->created("Created", false);
-        self::assertSame(
-            json_encode([
-                "code_value" => 201,
-                "code_description" => "Created"
-            ]),
-            $result
-        );
-
+    /**
+     * Test Created function in "string" mode
+     */
+    public function testCreatedString()
+    {
         $result = $this->successCode->created("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 201,
