@@ -19,11 +19,12 @@ class ErrorCodeTest extends TestCase
     private ErrorCode $errorCode;
 
     /**
-     * Test Custom error code function
+     * Test Custom error code function in "Response" mode
      */
-    public function testCustomError()
+    public function testCustomErrorResponse()
     {
         $result = $this->errorCode->customError(401, "Custom Error Code");
+
         self::assertSame(
             json_encode([
                 "code_value" => 401,
@@ -32,8 +33,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
+    }
 
+    /**
+     * Test Custom error code function in "string" mode
+     */
+    public function testCustomErrorString()
+    {
         $result = $this->errorCode->customError(402, "Custom Error", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 402,
@@ -44,11 +52,12 @@ class ErrorCodeTest extends TestCase
     }
 
     /**
-     * Test Bad request function
+     * Test Bad request function in "Response" mode
      */
-    public function testBadRequest()
+    public function testBadRequestResponse()
     {
         $result = $this->errorCode->badRequest();
+
         self::assertSame(
             json_encode([
                 "code_value" => 400,
@@ -57,8 +66,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(400, $result->getStatusCode());
+    }
 
+    /**
+     * Test Bad request function in "Response" mode with custom description
+     */
+    public function testBadRequestResponseCustom()
+    {
         $result = $this->errorCode->badRequest("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 400,
@@ -67,8 +83,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(400, $result->getStatusCode());
+    }
 
+    /**
+     * Test Bad request function in "string" mode
+     */
+    public function testBadRequestString()
+    {
         $result = $this->errorCode->badRequest("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 400,
@@ -79,11 +102,12 @@ class ErrorCodeTest extends TestCase
     }
 
     /**
-     * Test Unauthorized function
+     * Test Unauthorized function in "Response" mode
      */
-    public function testUnauthorized()
+    public function testUnauthorizedResponse()
     {
         $result = $this->errorCode->unauthorized();
+
         self::assertSame(
             json_encode([
                 "code_value" => 401,
@@ -92,8 +116,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
+    }
 
+    /**
+     * Test Unauthorized function in "Response" mode with custom description
+     */
+    public function testUnauthorizedResponseCustom()
+    {
         $result = $this->errorCode->unauthorized("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 401,
@@ -102,8 +133,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
+    }
 
+    /**
+     * Test Unauthorized function in "Response" mode
+     */
+    public function testUnauthorizedString()
+    {
         $result = $this->errorCode->unauthorized("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 401,
@@ -114,11 +152,12 @@ class ErrorCodeTest extends TestCase
     }
 
     /**
-     * Test Not found function
+     * Test Not found function in "Response" mode
      */
-    public function testNotFound()
+    public function testNotFoundResponse()
     {
         $result = $this->errorCode->notFound();
+
         self::assertSame(
             json_encode([
                 "code_value" => 404,
@@ -127,8 +166,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(404, $result->getStatusCode());
+    }
 
+    /**
+     * Test Not found function in "Response" mode with custom description
+     */
+    public function testNotFoundResponseCustom()
+    {
         $result = $this->errorCode->notFound("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 404,
@@ -137,8 +183,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(404, $result->getStatusCode());
+    }
 
+    /**
+     * Test Not found function in "string" mode
+     */
+    public function testNotFoundString()
+    {
         $result = $this->errorCode->notFound("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 404,
@@ -149,11 +202,12 @@ class ErrorCodeTest extends TestCase
     }
 
     /**
-     * Test Method not allowed function
+     * Test Method not allowed function in "Response" mode
      */
-    public function testMethodNotAllowed()
+    public function testMethodNotAllowedResponse()
     {
         $result = $this->errorCode->methodNotAllowed();
+
         self::assertSame(
             json_encode([
                 "code_value" => 405,
@@ -162,8 +216,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(405, $result->getStatusCode());
+    }
 
+    /**
+     * Test Method not allowed function in "Response" mode with custom description
+     */
+    public function testMethodNotAllowedResponseCustom()
+    {
         $result = $this->errorCode->methodNotAllowed("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 405,
@@ -172,9 +233,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(405, $result->getStatusCode());
+    }
 
-
+    /**
+     * Test Method not allowed function in "string" mode
+     */
+    public function testMethodNotAllowedString()
+    {
         $result = $this->errorCode->methodNotAllowed("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 405,
@@ -185,11 +252,12 @@ class ErrorCodeTest extends TestCase
     }
 
     /**
-     * Test Conflict function
+     * Test Conflict function in "Response" mode
      */
-    public function testConflict()
+    public function testConflictResponse()
     {
         $result = $this->errorCode->conflict();
+
         self::assertSame(
             json_encode([
                 "code_value" => 409,
@@ -198,8 +266,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(409, $result->getStatusCode());
+    }
 
+    /**
+     * Test Conflict function in "Response" mode with custom description
+     */
+    public function testConflictResponseCustom()
+    {
         $result = $this->errorCode->conflict("custom");
+
         self::assertSame(
             json_encode([
                 "code_value" => 409,
@@ -208,8 +283,15 @@ class ErrorCodeTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(409, $result->getStatusCode());
+    }
 
+    /**
+     * Test Conflict function in "string" mode
+     */
+    public function testConflictString()
+    {
         $result = $this->errorCode->conflict("custom", false);
+
         self::assertSame(
             json_encode([
                 "code_value" => 409,
