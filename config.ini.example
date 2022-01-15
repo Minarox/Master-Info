@@ -16,3 +16,11 @@ username  = "example_user"
 password  = "example_password"
 charset   = "utf8mb4"
 collation = "utf8mb14_unicode_ci"
+
+[session]
+token_lifetime = "3600"
+maxUsers       = "30"
+
+[groups]
+usersPerGroup = "4"
+lastGroupMod  = "LAST_MIN"
