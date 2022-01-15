@@ -6,6 +6,9 @@ namespace app;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Codes\ErrorCode;
+use NotFound;
+use BadRequest;
 
 /**
  * Check if user is connected and authorized to use the app before execute functions
@@ -13,12 +16,37 @@ use Slim\Psr7\Response;
  * @param Request $request
  * @param RequestHandler $handler
  * @return Response
+ * @throws NotFound|BadRequest
  */
 return function (Request $request, RequestHandler $handler): Response {
     // Check if request is for a require logged function
-    /*if (!str_starts_with($request->getRequestTarget(), "/")) {
+    if (!str_starts_with($request->getRequestTarget(), "/api/login")) {
+        $error = new ErrorCode();
+        if (empty($request->getHeader("Authorization"))) return $error->unauthorized();
 
-    }*/
+        $token = explode(' ', ($request->getHeader("Authorization"))[0]);
+        $database = new Database();
+
+        $user = $database->find(
+            "Users",
+            ["id", "expire"],
+            ["username" => $token[0], "token" => $token[1]],
+            true,
+            null,
+            false
+        );
+
+        if (!$user) return $error->unauthorized();
+        if ($user["expire"] < date("Y-m-d H:i:s")) {
+            $database->update(
+                "Users",
+                ["token" => "null", "expire" => "null"],
+                ["id" => $user["id"]]
+            );
+
+            return $error->unauthorized();
+        }
+    }
 
     // Return request (continue the execution)
     return $handler->handle($request);
