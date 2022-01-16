@@ -83,7 +83,7 @@ class SessionController extends Controller
     }
 
     /**
-     * Disconnect user from the app
+     * Get current session information
      *
      * Usage: GET /session
      *
