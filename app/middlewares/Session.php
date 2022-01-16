@@ -29,7 +29,7 @@ return function (Request $request, RequestHandler $handler): Response {
 
         $user = $database->find(
             "Users",
-            ["id", "expire"],
+            ['*'],
             ["username" => $token[0], "token" => $token[1]],
             true,
             exception: false
@@ -45,6 +45,8 @@ return function (Request $request, RequestHandler $handler): Response {
 
             return $error->unauthorized();
         }
+
+        $GLOBALS["user"] = $user;
     }
 
     // Return request (continue the execution)
