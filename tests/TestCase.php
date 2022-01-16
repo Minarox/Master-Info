@@ -64,6 +64,29 @@ class TestCase extends PHPUnit_TestCase
     }
 
     /**
+     * Update config.ini file
+     *
+     * @param $section
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    function updateConfig($section, $key, $value) {
+        $config_data = parse_ini_file(__DIR__ . "/../config.ini", true);
+        $config_data[$section][$key] = $value;
+        $new_content = '';
+        foreach ($config_data as $section => $section_content) {
+            $section_content = array_map(function($value, $key) {
+                return "$key='$value'";
+            }, array_values($section_content), array_keys($section_content));
+            $section_content = implode("\n", $section_content);
+            $new_content .= "[$section]\n$section_content\n";
+        }
+        file_put_contents(__DIR__ . "/../config.ini", $new_content);
+        $GLOBALS["config"] = parse_ini_file(__DIR__ . "/../config.ini", true);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void {
