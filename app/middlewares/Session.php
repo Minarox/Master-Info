@@ -32,8 +32,7 @@ return function (Request $request, RequestHandler $handler): Response {
             ["id", "expire"],
             ["username" => $token[0], "token" => $token[1]],
             true,
-            null,
-            false
+            exception: false
         );
 
         if (!$user) return $error->unauthorized();

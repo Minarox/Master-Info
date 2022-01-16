@@ -61,7 +61,7 @@ class Database
      * @return array|bool
      * @throws NotFound|BadRequest
      */
-    public function find(string $table, array $values = ['*'], array $selectors = ['*'], bool $findOne = false, string $order = null, bool $exception = true)
+    public function find(string $table, array $values = ['*'], array $selectors = ['*'], bool $findOne = false, string $order = null, bool $exception = true): bool|array
     {
         // Setting up variables
         $selectors_keys = array_keys($selectors);
@@ -264,20 +264,20 @@ class Database
     /**
      * Check if return value is empty
      *
-     * @param array|boolean $data
+     * @param boolean|array $data
+     * @param int $error
      * @return array|boolean
-     * @throws NotFound|BadRequest
+     * @throws BadRequest
+     * @throws NotFound
      */
-    private function containsValues($data, int $error = 0)
+    private function containsValues(bool|array $data, int $error = 0): bool|array
     {
         // Checks if the returned value is correct
-        if (is_bool($data) && $data == false || empty($data)) {
-            switch ($error) {
-                case 1:
-                    throw new BadRequest("The database return an error when executing the query");
-                default:
-                    throw new NotFound("Nothing was found in the database");
-            }
+        if (empty($data)) {
+            throw match ($error) {
+                1 => new BadRequest("The database return an error when executing the query"),
+                default => new NotFound("Nothing was found in the database"),
+            };
         }
 
         // Returns the data
