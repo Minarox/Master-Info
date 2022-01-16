@@ -17,7 +17,7 @@ class AdminController extends Controller
     /**
      * Set max user account number
      *
-     * Usage: POST /admin/max-users
+     * Usage: POST /admin/max-users | Scope: admin
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
@@ -40,7 +40,7 @@ class AdminController extends Controller
     /**
      * Set max users per group number
      *
-     * Usage: POST admin/users-per-group
+     * Usage: POST /admin/users-per-group | Scope: admin
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
@@ -63,7 +63,7 @@ class AdminController extends Controller
     /**
      * Set last group mode
      *
-     * Usage: POST /admin/last-group
+     * Usage: POST /admin/last-group | Scope: admin
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
@@ -89,7 +89,7 @@ class AdminController extends Controller
     /**
      * Get users list
      *
-     * Usage: GET /admin/users
+     * Usage: GET /admin/users | Scope: admin
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
@@ -114,9 +114,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Get users list
+     * Delete user from the database
      *
-     * Usage: DELETE /admin/user/{user_id}
+     * Usage: DELETE /admin/user/{user_id} | Scope: admin
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
