@@ -23,16 +23,16 @@ class Database
     public function __construct()
     {
         // Get information from .ini file
-        $driver = CONFIG["database"]["driver"];
-        $host = CONFIG["database"]["host"];
-        $port = CONFIG["database"]["port"];
-        $dbname = CONFIG["database"]["database"];
+        $driver = $GLOBALS["config"]["database"]["driver"];
+        $host = $GLOBALS["config"]["database"]["host"];
+        $port = $GLOBALS["config"]["database"]["port"];
+        $dbname = $GLOBALS["config"]["database"]["database"];
 
         // Make new connexion to database
         $pdo = new PDO(
             "$driver:host=$host; port=$port; dbname=$dbname",
-            CONFIG["database"]["username"],
-            CONFIG["database"]["password"]
+            $GLOBALS["config"]["database"]["username"],
+            $GLOBALS["config"]["database"]["password"]
         );
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
