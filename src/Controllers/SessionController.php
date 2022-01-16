@@ -94,6 +94,7 @@ class SessionController extends Controller
      */
     public function currentSession(Request $request, Response $response): Response
     {
+        if (empty($request->getHeader("Authorization"))) return $this->errorCode()->unauthorized();
         $token = explode(' ', ($request->getHeader("Authorization"))[0]);
 
         $response->getBody()->write(
@@ -121,6 +122,7 @@ class SessionController extends Controller
      */
     public function logout(Request $request, Response $response): Response
     {
+        if (empty($request->getHeader("Authorization"))) return $this->errorCode()->unauthorized();
         $token = explode(' ', ($request->getHeader("Authorization"))[0]);
 
         $this->database()->update(
