@@ -24,6 +24,7 @@ return function (App $app) {
     $app->get("/logout", [SessionController::class, "logout"]);
 
     $app->group("/admin", function (RouteCollectorProxy $group) {
+        $group->get("/config", [AdminController::class, "getConfig"]);
         $group->post("/max-users", [AdminController::class, "setMaxUsers"]);
         $group->post("/users-per-group", [AdminController::class, "setUsersPerGroup"]);
         $group->post("/last-group", [AdminController::class, "setLastGroupConfig"]);
