@@ -4,6 +4,7 @@ declare(strict_types=1);
 use app\Database;
 use Codes\ErrorCode;
 use Codes\SuccessCode;
+use Slim\Psr7\Request;
 
 /**
  * Abstract class for Controllers
@@ -79,6 +80,35 @@ abstract class Controller
     protected function getDate(): string
     {
         return $this->date;
+    }
+
+    /**
+     * Parse request body into array
+     *
+     * @param Request $request
+     * @return array
+     * @throws BadRequest
+     */
+    protected function parseBody(Request $request): array
+    {
+        $body = $request->getBody()->__toString();
+        $content_type = $request->getHeader("Content-Type");
+        if (empty($body) && empty($content_type)) throw new BadRequest("Body is empty");
+
+        switch ($content_type[0]) {
+            case "application/x-www-form-urlencoded":
+                parse_str($body, $data);
+                return $data;
+            case "application/json":
+                $result = json_decode($body, true);
+                if (!is_array($result)) throw new BadRequest("JSON malformed");
+                return $result;
+            case "text/xml":
+            case "application/xml":
+                return (array) simplexml_load_string($body);
+            default:
+                throw new BadRequest("Unable to parse body");
+        }
     }
 
     /**

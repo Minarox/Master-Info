@@ -29,7 +29,7 @@ class SessionController extends Controller
      */
     public function login(Request $request, Response $response): Response
     {
-        $body = $this->isEmpty($request->getParsedBody());
+        $body = $this->parseBody($request);
         $this->checkExist("username", $body);
 
         $token = $this->randString(60);

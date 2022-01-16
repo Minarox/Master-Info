@@ -31,7 +31,6 @@ $app->setBasePath("/api");
     ->setErrorHandler(HttpMethodNotAllowedException::class, function() { return (new ErrorCode)->methodNotAllowed(); });
 
 # Add middleware for session and CORS
-$app->addBodyParsingMiddleware();
 $app->add(require_once __DIR__ . "/../app/middlewares/Session.php");
 $app->add(require_once __DIR__ . "/../app/middlewares/CORS.php");
 $app->addRoutingMiddleware();
