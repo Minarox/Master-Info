@@ -94,15 +94,12 @@ class SessionController extends Controller
      */
     public function currentSession(Request $request, Response $response): Response
     {
-        if (empty($request->getHeader("Authorization"))) return $this->errorCode()->unauthorized();
-        $token = explode(' ', ($request->getHeader("Authorization"))[0]);
-
         $response->getBody()->write(
             json_encode(
                 $this->database()->find(
                     "Users",
                     ['*'],
-                    ["username" => $token[0], "token" => $token[1]],
+                    ["username" => $GLOBALS["user"]["username"], "token" => $GLOBALS["user"]["token"]],
                     true
                 )
             )
@@ -122,13 +119,10 @@ class SessionController extends Controller
      */
     public function logout(Request $request, Response $response): Response
     {
-        if (empty($request->getHeader("Authorization"))) return $this->errorCode()->unauthorized();
-        $token = explode(' ', ($request->getHeader("Authorization"))[0]);
-
         $this->database()->update(
             "Users",
             ["token" => "null", "expire" => "null"],
-            ["username" => $token[0], "token" => $token[1]]
+            ["username" => $GLOBALS["user"]["username"], "token" => $GLOBALS["user"]["token"]]
         );
         return $this->successCode()->success();
     }

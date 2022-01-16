@@ -28,7 +28,7 @@ class SessionControllerTest extends TestCase
     public function testLogin()
     {
         $test_user_id = $this->test_user["id"];
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit"], false);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit"]);
         $result = $this->sessionController->login($request, $this->response);
 
         self::assertSame(
@@ -45,7 +45,7 @@ class SessionControllerTest extends TestCase
      */
     public function testLoginWithoutAccount()
     {
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"], false);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"]);
         $result = $this->sessionController->login($request, $this->response);
         $test_user_id = (json_decode($result->getBody()->__toString(), true))["id"];
 
@@ -68,7 +68,7 @@ class SessionControllerTest extends TestCase
         $temp = $GLOBALS["config"]["session"]["maxUsers"];
         $GLOBALS["config"]["session"]["maxUsers"] = 0;
 
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"], false);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"]);
         $result = $this->sessionController->login($request, $this->response);
 
         self::assertSame(
@@ -90,6 +90,7 @@ class SessionControllerTest extends TestCase
      */
     public function testSession()
     {
+        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("GET", "/session");
         $result = $this->sessionController->currentSession($request, $this->response);
         $test_user_id = $this->test_user["id"];
@@ -102,32 +103,13 @@ class SessionControllerTest extends TestCase
     }
 
     /**
-     * Test session function without token
-     *
-     * @throws BadRequest|NotFound
-     */
-    public function testSessionWithoutToken()
-    {
-        $request = $this->createRequest("GET", "/session", connected: false);
-        $result = $this->sessionController->currentSession($request, $this->response);
-
-        self::assertSame(
-            json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
-            ]),
-            $result->getBody()->__toString()
-        );
-        self::assertSame(401, $result->getStatusCode());
-    }
-
-    /**
      * Test logout function
      *
      * @throws BadRequest|NotFound
      */
     public function testLogout()
     {
+        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("GET", "/logout");
         $result = $this->sessionController->logout($request, $this->response);
 
@@ -139,26 +121,6 @@ class SessionControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
-    }
-
-    /**
-     * Test logout function without token
-     *
-     * @throws BadRequest|NotFound
-     */
-    public function testLogoutWithoutToken()
-    {
-        $request = $this->createRequest("GET", "/logout", connected: false);
-        $result = $this->sessionController->logout($request, $this->response);
-
-        self::assertSame(
-            json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
-            ]),
-            $result->getBody()->__toString()
-        );
-        self::assertSame(401, $result->getStatusCode());
     }
 
     /**

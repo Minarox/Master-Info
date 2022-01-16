@@ -38,7 +38,7 @@ class TestCase extends PHPUnit_TestCase
      * @param bool $connected
      * @return Request
      */
-    protected function createRequest(string $method, string $path, array $body = [], bool $connected = true): Request
+    protected function createRequest(string $method, string $path, array $body = []): Request
     {
         $uri = new Uri('', '', 80, $path);
         $stream = (new StreamFactory())->createStream(json_encode($body));
@@ -46,7 +46,6 @@ class TestCase extends PHPUnit_TestCase
         $headers = new Headers();
         $headers->addHeader("Content-type", "application/json");
         $headers->addHeader("Cache-control", "no-cache");
-        if ($connected) $headers->addHeader("Authorization", $this->test_user["username"] . ' ' . $this->test_user["token"]);
 
         return new Request($method, $uri, $headers, [], [], $stream);
     }
