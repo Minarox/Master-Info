@@ -111,19 +111,6 @@ abstract class Controller
         }
     }
 
-    /**
-     * Check if body array is empty
-     *
-     * @param array $body parsedBody returned by the request
-     * @return array
-     * @throws BadRequest if body is empty
-     */
-    protected function isEmpty(array $body): array
-    {
-        if (!$body) throw new BadRequest("Body is empty");
-        return $body;
-    }
-
 
     /**
      * Check if value exist in array and in database
@@ -173,5 +160,28 @@ abstract class Controller
         // Password generator with custom length
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return substr(str_shuffle($chars), 0, $length);
+    }
+
+    /**
+     * Update config.ini file
+     *
+     * @param $section
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    function updateConfig($section, $key, $value) {
+        $config_data = parse_ini_file(__DIR__ . "/../config.ini", true);
+        $config_data[$section][$key] = $value;
+        $new_content = '';
+        foreach ($config_data as $section => $section_content) {
+            $section_content = array_map(function($value, $key) {
+                return "$key='$value'";
+            }, array_values($section_content), array_keys($section_content));
+            $section_content = implode("\n", $section_content);
+            $new_content .= "[$section]\n$section_content\n";
+        }
+        file_put_contents(__DIR__ . "/../config.ini", $new_content);
+        $GLOBALS["config"] = parse_ini_file(__DIR__ . "/../config.ini", true);
     }
 }
