@@ -15,6 +15,29 @@ use Slim\Psr7\Response;
 class AdminController extends Controller
 {
     /**
+     * Get actual config
+     *
+     * Usage: GET /admin/config | Scope: admin
+     *
+     * @param Request $request Slim request interface
+     * @param Response $response Slim response interface
+     * @return Response Response to show
+     */
+    public function getConfig(Request $request, Response $response): Response
+    {
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+
+        $response->getBody()->write(
+            json_encode([
+                "maxUsers" => $GLOBALS["config"]["session"]["maxUsers"],
+                "usersPerGroup" => $GLOBALS["config"]["groups"]["usersPerGroup"],
+                "lastGroupMode" => $GLOBALS["config"]["groups"]["lastGroupMode"]
+            ])
+        );
+        return $response->withStatus(200);
+    }
+
+    /**
      * Set max user account number
      *
      * Usage: POST /admin/max-users | Scope: admin

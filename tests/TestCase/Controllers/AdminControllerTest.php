@@ -21,6 +21,46 @@ class AdminControllerTest extends TestCase
     private AdminController $adminController;
 
     /**
+     * Test get config function
+     */
+    public function testGetConfig()
+    {
+        $GLOBALS["user"] = $this->test_user;
+        $request = $this->createRequest("GET", "/admin/config");
+        $result = $this->adminController->getConfig($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "maxUsers" => $GLOBALS["config"]["session"]["maxUsers"],
+                "usersPerGroup" => $GLOBALS["config"]["groups"]["usersPerGroup"],
+                "lastGroupMode" => $GLOBALS["config"]["groups"]["lastGroupMode"]
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
+     * Test get config function without administrator permission
+     */
+    public function testGetConfigWithoutAdminPerm()
+    {
+        $GLOBALS["user"] = $this->test_user;
+        $GLOBALS["user"]["is_admin"] = 0;
+        $request = $this->createRequest("GET", "/admin/config");
+        $result = $this->adminController->getConfig($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 401,
+                "code_description" => "Unauthorized"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(401, $result->getStatusCode());
+    }
+
+    /**
      * Test set max users function
      *
      * @throws BadRequest|NotFound
