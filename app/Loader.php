@@ -33,4 +33,4 @@ foreach ($folders as $folder) {
 /**
  * Load parameters from config file
  */
-define("CONFIG", parse_ini_file(__DIR__ . "/../config.ini", true));
+$GLOBALS["config"] = parse_ini_file(__DIR__ . "/../config.ini", true);

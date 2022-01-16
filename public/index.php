@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . "/../app/Loader.php";
 
 # Show PHP errors
-if (CONFIG["debug"]["displayPHPErrors"]) {
+if ($GLOBALS["config"]["debug"]["displayPHPErrors"]) {
     ini_set("display_errors", '1');
     ini_set("display_startup_errors", '1');
     error_reporting(E_ALL);
@@ -21,7 +21,7 @@ $app = AppFactory::create();
 $app->setBasePath("/api");
 
 # Handle errors
-($app->addErrorMiddleware((bool)CONFIG["debug"]["displayErrorDetails"], (bool)CONFIG["debug"]["logError"], (bool)CONFIG["debug"]["logErrorDetails"]))
+($app->addErrorMiddleware((bool)$GLOBALS["config"]["debug"]["displayErrorDetails"], (bool)$GLOBALS["config"]["debug"]["logError"], (bool)$GLOBALS["config"]["debug"]["logErrorDetails"]))
     ->setErrorHandler(NotFound::class, function() { return (new ErrorCode)->notFound(); })
     ->setErrorHandler(HttpNotFoundException::class, function() { return (new ErrorCode)->badRequest(); })
     ->setErrorHandler(Unauthorized::class, function() { return (new ErrorCode)->unauthorized(); })

@@ -40,7 +40,7 @@ class SessionController extends Controller
                     "token" => $token,
                     "expire" => date(
                         "Y-m-d H:i:s",
-                        strtotime($this->getDate()) + CONFIG["session"]["token_lifetime"]
+                        strtotime($this->getDate()) + $GLOBALS["config"]["session"]["token_lifetime"]
                     )
                 ],
                 ["username" => $body["username"]]
@@ -53,7 +53,7 @@ class SessionController extends Controller
                 true
             );
 
-            if ($nb_users["count"] > CONFIG["session"]["maxUsers"])
+            if ($nb_users["count"] > $GLOBALS["config"]["session"]["maxUsers"])
                 return $this->errorCode()->conflict("Maximum number of users reached");
 
             $this->database()->create(
@@ -63,7 +63,7 @@ class SessionController extends Controller
                     "token" => $token,
                     "expire" => date(
                         "Y-m-d H:i:s",
-                        strtotime($this->getDate()) + CONFIG["session"]["token_lifetime"]
+                        strtotime($this->getDate()) + $GLOBALS["config"]["session"]["token_lifetime"]
                     )
                 ]
             );
