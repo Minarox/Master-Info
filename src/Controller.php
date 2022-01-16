@@ -152,8 +152,7 @@ abstract class Controller
                 [$column],
                 $fields,
                 true,
-                null,
-                $strict
+                exception: $strict
             );
             if ($find) return true;
         }
