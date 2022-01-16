@@ -4,7 +4,7 @@
     "slim/psr7": "^1.4",
     "ext-json": "*",
     "ext-pdo": "*",
-    "phpmailer/phpmailer": "^6.5"
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
