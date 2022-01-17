@@ -152,7 +152,7 @@ class Database
 
         // Sort selectors
         foreach ($selectors as $selector) {
-            if ($this->isNull($selector)) $selectors_list .= "$selectors_keys[$i] IS NULL AND ";
+            if ($this->isNull($selector)) $selectors_list .= "$selectors_keys[$i] = NULL AND ";
             else $selectors_list .= "$selectors_keys[$i] = '$selector' AND ";
             $i++;
         }
