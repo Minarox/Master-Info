@@ -428,6 +428,23 @@ class GroupControllerTest extends TestCase
     }
 
     /**
+     * Test get users function
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testGetUsers()
+    {
+        $request = $this->createRequest("GET", "/admin/users");
+        $result = $this->groupController->getUsers($request, $this->response);
+
+        self::assertSame(
+            json_encode($this->pdo->query("SELECT id, username, group_id, expire, created_at FROM Users WHERE is_admin = 0 ORDER BY username;")->fetchAll()),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
      * Test add user in group verification function with float ratio and last user and last group mode is LAST_MAX
      *
      * @throws BadRequest|NotFound

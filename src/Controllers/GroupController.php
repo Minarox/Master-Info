@@ -69,8 +69,6 @@ class GroupController extends Controller
         }
     }
 
-    // TODO: Move getUsers function from AdminController here
-
     /**
      * Join group with a link
      *
@@ -238,6 +236,31 @@ class GroupController extends Controller
         );
 
         return $this->successCode()->success();
+    }
+
+    /**
+     * Get users list
+     *
+     * Usage: GET /group/users
+     *
+     * @param Request $request Slim request interface
+     * @param Response $response Slim response interface
+     * @return Response Response to show
+     * @throws BadRequest|NotFound
+     */
+    public function getUsers(Request $request, Response $response): Response
+    {
+        $response->getBody()->write(
+            json_encode(
+                $this->database()->find(
+                    "Users",
+                    ["id", "username", "group_id", "expire", "created_at"],
+                    ["is_admin" => '0'],
+                    order: "username"
+                )
+            )
+        );
+        return $response->withStatus(200);
     }
 
     /**

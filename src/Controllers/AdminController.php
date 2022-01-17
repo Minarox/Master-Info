@@ -110,33 +110,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Get users list
-     *
-     * Usage: GET /admin/users | Scope: admin
-     *
-     * @param Request $request Slim request interface
-     * @param Response $response Slim response interface
-     * @return Response Response to show
-     * @throws BadRequest|NotFound
-     */
-    public function getUsers(Request $request, Response $response): Response
-    {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
-
-        $response->getBody()->write(
-            json_encode(
-                $this->database()->find(
-                    "Users",
-                    ["id", "username", "group_id", "expire", "created_at"],
-                    ["is_admin" => '0'],
-                    order: "username"
-                )
-            )
-        );
-        return $response->withStatus(200);
-    }
-
-    /**
      * Delete user from the database
      *
      * Usage: DELETE /admin/user/{user_id} | Scope: admin

@@ -29,7 +29,6 @@ return function (App $app) {
         $group->post("/max-users", [AdminController::class, "setMaxUsers"]);
         $group->post("/users-per-group", [AdminController::class, "setUsersPerGroup"]);
         $group->post("/last-group", [AdminController::class, "setLastGroupConfig"]);
-        $group->get("/users", [AdminController::class, "getUsers"]);
         $group->delete("/user/{user_id}", [AdminController::class, "deleteUser"]);
         $group->get("/groups", [AdminController::class, "getGroups"]);
         $group->delete("/group/{group_id}", [AdminController::class, "deleteGroup"]);
@@ -38,6 +37,7 @@ return function (App $app) {
     $app->group("/group", function (RouteCollectorProxy $group) {
         $group->get("[/]", [GroupController::class, "getCurrentGroup"]);
         $group->post("[/]", [GroupController::class, "addGroup"]);
+        $group->get("/users", [GroupController::class, "getUsers"]);
         $group->get("/leave", [GroupController::class, "leaveCurrentGroup"]);
         $group->get("/random", [GroupController::class, "joinRandomGroup"]);
         $group->get("/join/{group_link}", [GroupController::class, "joinGroup"]);
