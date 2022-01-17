@@ -373,7 +373,6 @@ class AdminControllerTest extends TestCase
     public function testDeleteUserWithoutAdminPerm()
     {
         $GLOBALS["user"]["is_admin"] = 0;
-        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("DELETE", "/admin/user/" . $GLOBALS["user"]["id"]);
         $result = $this->adminController->deleteUser($request, $this->response, ["user_id" => $GLOBALS["user"]["id"]]);
 
@@ -385,7 +384,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
-        self::assertSame($test_user_id, $this->pdo->query("SELECT id FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetchColumn());
+        self::assertSame($GLOBALS["user"]["id"], $this->pdo->query("SELECT id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
     }
 
     /**
@@ -462,7 +461,6 @@ class AdminControllerTest extends TestCase
     public function testDeleteGroupsWithoutAdminPerm()
     {
         $GLOBALS["user"]["is_admin"] = 0;
-        $test_group_id = $GLOBALS["user"]["group_id"];
         $request = $this->createRequest("DELETE", "/admin/group/" . $GLOBALS["user"]["group_id"]);
         $result = $this->adminController->deleteGroup($request, $this->response, ["group_id" => $GLOBALS["user"]["group_id"]]);
 
@@ -474,7 +472,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
-        self::assertSame($test_group_id, $this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetchColumn());
+        self::assertSame($GLOBALS["user"]["group_id"], $this->pdo->query("SELECT id FROM Groups WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
     }
 
     /**
