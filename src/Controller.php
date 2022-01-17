@@ -145,6 +145,7 @@ abstract class Controller
         }
 
         // Return false or throw NotFound exception if it doesn't exist
+        if ($strict && !$table) throw new BadRequest("Value doesn't exist in array");
         if ($strict) throw new NotFound("Value doesn't exist in array");
         return false;
     }
