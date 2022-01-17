@@ -89,7 +89,7 @@ abstract class Controller
      * @return array
      * @throws BadRequest
      */
-    protected function parseBody(Request $request): array
+    public function parseBody(Request $request): array
     {
         $body = $request->getBody()->__toString();
         $content_type = $request->getHeader("Content-Type");
