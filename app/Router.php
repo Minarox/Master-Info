@@ -5,6 +5,7 @@ namespace app;
 
 use Codes\ErrorCode;
 use Controllers\AdminController;
+use Controllers\GroupController;
 use Controllers\SessionController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -32,6 +33,14 @@ return function (App $app) {
         $group->delete("/user/{user_id}", [AdminController::class, "deleteUser"]);
         $group->get("/groups", [AdminController::class, "getGroups"]);
         $group->delete("/group/{group_id}", [AdminController::class, "deleteGroup"]);
+    });
+
+    $app->group("/group", function (RouteCollectorProxy $group) {
+        $group->get("[/]", [GroupController::class, "getCurrentGroup"]);
+        $group->post("[/]", [GroupController::class, "addGroup"]);
+        $group->get("/leave", [GroupController::class, "leaveCurrentGroup"]);
+        $group->get("/random", [GroupController::class, "joinRandomGroup"]);
+        $group->get("/join/{group_link}", [GroupController::class, "joinGroup"]);
     });
 
     /**
