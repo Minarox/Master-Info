@@ -122,6 +122,92 @@ class SessionControllerTest extends TestCase
     }
 
     /**
+     * Test pars body function with JSON body
+     *
+     * @throws BadRequest
+     */
+    public function testParseBodyWithJSON()
+    {
+        $request = $this->createRequest("GET", "", ["key1" => "value1", "key2" => "value2"]);
+        $result = $this->sessionController->parseBody($request);
+
+        self::assertSame(
+            array(
+                "key1" => "value1",
+                "key2" => "value2"
+            ),
+            $result
+        );
+    }
+
+    /**
+     * Test pars body function with FORM body
+     *
+     * @throws BadRequest
+     */
+    public function testParseBodyWithFORM()
+    {
+        $request = $this->createRequest("GET", "", "key1=value1&key2=value2", "application/x-www-form-urlencoded");
+        $result = $this->sessionController->parseBody($request);
+
+        self::assertSame(
+            array(
+                "key1" => "value1",
+                "key2" => "value2"
+            ),
+            $result
+        );
+    }
+
+    /**
+     * Test pars body function with XML body
+     *
+     * @throws BadRequest
+     */
+    public function testParseBodyWithXML()
+    {
+        $body = "<?xml version='1.0' encoding='UTF-8' ?>
+                    <root>
+                      <key1>value1</key1>
+                      <key2>value2</key2>
+                    </root>";
+        $request = $this->createRequest("GET", "", $body, "application/xml");
+        $result = $this->sessionController->parseBody($request);
+
+        self::assertSame(
+            array(
+                "key1" => "value1",
+                "key2" => "value2"
+            ),
+            $result
+        );
+    }
+
+    /**
+     * Test pars body function with XML text body
+     *
+     * @throws BadRequest
+     */
+    public function testParseBodyWithTextXML()
+    {
+        $body = "<?xml version='1.0' encoding='UTF-8' ?>
+                    <root>
+                      <key1>value1</key1>
+                      <key2>value2</key2>
+                    </root>";
+        $request = $this->createRequest("GET", "", $body, "text/xml");
+        $result = $this->sessionController->parseBody($request);
+
+        self::assertSame(
+            array(
+                "key1" => "value1",
+                "key2" => "value2"
+            ),
+            $result
+        );
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void

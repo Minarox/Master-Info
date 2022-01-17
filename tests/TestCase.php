@@ -34,16 +34,21 @@ class TestCase extends PHPUnit_TestCase
     /**
      * @param string $method
      * @param string $path
-     * @param array $body
+     * @param array|string $body
+     * @param string $contentType
      * @return Request
      */
-    protected function createRequest(string $method, string $path, array $body = []): Request
+    protected function createRequest(string $method, string $path, array|string $body = [], string $contentType = "application/json"): Request
     {
         $uri = new Uri('', '', 80, $path);
-        $stream = (new StreamFactory())->createStream(json_encode($body));
+        if ($contentType == "application/json") {
+            $stream = (new StreamFactory())->createStream(json_encode($body));
+        } else {
+            $stream = (new StreamFactory())->createStream($body);
+        }
 
         $headers = new Headers();
-        $headers->addHeader("Content-type", "application/json");
+        $headers->addHeader("Content-type", $contentType);
         $headers->addHeader("Cache-control", "no-cache");
 
         return new Request($method, $uri, $headers, [], [], $stream);
