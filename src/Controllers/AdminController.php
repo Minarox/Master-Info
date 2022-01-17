@@ -165,7 +165,40 @@ class AdminController extends Controller
         return $this->successCode()->success();
     }
 
-    // TODO: GetGroups qui renvoie la liste des groupes et les utilisateurs
+    /**
+     * Get groups from the database
+     *
+     * Usage: GET /admin/groups | Scope: admin
+     *
+     * @param Request $request Slim request interface
+     * @param Response $response Slim response interface
+     * @return Response Response to show
+     * @throws BadRequest|NotFound
+     */
+    public function getGroups(Request $request, Response $response): Response
+    {
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+
+        $data = $this->database()->find(
+            "Groups",
+            ['*'],
+            ['*']
+        );
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]["users"] = $this->database()->find(
+                "Users",
+                ["id", "username", "created_at"],
+                ["group_id" => $data[$i]["id"]],
+                exception: false
+            );
+        }
+
+        $response->getBody()->write(
+            json_encode($data)
+        );
+        return $response->withStatus(200);
+    }
 
     /**
      * Delete group from the application

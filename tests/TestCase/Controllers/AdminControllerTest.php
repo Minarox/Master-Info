@@ -389,6 +389,50 @@ class AdminControllerTest extends TestCase
     }
 
     /**
+     * Test get groups function
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testGetGroups()
+    {
+        $request = $this->createRequest("GET", "/admin/groups");
+        $result = $this->adminController->getGroups($request, $this->response);
+
+        $data = $this->pdo->query("SELECT * FROM Groups;")->fetchAll();
+        for ($i = 0; $i < count($data); $i++) {
+            $group_id = $data[$i]["id"];
+            $data[$i]["users"] = $this->pdo->query("SELECT id, username, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
+        }
+
+        self::assertSame(
+            json_encode($data),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
+     * Test get groups function without administrator permission
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testGetGroupsWithoutAdminPerm()
+    {
+        $GLOBALS["user"]["is_admin"] = 0;
+        $request = $this->createRequest("GET", "/admin/groups");
+        $result = $this->adminController->getGroups($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 401,
+                "code_description" => "Unauthorized"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(401, $result->getStatusCode());
+    }
+
+    /**
      * Test delete group function
      *
      * @throws BadRequest|NotFound

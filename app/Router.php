@@ -30,6 +30,7 @@ return function (App $app) {
         $group->post("/last-group", [AdminController::class, "setLastGroupConfig"]);
         $group->get("/users", [AdminController::class, "getUsers"]);
         $group->delete("/user/{user_id}", [AdminController::class, "deleteUser"]);
+        $group->get("/groups", [AdminController::class, "getGroups"]);
         $group->delete("/group/{group_id}", [AdminController::class, "deleteGroup"]);
     });
 
