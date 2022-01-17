@@ -127,7 +127,7 @@ class AdminController extends Controller
             json_encode(
                 $this->database()->find(
                     "Users",
-                    ["id", "username", "group_id", "created_at"],
+                    ["id", "username", "group_id", "expire", "created_at"],
                     ["is_admin" => '0'],
                     order: "username"
                 )
@@ -149,6 +149,7 @@ class AdminController extends Controller
     public function deleteUser(Request $request, Response $response, array $args): Response
     {
         if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!array_key_exists("user_id", $args)) return $this->errorCode()->badRequest();
 
         if ((int) $args["user_id"] <= 0) return $this->errorCode()->badRequest();
 
@@ -160,6 +161,37 @@ class AdminController extends Controller
         );
 
         $this->database()->deleteId("Users", (int) $args["user_id"]);
+
+        return $this->successCode()->success();
+    }
+
+    // TODO: GetGroups qui renvoie la liste des groupes et les utilisateurs
+
+    /**
+     * Delete group from the application
+     *
+     * Usage: DELETE /admin/group/{group_id} | Scope: admin
+     *
+     * @param Request $request Slim request interface
+     * @param Response $response Slim response interface
+     * @return Response Response to show
+     * @throws BadRequest|NotFound
+     */
+    public function deleteGroup(Request $request, Response $response, array $args): Response
+    {
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!array_key_exists("group_id", $args)) return $this->errorCode()->badRequest();
+
+        if ((int) $args["group_id"] <= 0) return $this->errorCode()->badRequest();
+
+        $this->database()->find(
+            "Groups",
+            ["id"],
+            ["id" => (int) $args["group_id"]],
+            true
+        );
+
+        $this->database()->deleteId("Groups", (int) $args["group_id"]);
 
         return $this->successCode()->success();
     }
