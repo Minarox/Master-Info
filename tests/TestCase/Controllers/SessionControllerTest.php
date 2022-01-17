@@ -27,12 +27,11 @@ class SessionControllerTest extends TestCase
      */
     public function testLogin()
     {
-        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit"]);
         $result = $this->sessionController->login($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch()),
+            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -90,12 +89,11 @@ class SessionControllerTest extends TestCase
      */
     public function testSession()
     {
-        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("GET", "/session");
         $result = $this->sessionController->currentSession($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch()),
+            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
