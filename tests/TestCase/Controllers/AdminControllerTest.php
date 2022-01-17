@@ -520,6 +520,91 @@ class AdminControllerTest extends TestCase
     }
 
     /**
+     * Test delete group function
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testDeleteGroups()
+    {
+        $test_group_id = $GLOBALS["user"]["group_id"];
+        $request = $this->createRequest("DELETE", "/admin/group/" . $GLOBALS["user"]["group_id"]);
+        $result = $this->adminController->deleteGroup($request, $this->response, ["group_id" => $GLOBALS["user"]["group_id"]]);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 200,
+                "code_description" => "Success"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+        self::assertFalse($this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetch());
+    }
+
+    /**
+     * Test delete group function without administrator permission
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testDeleteGroupsWithoutAdminPerm()
+    {
+        $GLOBALS["user"]["is_admin"] = 0;
+        $test_group_id = $GLOBALS["user"]["group_id"];
+        $request = $this->createRequest("DELETE", "/admin/group/" . $GLOBALS["user"]["group_id"]);
+        $result = $this->adminController->deleteGroup($request, $this->response, ["group_id" => $GLOBALS["user"]["group_id"]]);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 401,
+                "code_description" => "Unauthorized"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(401, $result->getStatusCode());
+        self::assertSame($test_group_id, $this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetchColumn());
+    }
+
+    /**
+     * Test delete group function with bad value
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testDeleteGroupsWithBadValue()
+    {
+        $request = $this->createRequest("DELETE", "/admin/group/test");
+        $result = $this->adminController->deleteGroup($request, $this->response, ["group_id" => "test"]);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 400,
+                "code_description" => "Bad Request"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(400, $result->getStatusCode());
+    }
+
+    /**
+     * Test delete group function with bad value
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testDeleteGroupsWithoutValues()
+    {
+        $request = $this->createRequest("DELETE", "/admin/group/0");
+        $result = $this->adminController->deleteGroup($request, $this->response, []);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 400,
+                "code_description" => "Bad Request"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(400, $result->getStatusCode());
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
