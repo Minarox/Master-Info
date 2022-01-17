@@ -401,7 +401,7 @@ class AdminControllerTest extends TestCase
         $request = $this->createRequest("GET", "/admin/groups");
         $result = $this->adminController->getGroups($request, $this->response);
 
-        $data = $this->pdo->query("SELECT * FROM Groups;")->fetchAll();
+        $data = $this->pdo->query("SELECT * FROM `Groups`;")->fetchAll();
         for ($i = 0; $i < count($data); $i++) {
             $group_id = $data[$i]["id"];
             $data[$i]["users"] = $this->pdo->query("SELECT id, username, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
@@ -454,7 +454,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
-        self::assertFalse($this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetch());
+        self::assertFalse($this->pdo->query("SELECT id FROM `Groups` WHERE id = '$test_group_id' LIMIT 1;")->fetch());
     }
 
     /**
@@ -476,7 +476,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
-        self::assertSame($GLOBALS["user"]["group_id"], $this->pdo->query("SELECT id FROM Groups WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
+        self::assertSame($GLOBALS["user"]["group_id"], $this->pdo->query("SELECT id FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
     }
 
     /**
@@ -538,7 +538,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
-        self::assertFalse($this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetch());
+        self::assertFalse($this->pdo->query("SELECT id FROM `Groups` WHERE id = '$test_group_id' LIMIT 1;")->fetch());
     }
 
     /**
@@ -561,7 +561,7 @@ class AdminControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(401, $result->getStatusCode());
-        self::assertSame($test_group_id, $this->pdo->query("SELECT id FROM Groups WHERE id = '$test_group_id' LIMIT 1;")->fetchColumn());
+        self::assertSame($test_group_id, $this->pdo->query("SELECT id FROM `Groups` WHERE id = '$test_group_id' LIMIT 1;")->fetchColumn());
     }
 
     /**

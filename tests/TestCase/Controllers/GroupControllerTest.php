@@ -33,7 +33,7 @@ class GroupControllerTest extends TestCase
         $request = $this->createRequest("POST", "/group", ["name" => "test_group_phpunit2"]);
         $result = $this->groupController->addGroup($request, $this->response);
 
-        $test_group = $this->pdo->query("SELECT * FROM Groups WHERE name = 'test_group_phpunit2' LIMIT 1;")->fetch();
+        $test_group = $this->pdo->query("SELECT * FROM `Groups` WHERE name = 'test_group_phpunit2' LIMIT 1;")->fetch();
 
         self::assertSame(
             json_encode($test_group),
@@ -42,7 +42,7 @@ class GroupControllerTest extends TestCase
         self::assertSame(201, $result->getStatusCode());
         self::assertNotNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
-        $this->pdo->prepare("DELETE FROM Groups WHERE id = '{$test_group["id"]}'")->execute();
+        $this->pdo->prepare("DELETE FROM `Groups` WHERE id = '{$test_group["id"]}'")->execute();
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp;
     }
@@ -89,7 +89,7 @@ class GroupControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(409, $result->getStatusCode());
-        self::assertFalse($this->pdo->query("SELECT id FROM Groups WHERE name = 'test_group_phpunit2' LIMIT 1;")->fetchColumn());
+        self::assertFalse($this->pdo->query("SELECT id FROM `Groups` WHERE name = 'test_group_phpunit2' LIMIT 1;")->fetchColumn());
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp;
@@ -297,7 +297,7 @@ class GroupControllerTest extends TestCase
 
         self::assertSame(
             json_encode(
-                $this->pdo->query("SELECT * FROM Groups WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetch()
+                $this->pdo->query("SELECT * FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetch()
             ),
             json_encode(json_decode($result->getBody()->__toString(), true)["group"])
         );
@@ -373,7 +373,7 @@ class GroupControllerTest extends TestCase
         );
         self::assertSame(200, $result->getStatusCode());
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
-        self::assertFalse($this->pdo->query("SELECT admin FROM Groups WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
+        self::assertFalse($this->pdo->query("SELECT admin FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
 
         $this->pdo->prepare("DELETE FROM Users WHERE id = '$test_user_id2'")->execute();
     }
@@ -399,7 +399,7 @@ class GroupControllerTest extends TestCase
         );
         self::assertSame(200, $result->getStatusCode());
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
-        self::assertNotNull($this->pdo->query("SELECT id FROM Groups WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
+        self::assertNotNull($this->pdo->query("SELECT id FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
 
         $this->pdo->prepare("DELETE FROM Users WHERE id = '$test_user_id2'")->execute();
         $this->pdo->prepare("DELETE FROM Users WHERE id = '$test_user_id3'")->execute();
