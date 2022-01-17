@@ -83,6 +83,25 @@ class SessionControllerTest extends TestCase
     }
 
     /**
+     * Test login function with bad key
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testLoginWithBadKey()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Value doesn't exist in array");
+
+        $temp = $GLOBALS["config"]["session"]["maxUsers"];
+        $GLOBALS["config"]["session"]["maxUsers"] = 0;
+
+        $request = $this->createRequest("POST", "/login", ["test" => "test_user_phpunit2"]);
+        $this->sessionController->login($request, $this->response);
+
+        $GLOBALS["config"]["session"]["maxUsers"] = $temp;
+    }
+
+    /**
      * Test session function
      *
      * @throws BadRequest|NotFound
@@ -97,6 +116,22 @@ class SessionControllerTest extends TestCase
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
+     * Test session function without token
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testSessionWithoutToken()
+    {
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        $GLOBALS["user"]["token"] = $GLOBALS["user"]["expire"] = null;
+
+        $request = $this->createRequest("GET", "/session");
+        $this->sessionController->currentSession($request, $this->response);
     }
 
     /**
@@ -203,6 +238,20 @@ class SessionControllerTest extends TestCase
             ),
             $result
         );
+    }
+
+    /**
+     * Test pars body function with bad content type
+     *
+     * @throws BadRequest
+     */
+    public function testParseBodyWithBadContentType()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Unable to parse body");
+
+        $request = $this->createRequest("GET", "", "key1=value1&key2=value2", "application/javascript");
+        $this->sessionController->parseBody($request);
     }
 
     /**

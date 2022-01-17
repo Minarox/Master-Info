@@ -105,6 +105,20 @@ class AdminControllerTest extends TestCase
     }
 
     /**
+     * Test set max users function with bad key
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testSetMaxUsersWithBadKey()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Value doesn't exist in array");
+
+        $request = $this->createRequest("POST", "/admin/max-users", ["test" => "15"]);
+        $this->adminController->setMaxUsers($request, $this->response);
+    }
+
+    /**
      * Test set max users function without administrator permission
      *
      * @throws BadRequest|NotFound
@@ -171,6 +185,20 @@ class AdminControllerTest extends TestCase
         );
         self::assertSame(400, $result->getStatusCode());
         self::assertSame($usersPerGroup, (int) $GLOBALS["config"]["groups"]["usersPerGroup"]);
+    }
+
+    /**
+     * Test set users per group function with bad key
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testSetUsersPerGroupWithBadKey()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Value doesn't exist in array");
+
+        $request = $this->createRequest("POST", "/admin/users-per-group", ["test" => "15"]);
+        $this->adminController->setUsersPerGroup($request, $this->response);
     }
 
     /**
@@ -243,6 +271,20 @@ class AdminControllerTest extends TestCase
     }
 
     /**
+     * Test set last group config function with bad key
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testSetLastGroupConfigWithBadKey()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Value doesn't exist in array");
+
+        $request = $this->createRequest("POST", "/admin/last-group", ["test" => "LAST_MAX"]);
+        $this->adminController->setLastGroupConfig($request, $this->response);
+    }
+
+    /**
      * Test set last group config function without administrator permission
      *
      * @throws BadRequest|NotFound
@@ -276,7 +318,7 @@ class AdminControllerTest extends TestCase
         $result = $this->adminController->getUsers($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT id, username, group_id, expire, created_at FROM Users WHERE is_admin = 0;")->fetchAll()),
+            json_encode($this->pdo->query("SELECT id, username, group_id, expire, created_at FROM Users WHERE is_admin = 0 ORDER BY username;")->fetchAll()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -436,7 +478,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws BadRequest|NotFound
      */
-    public function testDeleteGroups()
+    public function testDeleteGroup()
     {
         $test_group_id = $GLOBALS["user"]["group_id"];
         $request = $this->createRequest("DELETE", "/admin/group/" . $GLOBALS["user"]["group_id"]);
@@ -458,7 +500,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws BadRequest|NotFound
      */
-    public function testDeleteGroupsWithoutAdminPerm()
+    public function testDeleteGroupWithoutAdminPerm()
     {
         $GLOBALS["user"]["is_admin"] = 0;
         $request = $this->createRequest("DELETE", "/admin/group/" . $GLOBALS["user"]["group_id"]);
@@ -480,7 +522,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws BadRequest|NotFound
      */
-    public function testDeleteGroupsWithBadValue()
+    public function testDeleteGroupWithBadValue()
     {
         $request = $this->createRequest("DELETE", "/admin/group/test");
         $result = $this->adminController->deleteGroup($request, $this->response, ["group_id" => "test"]);
@@ -500,7 +542,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws BadRequest|NotFound
      */
-    public function testDeleteGroupsWithoutValues()
+    public function testDeleteGroupWithoutValues()
     {
         $request = $this->createRequest("DELETE", "/admin/group/0");
         $result = $this->adminController->deleteGroup($request, $this->response, []);
