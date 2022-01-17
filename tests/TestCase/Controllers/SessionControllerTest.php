@@ -27,7 +27,7 @@ class SessionControllerTest extends TestCase
      */
     public function testLogin()
     {
-        $test_user_id = $this->test_user["id"];
+        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit"]);
         $result = $this->sessionController->login($request, $this->response);
 
@@ -90,10 +90,9 @@ class SessionControllerTest extends TestCase
      */
     public function testSession()
     {
-        $GLOBALS["user"] = $this->test_user;
+        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("GET", "/session");
         $result = $this->sessionController->currentSession($request, $this->response);
-        $test_user_id = $this->test_user["id"];
 
         self::assertSame(
             json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch()),
@@ -109,7 +108,6 @@ class SessionControllerTest extends TestCase
      */
     public function testLogout()
     {
-        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("GET", "/logout");
         $result = $this->sessionController->logout($request, $this->response);
 

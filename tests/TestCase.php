@@ -29,13 +29,12 @@ class TestCase extends PHPUnit_TestCase
     /**
      * @var array
      */
-    protected array $test_user;
+    protected array $test_group;
 
     /**
      * @param string $method
      * @param string $path
      * @param array $body
-     * @param bool $connected
      * @return Request
      */
     protected function createRequest(string $method, string $path, array $body = []): Request
@@ -91,11 +90,19 @@ class TestCase extends PHPUnit_TestCase
      */
     protected function setUp(): void {
         $this->pdo = (new Database())->getPdo();
+        $this->pdo->query("DELETE FROM Groups WHERE name = 'test_group_phpunit';")->execute();
         $this->pdo->query("DELETE FROM Users WHERE username = 'test_user_phpunit' AND is_admin = 1;")->execute();
+
         $token = $this->randString(60);
+        $link = $this->randString();
         $date = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s")) + $GLOBALS["config"]["session"]["token_lifetime"]);
+
         $test_user_id = $this->pdo->query("INSERT INTO Users (username, is_admin, token, expire) VALUES ('test_user_phpunit', 1, '$token', '$date') RETURNING id;")->fetchColumn();
-        $this->test_user = $this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch();
+        $this->test_group = $this->pdo->query("INSERT INTO Groups (name, admin, link) VALUES ('test_group_phpunit', '$test_user_id', '$link') RETURNING *;")->fetch();
+        $test_group_id = $this->test_group["id"];
+        $this->pdo->query("UPDATE Users SET group_id = '$test_group_id' WHERE id = '$test_user_id';");
+        $GLOBALS["user"] = $this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch();
+
         $this->response = new Response();
     }
 
@@ -104,9 +111,14 @@ class TestCase extends PHPUnit_TestCase
      */
     protected function tearDown(): void {
         unset($this->response);
-        $test_user_id = $this->test_user["id"];
+
+        $test_user_id = $GLOBALS["user"]["id"];
         $this->pdo->query("DELETE FROM Users WHERE id = '$test_user_id';")->execute();
-        unset($this->test_user);
+        $test_group_id= $this->test_group["id"];
+        $this->pdo->query("DELETE FROM Groups WHERE id = '$test_group_id';")->execute();
+
+        unset($GLOBALS["user"]);
+        unset($this->test_group);
         unset($this->pdo);
     }
 }

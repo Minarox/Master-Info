@@ -25,7 +25,6 @@ class AdminControllerTest extends TestCase
      */
     public function testGetConfig()
     {
-        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("GET", "/admin/config");
         $result = $this->adminController->getConfig($request, $this->response);
 
@@ -45,7 +44,6 @@ class AdminControllerTest extends TestCase
      */
     public function testGetConfigWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
         $request = $this->createRequest("GET", "/admin/config");
         $result = $this->adminController->getConfig($request, $this->response);
@@ -67,7 +65,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetMaxUsers()
     {
-        $GLOBALS["user"] = $this->test_user;
         $temp = (int) $GLOBALS["config"]["session"]["maxUsers"];
         $request = $this->createRequest("POST", "/admin/max-users", ["max_users" => "1"]);
         $result = $this->adminController->setMaxUsers($request, $this->response);
@@ -92,7 +89,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetMaxUsersWithBadValue()
     {
-        $GLOBALS["user"] = $this->test_user;
         $maxUsers = (int) $GLOBALS["config"]["session"]["maxUsers"];
         $request = $this->createRequest("POST", "/admin/max-users", ["max_users" => "-15"]);
         $result = $this->adminController->setMaxUsers($request, $this->response);
@@ -115,7 +111,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetMaxUsersWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
         $maxUsers = (int) $GLOBALS["config"]["session"]["maxUsers"];
         $request = $this->createRequest("POST", "/admin/max-users", ["max_users" => "15"]);
@@ -139,7 +134,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetUsersPerGroup()
     {
-        $GLOBALS["user"] = $this->test_user;
         $temp = (int) $GLOBALS["config"]["groups"]["usersPerGroup"];
         $request = $this->createRequest("POST", "/admin/users-per-group", ["users_per_group" => "50"]);
         $result = $this->adminController->setUsersPerGroup($request, $this->response);
@@ -164,7 +158,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetUsersPerGroupWithBadValue()
     {
-        $GLOBALS["user"] = $this->test_user;
         $usersPerGroup = (int) $GLOBALS["config"]["groups"]["usersPerGroup"];
         $request = $this->createRequest("POST", "/admin/users-per-group", ["users_per_group" => "-15"]);
         $result = $this->adminController->setUsersPerGroup($request, $this->response);
@@ -187,7 +180,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetUsersPerGroupWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
         $usersPerGroup = (int) $GLOBALS["config"]["groups"]["usersPerGroup"];
         $request = $this->createRequest("POST", "/admin/users-per-group", ["users_per_group" => "50"]);
@@ -211,7 +203,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetLastGroupConfig()
     {
-        $GLOBALS["user"] = $this->test_user;
         $temp = $GLOBALS["config"]["groups"]["lastGroupMode"];
         $request = $this->createRequest("POST", "/admin/last-group", ["last_group_mode" => "LAST_MAX"]);
         $result = $this->adminController->setLastGroupConfig($request, $this->response);
@@ -236,7 +227,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetLastGroupConfigWithBadValue()
     {
-        $GLOBALS["user"] = $this->test_user;
         $lastGroupMode = $GLOBALS["config"]["groups"]["lastGroupMode"];
         $request = $this->createRequest("POST", "/admin/last-group", ["last_group_mode" => "test"]);
         $result = $this->adminController->setLastGroupConfig($request, $this->response);
@@ -259,7 +249,6 @@ class AdminControllerTest extends TestCase
      */
     public function testSetLastGroupConfigWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
         $lastGroupMode = $GLOBALS["config"]["groups"]["lastGroupMode"];
         $request = $this->createRequest("POST", "/admin/last-group", ["last_group_mode" => "LAST_MAX"]);
@@ -283,12 +272,11 @@ class AdminControllerTest extends TestCase
      */
     public function testGetUsers()
     {
-        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("GET", "/admin/users");
         $result = $this->adminController->getUsers($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT id, username, group_id, created_at FROM Users WHERE is_admin = 0;")->fetchAll()),
+            json_encode($this->pdo->query("SELECT id, username, group_id, expire, created_at FROM Users WHERE is_admin = 0;")->fetchAll()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -301,7 +289,6 @@ class AdminControllerTest extends TestCase
      */
     public function testGetUsersWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
         $request = $this->createRequest("GET", "/admin/users");
         $result = $this->adminController->getUsers($request, $this->response);
@@ -323,8 +310,7 @@ class AdminControllerTest extends TestCase
      */
     public function testDeleteUser()
     {
-        $GLOBALS["user"] = $this->test_user;
-        $test_user_id = $this->test_user["id"];
+        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("DELETE", "/admin/user/" . $GLOBALS["user"]["id"]);
         $result = $this->adminController->deleteUser($request, $this->response, ["user_id" => $GLOBALS["user"]["id"]]);
 
@@ -346,7 +332,6 @@ class AdminControllerTest extends TestCase
      */
     public function testDeleteUserWithBadValue()
     {
-        $GLOBALS["user"] = $this->test_user;
         $request = $this->createRequest("DELETE", "/admin/user/test");
         $result = $this->adminController->deleteUser($request, $this->response, ["user_id" => "test"]);
 
@@ -367,9 +352,8 @@ class AdminControllerTest extends TestCase
      */
     public function testDeleteUserWithoutAdminPerm()
     {
-        $GLOBALS["user"] = $this->test_user;
         $GLOBALS["user"]["is_admin"] = 0;
-        $test_user_id = $this->test_user["id"];
+        $test_user_id = $GLOBALS["user"]["id"];
         $request = $this->createRequest("DELETE", "/admin/user/" . $GLOBALS["user"]["id"]);
         $result = $this->adminController->deleteUser($request, $this->response, ["user_id" => $GLOBALS["user"]["id"]]);
 
