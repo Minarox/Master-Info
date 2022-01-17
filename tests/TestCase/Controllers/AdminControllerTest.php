@@ -308,44 +308,6 @@ class AdminControllerTest extends TestCase
     }
 
     /**
-     * Test get users function
-     *
-     * @throws BadRequest|NotFound
-     */
-    public function testGetUsers()
-    {
-        $request = $this->createRequest("GET", "/admin/users");
-        $result = $this->adminController->getUsers($request, $this->response);
-
-        self::assertSame(
-            json_encode($this->pdo->query("SELECT id, username, group_id, expire, created_at FROM Users WHERE is_admin = 0 ORDER BY username;")->fetchAll()),
-            $result->getBody()->__toString()
-        );
-        self::assertSame(200, $result->getStatusCode());
-    }
-
-    /**
-     * Test get users function without administrator permission
-     *
-     * @throws BadRequest|NotFound
-     */
-    public function testGetUsersWithoutAdminPerm()
-    {
-        $GLOBALS["user"]["is_admin"] = 0;
-        $request = $this->createRequest("GET", "/admin/users");
-        $result = $this->adminController->getUsers($request, $this->response);
-
-        self::assertSame(
-            json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
-            ]),
-            $result->getBody()->__toString()
-        );
-        self::assertSame(401, $result->getStatusCode());
-    }
-
-    /**
      * Test delete user function
      *
      * @throws BadRequest|NotFound
