@@ -2,7 +2,7 @@
   <header id="header">
     <article>
       <section>
-        <router-link id="logo" to="/">
+        <router-link id="logo" :to="(admin) ? '/admin' : '/'">
           <img src="@/assets/img/cloudbees-core_logo.png" alt="Logo">
           <p>Intégration continue</p>
         </router-link>
@@ -32,13 +32,15 @@ export default {
     return {
       opened: false,
       first_open: false,
-      username: null
+      username: null,
+      admin: false
     }
   },
   mounted() {
     if (localStorage.getItem("session")) {
       const session = JSON.parse(localStorage.getItem("session"));
       this.username = session["username"];
+      this.admin = session["is_admin"];
     }
   },
   watch: {
