@@ -10,6 +10,10 @@
           </header>
 
           <section>
+            <div :class="(error) ? 'error' : ''">
+              <p>Nombre maximal d'utilisateurs atteint. <br>
+                Veuillez contacter l'administrateur.</p>
+            </div>
             <form @submit.prevent="loginForm">
               <label for="login">Nom d'utilisateur</label>
               <input type="text" name="login" id="login" autofocus autocomplete="username" required v-model="username">
@@ -54,6 +58,11 @@ export default {
         this.error = true;
       })
     }
+  },
+  watch: {
+    username: function () {
+      this.error = false;
+    },
   }
 };
 </script>
@@ -83,6 +92,26 @@ article > header {
 
 section {
   padding: 20px;
+}
+
+section > div {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #FF000026;
+  border: 1px solid var(--popup-bg);
+  text-align: center;
+  transition: all .3s ease-in-out;
+}
+
+section > div p {
+  color: #8B0000FF;
+}
+
+.error {
+  max-height: 60px;
+  border: 1px solid #FF000026;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 form label {
