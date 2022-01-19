@@ -33,7 +33,8 @@ export default {
   },
   data() {
     return {
-      username: ''
+      username: '',
+      error: false,
     }
   },
   mounted() {
@@ -42,7 +43,15 @@ export default {
   methods: {
     loginForm() {
       API.login(this.username).then(response => {
-        if (response) this.$router.push('/');
+        if (response && response["group_id"]) {
+          API.getCurrentGroup().then(response => {
+            if (response) this.$router.push('/');
+          })
+        } else if (response) {
+          this.$router.push('/');
+        }
+      }).catch(() => {
+        this.error = true;
       })
     }
   }
