@@ -7,6 +7,7 @@ use Codes\ErrorCode;
 use Controllers\AdminController;
 use Controllers\GroupController;
 use Controllers\SessionController;
+use NotFound;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -18,6 +19,10 @@ return function (App $app) {
     // CORS Policy
     $app->options("/{routes:.+}", function ($request, $response) {
         return $response;
+    });
+
+    $app->map(["GET", "POST", "PUT", "DELETE", "PATCH"], "[/]", function ($request, $response) {
+        return (new ErrorCode())->methodNotAllowed();
     });
 
     $app->post("/login", [SessionController::class, "login"]);
