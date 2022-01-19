@@ -2,7 +2,6 @@
 
 [debug]
 displayPHPErrors    = "false"
-displaySTMPErrors   = "false"
 displayErrorDetails = "false"
 logError            = "false"
 logErrorDetails     = "false"
