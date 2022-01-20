@@ -134,6 +134,7 @@ form button > * {
 }
 
 .popup {
+  padding: 12px;
   position: absolute;
   top: 56px;
   width: 100vw;
@@ -165,6 +166,8 @@ form button > * {
 
 .popup article > section {
   padding: 20px;
+  overflow: auto;
+  max-height: calc(100vh - 140px);
 }
 
 .fade-enter-active, .fade-leave-active {
