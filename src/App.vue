@@ -14,8 +14,11 @@
   --hover-bg: #DFDFDF;
   --scroll-bar: #666666;
 
-  --btn: #389FD8;
-  --btn-hover: #61BAEA;
+  --btn: #406A80;
+  --btn-hover: #5287a2;
+
+  --btn-warning: #BC4747;
+  --btn-warning-hover: #e05353;
 }
 
 ::-webkit-scrollbar {
@@ -85,7 +88,7 @@ form input, form select {
   border-bottom: 1px solid var(--text-label);
 }
 
-form button {
+form button, .button {
   display: block;
   margin: 0 auto;
   outline: none;
@@ -99,10 +102,19 @@ form button {
   color: #fff;
   background-color: var(--btn);
   transition: background-color .17s ease,color .17s ease;
+  text-decoration: none;
 }
 
-form button:hover {
+.btn-warning {
+  background-color: var(--btn-warning) !important;
+}
+
+form button:hover, .button:hover {
   background-color: var(--btn-hover);
+}
+
+.btn-warning:hover {
+  background-color: var(--btn-warning-hover) !important;
 }
 
 form button > * {
