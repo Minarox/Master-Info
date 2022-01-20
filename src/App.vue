@@ -68,4 +68,44 @@ main > div {
   margin: 20px auto;
   padding: 0 12px;
 }
+
+form label {
+  display: block;
+  margin: 0 0 6px 4px;
+  color: var(--text-label);
+}
+
+form input, form select {
+  display: block;
+  width: 100%;
+  outline: none;
+  padding: 6px;
+  height: 34px;
+  border: none;
+  border-bottom: 1px solid var(--text-label);
+}
+
+form button {
+  display: block;
+  margin: 0 auto;
+  outline: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 10px 24px;
+  border: none;
+  color: #fff;
+  background-color: var(--btn);
+  transition: background-color .17s ease,color .17s ease;
+}
+
+form button:hover {
+  background-color: var(--btn-hover);
+}
+
+form button > * {
+  color: #fff;
+}
 </style>
