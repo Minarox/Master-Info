@@ -22,6 +22,16 @@
         </ul>
       </section>
     </article>
+
+    <!-- Mobile menu -->
+    <article v-if="username" id="mobile_menu" @mouseleave="opened = false">
+      <a @click="first_open = true; opened = !opened">
+        <i class="fas fa-bars"></i>
+      </a>
+      <ul :class="(opened) ? 'dropdown open' : 'dropdown'">
+        <li><router-link to="/logout" @click="opened = false">Déconnexion</router-link></li>
+      </ul>
+    </article>
   </header>
 </template>
 
@@ -148,6 +158,77 @@ export default {
   font-size: .9em;
 }
 
+.dropdown {
+  display: none;
+  pointer-events: none;
+  opacity: 0;
+  animation: dropdown-disappear 0s alternate;
+}
+
+.open {
+  display: flex;
+  pointer-events: auto;
+  opacity: 1;
+  animation: dropdown-appear .2s alternate;
+}
+
+#header #mobile_menu {
+  display: none;
+  width: 52px;
+}
+
+#header #mobile_menu a {
+  border-radius: 4px;
+  font-size: 1.4em;
+  padding: 12px;
+  transition: background-color 100ms;
+  background-color: var(--popup-bg);
+}
+
+#mobile_menu a:hover {
+  transition: background-color 100ms;
+  background-color: var(--hover-bg);
+}
+
+#mobile_menu ul {
+  position: absolute;
+  left: 0;
+  top: 56px;
+  width: 100vw;
+  padding: 4px 0;
+  background-color: var(--popup-bg);
+  list-style-type: none;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  gap: 4px;
+  box-shadow:
+      0 4px 6px 0 rgba(50, 50, 93, 0.11),
+      0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+#header #mobile_menu ul li a {
+  border-radius: 0;
+  display: block;
+  width: 100vw;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.3em;
+  transition: background-color 100ms;
+  background-color: var(--popup-bg);
+}
+
+#header #mobile_menu ul li a:hover {
+  transition: background-color 100ms;
+  background-color: var(--hover-bg);
+}
+
+#header #mobile_menu ul hr {
+  width: 100%;
+}
+
 #header .dropdown {
   display: none;
   pointer-events: none;
@@ -186,6 +267,26 @@ export default {
     transform: translateY(-10px);
   }
   100% {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  header {
+    padding: 0 calc(20px - 12px) 0 20px;
+  }
+
+  #header #normal_menu {
+    display: none;
+  }
+
+  #header #mobile_menu {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  #logo p {
     display: none;
   }
 }
