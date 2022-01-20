@@ -65,7 +65,7 @@ main {
 main > div {
   width: 100%;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 30px auto;
   padding: 0 12px;
 }
 
