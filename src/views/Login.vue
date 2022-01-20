@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/global/Header";
 import { API } from "../assets/js/api";
 
 export default {
