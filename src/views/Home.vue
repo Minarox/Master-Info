@@ -23,24 +23,12 @@
             <i class="fas fa-sync-alt" @click="updateGroup"></i>
           </header>
           <section>
-            <div>
-              <p>Nom du groupe :</p>
-              <p>{{ group["group"]["name"] }}</p>
-            </div>
-            <div>
-              <p>Code d'invitation :</p>
-              <p>{{ group["group"]["link"] }}</p>
-            </div>
-            <div>
-              <p>Nombre de membres :</p>
-              <p>{{ group["users"].length }}</p>
-            </div>
-            <div>
-              <p>Date de création :</p>
-              <p>{{ group["group"]["created_at"] }}</p>
-            </div>
+            <p>Nom du groupe : <span>{{ group["group"]["name"] }}</span></p>
+            <p>Code d'invitation : <span>{{ group["group"]["link"] }}</span></p>
+            <p>Nombre de membres : <span>{{ group["users"].length }}</span></p>
+            <p>Date de création : <span>{{ group["group"]["created_at"] }}</span></p>
           </section>
-
+          <hr>
           <header>
             <h2>Membres :</h2>
           </header>
@@ -237,9 +225,10 @@ article > header i:hover {
 }
 
 article > section {
+  padding: 0 12px;
   display: flex;
   flex-flow: row nowrap;
-  gap: 20px;
+  gap: 8px 20px;
 }
 
 .users section {
@@ -247,36 +236,37 @@ article > section {
 }
 
 .users p {
-  flex: 1 0 calc(33% - 20px);
+  flex: 1 0 calc(33% - 20px * 2);
   user-select: all;
 }
 
+.group > hr {
+  margin: 24px auto;
+  width: 92%;
+}
+
 .group > section:first-of-type {
-  margin-bottom: 26px;
+  flex-flow: row wrap;
+  gap: 8px 12px;
 }
 
-.group > section:first-of-type > div {
-  flex: 1 0 calc(25% - 20px);
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 4px;
-}
-
-.group > section:first-of-type > div > p:first-of-type {
+.group > section:first-of-type > p {
+  flex: 1 0 calc(50% - 12px * 2);
   color: var(--text-label);
 }
 
-.group > section:first-of-type > div > p:last-of-type {
-  text-align: center;
+.group > section:first-of-type > p span {
+  color: var(--text);
   user-select: all !important;
 }
 
 .group > section:nth-of-type(2) {
+  flex-flow: row wrap;
   margin-bottom: 26px;
 }
 
 .group > section:nth-of-type(2) > p {
-  flex: 1 0 calc(33% - 20px);
+  flex: 1 0 calc(33% - 20px * 2);
   user-select: all;
 }
 
@@ -286,7 +276,7 @@ article > section {
 
 .group > section:last-of-type {
   justify-content: center;
-  gap: 20px 120px;
+  gap: 20px 60px;
 }
 
 .group > section:last-of-type .button {
@@ -294,32 +284,124 @@ article > section {
 }
 
 .no_group section {
-  justify-content: space-between;
+  flex-flow: row nowrap;
 }
 
 .no_group section > div:first-of-type {
-  flex: 0 0 calc(70% - 20px);
-  margin-top: 10px;
+  flex: 1 0 calc(58% - 20px * 2);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
 }
 
 .no_group section > div:first-of-type form div {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 .no_group section > div:last-of-type {
-  flex: 0 0 calc(30% - 20px);
   border-left: 1px solid var(--text-label);
   padding-left: 20px;
+  flex: 1 0 calc(42% - 20px * 2);
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
 .no_group section > div:last-of-type .button {
+  margin: 0;
   width: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+  .group > section:first-of-type {
+    flex-flow: column wrap;
+  }
+
+  .group > section:first-of-type > p {
+    flex: 1 0 100%;
+  }
+
+  .no_group section {
+    flex-flow: column nowrap;
+  }
+
+  .no_group section > div:last-of-type {
+    margin-top: 20px;
+    border-left: none;
+    padding-left: 0;
+    flex: 1 0 100%;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 40px;
+  }
+
+  .no_group section > div:last-of-type .button {
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .users p {
+    flex: 1 0 calc(50% - 20px * 2);
+  }
+
+  .group > section:first-of-type > p {
+    flex: 1 0 calc(50% - 12px * 2);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  article > section {
+    padding: 0;
+  }
+
+  .group > section:last-of-type {
+    padding: 0;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+
+  .no_group section > div:first-of-type form div {
+    flex-flow: column nowrap;
+  }
+
+  .no_group section > div:last-of-type {
+    margin-top: 24px;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .no_group section > div:last-of-type .button,
+  .no_group section > div:first-of-type form div button {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .users section {
+    gap: 8px;
+  }
+
+  .users p {
+    flex: 1 0 100%;
+  }
+
+  .group > section:nth-of-type(2) {
+    flex-flow: row wrap;
+    gap: 8px;
+  }
+
+  .group > section:nth-of-type(2) > p {
+    flex: 1 0 100%;
+    user-select: all;
+  }
 }
 </style>
