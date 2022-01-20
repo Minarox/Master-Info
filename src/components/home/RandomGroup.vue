@@ -52,7 +52,7 @@ export default {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  gap: 20px 40px;
+  gap: 12px 40px;
 }
 
 .popup article section div button {
@@ -65,6 +65,17 @@ export default {
   }
   to {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .popup article section div {
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+
+  .popup article section div button {
+    width: 100%;
   }
 }
 </style>
