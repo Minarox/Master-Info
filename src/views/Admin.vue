@@ -52,6 +52,7 @@
                   <p>Nombre de membres : {{ groups[i-1]["users"].length }}</p>
                   <p>Code d'accès : {{ groups[i-1]["link"] }}</p>
                   <button type="button" class="button btn-warning" @click="range = i-1; component = 'DeleteGroup'">Supprimer</button>
+                  <i class="fas fa-trash icon" @click="range = i-1; component = 'DeleteGroup'"></i>
                 </div>
               </header>
               <section>
@@ -92,8 +93,8 @@
                   <td>{{ (users[i-1]["group_id"]) ? 'Oui' : 'Non' }}</td>
                   <td>{{ users[i-1]["created_at"] }}</td>
                   <td>
-                    <!-- <button type="button" class="button">Modifier</button> -->
-                    <button type="button" class="button btn-warning" @click="range = i-1; component = 'DeleteUser'">Supprimer</button>
+                    <!-- <i class="fas fa-edit icon" @click="range = i-1; component = 'EditUser'"></i> -->
+                    <i class="fas fa-trash icon" @click="range = i-1; component = 'DeleteUser'"></i>
                   </td>
                 </tr>
               </tbody>
@@ -243,7 +244,7 @@ article > header i {
 }
 
 .config section form > div {
-  flex: 1 0 calc(33% - 20px);
+  flex: 1 0 calc(33% - 20px * 2);
   display: flex;
   flex-flow: column nowrap;
 }
@@ -277,6 +278,19 @@ article > header i {
   color: white;
 }
 
+.icon {
+  display: none;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: var(--btn-warning);
+  color: white;
+  transition: background-color .17s ease;
+}
+
+.icon:hover {
+  background-color: var(--btn-warning-hover);
+}
+
 .groups section div > header div {
   display: flex;
   flex-flow: row wrap;
@@ -289,11 +303,15 @@ article > header i {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  gap: 20px;
+  gap: 12px 20px;
 }
 
 .groups section div > section p {
-  flex: 1 0 calc(25% - 20px);
+  flex: 1 0 calc(25% - 20px * 2);
+}
+
+.users section {
+  overflow: auto;
 }
 
 .users table {
@@ -334,12 +352,80 @@ article > header i {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
+  gap: 20px;
 }
 
-.users table tbody tr td:last-of-type .button {
-  margin: 0;
+/*.users table tbody tr td:last-of-type .icon:first-of-type {
+  background-color: var(--btn);
 }
 
+.users table tbody tr td:last-of-type .icon:first-of-type:hover {
+  background-color: var(--btn-hover);
+}*/
+
+.users table tbody tr td:last-of-type .icon {
+  display: block;
+}
+
+@media only screen and (max-width: 900px) {
+  .config section form label {
+    padding-right: 36px;
+  }
+
+  .groups section div > header p:first-of-type {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .config section form label {
+    padding-right: 12px;
+    width: 300px;
+  }
+
+  .config section form {
+    flex-flow: column wrap;
+    gap: 12px;
+  }
+
+  .config section form > div {
+    flex: 1 0 100%;
+    flex-flow: row nowrap;
+  }
+
+  .groups section div > header p {
+    display: none;
+  }
+
+  .groups section div > section p {
+    flex: 1 0 calc(50% - 20px * 2);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .config section form label {
+    padding-right: 0;
+    width: auto;
+  }
+
+  .config section form > div {
+    flex-flow: column nowrap;
+  }
+
+  .config section form button {
+    width: 100%;
+  }
+
+  .icon {
+    display: block;
+  }
+
+  .groups section div > header button {
+    display: none;
+  }
+
+  .groups section div > section p {
+    flex: 1 0 100%;
+  }
+}
 </style>
