@@ -3,7 +3,7 @@
     <article>
       <section>
         <router-link id="logo" :to="(admin) ? '/admin' : '/'">
-          <img src="@/assets/img/cloudbees-core_logo.png" alt="Logo">
+          <img src="@/assets/img/cloudbees-core_logo.png" alt="Logo CloudBees Core" title="&copy; CloudBees Core">
           <p>Intégration continue</p>
         </router-link>
       </section>
@@ -49,6 +49,7 @@ export default {
 
 <style scoped>
 #header {
+  z-index: 100;
   position: sticky;
   top: 0;
   height: 56px;
