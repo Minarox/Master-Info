@@ -3,7 +3,7 @@
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
   --text: #2F2F2F;
