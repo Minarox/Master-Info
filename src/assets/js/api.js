@@ -17,6 +17,7 @@ export const API = {
 
     getCurrentGroup,
     addGroup,
+    editGroup,
     getUsers,
     leaveCurrentGroup,
     joinRandomGroup,
@@ -128,6 +129,13 @@ function getCurrentGroup() {
 
 function addGroup(name) {
     return axios.post(api_url + "/group", {name: name}, headers())
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function editGroup(name, admin) {
+    return axios.put(api_url + "/group", {name: name, admin: admin}, headers())
         .then(response => {
             return response["data"];
         });
