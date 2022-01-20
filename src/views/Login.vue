@@ -48,10 +48,10 @@ export default {
     loginForm() {
       API.login(this.username).then(response => {
         if (response && response["group_id"]) {
-          API.getCurrentGroup().then(response => {
-            if (response) this.$router.push('/');
+          API.getCurrentGroup().then(() => {
+            this.$router.push('/');
           })
-        } else if (response) {
+        } else {
           this.$router.push('/');
         }
       }).catch(() => {
@@ -114,39 +114,11 @@ section > div p {
   padding: 10px;
 }
 
-form label {
-  display: block;
-  margin: 0 0 6px 4px;
-  color: var(--text-label);
-}
-
 form input {
-  display: block;
-  width: 100%;
-  outline: none;
-  padding: 6px;
-  border: none;
-  border-bottom: 1px solid var(--text-label);
   margin-bottom: 30px;
 }
 
 form button {
-  display: block;
-  margin: 0 auto;
-  outline: none;
-  cursor: pointer;
-  border-radius: 3px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16px;
-  padding: 10px 24px;
-  border: none;
-  color: #fff;
-  background-color: var(--btn);
-  transition: background-color .17s ease,color .17s ease;
-}
-
-form button:hover {
-  background-color: var(--btn-hover);
+  width: 150px;
 }
 </style>
