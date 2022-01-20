@@ -49,14 +49,8 @@ export default {
   methods: {
     loginForm() {
       this.loading = true;
-      API.login(this.username).then(response => {
-        if (response && response["group_id"]) {
-          API.getCurrentGroup().then(() => {
-            this.$router.push('/');
-          })
-        } else {
-          this.$router.push('/');
-        }
+      API.login(this.username).then(() => {
+        this.$router.push('/');
       }).catch(() => {
         this.loading = false;
         this.error = true;
