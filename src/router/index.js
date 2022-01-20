@@ -28,23 +28,26 @@ router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ["/login"];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = JSON.parse(localStorage.getItem("session"));
+  const session = JSON.parse(localStorage.getItem("session"));
 
-  if (authRequired && !loggedIn) {
-    return next({
-      path: "/login",
-      query: {returnUrl: to.path}
+  if (authRequired && !session) {
+    returnToLogin(to, from, next);
+  } else if (session && Date.parse(session.expire) < Date.now()) {
+    API.logout().then(() => {
+      returnToLogin(to, from, next);
+    }).catch(() => {
+      returnToLogin(to, from, next);
     });
-  } else if (loggedIn && loggedIn.expires_in < (Date.now() / 1000 | 0)) {
-    /*apiService.logout().then(() => {
-      return next({
-        path: "/login",
-        query: {returnUrl: to.path}
-      });
-    });*/
   }
 
   next();
 });
+
+function returnToLogin(to, from, next) {
+  return next({
+    path: "/login",
+    query: {returnUrl: to.path}
+  });
+}
 
 export default router;
