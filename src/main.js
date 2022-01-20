@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import {API} from "./assets/js/api";
 
 const app = createApp(App);
 
@@ -12,12 +13,15 @@ app.mixin({
     },
     methods: {
         checkSessionExist() {
-            if (localStorage.getItem("session")) router.push('/');
+            if (localStorage.getItem("session")) {
+                API.currentSession().then();
+                router.push('/').then();
+            }
         },
         isAdmin(routerPush = true) {
             let admin = JSON.parse(localStorage.getItem("session"))["is_admin"].toString();
             if (admin !== '1') {
-                if (routerPush) this.$router.push('/');
+                if (routerPush) this.$router.push('/').then();
                 return false;
             }
             return true;
