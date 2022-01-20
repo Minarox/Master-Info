@@ -179,7 +179,7 @@ export default {
     usersWithoutGroup() {
       let array = [];
       for (let i = 0; i < this.users.length; i++)
-        if (!this.users[i]["group_id"])
+        if (!this.users[i]["group_id"] && this.users[i]["id"] !== this.user["id"])
           array.push({username: this.users[i]["username"]});
       return array;
     },
