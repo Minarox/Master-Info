@@ -28,19 +28,14 @@
 <script>
 export default {
   name: "Header",
+  props: [
+    "username",
+    "admin"
+  ],
   data() {
     return {
       opened: false,
-      first_open: false,
-      username: null,
-      admin: false
-    }
-  },
-  mounted() {
-    if (localStorage.getItem("session")) {
-      const session = JSON.parse(localStorage.getItem("session"));
-      this.username = session["username"];
-      this.admin = session["is_admin"];
+      first_open: false
     }
   },
   watch: {
@@ -106,6 +101,7 @@ export default {
   border-radius: 4px;
   transition: background-color 100ms;
   background-color: var(--popup-bg);
+  color: var(--text);
 }
 
 #header #normal_menu a:hover {
