@@ -5,8 +5,8 @@ namespace TestCase\Controllers;
 
 require_once __DIR__ . "/../../TestCase.php";
 
-use Controllers\GroupController;
 use BadRequest;
+use Controllers\GroupController;
 use NotFound;
 use TestCase;
 
@@ -108,6 +108,85 @@ class GroupControllerTest extends TestCase
         $this->removeLinkToGroup();
         $request = $this->createRequest("POST", "/group", ["test" => "test_group_phpunit2"]);
         $this->groupController->addGroup($request, $this->response);
+    }
+
+    /**
+     * Test edit group function
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testEditGroup()
+    {
+        $request = $this->createRequest("PUT", "/group", ["name" => "test_group", "admin" => $GLOBALS["user"]["id"]]);
+        $result = $this->groupController->editGroup($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 200,
+                "code_description" => "Success"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+
+        $database = $this->pdo->query("SELECT name, admin FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetch();
+        self::assertSame("test_group", $database["name"]);
+        self::assertSame($GLOBALS["user"]["id"], $database["admin"]);
+    }
+
+    /**
+     * Test edit group function without group
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testEditGroupWithoutGroup()
+    {
+        $this->removeLinkToGroup();
+        $request = $this->createRequest("PUT", "/group", ["name" => "test_group", "admin" => $GLOBALS["user"]["id"]]);
+        $result = $this->groupController->editGroup($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 404,
+                "code_description" => "Not Found"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(404, $result->getStatusCode());
+    }
+
+    /**
+     * Test edit group function with bad values
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testEditGroupWithBadValues()
+    {
+        $request = $this->createRequest("PUT", "/group", ["name" => "test_group", "admin" => "0"]);
+        $result = $this->groupController->editGroup($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 400,
+                "code_description" => "Bad Request"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(400, $result->getStatusCode());
+    }
+
+    /**
+     * Test edit group function with bad key
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testEditGroupWithBadKey()
+    {
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Value doesn't exist in array");
+
+        $request = $this->createRequest("PUT", "/group", ["test1" => "test_group", "test2" => "10"]);
+        $this->groupController->editGroup($request, $this->response);
     }
 
     /**

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Controllers;
 
-use Controller;
 use BadRequest;
+use Controller;
 use Exception;
 use NotFound;
 use Slim\Psr7\Request;
@@ -67,6 +67,34 @@ class GroupController extends Controller
         } else {
             return $this->errorCode()->conflict("Maximum number of groups reached");
         }
+    }
+
+    /**
+     * Add new group in the database
+     *
+     * Usage: PUT /group
+     *
+     * @param Request $request Slim request interface
+     * @param Response $response Slim response interface
+     * @return Response Response to show
+     * @throws BadRequest|NotFound
+     */
+    public function editGroup(Request $request, Response $response): Response
+    {
+        if (!$GLOBALS["user"]["group_id"]) return $this->errorCode()->notFound();
+        $body = $this->parseBody($request);
+
+        $this->checkExist("name", $body);
+        $this->checkExist("admin", $body);
+        if ((int) $body["admin"] <= 0) return $this->errorCode()->badRequest();
+
+        $this->database()->update(
+            "Groups",
+            ["name" => $body["name"], "admin" => $body["admin"]],
+            ["id" => $GLOBALS["user"]["group_id"], "admin" => $GLOBALS["user"]["id"]]
+        );
+
+        return $this->successCode()->success();
     }
 
     /**
