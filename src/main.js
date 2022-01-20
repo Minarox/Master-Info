@@ -7,7 +7,6 @@ const app = createApp(App);
 app.mixin({
     data() {
         return {
-            session: [],
             api_url: "https://ic.minarox.fr/api"
         }
     },
