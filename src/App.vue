@@ -19,6 +19,9 @@
 
   --btn-warning: #BC4747;
   --btn-warning-hover: #e05353;
+
+  --btn-back: #575757;
+  --btn-back-hover: #797979;
 }
 
 ::-webkit-scrollbar {
@@ -103,10 +106,15 @@ form button, .button {
   background-color: var(--btn);
   transition: background-color .17s ease,color .17s ease;
   text-decoration: none;
+  text-align: center;
 }
 
 .btn-warning {
   background-color: var(--btn-warning) !important;
+}
+
+.btn-back {
+  background-color: var(--btn-back) !important;
 }
 
 form button:hover, .button:hover {
@@ -117,7 +125,52 @@ form button:hover, .button:hover {
   background-color: var(--btn-warning-hover) !important;
 }
 
+.btn-back:hover {
+  background-color: var(--btn-back-hover) !important;
+}
+
 form button > * {
   color: #fff;
+}
+
+.popup {
+  position: absolute;
+  top: 56px;
+  width: 100vw;
+  height: calc(100vh - 56px);
+  background-color: rgba(0, 0, 0, .36);
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup article {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 6px;
+  background-color: var(--popup-bg);
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px 0;
+}
+
+.popup article > header {
+  background-color: var(--hover-bg);
+  padding: 16px;
+  text-align: center;
+  border-radius: 6px 6px 0 0;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.popup article > section {
+  padding: 20px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .4s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
