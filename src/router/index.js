@@ -32,15 +32,18 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !session) {
     returnToLogin(to, from, next);
+    next();
   } else if (session && Date.parse(session.expire) < Date.now()) {
     API.logout().then(() => {
       returnToLogin(to, from, next);
+      next();
     }).catch(() => {
       returnToLogin(to, from, next);
+      next();
     });
+  } else {
+    next();
   }
-
-  next();
 });
 
 function returnToLogin(to, from, next) {
