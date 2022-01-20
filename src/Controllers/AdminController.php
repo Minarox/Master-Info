@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Controllers;
 
-use Controller;
 use BadRequest;
+use Controller;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -55,7 +55,8 @@ class AdminController extends Controller
         $this->checkExist("max_users", $body);
         if ((int) $body["max_users"] <= 0) return $this->errorCode()->badRequest();
 
-        $this->updateConfig("session", "maxUsers", (int) $body["max_users"]);
+        if ((int) $body["max_users"] != (int) $GLOBALS["config"]["session"]["maxUsers"])
+            $this->updateConfig("session", "maxUsers", (int) $body["max_users"]);
 
         return $this->successCode()->success();
     }
@@ -78,7 +79,8 @@ class AdminController extends Controller
         $this->checkExist("users_per_group", $body);
         if ((int) $body["users_per_group"] <= 0) return $this->errorCode()->badRequest();
 
-        $this->updateConfig("groups", "usersPerGroup", (int) $body["users_per_group"]);
+        if ((int) $body["users_per_group"] != (int) $GLOBALS["config"]["groups"]["usersPerGroup"])
+            $this->updateConfig("groups", "usersPerGroup", (int) $body["users_per_group"]);
 
         return $this->successCode()->success();
     }
@@ -100,11 +102,11 @@ class AdminController extends Controller
 
         $this->checkExist("last_group_mode", $body);
 
-        if ($body["last_group_mode"] == "LAST_MIN" || $body["last_group_mode"] == "LAST_MAX") {
-            $this->updateConfig("groups", "lastGroupMode", $body["last_group_mode"]);
-        } else {
+        if (!($body["last_group_mode"] == "LAST_MIN" || $body["last_group_mode"] == "LAST_MAX"))
             return $this->errorCode()->badRequest();
-        }
+
+        if ($body["last_group_mode"] != $GLOBALS["config"]["groups"]["lastGroupMode"])
+            $this->updateConfig("groups", "lastGroupMode", $body["last_group_mode"]);
 
         return $this->successCode()->success();
     }
