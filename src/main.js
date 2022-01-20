@@ -25,7 +25,43 @@ app.mixin({
                 return false;
             }
             return true;
-        }
+        },
+        unauthorizedError(error) {
+            if (error["response"] && error["response"]["status"] === 401) {
+                API.logout().then(() => {
+                    this.$router.push('/login').then();
+                }).catch(() => {
+                    this.$router.push('/login').then();
+                });
+            }
+        },
+        switchComponent(payload) {
+            this.component = payload.name;
+        },
+        addEvents(component, container, self = this) {
+            window.addEventListener("click", function (e) {
+                if (e.target === container) {
+                    self.$emit("component", {name: component});
+                }
+            });
+            window.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    self.$emit("component", {name: component});
+                }
+            });
+        },
+        removeEvents(component, container, self = this) {
+            window.removeEventListener("click", function (e) {
+                if (e.target === container) {
+                    self.$emit("component", {name: component});
+                }
+            });
+            window.removeEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    self.$emit("component", {name: component});
+                }
+            });
+        },
     }
 });
 
