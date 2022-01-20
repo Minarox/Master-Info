@@ -17,7 +17,8 @@
             <form @submit.prevent="loginForm">
               <label for="login">Nom d'utilisateur</label>
               <input type="text" name="login" id="login" autofocus autocomplete="username" required v-model="username">
-              <button type="submit">Se connecter</button>
+              <button v-if="loading" type="submit" disabled><i class="fa fa-spinner fa-spin"></i></button>
+              <button v-else type="submit">Se connecter</button>
             </form>
           </section>
         </article>
@@ -38,7 +39,8 @@ export default {
   data() {
     return {
       username: '',
-      error: false,
+      loading: false,
+      error: false
     }
   },
   mounted() {
@@ -46,6 +48,7 @@ export default {
   },
   methods: {
     loginForm() {
+      this.loading = true;
       API.login(this.username).then(response => {
         if (response && response["group_id"]) {
           API.getCurrentGroup().then(() => {
@@ -55,6 +58,7 @@ export default {
           this.$router.push('/');
         }
       }).catch(() => {
+        this.loading = false;
         this.error = true;
       })
     }
