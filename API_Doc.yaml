@@ -1,0 +1,970 @@
+swagger: "2.0"
+info:
+  description: "Documentation Swagger de l'API de gestion de groupe réalisé dans le cadre du projet de fin de module d'intégration continue.
+  
+  L'accès à l'application se fait à l'aide d'un token d'accès à placer dans l'entête de la requête. Ce token est composé du nom d'utilisateur suivit du token généré lors de la connexion."
+  version: "1.0.0"
+  title: "Intégration continue"
+  contact:
+    email: "contact@minarox.fr"
+  license:
+    name: "Apache 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+host: "ic.minarox.fr"
+basePath: "/api"
+consumes:
+  - "application/json"
+  - "application/x-www-form-urlencoded"
+  - "application/xml"
+  - "text/xml"
+produces:
+  - "application/json"
+tags:
+  - name: "Session"
+    description: "Tout ce qui concerne le système de session"
+  - name: "Group"
+    description: "Gestion des groupes"
+  - name: "Admin"
+    description: "Gestion de l'application"
+schemes:
+  - "https"
+paths:
+  /login:
+    post:
+      tags:
+        - "Session"
+      summary: "Connexion à l'application"
+      description: "Permet de se connecter à un compte existant ou d'en créer un nouveau"
+      operationId: "login"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Nom d'utilisateur du compte ciblé"
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+  /session:
+    get:
+      tags:
+        - "Session"
+      summary: "Informations de session"
+      description: "Renvoie les informations du compte de l'utilisateur actuellement connecté"
+      operationId: "currentSession"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /logout:
+    get:
+      tags:
+        - "Session"
+      summary: "Déconnexion de l'application"
+      description: "Déconnecte la session actuelle de l'application"
+      operationId: "logout"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /group:
+    get:
+      tags:
+        - "Group"
+      summary: "Informations du groupe"
+      description: "Renvoie les informations du groupe dans lequel se trouve l'utilisateur"
+      operationId: "getCurrentGroup"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/currentGroup"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+    post:
+      tags:
+        - "Group"
+      summary: "Nouveau groupe"
+      description: "Créer un nouveau groupe dans l'application"
+      operationId: "addGroup"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Nom du nouveau groupe"
+          required: true
+          schema:
+            $ref: "#/definitions/addGroup"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Group"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+    put:
+      tags:
+        - "Group"
+      summary: "Modifier le groupe"
+      description: "Modifie les informations du groupe"
+      operationId: "editGroup"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Informations du groupe à mettre à jour"
+          required: true
+          schema:
+            $ref: "#/definitions/editGroup"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+  /group/users:
+    get:
+      tags:
+        - "Group"
+      summary: "Utilisateurs de l'application"
+      description: "Renvoie la liste des utilisateurs de l'application"
+      operationId: "getUsers"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Users"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+  /group/leave:
+    get:
+      tags:
+        - "Group"
+      summary: "Quitte le groupe actuel"
+      description: "Supprime l'utilisateur actuel du groupe"
+      operationId: "leaveCurrentGroup"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+  /group/random:
+    get:
+      tags:
+        - "Group"
+      summary: "Rejoindre aléatoirement un groupe"
+      description: "Affecte l'utilisateur actuel à un groupe choisit aléatoirement"
+      operationId: "joinRandomGroup"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+  /group/join/{group_link}:
+    get:
+      tags:
+        - "Group"
+      summary: "Rejoindre aléatoirement un groupe"
+      description: "Affecte l'utilisateur actuel à un groupe choisit aléatoirement"
+      operationId: "joinGroup"
+      parameters:
+        - in: "path"
+          name: "group_link"
+          type: "string"
+          description: "Code d'accès du groupe"
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - AccessToken: []
+  /admin/config:
+    get:
+      tags:
+        - "Admin"
+      summary: "Configuration de l'application"
+      description: "Renvoie la configuration actuelle de l'application"
+      operationId: "getConfig"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Config"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/max-users:
+    post:
+      tags:
+        - "Admin"
+      summary: "Nombre maximal d'utilisateurs"
+      description: "Modifie le nombre maximal d'utilisateurs de l'application"
+      operationId: "setMaxUsers"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Nombre maximal d'utilisateurs"
+          required: true
+          schema:
+            $ref: "#/definitions/maxUsers"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/users-per-group:
+    post:
+      tags:
+        - "Admin"
+      summary: "Nombre maximal d'utilisateurs par groupe"
+      description: "Modifie le nombre maximal d'utilisateurs autorisé par groupe"
+      operationId: "setUsersPerGroup"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Nombre maximal d'utilisateurs par groupe"
+          required: true
+          schema:
+            $ref: "#/definitions/usersPerGroup"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/last-group:
+    post:
+      tags:
+        - "Admin"
+      summary: "Mode de remplissage du dernier groupe"
+      description: "Modifie le mode de remplissage du dernier groupe"
+      operationId: "setLastGroupConfig"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Mode de remplissage du dernier groupe"
+          required: true
+          schema:
+            $ref: "#/definitions/lastGroupConfig"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/user/{user_id}:
+    delete:
+      tags:
+        - "Admin"
+      summary: "Supprime un utilisateur"
+      description: "Supprime un utilisateur de l'application"
+      operationId: "deleteUser"
+      parameters:
+        - in: "path"
+          name: "user_id"
+          type: "integer"
+          format: "int32"
+          description: "Identifiant de l'utilisateur"
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/groups:
+    get:
+      tags:
+        - "Admin"
+      summary: "Groupes de l'application"
+      description: "Renvoie la liste des groupes de l'application"
+      operationId: "getGroups"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/currentGroup"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+  /admin/group/{group_id}:
+    delete:
+      tags:
+        - "Admin"
+      summary: "Supprime un groupe"
+      description: "Supprime un groupe de l'application"
+      operationId: "deleteGroup"
+      parameters:
+        - in: "path"
+          name: "group_id"
+          type: "integer"
+          format: "int32"
+          description: "Identifiant du groupe"
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - AccessToken: []
+securityDefinitions:
+  AccessToken:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  200:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 200
+      code_description:
+        type: "string"
+        example: "Success"
+    xml:
+      name: "200"
+  201:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 201
+      code_description:
+        type: "string"
+        example: "Created"
+    xml:
+      name: "201"
+  400:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 400
+      code_description:
+        type: "string"
+        example: "Bad Request"
+    xml:
+      name: "400"
+  401:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 401
+      code_description:
+        type: "string"
+        example: "Unauthorized"
+    xml:
+      name: "401"
+  404:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 404
+      code_description:
+        type: "string"
+        example: "Not Found"
+    xml:
+      name: "404"
+  409:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 409
+      code_description:
+        type: "string"
+        example: "Conflict"
+    xml:
+      name: "409"
+  Login:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        example: Utilisateur
+    xml:
+      name: "Login"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        example: 1
+      username:
+        type: "string"
+        example: Utilisateur
+      id_admin:
+        type: "boolean"
+        example: 0
+      group_id:
+        type: "integer"
+        format: "int32"
+        example: null
+      token:
+        type: "string"
+        example: 6VX2uny8Ts731jdFfEOiq4tADWCapkHQ0Zc9SPR5bMglBINhJvKwoeYmUzxr
+      expire:
+        type: "string"
+        example: "0000-00-00 00:00:00"
+      created_at:
+        type: "string"
+        example: "0000-00-00 00:00:00"
+    xml:
+      name: "User"
+  currentGroup:
+    type: "object"
+    properties:
+      group:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            format: "int32"
+            example: 1
+          name:
+            type: "string"
+            example: Groupe 1
+          admin:
+            type: "integer"
+            format: "int32"
+            example: 1
+          link:
+            type: "string"
+            example: abcdefg123456789
+          created_at:
+            type: "string"
+            example: "0000-00-00 00:00:00"
+      users:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            format: "int32"
+            example: 1
+          username:
+            type: "string"
+            example: Utilisateur
+          expire:
+            type: "string"
+            example: "0000-00-00 00:00:00"
+    xml:
+      name: "currentGroup"
+  Group:
+    type: "object"
+    properties:
+      group:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            format: "int32"
+            example: 1
+          name:
+            type: "string"
+            example: Groupe 1
+          admin:
+            type: "integer"
+            format: "int32"
+            example: 1
+          link:
+            type: "string"
+            example: abcdefg123456789
+          created_at:
+            type: "string"
+            example: "0000-00-00 00:00:00"
+    xml:
+      name: "Group"
+  addGroup:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: Groupe 1
+    xml:
+      name: "addGroup"
+  editGroup:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: Groupe 1
+      admin:
+        type: "integer"
+        format: "int32"
+        example: 1
+    xml:
+      name: "editGroup"
+  Users:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+        example: 1
+      username:
+        type: "string"
+        example: Utilisateur
+      group_id:
+        type: "integer"
+        format: "int32"
+        example: null
+      expire:
+        type: "string"
+        example: "0000-00-00 00:00:00"
+      created_at:
+        type: "string"
+        example: "0000-00-00 00:00:00"
+    xml:
+      name: "Users"
+  Config:
+    type: "object"
+    properties:
+      maxUsers:
+        type: "integer"
+        format: "int32"
+        example: 20
+      usersPerGroup:
+        type: "integer"
+        format: "int32"
+        example: 4
+      lastGroupMode:
+        type: "string"
+        example: LAST_MIN
+    xml:
+      name: "Config"
+  maxUsers:
+    type: "object"
+    properties:
+      maxUsers:
+        type: "integer"
+        format: "int32"
+        example: 20
+    xml:
+      name: "maxUsers"
+  usersPerGroup:
+    type: "object"
+    properties:
+      usersPerGroup:
+        type: "integer"
+        format: "int32"
+        example: 4
+    xml:
+      name: "usersPerGroup"
+  lastGroupConfig:
+    type: "object"
+    properties:
+      lastGroupMode:
+        type: "string"
+        example: LAST_MIN
+    xml:
+      name: "lastGroupConfig"
