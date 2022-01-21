@@ -19,6 +19,10 @@ use BadRequest;
  * @throws NotFound|BadRequest
  */
 return function (Request $request, RequestHandler $handler): Response {
+    if (str_ends_with($request->getRequestTarget(), "/api/")) {
+        return $handler->handle($request);
+    }
+
     // Check if request is for a require logged function
     if (!str_starts_with($request->getRequestTarget(), "/api/login")) {
         $error = new ErrorCode();

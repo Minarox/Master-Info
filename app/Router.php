@@ -21,7 +21,7 @@ return function (App $app) {
     });
 
     $app->map(["GET", "POST", "PUT", "DELETE", "PATCH"], "[/]", function ($request, $response) {
-        return (new ErrorCode())->methodNotAllowed();
+        return (new ErrorCode())->notFound();
     });
 
     $app->post("/login", [SessionController::class, "login"]);
