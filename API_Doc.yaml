@@ -929,15 +929,15 @@ definitions:
   Config:
     type: "object"
     properties:
-      maxUsers:
+      max_users:
         type: "integer"
         format: "int32"
         example: 20
-      usersPerGroup:
+      users_per_group:
         type: "integer"
         format: "int32"
         example: 4
-      lastGroupMode:
+      last_group_mode:
         type: "string"
         example: LAST_MIN
     xml:
@@ -945,7 +945,7 @@ definitions:
   maxUsers:
     type: "object"
     properties:
-      maxUsers:
+      max_users:
         type: "integer"
         format: "int32"
         example: 20
@@ -954,7 +954,7 @@ definitions:
   usersPerGroup:
     type: "object"
     properties:
-      usersPerGroup:
+      users_per_group:
         type: "integer"
         format: "int32"
         example: 4
@@ -963,7 +963,7 @@ definitions:
   lastGroupConfig:
     type: "object"
     properties:
-      lastGroupMode:
+      last_group_mode:
         type: "string"
         example: LAST_MIN
     xml:
