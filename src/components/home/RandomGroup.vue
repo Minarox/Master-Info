@@ -8,7 +8,7 @@
       <section>
         <p>Voulez vous vraiment rejoindre un groupe aléatoirement ?</p>
         <div>
-          <button type="submit" class="button">Oui</button>
+          <button type="submit" class="button" @click="randomGroup">Oui</button>
           <button type="button" class="button btn-back" @click="$emit('component', {name: ''})">Non</button>
         </div>
       </section>
