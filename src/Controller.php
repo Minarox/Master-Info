@@ -93,7 +93,7 @@ abstract class Controller
     {
         $body = $request->getBody()->__toString();
         $content_type = $request->getHeader("Content-Type");
-        if (empty($body) && empty($content_type)) throw new BadRequest("Body is empty");
+        if (empty($body) || empty($content_type)) throw new BadRequest("Body or Content type is empty");
 
         if (str_starts_with($content_type[0], "application/x-www-form-urlencoded")) {
             parse_str($body, $data);
