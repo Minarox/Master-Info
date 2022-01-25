@@ -845,6 +845,9 @@ definitions:
       username:
         type: "string"
         example: Utilisateur
+      password:
+        type: "string"
+        example: MotDePasse123
     xml:
       name: "Login"
   User:
