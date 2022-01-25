@@ -5,8 +5,8 @@ namespace TestCase\Controllers;
 
 require_once __DIR__ . "/../../TestCase.php";
 
-use Controllers\SessionController;
 use BadRequest;
+use Controllers\SessionController;
 use NotFound;
 use TestCase;
 
@@ -27,14 +27,34 @@ class SessionControllerTest extends TestCase
      */
     public function testLogin()
     {
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit"]);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit", "password" => "test_password_phpunit"]);
         $result = $this->sessionController->login($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
+            json_encode($this->pdo->query("SELECT id, username, is_admin, group_id, token, expire, created_at FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
+     * Test login function with bad password
+     *
+     * @throws BadRequest|NotFound
+     */
+    public function testLoginWithBadPassword()
+    {
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit", "password" => "test123"]);
+        $result = $this->sessionController->login($request, $this->response);
+
+        self::assertSame(
+            json_encode([
+                "code_value" => 401,
+                "code_description" => "Unauthorized"
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(401, $result->getStatusCode());
     }
 
     /**
@@ -44,12 +64,12 @@ class SessionControllerTest extends TestCase
      */
     public function testLoginWithoutAccount()
     {
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"]);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2", "password" => "test123"]);
         $result = $this->sessionController->login($request, $this->response);
         $test_user_id = (json_decode($result->getBody()->__toString(), true))["id"];
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch()),
+            json_encode($this->pdo->query("SELECT id, username, is_admin, group_id, token, expire, created_at FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -67,7 +87,7 @@ class SessionControllerTest extends TestCase
         $temp = $GLOBALS["config"]["session"]["maxUsers"];
         $GLOBALS["config"]["session"]["maxUsers"] = 0;
 
-        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2"]);
+        $request = $this->createRequest("POST", "/login", ["username" => "test_user_phpunit2", "password" => "test123"]);
         $result = $this->sessionController->login($request, $this->response);
 
         self::assertSame(
@@ -112,7 +132,7 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->currentSession($request, $this->response);
 
         self::assertSame(
-            json_encode($this->pdo->query("SELECT * FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
+            json_encode($this->pdo->query("SELECT id, username, is_admin, group_id, token, expire, created_at FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetch()),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
