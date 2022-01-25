@@ -43,8 +43,8 @@ function headers() {
     }
 }
 
-function login(username) {
-    return axios.post(api_url + "/login", {username: username}, headers())
+function login(username, password) {
+    return axios.post(api_url + "/login", {username: username, password: password}, headers())
         .then(response => {
             localStorage.setItem("session", JSON.stringify(response["data"]));
             return response["data"];
