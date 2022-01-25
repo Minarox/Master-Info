@@ -163,7 +163,7 @@ class AdminController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]["users"] = $this->database()->find(
                 "Users",
-                ["id", "username", "created_at"],
+                ["id", "username", "expire", "created_at"],
                 ["group_id" => $data[$i]["id"]],
                 exception: false
             );
