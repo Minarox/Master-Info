@@ -911,6 +911,9 @@ definitions:
           expire:
             type: "string"
             example: "0000-00-00 00:00:00"
+          created_at:
+            type: "string"
+            example: "0000-00-00 00:00:00"
     xml:
       name: "currentGroup"
   Group:

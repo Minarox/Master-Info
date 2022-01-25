@@ -404,7 +404,7 @@ class AdminControllerTest extends TestCase
         $data = $this->pdo->query("SELECT * FROM `Groups`;")->fetchAll();
         for ($i = 0; $i < count($data); $i++) {
             $group_id = $data[$i]["id"];
-            $data[$i]["users"] = $this->pdo->query("SELECT id, username, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
+            $data[$i]["users"] = $this->pdo->query("SELECT id, username, expire, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
         }
 
         self::assertSame(
