@@ -540,8 +540,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MAX";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -568,8 +568,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MIN";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(3));
-        self::assertFalse($this->groupController->addUserInGroupVerification(4));
+        self::assertTrue($this->groupController->newUserInGroupVerification(3));
+        self::assertFalse($this->groupController->newUserInGroupVerification(4));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -627,8 +627,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MIN";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -654,8 +654,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["session"]["maxUsers"] = 20;
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];

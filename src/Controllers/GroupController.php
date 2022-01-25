@@ -126,7 +126,7 @@ class GroupController extends Controller
             true
         ))["users"];
 
-        if (!$this->addUserInGroupVerification($nbUsers))
+        if (!$this->newUserInGroupVerification($nbUsers))
             return $this->errorCode()->conflict("The group is full");
 
         $this->database()->update(
@@ -166,7 +166,7 @@ class GroupController extends Controller
                true
            ))["users"];
 
-           if ($this->addUserInGroupVerification($users)) {
+           if ($this->newUserInGroupVerification($users)) {
                $groupsNotFull[] = [
                    "id" => $groups[$i]["id"]
                ];
@@ -299,7 +299,7 @@ class GroupController extends Controller
      * @throws BadRequest
      * @throws NotFound
      */
-    public function addUserInGroupVerification(int $nbUsersInGroup): bool
+    public function newUserInGroupVerification(int $nbUsersInGroup): bool
     {
         $nbUsersNotInGroup = ($this->database()->find(
             "Users",
