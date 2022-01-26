@@ -460,6 +460,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -501,6 +507,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -542,6 +554,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -583,6 +601,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -624,6 +648,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -658,6 +688,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -699,6 +735,12 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/401"
+        "403":
+          description: "Forbidden"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/403"
         "404":
           description: "Not Found"
           schema:
@@ -761,6 +803,18 @@ definitions:
         example: "Unauthorized"
     xml:
       name: "401"
+  403:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 403
+      code_description:
+        type: "string"
+        example: "Forbidden"
+    xml:
+      name: "403"
   404:
     type: "object"
     properties:
@@ -791,6 +845,9 @@ definitions:
       username:
         type: "string"
         example: Utilisateur
+      password:
+        type: "string"
+        example: MotDePasse123
     xml:
       name: "Login"
   User:
@@ -855,6 +912,9 @@ definitions:
             type: "string"
             example: Utilisateur
           expire:
+            type: "string"
+            example: "0000-00-00 00:00:00"
+          created_at:
             type: "string"
             example: "0000-00-00 00:00:00"
     xml:

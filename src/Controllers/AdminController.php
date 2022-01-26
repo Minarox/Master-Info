@@ -25,7 +25,7 @@ class AdminController extends Controller
      */
     public function getConfig(Request $request, Response $response): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
 
         $response->getBody()->write(
             json_encode([
@@ -49,7 +49,7 @@ class AdminController extends Controller
      */
     public function setMaxUsers(Request $request, Response $response): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
         $body = $this->parseBody($request);
 
         $this->checkExist("max_users", $body);
@@ -73,7 +73,7 @@ class AdminController extends Controller
      */
     public function setUsersPerGroup(Request $request, Response $response): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
         $body = $this->parseBody($request);
 
         $this->checkExist("users_per_group", $body);
@@ -97,7 +97,7 @@ class AdminController extends Controller
      */
     public function setLastGroupConfig(Request $request, Response $response): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
         $body = $this->parseBody($request);
 
         $this->checkExist("last_group_mode", $body);
@@ -123,7 +123,7 @@ class AdminController extends Controller
      */
     public function deleteUser(Request $request, Response $response, array $args): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
         if (!array_key_exists("user_id", $args)) return $this->errorCode()->badRequest();
 
         if ((int) $args["user_id"] <= 0) return $this->errorCode()->badRequest();
@@ -152,7 +152,7 @@ class AdminController extends Controller
      */
     public function getGroups(Request $request, Response $response): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
 
         $data = $this->database()->find(
             "Groups",
@@ -163,7 +163,7 @@ class AdminController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]["users"] = $this->database()->find(
                 "Users",
-                ["id", "username", "created_at"],
+                ["id", "username", "expire", "created_at"],
                 ["group_id" => $data[$i]["id"]],
                 exception: false
             );
@@ -187,7 +187,7 @@ class AdminController extends Controller
      */
     public function deleteGroup(Request $request, Response $response, array $args): Response
     {
-        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->unauthorized();
+        if (!$GLOBALS["user"]["is_admin"]) return $this->errorCode()->forbidden();
         if (!array_key_exists("group_id", $args)) return $this->errorCode()->badRequest();
 
         if ((int) $args["group_id"] <= 0) return $this->errorCode()->badRequest();

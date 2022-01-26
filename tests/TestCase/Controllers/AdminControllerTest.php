@@ -50,12 +50,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
     }
 
     /**
@@ -132,12 +132,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($maxUsers, (int) $GLOBALS["config"]["session"]["maxUsers"]);
     }
 
@@ -215,12 +215,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($usersPerGroup, (int) $GLOBALS["config"]["groups"]["usersPerGroup"]);
     }
 
@@ -298,12 +298,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($lastGroupMode, $GLOBALS["config"]["groups"]["lastGroupMode"]);
     }
 
@@ -382,12 +382,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($GLOBALS["user"]["id"], $this->pdo->query("SELECT id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
     }
 
@@ -404,7 +404,7 @@ class AdminControllerTest extends TestCase
         $data = $this->pdo->query("SELECT * FROM `Groups`;")->fetchAll();
         for ($i = 0; $i < count($data); $i++) {
             $group_id = $data[$i]["id"];
-            $data[$i]["users"] = $this->pdo->query("SELECT id, username, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
+            $data[$i]["users"] = $this->pdo->query("SELECT id, username, expire, created_at FROM Users WHERE group_id = '$group_id'")->fetchAll();
         }
 
         self::assertSame(
@@ -427,12 +427,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
     }
 
     /**
@@ -470,12 +470,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($GLOBALS["user"]["group_id"], $this->pdo->query("SELECT id FROM `Groups` WHERE id = '{$GLOBALS["user"]["group_id"]}' LIMIT 1;")->fetchColumn());
     }
 
@@ -555,12 +555,12 @@ class AdminControllerTest extends TestCase
 
         self::assertSame(
             json_encode([
-                "code_value" => 401,
-                "code_description" => "Unauthorized"
+                "code_value" => 403,
+                "code_description" => "Forbidden"
             ]),
             $result->getBody()->__toString()
         );
-        self::assertSame(401, $result->getStatusCode());
+        self::assertSame(403, $result->getStatusCode());
         self::assertSame($test_group_id, $this->pdo->query("SELECT id FROM `Groups` WHERE id = '$test_group_id' LIMIT 1;")->fetchColumn());
     }
 

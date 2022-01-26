@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . "/../app/Loader.php";
 
-use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use app\Database;
+use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request;
@@ -99,7 +99,8 @@ class TestCase extends PHPUnit_TestCase
         $this->pdo->query("DELETE FROM Users WHERE username = 'test_user_phpunit' AND is_admin = 1;")->execute();
 
         $date = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s")) + $GLOBALS["config"]["session"]["token_lifetime"]);
-        $test_user_id = $this->pdo->query("INSERT INTO Users (username, is_admin, token, expire) VALUES ('test_user_phpunit', 1, '{$this->randString(60)}', '$date') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit", PASSWORD_BCRYPT);
+        $test_user_id = $this->pdo->query("INSERT INTO Users (username, password, is_admin, token, expire) VALUES ('test_user_phpunit', '$password', 1, '{$this->randString(60)}', '$date') RETURNING id;")->fetchColumn();
         $this->test_group = $this->pdo->query("INSERT INTO Groups (name, admin, link) VALUES ('test_group_phpunit', '$test_user_id', 'phpunittestlink') RETURNING *;")->fetch();
         $this->pdo->query("UPDATE Users SET group_id = '{$this->test_group["id"]}' WHERE id = '$test_user_id';");
         $GLOBALS["user"] = $this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch();
