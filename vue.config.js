@@ -6,5 +6,5 @@ module.exports = {
     port: 8200,
     public: "ic.minarox.fr",
     disableHostCheck: true,
-  }
+  },
 };

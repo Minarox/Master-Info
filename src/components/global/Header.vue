@@ -2,22 +2,37 @@
   <header id="header">
     <article>
       <section>
-        <router-link id="logo" :to="(admin) ? '/admin' : '/'">
-          <img src="@/assets/img/cloudbees-core_logo.png" alt="Logo CloudBees Core" title="&copy; CloudBees Core">
+        <router-link id="logo" :to="admin ? '/admin' : '/'">
+          <img
+            src="@/assets/img/cloudbees-core_logo.png"
+            alt="Logo CloudBees Core"
+            title="&copy; CloudBees Core"
+          />
           <p>Intégration continue</p>
         </router-link>
       </section>
 
       <section v-if="username" id="normal_menu" @mouseleave="opened = false">
-        <a class="button" @click="first_open = true; opened = !opened">
-          <img src="@/assets/img/user_logo.png" alt="User logo">
+        <a
+          class="button"
+          @click="
+            first_open = true;
+            opened = !opened;
+          "
+        >
+          <img src="@/assets/img/user_logo.png" alt="User logo" />
           {{ username }}
           <i class="fas fa-sort-down"></i>
         </a>
-        <ul :class="(opened) ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
+        <ul
+          :class="opened ? 'dropdown open' : 'dropdown'"
+          @mouseleave="opened = false"
+        >
           <li>
             <!-- Logout button -->
-            <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
+            <router-link to="/logout" @click="opened = false"
+              >Déconnexion</router-link
+            >
           </li>
         </ul>
       </section>
@@ -25,11 +40,20 @@
 
     <!-- Mobile menu -->
     <article v-if="username" id="mobile_menu" @mouseleave="opened = false">
-      <a @click="first_open = true; opened = !opened">
+      <a
+        @click="
+          first_open = true;
+          opened = !opened;
+        "
+      >
         <i class="fas fa-bars"></i>
       </a>
-      <ul :class="(opened) ? 'dropdown open' : 'dropdown'">
-        <li><router-link to="/logout" @click="opened = false">Déconnexion</router-link></li>
+      <ul :class="opened ? 'dropdown open' : 'dropdown'">
+        <li>
+          <router-link to="/logout" @click="opened = false"
+            >Déconnexion</router-link
+          >
+        </li>
       </ul>
     </article>
   </header>
@@ -38,22 +62,19 @@
 <script>
 export default {
   name: "Header",
-  props: [
-    "username",
-    "admin"
-  ],
+  props: ["username", "admin"],
   data() {
     return {
       opened: false,
-      first_open: false
-    }
+      first_open: false,
+    };
   },
   watch: {
     first_open: function () {
       let dropdowns = document.getElementsByClassName("dropdown");
       for (const element of dropdowns) element.style.animationDuration = ".2s";
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -67,10 +88,8 @@ export default {
   display: flex;
   align-items: center;
   background-color: var(--popup-bg);
-  box-shadow: rgba(0, 0, 0, 0) 0 0 0 0,
-    rgba(0, 0, 0, 0) 0 0 0 0,
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  box-shadow: rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
 #header article {
@@ -93,7 +112,8 @@ export default {
   font-size: 1.4em;
 }
 
-#header #logo, #header #logo img {
+#header #logo,
+#header #logo img {
   height: 34px;
 }
 
@@ -137,7 +157,7 @@ export default {
 #header #normal_menu ul {
   position: absolute;
   background-color: var(--popup-bg);
-  border: 1px solid rgba(0, 0, 0, .05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   right: 0;
   min-width: 120px;
   list-style-type: none;
@@ -146,16 +166,15 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   gap: 6px;
-  box-shadow:
-      0 4px 6px 0 rgba(50, 50, 93, 0.11),
-      0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px 0 rgba(50, 50, 93, 0.11),
+    0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
 
 #header #normal_menu ul li a {
   border-radius: 0;
   padding: 6px;
   text-decoration: none;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 .dropdown {
@@ -169,7 +188,7 @@ export default {
   display: flex;
   pointer-events: auto;
   opacity: 1;
-  animation: dropdown-appear .2s alternate;
+  animation: dropdown-appear 0.2s alternate;
 }
 
 #header #mobile_menu {
@@ -201,11 +220,10 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, .1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   gap: 4px;
-  box-shadow:
-      0 4px 6px 0 rgba(50, 50, 93, 0.11),
-      0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px 0 rgba(50, 50, 93, 0.11),
+    0 1px 3px 0 rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
@@ -240,7 +258,7 @@ export default {
   display: flex;
   pointer-events: auto;
   opacity: 1;
-  animation: dropdown-appear .2s alternate;
+  animation: dropdown-appear 0.2s alternate;
 }
 
 @keyframes dropdown-appear {
