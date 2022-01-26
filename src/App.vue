@@ -3,21 +3,21 @@
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
 :root {
-  --text: #2F2F2F;
+  --text: #2f2f2f;
   --text-label: #565656;
 
-  --global-bg: #EEEEEE;
+  --global-bg: #eeeeee;
   --popup-bg: white;
-  --hover-bg: #DFDFDF;
+  --hover-bg: #dfdfdf;
   --scroll-bar: #666666;
 
-  --btn: #406A80;
+  --btn: #406a80;
   --btn-hover: #5287a2;
 
-  --btn-warning: #BC4747;
+  --btn-warning: #bc4747;
   --btn-warning-hover: #e05353;
 
   --btn-back: #575757;
@@ -55,7 +55,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--global-bg);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -81,7 +81,8 @@ form label {
   color: var(--text-label);
 }
 
-form input, form select {
+form input,
+form select {
   display: block;
   width: 100%;
   outline: none;
@@ -91,7 +92,8 @@ form input, form select {
   border-bottom: 1px solid var(--text-label);
 }
 
-form button, .button {
+form button,
+.button {
   display: block;
   margin: 0 auto;
   outline: none;
@@ -104,7 +106,7 @@ form button, .button {
   border: none;
   color: #fff;
   background-color: var(--btn);
-  transition: background-color .17s ease,color .17s ease;
+  transition: background-color 0.17s ease, color 0.17s ease;
   text-decoration: none;
   text-align: center;
 }
@@ -117,7 +119,8 @@ form button, .button {
   background-color: var(--btn-back) !important;
 }
 
-form button:hover, .button:hover {
+form button:hover,
+.button:hover {
   background-color: var(--btn-hover);
 }
 
@@ -139,7 +142,7 @@ form button > * {
   top: 56px;
   width: 100vw;
   height: calc(100vh - 56px);
-  background-color: rgba(0, 0, 0, .36);
+  background-color: rgba(0, 0, 0, 0.36);
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -170,10 +173,12 @@ form button > * {
   max-height: calc(100vh - 140px);
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .4s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

@@ -10,14 +10,36 @@
           </header>
 
           <section>
-            <div :class="(error) ? 'error' : ''">
-              <p>Nombre maximal d'utilisateurs atteint. <br>
-                Veuillez contacter l'administrateur.</p>
+            <div :class="errorBadLogin || errorMaxUsers ? 'error' : ''">
+              <p v-if="errorBadLogin">Mot de passe incorrecte.</p>
+              <p v-if="errorMaxUsers">
+                Nombre maximal d'utilisateurs atteint. <br />
+                Veuillez contacter l'administrateur.
+              </p>
             </div>
             <form @submit.prevent="loginForm">
               <label for="login">Nom d'utilisateur</label>
-              <input type="text" name="login" id="login" autofocus autocomplete="username" required v-model="username">
-              <button v-if="loading" type="submit" disabled><i class="fa fa-spinner fa-spin"></i></button>
+              <input
+                type="text"
+                name="login"
+                id="login"
+                autofocus
+                autocomplete="username"
+                required
+                v-model="username"
+              />
+              <label for="password">Mot de passe</label>
+              <input
+                type="text"
+                name="password"
+                id="password"
+                autocomplete="password"
+                required
+                v-model="password"
+              />
+              <button v-if="loading" type="submit" disabled>
+                <i class="fa fa-spinner fa-spin"></i>
+              </button>
               <button v-else type="submit">Se connecter</button>
             </form>
           </section>
@@ -34,14 +56,16 @@ import { API } from "../assets/js/api";
 export default {
   name: "Login",
   components: {
-    Header
+    Header,
   },
   data() {
     return {
-      username: '',
+      username: "",
+      password: "",
       loading: false,
-      error: false
-    }
+      errorBadLogin: false,
+      errorMaxUsers: false,
+    };
   },
   mounted() {
     this.checkSessionExist();
@@ -49,19 +73,30 @@ export default {
   methods: {
     loginForm() {
       this.loading = true;
-      API.login(this.username).then(() => {
-        this.$router.push('/');
-      }).catch(() => {
-        this.loading = false;
-        this.error = true;
-      })
-    }
+      API.login(this.username, this.password)
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          this.loading = false;
+          if (error.response.status === 401) {
+            this.errorBadLogin = true;
+          } else if (error.response.status === 403) {
+            this.errorMaxUsers = true;
+          }
+        });
+    },
   },
   watch: {
     username: function () {
-      this.error = false;
+      this.errorBadLogin = false;
+      this.errorMaxUsers = false;
     },
-  }
+    password: function () {
+      this.errorBadLogin = false;
+      this.errorMaxUsers = false;
+    },
+  },
 };
 </script>
 
@@ -95,19 +130,19 @@ section {
 section > div {
   max-height: 0;
   overflow: hidden;
-  background-color: #FF000026;
+  background-color: #ff000026;
   border: 1px solid var(--popup-bg);
   text-align: center;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 section > div p {
-  color: #8B0000FF;
+  color: #8b0000ff;
 }
 
 .error {
   max-height: 60px;
-  border: 1px solid #FF000026;
+  border: 1px solid #ff000026;
   margin-bottom: 20px;
   padding: 10px;
 }

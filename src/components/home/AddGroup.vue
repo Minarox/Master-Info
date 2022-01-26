@@ -8,10 +8,16 @@
       <section>
         <form @submit.prevent="formGroup">
           <label for="name">Nom du groupe :</label>
-          <input type="text" name="name" id="name" v-model="name" required>
+          <input type="text" name="name" id="name" v-model="name" required />
           <div>
             <button type="submit">Valider</button>
-            <button type="button" class="button btn-back" @click="$emit('component', {name: ''})">Retour</button>
+            <button
+              type="button"
+              class="button btn-back"
+              @click="$emit('component', { name: '' })"
+            >
+              Retour
+            </button>
           </div>
         </form>
       </section>
@@ -20,20 +26,20 @@
 </template>
 
 <script>
-import {API} from "../../assets/js/api";
+import { API } from "../../assets/js/api";
 
 export default {
   name: "AddGroup",
   data() {
     return {
-      name: ''
-    }
+      name: "",
+    };
   },
   mounted() {
-    this.addEvents('', document.getElementsByClassName("popup")[0]);
+    this.addEvents("", document.getElementsByClassName("popup")[0]);
   },
   beforeUnmount() {
-    this.removeEvents('', document.getElementsByClassName("popup")[0]);
+    this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
     formGroup() {
@@ -42,14 +48,14 @@ export default {
           this.$router.go(0);
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .popup {
-  animation: fade-in .4s alternate;
+  animation: fade-in 0.4s alternate;
 }
 
 .popup article section form input {

@@ -2,7 +2,12 @@
   <div>
     <Header :username="user['username']" :admin="user['is_admin']" />
     <transition name="fade">
-      <component v-if="component" :is="component" :group="group" @component="switchComponent" />
+      <component
+        v-if="component"
+        :is="component"
+        :group="group"
+        @component="switchComponent"
+      />
     </transition>
 
     <main>
@@ -13,7 +18,9 @@
             <i class="fas fa-sync-alt" @click="updateUsers"></i>
           </header>
           <section>
-            <p v-for="user in usersWithoutGroup" :key="user['id']">{{ user["username"] }}</p>
+            <p v-for="user in usersWithoutGroup" :key="user['id']">
+              {{ user["username"] }}
+            </p>
           </section>
         </article>
 
@@ -23,23 +30,50 @@
             <i class="fas fa-sync-alt" @click="updateGroup"></i>
           </header>
           <section>
-            <p>Nom du groupe : <span>{{ group["group"]["name"] }}</span></p>
-            <p>Code d'invitation : <span>{{ group["group"]["link"] }}</span></p>
-            <p>Nombre de membres : <span>{{ group["users"].length }}</span></p>
-            <p>Date de création : <span>{{ group["group"]["created_at"] }}</span></p>
+            <p>
+              Nom du groupe : <span>{{ group["group"]["name"] }}</span>
+            </p>
+            <p>
+              Code d'invitation : <span>{{ group["group"]["link"] }}</span>
+            </p>
+            <p>
+              Nombre de membres : <span>{{ group["users"].length }}</span>
+            </p>
+            <p>
+              Date de création : <span>{{ group["group"]["created_at"] }}</span>
+            </p>
           </section>
-          <hr>
+          <hr />
           <header>
             <h2>Membres :</h2>
           </header>
           <section>
-            <p v-for="user in group['users']" :key="user['id']" :class="(user['id'] === group['group']['admin']) ? 'group_admin' : ''">
+            <p
+              v-for="user in group['users']"
+              :key="user['id']"
+              :class="
+                user['id'] === group['group']['admin'] ? 'group_admin' : ''
+              "
+            >
               {{ user["username"] }}
             </p>
           </section>
           <section>
-            <button v-if="user['id'] === group['group']['admin']" type="button" class="button" @click="component = 'EditGroup'">Modifier le groupe</button>
-            <button type="button" class="button btn-warning" @click="component = 'LeaveGroup'">Quitter le groupe</button>
+            <button
+              v-if="user['id'] === group['group']['admin']"
+              type="button"
+              class="button"
+              @click="component = 'EditGroup'"
+            >
+              Modifier le groupe
+            </button>
+            <button
+              type="button"
+              class="button btn-warning"
+              @click="component = 'LeaveGroup'"
+            >
+              Quitter le groupe
+            </button>
           </section>
         </article>
 
@@ -52,14 +86,33 @@
               <form @submit.prevent="formCode">
                 <label for="code">Code :</label>
                 <div>
-                  <input type="text" name="code" id="code" v-model="code" maxlength="16" required>
+                  <input
+                    type="text"
+                    name="code"
+                    id="code"
+                    v-model="code"
+                    maxlength="16"
+                    required
+                  />
                   <button type="submit">Valider</button>
                 </div>
               </form>
             </div>
             <div>
-              <button type="button" class="button" @click="component = 'AddGroup'">Créer un nouveau groupe</button>
-              <button type="button" class="button btn-warning" @click="component = 'RandomGroup'">Rejoindre aléatoirement un groupe</button>
+              <button
+                type="button"
+                class="button"
+                @click="component = 'AddGroup'"
+              >
+                Créer un nouveau groupe
+              </button>
+              <button
+                type="button"
+                class="button btn-warning"
+                @click="component = 'RandomGroup'"
+              >
+                Rejoindre aléatoirement un groupe
+              </button>
             </div>
           </section>
         </article>
@@ -74,7 +127,7 @@ import AddGroup from "../components/home/AddGroup";
 import EditGroup from "../components/home/EditGroup";
 import LeaveGroup from "../components/home/LeaveGroup";
 import RandomGroup from "../components/home/RandomGroup";
-import {API} from "../assets/js/api";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Home",
@@ -83,23 +136,22 @@ export default {
     AddGroup,
     EditGroup,
     LeaveGroup,
-    RandomGroup
+    RandomGroup,
   },
   data() {
     return {
-      component: '',
-      code: '',
+      component: "",
+      code: "",
       users: [],
       user: JSON.parse(localStorage.getItem("session")),
       group: null,
       session_handler: null,
       users_handler: null,
-      group_handler: null
-    }
+      group_handler: null,
+    };
   },
   mounted() {
-    if (this.isAdmin(false))
-      this.$router.push('/admin');
+    if (this.isAdmin(false)) this.$router.push("/admin");
 
     this.updateSession();
     this.session_handler = setInterval(() => {
@@ -125,55 +177,66 @@ export default {
   },
   methods: {
     updateSession() {
-      API.currentSession().then(response => {
-        console.log("refresh session");
-        this.user = response;
-      }).catch(error => {
-        this.unauthorizedError(error);
-      });
+      API.currentSession()
+        .then((response) => {
+          console.log("refresh session");
+          this.user = response;
+        })
+        .catch((error) => {
+          this.unauthorizedError(error);
+        });
     },
     updateUsers() {
-      API.getUsers().then(response => {
-        console.log("refresh users");
-        this.users = response;
-      }).catch(error => {
-        this.unauthorizedError(error);
-      });
+      API.getUsers()
+        .then((response) => {
+          console.log("refresh users");
+          this.users = response;
+        })
+        .catch((error) => {
+          this.unauthorizedError(error);
+        });
     },
     updateGroup() {
-      API.getCurrentGroup().then(response => {
-        console.log("refresh group");
-        this.group = response;
-      }).catch(() => {
-        clearInterval(this.group_handler);
-        this.group = null;
-      })
+      API.getCurrentGroup()
+        .then((response) => {
+          console.log("refresh group");
+          this.group = response;
+        })
+        .catch(() => {
+          clearInterval(this.group_handler);
+          this.group = null;
+        });
     },
     formCode() {
       if (this.code.length < 16) {
         // Error message
       } else {
-        API.joinGroup(this.code).then(() => {
-          this.updateSession();
-          this.updateUsers();
-        }).catch(error => {
-          this.unauthorizedError(error);
-          // Error message
-        })
+        API.joinGroup(this.code)
+          .then(() => {
+            this.updateSession();
+            this.updateUsers();
+          })
+          .catch((error) => {
+            this.unauthorizedError(error);
+            // Error message
+          });
       }
-    }
+    },
   },
   computed: {
     usersWithoutGroup() {
       let array = [];
       for (let i = 0; i < this.users.length; i++)
-        if (!this.users[i]["group_id"] && this.users[i]["id"] !== this.user["id"])
-          array.push({username: this.users[i]["username"]});
+        if (
+          !this.users[i]["group_id"] &&
+          this.users[i]["id"] !== this.user["id"]
+        )
+          array.push({ username: this.users[i]["username"] });
       return array;
     },
     groupID() {
       return this.user["group_id"];
-    }
+    },
   },
   watch: {
     groupID(value) {
@@ -186,8 +249,8 @@ export default {
         clearInterval(this.group_handler);
         this.group = null;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -217,7 +280,7 @@ article > header {
 
 article > header i {
   cursor: pointer;
-  transition: transform .2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
 }
 
 article > header i:hover {

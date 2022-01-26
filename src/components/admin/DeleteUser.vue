@@ -6,10 +6,21 @@
       </header>
 
       <section>
-        <p>Voulez vous vraiment supprimer l'utilisateur {{ users[range]["username"] }} ?</p>
+        <p>
+          Voulez vous vraiment supprimer l'utilisateur
+          {{ users[range]["username"] }} ?
+        </p>
         <div>
-          <button type="submit" class="button btn-warning" @click="deleteUser">Valider</button>
-          <button type="button" class="button btn-back" @click="$emit('component', {name: ''})">Retour</button>
+          <button type="submit" class="button btn-warning" @click="deleteUser">
+            Valider
+          </button>
+          <button
+            type="button"
+            class="button btn-back"
+            @click="$emit('component', { name: '' })"
+          >
+            Retour
+          </button>
         </div>
       </section>
     </article>
@@ -17,33 +28,30 @@
 </template>
 
 <script>
-import {API} from "../../assets/js/api";
+import { API } from "../../assets/js/api";
 
 export default {
   name: "DeleteUser",
-  props: [
-    "users",
-    "range"
-  ],
+  props: ["users", "range"],
   mounted() {
-    this.addEvents('', document.getElementsByClassName("popup")[0]);
+    this.addEvents("", document.getElementsByClassName("popup")[0]);
   },
   beforeUnmount() {
-    this.removeEvents('', document.getElementsByClassName("popup")[0]);
+    this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
     deleteUser() {
       API.deleteUser(this.users[this.range]["id"]).then(() => {
         this.$router.go(0);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .popup {
-  animation: fade-in .4s alternate;
+  animation: fade-in 0.4s alternate;
 }
 
 .popup article section p {

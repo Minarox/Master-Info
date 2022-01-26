@@ -1,6 +1,6 @@
 {
-  "name": "back-end_mspr",
-  "version": "0.1.0",
+  "name": "ic_front-end",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,7 +13,8 @@
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "axios": "^0.25.0"
+    "axios": "^0.25.0",
+    "node-forge": ">=1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

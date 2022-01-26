@@ -9,7 +9,13 @@
         <p>Voulez vous vraiment rejoindre un groupe aléatoirement ?</p>
         <div>
           <button type="submit" class="button" @click="randomGroup">Oui</button>
-          <button type="button" class="button btn-back" @click="$emit('component', {name: ''})">Non</button>
+          <button
+            type="button"
+            class="button btn-back"
+            @click="$emit('component', { name: '' })"
+          >
+            Non
+          </button>
         </div>
       </section>
     </article>
@@ -17,29 +23,29 @@
 </template>
 
 <script>
-import {API} from "../../assets/js/api";
+import { API } from "../../assets/js/api";
 
 export default {
   name: "RandomGroup",
   mounted() {
-    this.addEvents('', document.getElementsByClassName("popup")[0]);
+    this.addEvents("", document.getElementsByClassName("popup")[0]);
   },
   beforeUnmount() {
-    this.removeEvents('', document.getElementsByClassName("popup")[0]);
+    this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
     randomGroup() {
       API.joinRandomGroup().then(() => {
         this.$router.go(0);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .popup {
-  animation: fade-in .4s alternate;
+  animation: fade-in 0.4s alternate;
 }
 
 .popup article section p {

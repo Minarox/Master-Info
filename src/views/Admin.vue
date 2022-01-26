@@ -2,7 +2,14 @@
   <div>
     <Header :username="user['username']" :admin="user['is_admin']" />
     <transition name="fade">
-      <component v-if="component" :is="component" :users="users" :groups="groups" :range="range" @component="switchComponent" />
+      <component
+        v-if="component"
+        :is="component"
+        :users="users"
+        :groups="groups"
+        :range="range"
+        @component="switchComponent"
+      />
     </transition>
 
     <main>
@@ -16,17 +23,37 @@
             <form @submit.prevent="configForm">
               <div>
                 <label for="max_users">Nombre d'utilisateurs maximal :</label>
-                <input type="number" name="max_users" id="max_users" v-model="maxUsers" required>
+                <input
+                  type="number"
+                  name="max_users"
+                  id="max_users"
+                  v-model="maxUsers"
+                  required
+                />
               </div>
 
               <div>
-                <label for="users_per_group">Nombre d'utilisateurs par groupe :</label>
-                <input type="number" name="user_per_group" id="users_per_group" v-model="usersPerGroup" required>
+                <label for="users_per_group"
+                  >Nombre d'utilisateurs par groupe :</label
+                >
+                <input
+                  type="number"
+                  name="user_per_group"
+                  id="users_per_group"
+                  v-model="usersPerGroup"
+                  required
+                />
               </div>
 
               <div>
-                <label for="last_group_mode">Configuration du dernier groupe :</label>
-                <select name="last_group_mode" id="last_group_mode" v-model="lastGroupMode">
+                <label for="last_group_mode"
+                  >Configuration du dernier groupe :</label
+                >
+                <select
+                  name="last_group_mode"
+                  id="last_group_mode"
+                  v-model="lastGroupMode"
+                >
                   <option value="LAST_MIN">LAST_MIN</option>
                   <option value="LAST_MAX">LAST_MAX</option>
                 </select>
@@ -47,17 +74,37 @@
           <section>
             <div v-for="i in groups.length" :key="i">
               <header>
-                <h3>{{ groups[i-1]["name"] }}</h3>
+                <h3>{{ groups[i - 1]["name"] }}</h3>
                 <div>
-                  <p>Nombre de membres : {{ groups[i-1]["users"].length }}</p>
-                  <p>Code d'accès : {{ groups[i-1]["link"] }}</p>
-                  <button type="button" class="button btn-warning" @click="range = i-1; component = 'DeleteGroup'">Supprimer</button>
-                  <i class="fas fa-trash icon" @click="range = i-1; component = 'DeleteGroup'"></i>
+                  <p>Nombre de membres : {{ groups[i - 1]["users"].length }}</p>
+                  <p>Code d'accès : {{ groups[i - 1]["link"] }}</p>
+                  <button
+                    type="button"
+                    class="button btn-warning"
+                    @click="
+                      range = i - 1;
+                      component = 'DeleteGroup';
+                    "
+                  >
+                    Supprimer
+                  </button>
+                  <i
+                    class="fas fa-trash icon"
+                    @click="
+                      range = i - 1;
+                      component = 'DeleteGroup';
+                    "
+                  ></i>
                 </div>
               </header>
               <section>
-                <p v-for="user in groups[i-1]['users']" :key="user['id']">
-                  {{ user["username"] }} {{ (user["id"] === groups[i-1]["admin"]) ? '(Administrateur)' : ''}}
+                <p v-for="user in groups[i - 1]['users']" :key="user['id']">
+                  {{ user["username"] }}
+                  {{
+                    user["id"] === groups[i - 1]["admin"]
+                      ? "(Administrateur)"
+                      : ""
+                  }}
                 </p>
               </section>
             </div>
@@ -82,19 +129,28 @@
               </thead>
               <tbody>
                 <tr v-for="i in users.length" :key="i">
-                  <td>{{ users[i-1]["username"] }}</td>
+                  <td>{{ users[i - 1]["username"] }}</td>
                   <td>
-                    <span v-if="users[i-1]['expire']">
-                      <span v-if="Date.parse(users[i-1]['expire']) > Date.now()">Oui</span>
+                    <span v-if="users[i - 1]['expire']">
+                      <span
+                        v-if="Date.parse(users[i - 1]['expire']) > Date.now()"
+                        >Oui</span
+                      >
                       <span v-else>Non</span>
                     </span>
                     <span v-else>Non</span>
                   </td>
-                  <td>{{ (users[i-1]["group_id"]) ? 'Oui' : 'Non' }}</td>
-                  <td>{{ users[i-1]["created_at"] }}</td>
+                  <td>{{ users[i - 1]["group_id"] ? "Oui" : "Non" }}</td>
+                  <td>{{ users[i - 1]["created_at"] }}</td>
                   <td>
                     <!-- <i class="fas fa-edit icon" @click="range = i-1; component = 'EditUser'"></i> -->
-                    <i class="fas fa-trash icon" @click="range = i-1; component = 'DeleteUser'"></i>
+                    <i
+                      class="fas fa-trash icon"
+                      @click="
+                        range = i - 1;
+                        component = 'DeleteUser';
+                      "
+                    ></i>
                   </td>
                 </tr>
               </tbody>
@@ -110,30 +166,30 @@
 import Header from "../components/global/Header";
 import DeleteGroup from "../components/admin/DeleteGroup";
 import DeleteUser from "../components/admin/DeleteUser";
-import {API} from "../assets/js/api";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Admin",
   components: {
     Header,
     DeleteGroup,
-    DeleteUser
+    DeleteUser,
   },
   data() {
     return {
-      component: '',
-      range: '',
+      component: "",
+      range: "",
       config: null,
-      maxUsers: '',
-      usersPerGroup: '',
-      lastGroupMode: '',
+      maxUsers: "",
+      usersPerGroup: "",
+      lastGroupMode: "",
       groups: null,
       users: null,
       user: JSON.parse(localStorage.getItem("session")),
       config_handler: null,
       groups_handler: null,
-      users_handler: null
-    }
+      users_handler: null,
+    };
   },
   mounted() {
     if (this.isAdmin()) {
@@ -160,52 +216,64 @@ export default {
   },
   methods: {
     updateConfig() {
-      API.getConfig().then(response => {
-        console.log("refresh config");
-        this.config = response;
-        this.maxUsers = response["maxUsers"];
-        this.usersPerGroup = response["usersPerGroup"];
-        this.lastGroupMode = response["lastGroupMode"];
-      }).catch(error => {
-        this.unauthorizedError(error);
-      });
+      API.getConfig()
+        .then((response) => {
+          console.log("refresh config");
+          this.config = response;
+          this.maxUsers = response["maxUsers"];
+          this.usersPerGroup = response["usersPerGroup"];
+          this.lastGroupMode = response["lastGroupMode"];
+        })
+        .catch((error) => {
+          this.unauthorizedError(error);
+        });
     },
     updateGroups() {
-      API.getGroups().then(response => {
-        console.log("refresh groups");
-        this.groups = response;
-      }).catch(error => {
-        this.unauthorizedError(error);
-      });
+      API.getGroups()
+        .then((response) => {
+          console.log("refresh groups");
+          this.groups = response;
+        })
+        .catch((error) => {
+          this.unauthorizedError(error);
+        });
     },
     updateUsers() {
-      API.getUsers().then(response => {
-        console.log("refresh users");
-        this.users = response;
-      }).catch(error => {
-        this.unauthorizedError(error);
-      });
+      API.getUsers()
+        .then((response) => {
+          console.log("refresh users");
+          this.users = response;
+        })
+        .catch((error) => {
+          this.unauthorizedError(error);
+        });
     },
     configForm() {
-      API.setMaxUsers(this.maxUsers).then(() => {
-        API.setUsersPerGroup(this.usersPerGroup).then(() => {
-          API.setLastGroupConfig(this.lastGroupMode).then(() => {
-            // Success
-            this.updateConfig();
-          }).catch(() => {
-            // Error
-            this.updateConfig();
-          });
-        }).catch(() => {
+      API.setMaxUsers(this.maxUsers)
+        .then(() => {
+          API.setUsersPerGroup(this.usersPerGroup)
+            .then(() => {
+              API.setLastGroupConfig(this.lastGroupMode)
+                .then(() => {
+                  // Success
+                  this.updateConfig();
+                })
+                .catch(() => {
+                  // Error
+                  this.updateConfig();
+                });
+            })
+            .catch(() => {
+              // Error
+              this.updateConfig();
+            });
+        })
+        .catch(() => {
           // Error
           this.updateConfig();
         });
-      }).catch(() => {
-        // Error
-        this.updateConfig();
-      });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -284,7 +352,7 @@ article > header i {
   border-radius: 4px;
   background-color: var(--btn-warning);
   color: white;
-  transition: background-color .17s ease;
+  transition: background-color 0.17s ease;
 }
 
 .icon:hover {
@@ -331,15 +399,15 @@ article > header i {
 }
 
 .users table thead tr td:first-of-type {
- border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
 }
 
 .users table thead tr td:last-of-type {
- border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .users table tbody tr:nth-of-type(even) {
-  background-color: rgba(0, 0, 0, .06);
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
 .users table tr td {
