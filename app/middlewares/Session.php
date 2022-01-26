@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace app;
 
+use BadRequest;
+use Codes\ErrorCode;
+use NotFound;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
-use Codes\ErrorCode;
-use NotFound;
-use BadRequest;
 
 /**
  * Check if user is connected and authorized to use the app before execute functions
@@ -19,7 +19,7 @@ use BadRequest;
  * @throws NotFound|BadRequest
  */
 return function (Request $request, RequestHandler $handler): Response {
-    if (str_ends_with($request->getRequestTarget(), "/api/")) {
+    if (str_ends_with($request->getRequestTarget(), "/api/") || str_ends_with($request->getRequestTarget(), "/api")) {
         return $handler->handle($request);
     }
 
