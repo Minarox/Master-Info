@@ -219,7 +219,8 @@ class GroupControllerTest extends TestCase
     public function testJoinGroupFull()
     {
         $this->removeLinkToGroup();
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
 
         $temp = $GLOBALS["config"]["groups"]["usersPerGroup"];
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 1;
@@ -291,7 +292,8 @@ class GroupControllerTest extends TestCase
     public function testJoinRandomGroupFull()
     {
         $this->removeLinkToGroup();
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
 
         $temp = $GLOBALS["config"]["groups"]["usersPerGroup"];
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 1;
@@ -321,7 +323,8 @@ class GroupControllerTest extends TestCase
     public function testJoinRandomGroup()
     {
         $this->removeLinkToGroup();
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, '{$this->test_group['id']}') RETURNING id;")->fetchColumn();
 
         $temp = $GLOBALS["config"]["groups"]["usersPerGroup"];
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
@@ -439,7 +442,8 @@ class GroupControllerTest extends TestCase
      */
     public function testLeaveCurrentGroupWithOneOtherMembers()
     {
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
         $request = $this->createRequest("GET", "/group/leave");
         $result = $this->groupController->leaveCurrentGroup($request, $this->response);
 
@@ -464,8 +468,10 @@ class GroupControllerTest extends TestCase
      */
     public function testLeaveCurrentGroupWithOtherMembers()
     {
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
-        $test_user_id3 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit3', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit3", PASSWORD_BCRYPT);
+        $test_user_id3 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit3', '$password', 0, '{$GLOBALS["user"]["group_id"]}') RETURNING id;")->fetchColumn();
         $request = $this->createRequest("GET", "/group/leave");
         $result = $this->groupController->leaveCurrentGroup($request, $this->response);
 
@@ -540,8 +546,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MAX";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -568,8 +574,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MIN";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(3));
-        self::assertFalse($this->groupController->addUserInGroupVerification(4));
+        self::assertTrue($this->groupController->newUserInGroupVerification(3));
+        self::assertFalse($this->groupController->newUserInGroupVerification(4));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -587,7 +593,8 @@ class GroupControllerTest extends TestCase
     public function testAddUserInGroupVerificationWithFloatAndNotLastAndModeIsLastMax()
     {
         $this->pdo->prepare("UPDATE Users SET group_id = '{$this->test_group["id"]}' WHERE group_id IS NULL")->execute();
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, NULL) RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, NULL) RETURNING id;")->fetchColumn();
         $this->removeLinkToGroup();
 
         $temp["maxUsers"] = $GLOBALS["config"]["session"]["maxUsers"];
@@ -597,8 +604,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MAX";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(3));
-        self::assertFalse($this->groupController->addUserInGroupVerification(4));
+        self::assertTrue($this->groupController->newUserInGroupVerification(3));
+        self::assertFalse($this->groupController->newUserInGroupVerification(4));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -617,7 +624,8 @@ class GroupControllerTest extends TestCase
     public function testAddUserInGroupVerificationWithFloatAndNotLastAndModeIsLastMin()
     {
         $this->pdo->prepare("UPDATE Users SET group_id = '{$this->test_group["id"]}' WHERE group_id IS NULL")->execute();
-        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, is_admin, group_id) VALUES ('test_user_phpunit2', 0, NULL) RETURNING id;")->fetchColumn();
+        $password = password_hash("test_password_phpunit2", PASSWORD_BCRYPT);
+        $test_user_id2 = $this->pdo->query("INSERT INTO Users (username, password, is_admin, group_id) VALUES ('test_user_phpunit2', '$password', 0, NULL) RETURNING id;")->fetchColumn();
         $this->removeLinkToGroup();
 
         $temp["maxUsers"] = $GLOBALS["config"]["session"]["maxUsers"];
@@ -627,8 +635,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
         $GLOBALS["config"]["groups"]["lastGroupMode"] = "LAST_MIN";
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];
@@ -654,8 +662,8 @@ class GroupControllerTest extends TestCase
         $GLOBALS["config"]["session"]["maxUsers"] = 20;
         $GLOBALS["config"]["groups"]["usersPerGroup"] = 5;
 
-        self::assertTrue($this->groupController->addUserInGroupVerification(4));
-        self::assertFalse($this->groupController->addUserInGroupVerification(5));
+        self::assertTrue($this->groupController->newUserInGroupVerification(4));
+        self::assertFalse($this->groupController->newUserInGroupVerification(5));
         self::assertNull($this->pdo->query("SELECT group_id FROM Users WHERE id = '{$GLOBALS["user"]["id"]}' LIMIT 1;")->fetchColumn());
 
         $GLOBALS["config"]["session"]["maxUsers"] = $temp["maxUsers"];

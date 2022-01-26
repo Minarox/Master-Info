@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Controllers;
 
-use Controller;
 use BadRequest;
+use Controller;
 use Exception;
 use NotFound;
 use Slim\Psr7\Request;
@@ -31,20 +31,32 @@ class SessionController extends Controller
     {
         $body = $this->parseBody($request);
         $this->checkExist("username", $body);
+        $this->checkExist("password", $body);
 
         $token = $this->randString(60);
         if ($this->checkExist("username", $body, "Users", "username", false)) {
-            $this->database()->update(
+            $userPassword = ($this->database()->find(
                 "Users",
-                [
-                    "token" => $token,
-                    "expire" => date(
-                        "Y-m-d H:i:s",
-                        strtotime($this->getDate()) + $GLOBALS["config"]["session"]["token_lifetime"]
-                    )
-                ],
-                ["username" => $body["username"]]
-            );
+                ["password"],
+                ["username" => $body["username"]],
+                true
+            ))["password"];
+
+            if (password_verify($body["password"], $userPassword)) {
+                $this->database()->update(
+                    "Users",
+                    [
+                        "token" => $token,
+                        "expire" => date(
+                            "Y-m-d H:i:s",
+                            strtotime($this->getDate()) + $GLOBALS["config"]["session"]["token_lifetime"]
+                        )
+                    ],
+                    ["username" => $body["username"]]
+                );
+            } else {
+                return $this->errorCode()->unauthorized();
+            }
         } else {
             $nb_users = $this->database()->find(
                 "Users",
@@ -60,6 +72,7 @@ class SessionController extends Controller
                 "Users",
                 [
                     "username" => $body["username"],
+                    "password" => password_hash($body["password"], PASSWORD_BCRYPT),
                     "token" => $token,
                     "expire" => date(
                         "Y-m-d H:i:s",
@@ -73,7 +86,7 @@ class SessionController extends Controller
             json_encode(
                 $this->database()->find(
                     "Users",
-                    ['*'],
+                    ["id", "username", "is_admin", "group_id", "token", "expire", "created_at"],
                     ["username" => $body["username"]],
                     true
                 )
@@ -98,7 +111,7 @@ class SessionController extends Controller
             json_encode(
                 $this->database()->find(
                     "Users",
-                    ['*'],
+                    ["id", "username", "is_admin", "group_id", "token", "expire", "created_at"],
                     ["username" => $GLOBALS["user"]["username"], "token" => $GLOBALS["user"]["token"]],
                     true
                 )
