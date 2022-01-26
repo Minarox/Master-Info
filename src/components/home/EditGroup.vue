@@ -8,15 +8,27 @@
       <section>
         <form @submit.prevent="formGroup">
           <label for="name">Nom du groupe :</label>
-          <input type="text" name="name" id="name" v-model="name" required>
+          <input type="text" name="name" id="name" v-model="name" required />
 
           <label for="admin">Administrateur :</label>
           <select name="admin" id="admin" v-model="admin">
-            <option v-for="user in group['users']" :value="user['id']" :key="user['id']">{{ user["username"] }}</option>
+            <option
+              v-for="user in group['users']"
+              :value="user['id']"
+              :key="user['id']"
+            >
+              {{ user["username"] }}
+            </option>
           </select>
           <div>
             <button type="submit">Valider</button>
-            <button type="button" class="button btn-back" @click="$emit('component', {name: ''})">Retour</button>
+            <button
+              type="button"
+              class="button btn-back"
+              @click="$emit('component', { name: '' })"
+            >
+              Retour
+            </button>
           </div>
         </form>
       </section>
@@ -25,29 +37,27 @@
 </template>
 
 <script>
-import {API} from "../../assets/js/api";
+import { API } from "../../assets/js/api";
 
 export default {
   name: "EditGroup",
-  props: [
-    "group"
-  ],
+  props: ["group"],
   data() {
     return {
-      name: '',
-      admin: ''
-    }
+      name: "",
+      admin: "",
+    };
   },
   mounted() {
     if (!this.group) {
-      this.$emit('component', {name: ''});
+      this.$emit("component", { name: "" });
     }
     this.name = this.group["group"]["name"];
     this.admin = this.group["group"]["admin"];
-    this.addEvents('', document.getElementsByClassName("popup")[0]);
+    this.addEvents("", document.getElementsByClassName("popup")[0]);
   },
   beforeUnmount() {
-    this.removeEvents('', document.getElementsByClassName("popup")[0]);
+    this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
     formGroup() {
@@ -56,17 +66,18 @@ export default {
           this.$router.go(0);
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .popup {
-  animation: fade-in .4s alternate;
+  animation: fade-in 0.4s alternate;
 }
 
-.popup article section form input, .popup article section form select {
+.popup article section form input,
+.popup article section form select {
   margin-bottom: 24px;
 }
 
