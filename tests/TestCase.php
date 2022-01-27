@@ -102,7 +102,7 @@ class TestCase extends PHPUnit_TestCase
         $password = password_hash("test_password_phpunit", PASSWORD_BCRYPT);
         $test_user_id = $this->pdo->query("INSERT INTO Users (username, password, is_admin, token, expire) VALUES ('test_user_phpunit', '$password', 1, '{$this->randString(60)}', '$date') RETURNING id;")->fetchColumn();
         $this->test_group = $this->pdo->query("INSERT INTO Groups (name, admin, link) VALUES ('test_group_phpunit', '$test_user_id', 'phpunittestlink') RETURNING *;")->fetch();
-        $this->pdo->query("UPDATE Users SET group_id = '{$this->test_group["id"]}' WHERE id = '$test_user_id';");
+        $this->pdo->prepare("UPDATE Users SET group_id = '{$this->test_group["id"]}' WHERE id = '$test_user_id';")->execute();
         $GLOBALS["user"] = $this->pdo->query("SELECT * FROM Users WHERE id = '$test_user_id' LIMIT 1;")->fetch();
 
         $this->response = new Response();
