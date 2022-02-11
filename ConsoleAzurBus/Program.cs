@@ -19,10 +19,14 @@ namespace ConsoleAzurBus
         static ServiceBusSender sender;
 
         // number of messages to be sent to the queue
-        private const int numOfMessages = 50;
+        // private const int numOfMessages = 3;
 
         static async Task Main()
         {
+            Console.Write("Enter the number of trucks : ");
+            string recover_number_truck = Console.ReadLine();
+            int number_truck = int.Parse(recover_number_truck); 
+
             // The Service Bus client types are safe to cache and use as a singleton for the lifetime
             // of the application, which is best practice when messages are being published or read
             // regularly.
@@ -34,7 +38,7 @@ namespace ConsoleAzurBus
             // create a batch 
             using ServiceBusMessageBatch messageBatch = await sender.CreateMessageBatchAsync();
 
-            for (int i = 1; i <= numOfMessages; i++)
+            for (int i = 1; i <= number_truck; i++)
             {
                 // try adding a message to the batch
                 if (!messageBatch.TryAddMessage(new ServiceBusMessage($"Message {i}")))
@@ -48,7 +52,7 @@ namespace ConsoleAzurBus
             {
                 // Use the producer client to send the batch of messages to the Service Bus queue
                 await sender.SendMessagesAsync(messageBatch);
-                Console.WriteLine($"A batch of {numOfMessages} messages has been published to the queue.");
+                Console.WriteLine($"A batch of {number_truck} messages has been published to the queue.");
             }
             finally
             {
@@ -60,6 +64,7 @@ namespace ConsoleAzurBus
 
             Console.WriteLine("Press any key to end the application");
             Console.ReadKey();
+            
         }
     }
 }
