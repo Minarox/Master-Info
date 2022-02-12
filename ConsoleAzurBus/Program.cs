@@ -23,7 +23,9 @@ namespace ConsoleAzurBus
 
         static async Task Main()
         {
+            Console.WriteLine("------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the inventory management interface, what do you want to do ? ");
+            Console.WriteLine("");
             Console.WriteLine("1 : Signal the departure of a truck ");
             Console.WriteLine("2 : Signal the arrival of a truck ");
             Console.WriteLine("3 : Send a quantity in stock for a given reference ");
@@ -47,9 +49,11 @@ namespace ConsoleAzurBus
             }
             else if (number == 3)
             {
+                Console.WriteLine("");
                 Console.WriteLine("Enter the product reference : ");
                 string recover_reference = Console.ReadLine();
                 int reference = int.Parse(recover_reference);
+                Console.WriteLine("");
                 Console.WriteLine("Enter the quantity : ");
                 string recover_quantity = Console.ReadLine();
                 int quantity = int.Parse(recover_quantity);
@@ -57,7 +61,9 @@ namespace ConsoleAzurBus
                 execute_main();
             } else
             {
+                Console.WriteLine("");
                 Console.WriteLine("Wrong number");
+                Console.WriteLine("");
                 Main();
             }
             // The Service Bus client types are safe to cache and use as a singleton for the lifetime
