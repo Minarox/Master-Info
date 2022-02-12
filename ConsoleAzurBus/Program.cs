@@ -19,14 +19,47 @@ namespace ConsoleAzurBus
         static ServiceBusSender sender;
 
         // number of messages to be sent to the queue
-        // private const int numOfMessages = 3;
+         private const int number_truck = 3;
 
         static async Task Main()
         {
-            Console.Write("Enter the number of trucks : ");
-            string recover_number_truck = Console.ReadLine();
-            int number_truck = int.Parse(recover_number_truck); 
+            Console.WriteLine("Welcome to the inventory management interface, what do you want to do ? ");
+            Console.WriteLine("1 : Signal the departure of a truck ");
+            Console.WriteLine("2 : Signal the arrival of a truck ");
+            Console.WriteLine("3 : Send a quantity in stock for a given reference ");
+            Console.Write("Please enter one of the numbers corresponding to a proposal (exemple: 2) : ");
+            string recover_number = Console.ReadLine();
+            int number = int.Parse(recover_number);
 
+            if (number == 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("We have reported the departure of a truck");
+                Console.WriteLine("");
+                execute_main();
+            }
+            else if (number == 2)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("we have reported the arrival of a truck");
+                Console.WriteLine("");
+                execute_main();
+            }
+            else if (number == 3)
+            {
+                Console.WriteLine("Enter the product reference : ");
+                string recover_reference = Console.ReadLine();
+                int reference = int.Parse(recover_reference);
+                Console.WriteLine("Enter the quantity : ");
+                string recover_quantity = Console.ReadLine();
+                int quantity = int.Parse(recover_quantity);
+                Console.WriteLine("");
+                execute_main();
+            } else
+            {
+                Console.WriteLine("Wrong number");
+                Main();
+            }
             // The Service Bus client types are safe to cache and use as a singleton for the lifetime
             // of the application, which is best practice when messages are being published or read
             // regularly.
@@ -65,6 +98,28 @@ namespace ConsoleAzurBus
             Console.WriteLine("Press any key to end the application");
             Console.ReadKey();
             
+        }
+
+        static void execute_main()
+        {
+            Console.WriteLine("Do you want to make other thing or you want to close the application ?");
+            Console.WriteLine("1 : Return to the menu ");
+            Console.WriteLine("2 : Close the console ");
+
+            Console.Write("Please enter one of the numbers corresponding to a proposal (exemple: 2) : ");
+            string recover_number = Console.ReadLine();
+            int number = int.Parse(recover_number);
+
+            if(number == 1)
+            {
+                Console.WriteLine("");
+                Console.Clear();
+                Main();
+            }
+            else
+            {
+                Console.ReadKey();
+            }
         }
     }
 }
