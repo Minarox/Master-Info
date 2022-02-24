@@ -14,16 +14,11 @@ namespace ConsoleAzurBus
         static string queueBusArrival = "busarrive";
         static string queueBusDeparture = "busdepart";
 
-        // the client that owns the connection and can be used to create senders and receivers
-        static ServiceBusClient client;
-
-        // the sender used to publish messages to the queue
-        static ServiceBusSender sender;
-
         static async Task Main()
         {
-            Console.WriteLine("------------------------------------------------------------------------");
-            Console.WriteLine("Welcome to the inventory management interface, what do you want to do ? ");
+            Console.WriteLine("|------------------------------------------------------------------------|");
+            Console.WriteLine("|Welcome to the inventory management interface, what do you want to do ? |");
+            Console.WriteLine("|------------------------------------------------------------------------|");
             Console.WriteLine("");
             Console.WriteLine("1 : Signal the departure of a truck ");
             Console.WriteLine("2 : Signal the arrival of a truck ");
@@ -45,7 +40,7 @@ namespace ConsoleAzurBus
                 Console.WriteLine("");
                 Console.WriteLine("we have reported the arrival of a truck");
                 Console.WriteLine("");
-                await send_message(queueBusArrival, "Arrive");
+                await send_message(queueBusDeparture, "Arrive");
                 execute_main();
             }
             else if (number == 3)
