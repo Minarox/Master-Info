@@ -2,8 +2,7 @@
 Création d'une application web utilisant le modèle de conception MVVM pour visualiser les informations contenu dans un service bus Microsoft Azure.
 
 ## Dépendances
-- Linux (scripts Bash)
-- NodeJS
+- [NodeJS](https://nodejs.org/en/)
 
 ## Installation
 ```shell
@@ -22,7 +21,7 @@ node msgstock.js
 ```
 
 ### Boucles
-Le projet possède également des scripts Bash permettant de relancer automatiquement la réception des informations des listes.
+Le projet possède également des scripts Bash nécessitant Linux permettant de relancer automatiquement la réception des informations des listes.
 Pour les utiliser, vous devez modifier les permissions des fichiers pour exécuter les scripts :
 ```shell
 # Modification des permissions d'exécution
