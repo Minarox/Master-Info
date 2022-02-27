@@ -1,4 +1,4 @@
-# Intégration continue - Front-End
+# Intégration continue - API
 Développement d’une application suivant un processus d’intégration continue.  
 [Accès à l'API](https://ic.minarox.fr/api/)  
 [Documentation](https://github.com/Inge-Info/IC_API/blob/main/API_Doc.yaml) (à ouvrir dans [Swagger](https://editor.swagger.io/))
