@@ -1,2 +1,2 @@
-# IC_Selenium
-TP Sélénium du projet d'intégration continue.
+# Intégration continue - TP Sélénium
+Tests du [Front-End](https://github.com/Inge-Info/IC_Front-End) au travers de l'outil Sélénium.
