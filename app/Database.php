@@ -6,6 +6,7 @@ namespace app;
 use BadRequest;
 use NotFound;
 use PDO;
+use PDOException;
 
 /**
  * Connect and manage database information
@@ -15,7 +16,7 @@ class Database
     /**
      * @var PDO
      */
-    private PDO $pdo;
+    private $pdo;
 
     /**
      * Make new connection to database
@@ -70,14 +71,15 @@ class Database
 
         // Sort selectors
         if ($selectors != ['*']) {
-            $selectors_list = "WHERE ";
             foreach ($selectors as $selector) {
-                if ($this->isNull($selector)) $selectors_list .= "$selectors_keys[$i] = NULL AND ";
-                else $selectors_list .= "$selectors_keys[$i] = '$selector' AND ";
+                if ($this->isNull($selector)) $selectors_list .= "$selectors_keys[$i] IS NULL AND ";
+                elseif ($selector != '') $selectors_list .= "$selectors_keys[$i] = '$selector' AND ";
                 $i++;
             }
             $selectors_list = rtrim($selectors_list, " AND ");
         }
+
+        if ($selectors_list != '') $selectors_list = "WHERE " . $selectors_list;
 
         // Reformatting the values to display
         $values = implode(", ", $values);
@@ -86,17 +88,22 @@ class Database
         if ($order) $order = "ORDER BY $order";
 
         // Returns a single or multiple rows
-        if ($findOne) {
-            $data = $this->pdo
-                ->query("SELECT $values FROM $table $selectors_list $order LIMIT 1;")
-                ->fetch();
-        } else {
-            $data = $this->pdo
-                ->query("SELECT $values FROM $table $selectors_list $order LIMIT 300;")
-                ->fetchAll();
+        try {
+            if ($findOne) {
+                $data = $this->pdo
+                    ->query("SELECT $values FROM $table $selectors_list $order LIMIT 1;")
+                    ->fetch();
+            } else {
+                $data = $this->pdo
+                    ->query("SELECT $values FROM $table $selectors_list $order LIMIT 300;")
+                    ->fetchAll();
+            }
+        } catch (PDOException $e) {
+            if ($exception) throw new BadRequest("The database return an error when executing the query");
+//            if ($exception) throw new BadRequest($e->getMessage());
+            else return false;
         }
 
-        // Whether to throw an exception
         if ($exception) return $this->containsValues($data);
         return $data;
     }
@@ -108,9 +115,10 @@ class Database
      * @param array $params
      * @param string $returnColumn
      * @return array
-     * @throws NotFound|BadRequest
+     * @throws BadRequest
+     * @throws NotFound
      */
-    public function create(string $table, array $params, string $returnColumn = "id"): array
+    public function create(string $table, array $params, string $returnColumn = '*'): array
     {
         // Setting up variables
         $filteredParams = $this->filterArray($params);
@@ -137,11 +145,12 @@ class Database
      * @param string $table
      * @param array $params
      * @param array $selectors
-     * @return bool
-     * @throws NotFound
+     * @param string $returnColumn
+     * @return array
      * @throws BadRequest
+     * @throws NotFound
      */
-    public function update(string $table, array $params, array $selectors): bool
+    public function update(string $table, array $params, array $selectors, string $returnColumn = '*'): array
     {
         // Setting up variables
         $filteredArray = $this->filterArray($params);
@@ -152,7 +161,7 @@ class Database
 
         // Sort selectors
         foreach ($selectors as $selector) {
-            if ($this->isNull($selector)) $selectors_list .= "$selectors_keys[$i] IS NULL AND ";
+            if ($this->isNull($selector) || $selector == '') $selectors_list .= "$selectors_keys[$i] IS NULL AND ";
             else $selectors_list .= "$selectors_keys[$i] = '$selector' AND ";
             $i++;
         }
@@ -160,7 +169,7 @@ class Database
         // Sorts values to modify
         $i = 0;
         foreach ($filteredArray as $value) {
-            if ($this->isNull($value)) $values_list .= "$fields_list[$i] = NULL, ";
+            if ($this->isNull($value) || $value == '') $values_list .= "$fields_list[$i] = NULL, ";
             else $values_list .= "$fields_list[$i] = '$value', ";
             $i++;
         }
@@ -172,25 +181,10 @@ class Database
         // Update the database
         return $this->containsValues(
             $this->pdo
-                ->prepare("UPDATE $table SET $values_list WHERE $selectors_list;")
-                ->execute(),
+                ->query("UPDATE $table SET $values_list WHERE $selectors_list RETURNING $returnColumn;")
+                ->fetch(),
             1
         );
-    }
-
-    /**
-     * Delete row
-     *
-     * @param string $table
-     * @param $id
-     * @return bool
-     */
-    public function deleteId(string $table, $id): bool
-    {
-        // Removes a record from the database
-        return $this->pdo
-                ->prepare("DELETE FROM $table WHERE id = '$id';")
-                ->execute();
     }
 
     /**
@@ -257,21 +251,23 @@ class Database
     private function isNull($value): bool
     {
         // Check if the value is null
-        if ($value == null || $value == "null" || $value == "NULL") return true;
+        if ($value == "null" || $value == "NULL") return true;
         return false;
     }
 
     /**
      * Check if return value is empty
      *
-     * @param array|boolean $data
+     * @param boolean|array $data
+     * @param int $error
      * @return array|boolean
-     * @throws NotFound|BadRequest
+     * @throws BadRequest
+     * @throws NotFound
      */
     private function containsValues($data, int $error = 0)
     {
         // Checks if the returned value is correct
-        if (is_bool($data) && $data == false || empty($data)) {
+        if (empty($data)) {
             switch ($error) {
                 case 1:
                     throw new BadRequest("The database return an error when executing the query");
