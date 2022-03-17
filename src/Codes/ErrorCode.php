@@ -49,6 +49,18 @@ class ErrorCode extends Code
     }
 
     /**
+     * Forbidden (403)
+     *
+     * @param string $description "Forbidden"
+     * @param bool $returnResponse Return Response object or JSON string
+     * @return Response|string
+     */
+    public function forbidden(string $description = "Forbidden", bool $returnResponse = true): Response|string
+    {
+        return $this->response(403, $description, $returnResponse);
+    }
+
+    /**
      * Not Found (404)
      *
      * @param string $description "Not Found"
