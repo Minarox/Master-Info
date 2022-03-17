@@ -25,6 +25,7 @@ $app->setBasePath("/api");
     ->setErrorHandler(NotFound::class, function() { return (new ErrorCode)->notFound(); })
     ->setErrorHandler(HttpNotFoundException::class, function() { return (new ErrorCode)->badRequest(); })
     ->setErrorHandler(Unauthorized::class, function() { return (new ErrorCode)->unauthorized(); })
+    ->setErrorHandler(Forbidden::class, function() { return (new ErrorCode)->forbidden(); })
     ->setErrorHandler(BadRequest::class, function() { return (new ErrorCode)->badRequest(); })
     ->setErrorHandler(TypeError::class, function() { return (new ErrorCode)->badRequest(); })
     ->setErrorHandler(PDOException::class, function() { return (new ErrorCode)->badRequest(); })
