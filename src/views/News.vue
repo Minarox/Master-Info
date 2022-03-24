@@ -4,30 +4,30 @@
       <h1> Actualités </h1>
     </section>
     <section>
-      <a href="#">
+      <router-link to="">
         <img src="@/assets/img/news/directeur_cybersecurite_emprisonne.png" alt="Directeur d'une société de cybersécurité emprisonné">
         <header>
           Le directeur d’une société de cybersécurité emprisonné pour haute trahison !
         </header>
-      </a>
-      <a href="#">
+      </router-link>
+      <router-link to="">
         <img src="@/assets/img/news/t-mobile.jpg" alt="Vol de données chez T-Mobile">
         <header>
           Vol de données chez T-MOBILE : 100 million de personne aurait été pirater !
         </header>
-      </a>
-      <a href="#">
+      </router-link>
+      <router-link to="">
         <img src="@/assets/img/news/netflix.jpg" alt="Netflix, plateforme la moins respectueuses des données">
         <header>
           NETFLIX la plateforme là moins respectueuse des données de ces utilisateurs !
         </header>
-      </a>
-      <a href="#">
+      </router-link>
+      <router-link to="">
         <img src="@/assets/img/news/rancon-logiciel-wanacry.jpg" alt="Protection contre les rançon logiciel">
         <header>
           Comment se protéger face au rançon logiciel ?
         </header>
-      </a>
+      </router-link>
     </section>
   </article>
 </template>

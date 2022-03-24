@@ -42,7 +42,7 @@
       </p>
     </section>
     <section>
-      <a class="hide" id="next" :href="next">{{ msg_btn }}</a>
+      <router-link class="hide" id="next" :to="next">{{ msg_btn }}</router-link>
     </section>
   </article>
 </template>
