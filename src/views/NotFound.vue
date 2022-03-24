@@ -2,7 +2,7 @@
   <article>
     <h1>Page introuvable</h1>
     <section>
-      <a href="/">Retour à l'accueil</a>
+      <router-link to="/">Retour à l'accueil</router-link>
     </section>
   </article>
 </template>

@@ -2,56 +2,56 @@
   <article>
     <transition name="no-mode-fade" mode="out-in">
       <section v-if="target_list" key="Professionnel">
-        <a href="/survey/1/0">
+        <router-link to="/survey/1/0">
           <img src="@/assets/img/phishing.png" alt="Phishing">
           <p>Phishing</p>
-        </a>
-        <a href="/survey/2/0">
+        </router-link>
+        <router-link to="/survey/2/0">
           <img src="@/assets/img/devices.png" alt="Matériel informatique">
           <p>Matériel informatique</p>
-        </a>
-        <a href="/survey/0/0">
+        </router-link>
+        <router-link to="/survey/0/0">
           <img src="@/assets/img/password.png" alt="Mot de passe">
           <p>Mot de passe</p>
-        </a>
-        <a href="/survey/1/0">
+        </router-link>
+        <router-link to="/survey/1/0">
           <img src="@/assets/img/phishing.png" alt="Phishing">
           <p>Phishing</p>
-        </a>
-        <a href="/survey/2/0">
+        </router-link>
+        <router-link to="/survey/2/0">
           <img src="@/assets/img/devices.png" alt="Matériel informatique">
           <p>Matériel informatique</p>
-        </a>
-        <a href="/survey/0/0">
+        </router-link>
+        <router-link to="/survey/0/0">
           <img src="@/assets/img/password.png" alt="Mot de passe">
           <p>Mot de passe</p>
-        </a>
+        </router-link>
       </section>
       <section v-else key="Particulier">
-        <a href="/survey/0/0">
+        <router-link to="/survey/0/0">
           <img src="@/assets/img/password.png" alt="Mot de passe">
           <p>Mot de passe</p>
-        </a>
-        <a href="/survey/1/0">
+        </router-link>
+        <router-link to="/survey/1/0">
           <img src="@/assets/img/phishing.png" alt="Phishing">
           <p>Phishing</p>
-        </a>
-        <a href="/survey/2/0">
+        </router-link>
+        <router-link to="/survey/2/0">
           <img src="@/assets/img/devices.png" alt="Matériel informatique">
           <p>Matériel informatique</p>
-        </a>
-        <a href="/survey/0/0">
+        </router-link>
+        <router-link to="/survey/0/0">
           <img src="@/assets/img/password.png" alt="Mot de passe">
           <p>Mot de passe</p>
-        </a>
-        <a href="/survey/1/0">
+        </router-link>
+        <router-link to="/survey/1/0">
           <img src="@/assets/img/phishing.png" alt="Phishing">
           <p>Phishing</p>
-        </a>
-        <a href="/survey/2/0">
+        </router-link>
+        <router-link to="/survey/2/0">
           <img src="@/assets/img/devices.png" alt="Matériel informatique">
           <p>Matériel informatique</p>
-        </a>
+        </router-link>
       </section>
     </transition>
   </article>

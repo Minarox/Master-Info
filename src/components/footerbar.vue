@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>Copyright  | <a href="/">SeQrity.fr</a></p>
+    <p>Copyright  | <router-link to="/">SeQrity.fr</router-link></p>
   </footer>
 </template>
 

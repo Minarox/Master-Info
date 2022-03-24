@@ -14,8 +14,8 @@
       </p>
     </section>
     <section>
-      <a href="#">Cours précédent</a>
-      <a href="#">Cours suivant</a>
+      <router-link to="">Cours précédent</router-link>
+      <router-link to="">Cours suivant</router-link>
     </section>
   </article>
 </template>

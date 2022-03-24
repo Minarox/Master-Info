@@ -16,18 +16,18 @@
         et ainsi améliorer vos capacités à vous protéger en approfondissant vos connaissances.
       </p>
       <div id="survey">
-        <a href="/survey/0/0">
+        <router-link to="/survey/0/0">
           <img src="@/assets/img/password.png" alt="Mot de passe">
           <p>Mot de passe</p>
-        </a>
-        <a href="/survey/1/0">
+        </router-link>
+        <router-link to="/survey/1/0">
           <img src="@/assets/img/phishing.png" alt="Phishing">
           <p>Phishing</p>
-        </a>
-        <a href="/survey/2/0">
+        </router-link>
+        <router-link to="/survey/2/0">
           <img src="@/assets/img/devices.png" alt="Matériel informatique">
           <p>Matériel informatique</p>
-        </a>
+        </router-link>
       </div>
       <hr>
       <div id="target">
@@ -62,28 +62,28 @@
     <section>
       <h3>Dernières actualités :</h3>
       <div id="news">
-        <a href="#">
+        <router-link to="">
           <img src="@/assets/img/news/directeur_cybersecurite_emprisonne.png" alt="Directeur d'une société de cybersécurité emprisonné">
           <header>
             Le directeur d’une société de cybersécurité emprisonné pour haute trahison !
           </header>
-        </a>
+        </router-link>
         <hr>
-        <a href="#">
+        <router-link to="">
           <img src="@/assets/img/news/t-mobile.jpg" alt="Vol de données chez T-Mobile">
           <header>
             Vol de données chez T-MOBILE : 100 million de personne aurait été pirater !
           </header>
-        </a>
+        </router-link>
         <hr>
-        <a href="#">
+        <router-link to="">
           <img src="@/assets/img/news/netflix.jpg" alt="Netflix, plateforme la moins respectueuses des données">
           <header>
             NETFLIX la plateforme là moins respectueuse des données de ces utilisateurs !
           </header>
-        </a>
+        </router-link>
       </div>
-      <a href="/news" id="more_news">Plus d'actualités</a>
+      <router-link to="/news" id="more_news">Plus d'actualités</router-link>
     </section>
   </article>
   <footerbar />
