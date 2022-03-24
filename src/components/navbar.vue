@@ -50,7 +50,7 @@
             <router-link to="/">Accueil</router-link>
             <router-link to="/">Nos cours</router-link>
             <router-link to="/">Questionnaires</router-link>
-            <router-link v-for="i in Categories.length" :key="i" :to="'/Workshop/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
+            <router-link v-for="i in Categories.length" :key="i" :to="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
             <hr>
             <router-link to="">Profil</router-link>
             <router-link to="">Déconnexion</router-link>
