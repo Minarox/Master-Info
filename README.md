@@ -1,5 +1,5 @@
 # Workshop EPSI 2021
-Création d'un [site web informatif](https://seqrity.minarox.fr) visant à améliorer les connaissances en cybersécurité.
+Création d'un [site web informatif](https://inge-info.github.io/Workshop/) visant à améliorer les connaissances en cybersécurité.
 ![screenshot.png](src/assets/img/screenshot.png)
 
 ## Fonctionnalités
