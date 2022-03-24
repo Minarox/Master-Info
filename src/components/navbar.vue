@@ -18,7 +18,7 @@
               </svg>
             </p>
             <div id="dropdown-cat">
-              <router-link v-for="i in Categories.length" :key="i" :to="'/Workshop/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
+              <router-link v-for="i in Categories.length" :key="i" :to="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
             </div>
           </section>
           <section class="dropdown" @mouseover="openDropdown('dropdown-cours')" @mouseleave="closeDropdown('dropdown-cours')">
@@ -30,12 +30,12 @@
               </svg>
             </p>
             <div id="dropdown-cours">
-              <router-link to="/Workshop/cours">Cours 1</router-link>
-              <router-link to="/Workshop/cours">Cours 2</router-link>
-              <router-link to="/Workshop/cours">Cours 3</router-link>
+              <router-link to="/cours">Cours 1</router-link>
+              <router-link to="/cours">Cours 2</router-link>
+              <router-link to="/cours">Cours 3</router-link>
             </div>
           </section>
-          <router-link to="/Workshop/news">Actualités</router-link>
+          <router-link to="/news">Actualités</router-link>
         </nav>
       </article>
       <article>
