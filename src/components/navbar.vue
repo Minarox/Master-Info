@@ -3,12 +3,12 @@
     <header>
       <article>
         <!-- Logo -->
-        <a href="/" id="logo">
+        <router-link to="/" id="logo">
           <img alt="Logo" src="@/assets/img/logo.png">
-        </a>
+        </router-link>
         <!-- Links for PC -->
         <nav>
-          <a href="/">Accueil</a>
+          <router-link to="/">Accueil</router-link>
           <section class="dropdown" @mouseover="openDropdown('dropdown-cat')" @mouseleave="closeDropdown('dropdown-cat')">
             <p>
               Questionnaires
@@ -18,7 +18,7 @@
               </svg>
             </p>
             <div id="dropdown-cat">
-              <a v-for="i in Categories.length" :key="i" :href="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</a>
+              <router-link v-for="i in Categories.length" :key="i" :to="'/Workshop/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
             </div>
           </section>
           <section class="dropdown" @mouseover="openDropdown('dropdown-cours')" @mouseleave="closeDropdown('dropdown-cours')">
@@ -30,12 +30,12 @@
               </svg>
             </p>
             <div id="dropdown-cours">
-              <a href="/cours">Cours 1</a>
-              <a href="/cours">Cours 2</a>
-              <a href="/cours">Cours 3</a>
+              <router-link to="/Workshop/cours">Cours 1</router-link>
+              <router-link to="/Workshop/cours">Cours 2</router-link>
+              <router-link to="/Workshop/cours">Cours 3</router-link>
             </div>
           </section>
-          <a href="/news">Actualités</a>
+          <router-link to="/Workshop/news">Actualités</router-link>
         </nav>
       </article>
       <article>
@@ -47,13 +47,13 @@
             </svg>
           </p>
           <div id="dropdown-nav">
-            <a href="/">Accueil</a>
-            <a href="/">Nos cours</a>
-            <a href="/">Questionnaires</a>
-            <a v-for="i in Categories.length" :key="i" :href="'/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</a>
+            <router-link to="/">Accueil</router-link>
+            <router-link to="/">Nos cours</router-link>
+            <router-link to="/">Questionnaires</router-link>
+            <router-link v-for="i in Categories.length" :key="i" :to="'/Workshop/survey/' + (i-1) + '/0'">{{ Categories[i-1] }}</router-link>
             <hr>
-            <a href="#">Profil</a>
-            <a href="#">Déconnexion</a>
+            <router-link to="">Profil</router-link>
+            <router-link to="">Déconnexion</router-link>
           </div>
         </section>
         <section id="profile" class="dropdown" @mouseover="openDropdown('dropdown-profile')" @mouseleave="closeDropdown('dropdown-profile')">
@@ -68,8 +68,8 @@
             </svg>
           </p>
           <div id="dropdown-profile">
-            <a href="#">Profil</a>
-            <a href="#">Deconnexion</a>
+            <router-link to="">Profil</router-link>
+            <router-link to="">Deconnexion</router-link>
           </div>
         </section>
       </article>
