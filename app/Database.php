@@ -136,13 +136,12 @@ class Database
      *
      * @param string $table
      * @param array  $params
-     * @param string $returnColumn
      *
      * @return array
      * @throws BadRequest
      * @throws NotFound
      */
-    public function create(string $table, array $params, string $returnColumn = '*'): array
+    public function create(string $table, array $params): array
     {
         // Setting up variables
         $filteredParams = $this->filterArray($params);
@@ -158,7 +157,7 @@ class Database
         // Create a new record in the database
         return $this->containsValues(
             $this->pdo
-                ->query("INSERT INTO $table ($fields_list) VALUES ($values_list) RETURNING $returnColumn;")
+                ->query("INSERT INTO $table ($fields_list) VALUES ($values_list);")
                 ->fetch(),
             1
         );
@@ -170,13 +169,12 @@ class Database
      * @param string $table
      * @param array  $params
      * @param array  $selectors
-     * @param string $returnColumn
      *
      * @return array
      * @throws BadRequest
      * @throws NotFound
      */
-    public function update(string $table, array $params, array $selectors, string $returnColumn = '*'): array
+    public function update(string $table, array $params, array $selectors): array
     {
         // Setting up variables
         $filteredArray  = $this->filterArray($params);
@@ -216,7 +214,7 @@ class Database
         // Update the database
         return $this->containsValues(
             $this->pdo
-                ->query("UPDATE $table SET $values_list WHERE $selectors_list RETURNING $returnColumn;")
+                ->query("UPDATE $table SET $values_list WHERE $selectors_list;")
                 ->fetch(),
             1
         );
