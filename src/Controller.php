@@ -97,15 +97,13 @@ abstract class Controller
      * @param array       $args          Array to search inside
      * @param string|null $table         Table to check
      * @param bool        $strict        Raise exception
-     * @param bool        $currentClient Add current client_id
      * @param string      $column        Column to search
      *
      * @return bool true if found, false otherwise
      * @throws BadRequest if request contain errors
      * @throws NotFound if value not found
-     * @throws Forbidden if the user doesn't have permissions
      */
-    protected function checkExist(string $value, array $args, string $table = null, bool $strict = false, bool $currentClient = true, string $column = "id"): bool
+    protected function checkExist(string $value, array $args, string $table = null, bool $strict = false, string $column = "id"): bool
     {
         // Check if key exist in array
         if (array_key_exists($value, $args)) {
@@ -115,18 +113,16 @@ abstract class Controller
 
             // Create array with correct values
             $fields = array($column => $args[$value]);
-            if ($currentClient && !$this->checkScope([], false)) {
-                $fields = array_merge($fields, array("client_id" => $GLOBALS["session"]["client_id"]));
-            }
 
             // Check if value exist (throw NotFound exception automatically if not) and return true
-            $this->database->find(
+            return (bool) $this->database->find(
                 $table,
                 [$column],
                 $fields,
-                true
+                true,
+                null,
+                $strict
             );
-            return true;
         }
 
         // Return false or throw BadRequest exception if it doesn't exist
