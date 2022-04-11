@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace app;
 
-use app\OAuth2 as Auth;
 use Codes\ErrorCode;
 use OAuth2\Request as OAuth_Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;

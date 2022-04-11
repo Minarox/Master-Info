@@ -8,7 +8,6 @@ namespace app;
  */
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../app/Database.php";
-require_once __DIR__ . "/../app/oauth2/OAuth2.php";
 
 /**
  * List of folders to browse
