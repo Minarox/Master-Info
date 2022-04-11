@@ -24,7 +24,7 @@ class HelloController extends Controller
     public function helloWorld(Request $request, Response $response): Response
     {
         // Display "Hello World"
-        $response->getBody()->write("Hello world!");
+        $response->getBody()->write(json_encode("Hello world!"));
         return $response->withStatus(200);
     }
 }

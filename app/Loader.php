@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace app;
 
@@ -8,6 +8,7 @@ namespace app;
  */
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../app/Database.php";
+require_once __DIR__ . "/../app/oauth2/OAuth2.php";
 
 /**
  * List of folders to browse
@@ -16,7 +17,7 @@ $folders = array(
     "/exceptions/",
     "/../src/",
     "/../src/Codes/",
-    "/../src/Controllers/",
+    "/../src/Controllers/"
 );
 
 /**
@@ -25,8 +26,9 @@ $folders = array(
 foreach ($folders as $folder) {
     $files = scandir(__DIR__ . $folder);
     for ($i = 2; $i < count($files); $i++) {
-        if (str_ends_with($files[$i], ".php"))
+        if (str_ends_with($files[$i], ".php")) {
             require_once __DIR__ . $folder . $files[$i];
+        }
     }
 }
 
