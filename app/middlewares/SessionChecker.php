@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace app;
 
@@ -13,8 +13,9 @@ use Slim\Psr7\Response;
 /**
  * Check if user is connected and authorized to use the app before execute functions
  *
- * @param Request $request
+ * @param Request        $request
  * @param RequestHandler $handler
+ *
  * @return Response
  */
 return function (Request $request, RequestHandler $handler): Response {
@@ -24,21 +25,24 @@ return function (Request $request, RequestHandler $handler): Response {
         && !str_starts_with($request->getRequestTarget(), "/v1/users/setpassword")) {
 
         // Import classes
-        $server = (new Auth())->getServer();
+        $server     = (new Auth())->getServer();
         $error_code = new ErrorCode();
 
         // Check if user is connected
         if (!$server->verifyResourceRequest(OAuth_Request::createFromGlobals())) {
-            if ($server->getResponse()->getParameter("error_description"))
-                return $error_code->customError($server->getResponse()->getStatusCode(), $server->getResponse()->getParameter("error_description"));
+            if ($server->getResponse()->getParameter("error_description")) {
+                return $error_code->customError(
+                    $server->getResponse()->getStatusCode(),
+                    $server->getResponse()->getParameter("error_description"));
+            }
             return $error_code->unauthorized();
         }
 
         // Get session information
-        $GLOBALS["session"] = $session = $server->getAccessTokenData(OAuth_Request::createFromGlobals());
-        $GLOBALS["session"]["user_id"] = $session["client_id"]; // Because user_id is the client_id column in the database
-        $GLOBALS["session"]["client_id"] = $session["user_id"]; // Because client_id is the user_id column in the database
-        $GLOBALS["session"]["scope"] = explode(' ', $session["scope"]);
+        $GLOBALS["session"]              = $session = $server->getAccessTokenData(OAuth_Request::createFromGlobals());
+        $GLOBALS["session"]["user_id"]   = $session["client_id"]; // Because user_id is the client_id column in the database
+        $GLOBALS["session"]["client_id"] = $session["user_id"];   // Because client_id is the user_id column in the database
+        $GLOBALS["session"]["scope"]     = $session["scope"];
     }
 
     // Return request (continue the execution)

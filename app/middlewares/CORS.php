@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace app;
 
@@ -11,15 +11,16 @@ use Slim\Routing\RouteContext;
 /**
  * Add CORS policy
  *
- * @param Request $request
+ * @param Request        $request
  * @param RequestHandler $handler
+ *
  * @return Response
  */
 return function (Request $request, RequestHandler $handler): Response {
     // Get methods and headers
-    $routeContext = RouteContext::fromRequest($request);
+    $routeContext   = RouteContext::fromRequest($request);
     $routingResults = $routeContext->getRoutingResults();
-    $methods = $routingResults->getAllowedMethods();
+    $methods        = $routingResults->getAllowedMethods();
     $requestHeaders = $request->getHeaderLine("Access-Control-Request-Headers");
 
     // Add CORS to response
@@ -30,6 +31,8 @@ return function (Request $request, RequestHandler $handler): Response {
         ->withHeader("Access-Control-Allow-Credentials", "true")
         ->withHeader("Content-Type", "application/json");
 
-    if ($request->getMethod() == "OPTIONS") return $response->withStatus(200);
+    if ($request->getMethod() == "OPTIONS") {
+        return $response->withStatus(200);
+    }
     return $response;
 };
