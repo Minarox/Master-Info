@@ -10,7 +10,7 @@ use Slim\Psr7\Response;
 /**
  * Controller for Actions table
  */
-class HelloController extends Controller
+class BaseController extends Controller
 {
     /**
      * Return "Hello World".
@@ -21,7 +21,7 @@ class HelloController extends Controller
      * @param Response $response Slim response interface
      * @return Response Response to show
      */
-    public function helloWorld(Request $request, Response $response): Response
+    public function basePath(Request $request, Response $response): Response
     {
         // Display "Hello World"
         $response->getBody()->write(json_encode("Hello world!"));

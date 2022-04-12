@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace app;
 
 use Codes\ErrorCode;
-use Controllers\HelloController;
+use Controllers\BaseController;
 use Controllers\SessionController;
 use Slim\App;
 
@@ -18,7 +18,7 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get("/", [HelloController::class, "helloWorld"]);
+    $app->get("/", [BaseController::class, "basePath"]);
 
     $app->post("/login", [SessionController::class, "login"]);
 
