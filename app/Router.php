@@ -5,6 +5,7 @@ namespace app;
 
 use Codes\ErrorCode;
 use Controllers\HelloController;
+use Controllers\SessionController;
 use Slim\App;
 
 /**
@@ -18,6 +19,8 @@ return function (App $app) {
     });
 
     $app->get("/", [HelloController::class, "helloWorld"]);
+
+    $app->post("/login", [SessionController::class, "login"]);
 
     /**
      * Redirect to 404 if none of the routes match
