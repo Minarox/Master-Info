@@ -26,6 +26,11 @@ abstract class Controller
     private Database $database;
 
     /**
+     * @var string $date
+     */
+    private string $date;
+
+    /**
      * Construct SuccessCode, ErrorCode and Database object to be used in Controllers
      */
     public function __construct()
@@ -33,6 +38,7 @@ abstract class Controller
         $this->successCode = new SuccessCode();
         $this->errorCode   = new ErrorCode();
         $this->database    = new Database();
+        $this->date        = date("Y-m-d H:i:s");
     }
 
     /**
@@ -63,6 +69,21 @@ abstract class Controller
     public function database(): Database
     {
         return $this->database;
+    }
+
+    /**
+     * Get current date
+     *
+     * @param int|null $timestamp
+     *
+     * @return string
+     */
+    protected function getDate(?int $timestamp = null): string
+    {
+        if ($timestamp) {
+            return date("Y-m-d H:i:s", $timestamp);
+        }
+        return $this->date;
     }
 
     /**
