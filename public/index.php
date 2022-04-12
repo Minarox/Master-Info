@@ -54,6 +54,7 @@ $app = AppFactory::create();
 $app->setBasePath('/api');
 
 # Add middleware for session and CORS
+$app->add(require_once __DIR__ . "/../app/middlewares/SessionChecker.php");
 $app->add(require_once __DIR__ . "/../app/middlewares/BodyParser.php");
 $app->add(require_once __DIR__ . "/../app/middlewares/CORS.php");
 $app->addRoutingMiddleware();
