@@ -157,8 +157,8 @@ class Database
         // Create a new record in the database
         return $this->containsValues(
             $this->pdo
-                ->query("INSERT INTO $table ($fields_list) VALUES ($values_list);")
-                ->fetch(),
+                ->prepare("INSERT INTO $table ($fields_list) VALUES ($values_list);")
+                ->execute(),
             1
         );
     }
@@ -170,11 +170,11 @@ class Database
      * @param array  $params
      * @param array  $selectors
      *
-     * @return array
+     * @return bool|array
      * @throws BadRequest
      * @throws NotFound
      */
-    public function update(string $table, array $params, array $selectors): array
+    public function update(string $table, array $params, array $selectors): bool|array
     {
         // Setting up variables
         $filteredArray  = $this->filterArray($params);
@@ -214,8 +214,8 @@ class Database
         // Update the database
         return $this->containsValues(
             $this->pdo
-                ->query("UPDATE $table SET $values_list WHERE $selectors_list;")
-                ->fetch(),
+                ->prepare("UPDATE $table SET $values_list WHERE $selectors_list;")
+                ->execute(),
             1
         );
     }
