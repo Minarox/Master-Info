@@ -19,7 +19,7 @@ class SessionController extends Controller
 {
     /**
      * Return new access token
-     * Usage: POST /login
+     * Usage: POST /login | Scope: none
      *
      * @param Request  $request  Slim request interface
      * @param Response $response Slim response interface
@@ -37,10 +37,11 @@ class SessionController extends Controller
             && (array_key_exists("email", $GLOBALS["body"])
             || array_key_exists("username", $GLOBALS["body"]))) {
 
-            // Fetch client_id and client_secret
+            // Fetch email from fields
             $email = (array_key_exists("email", $GLOBALS["body"]))
                 ? $GLOBALS["body"]["email"] : $GLOBALS["body"]["username"];
 
+            // Fetch client_id and client_secret
             $client = $this->database()->find(
                 "clients",
                 [
@@ -78,7 +79,7 @@ class SessionController extends Controller
 
     /**
      * Return information about specific access_token or refresh_token
-     * Usage: POST /introspect | Scope: user
+     * Usage: POST /introspect | Scope: admin, super_admin, app
      *
      * @param Request  $request  Slim request interface
      * @param Response $response Slim response interface
@@ -117,7 +118,7 @@ class SessionController extends Controller
             return $this->errorCode()->badRequest();
         }
 
-        // Determinate if token is active or not
+        // Determinate if token or refresh_token is active or not
         $expires = implode($expires);
         if ($expires > $this->getDate()) {
             $active = true;
@@ -125,7 +126,7 @@ class SessionController extends Controller
             $active = false;
         }
 
-        // Display token information
+        // Display token or refresh_token information
         $response->getBody()->write(
             json_encode(
                 [
@@ -139,7 +140,7 @@ class SessionController extends Controller
 
     /**
      * Revoke specific access_token or refresh_token
-     * Usage: POST /revoke
+     * Usage: POST /revoke | Scope: admin, super_admin, app
      *
      * @param Request  $request  Slim request interface
      * @param Response $response Slim response interface
@@ -227,7 +228,7 @@ class SessionController extends Controller
 
     /**
      * Information about the user
-     * Usage: GET /userinfo
+     * Usage: GET /userinfo | Scope: admin, super_admin, app
      *
      * @param Request  $request  Slim request interface
      * @param Response $response Slim response interface
@@ -258,7 +259,7 @@ class SessionController extends Controller
 
     /**
      * Revoke current token
-     * Usage: GET /logout
+     * Usage: GET /logout | Scope: admin, super_admin, app
      *
      * @param Request  $request  Slim request interface
      * @param Response $response Slim response interface

@@ -13,9 +13,8 @@ use Slim\Psr7\Response;
 class BaseController extends Controller
 {
     /**
-     * Return "Hello World".
-     *
-     * Usage: GET /
+     * Return API description.
+     * Usage: GET / | Scope: none
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
