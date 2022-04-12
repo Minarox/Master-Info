@@ -258,6 +258,76 @@ class SessionController extends Controller
     }
 
     /**
+     * Update information about the user
+     * Usage: PUT /userinfo | Scope: admin, super_admin, app
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     */
+    public function editUserInfo(Request $request, Response $response): Response
+    {
+        // Fetch values from request
+        $fields = array(
+            "email"      => $GLOBALS["body"]["email"] ?? '',
+            "first_name" => $GLOBALS["body"]["first_name"] ?? '',
+            "last_name"  => $GLOBALS["body"]["last_name"] ?? ''
+        );
+
+        // Update user information
+        $update = $this->database()->update(
+            "admins",
+            $fields,
+            ["email" => $GLOBALS["session"]["user_id"]]
+        );
+        if (!$update) {
+            return $this->errorCode()->badRequest();
+        }
+
+        // Display success code
+        return $this->successCode()->success();
+    }
+
+    /**
+     * Change password of the user
+     * Usage: PUT /userinfo/password | Scope: admin, super_admin, app
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     */
+    public function editPassword(Request $request, Response $response): Response
+    {
+        // Check if values exist in request
+        $this->checkExist("password", $GLOBALS["body"], null, true);
+        $this->checkExist("password_confirmation", $GLOBALS["body"], null, true);
+
+        // Check if values are the same
+        if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["password_confirmation"]) {
+            return $this->errorCode()->conflict("Passwords doesn't match.");
+        }
+
+        // Update user password
+        $update = $this->database()->update(
+            "admins",
+            ["password" => password_hash($GLOBALS["body"]["password"], PASSWORD_BCRYPT)],
+            ["email" => $GLOBALS["session"]["user_id"]]
+        );
+        if (!$update) {
+            return $this->errorCode()->badRequest();
+        }
+
+        // Invalidate current token
+        return $this->logout($request, $response);
+    }
+
+    /**
      * Revoke current token
      * Usage: GET /logout | Scope: admin, super_admin, app
      *

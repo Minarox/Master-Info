@@ -24,6 +24,8 @@ return function (App $app) {
     $app->post("/introspect", [SessionController::class, "introspect"]);
     $app->post("/revoke", [SessionController::class, "revoke"]);
     $app->get("/userinfo", [SessionController::class, "userInfo"]);
+    $app->put("/userinfo", [SessionController::class, "editUserInfo"]);
+    $app->put("/userinfo/password", [SessionController::class, "editPassword"]);
     $app->get("/logout", [SessionController::class, "logout"]);
 
     /**
