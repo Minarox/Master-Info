@@ -21,6 +21,10 @@ return function (App $app) {
     $app->get("/", [BaseController::class, "basePath"]);
 
     $app->post("/login", [SessionController::class, "login"]);
+    $app->post("/introspect", [SessionController::class, "introspect"]);
+    $app->post("/revoke", [SessionController::class, "revoke"]);
+    $app->get("/userinfo", [SessionController::class, "userInfo"]);
+    $app->get("/logout", [SessionController::class, "logout"]);
 
     /**
      * Redirect to 404 if none of the routes match
