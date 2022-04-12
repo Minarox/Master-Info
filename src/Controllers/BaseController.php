@@ -23,8 +23,15 @@ class BaseController extends Controller
      */
     public function basePath(Request $request, Response $response): Response
     {
-        // Display "Hello World"
-        $response->getBody()->write(json_encode("Hello world!"));
+        // Display description
+        $response->getBody()->write(
+            json_encode([
+                "Version"     => "v1.0",
+                "Title"       => "MSPR",
+                "Description" => "API de gestion du back-office du projet MSPR 2022.",
+                "Host"        => "https://mspr.minarox.fr/",
+                "BasePath"    => "api/"
+            ]));
         return $response->withStatus(200);
     }
 }
