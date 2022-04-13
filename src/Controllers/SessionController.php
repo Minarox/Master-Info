@@ -300,18 +300,31 @@ class SessionController extends Controller
     public function editPassword(Request $request, Response $response): Response
     {
         // Check if values exist in request
-        $this->checkExist("password", $GLOBALS["body"], null, true);
-        $this->checkExist("password_confirmation", $GLOBALS["body"], null, true);
+        $this->checkExist("old_password", $GLOBALS["body"], null, true);
+        $this->checkExist("new_password", $GLOBALS["body"], null, true);
+        $this->checkExist("confirm_new_password", $GLOBALS["body"], null, true);
 
-        // Check if values are the same
-        if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["password_confirmation"]) {
-            return $this->errorCode()->conflict("Passwords doesn't match");
+        // Check if new passwords are the same
+        if ($GLOBALS["body"]["new_password"] !== $GLOBALS["body"]["confirm_new_password"]) {
+            return $this->errorCode()->conflict("New passwords doesn't match");
+        }
+
+        // Check old password
+        $old_password = ($this->database()->find(
+            "admins",
+            ["password"],
+            ["email" => $GLOBALS["session"]["user_id"]],
+            true
+        ))["password"];
+
+        if (!password_verify($GLOBALS["body"]["old_password"], $old_password)) {
+            return $this->errorCode()->conflict("Old password doesn't match");
         }
 
         // Update user password
         $this->database()->update(
             "admins",
-            ["password" => password_hash($GLOBALS["body"]["password"], PASSWORD_BCRYPT)],
+            ["password" => password_hash($GLOBALS["body"]["new_password"], PASSWORD_BCRYPT)],
             ["email" => $GLOBALS["session"]["user_id"]]
         );
 

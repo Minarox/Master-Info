@@ -368,8 +368,9 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "password" => "test1234",
-            "password_confirmation" => "test1234",
+            "old_password" => "test!123",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test1234",
         ];
 
         // Call function
@@ -389,17 +390,18 @@ class SessionControllerTest extends TestCase
     }
 
     /**
-     * Test editPassword function with bad password
+     * Test editPassword function with bad new passwords
      * Usage: PUT /userinfo/password | Scope: admin, super_admin, app
      *
      * @throws NotFound|BadRequest
      */
-    public function testEditPasswordWithBadValues()
+    public function testEditPasswordWithBadNewPasswords()
     {
         // Fields
         $GLOBALS["body"] = [
-            "password" => "test1234",
-            "password_confirmation" => "test!123",
+            "old_password" => "test!123",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test!123",
         ];
 
         // Call function
@@ -407,7 +409,30 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
-        $this->assertHTTPCode($result, 409, "Passwords doesn't match");
+        $this->assertHTTPCode($result, 409, "New passwords doesn't match");
+    }
+
+    /**
+     * Test editPassword function with bad old password
+     * Usage: PUT /userinfo/password | Scope: admin, super_admin, app
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testEditPasswordWithBadOldPassword()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "old_password" => "test1234",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test1234",
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $result = $this->sessionController->editPassword($request, $this->response);
+
+        // Check if request = database and http code is correct
+        $this->assertHTTPCode($result, 409, "Old password doesn't match");
     }
 
     /**
