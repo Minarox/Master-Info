@@ -9,6 +9,10 @@ if (CONFIG["debug"]["displayPHPErrors"]) {
     ini_set("display_errors", '1');
     ini_set("display_startup_errors", '1');
     error_reporting(E_ALL);
+} else {
+    ini_set("display_errors", '0');
+    ini_set("display_startup_errors", '0');
+    error_reporting(0);
 }
 
 use Codes\ErrorCode;
@@ -54,6 +58,7 @@ $app = AppFactory::create();
 $app->setBasePath('/api');
 
 # Add middleware for session and CORS
+$app->add(require_once __DIR__ . "/../app/middlewares/SessionChecker.php");
 $app->add(require_once __DIR__ . "/../app/middlewares/BodyParser.php");
 $app->add(require_once __DIR__ . "/../app/middlewares/CORS.php");
 $app->addRoutingMiddleware();

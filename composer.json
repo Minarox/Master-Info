@@ -4,6 +4,7 @@
     "slim/psr7": "^1.4",
     "ext-json": "*",
     "ext-pdo": "*",
+    "bshaffer/oauth2-server-php": "1.11.*",
     "phpmailer/phpmailer": "^6.5",
     "ext-simplexml": "*"
   },
