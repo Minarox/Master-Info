@@ -217,11 +217,9 @@ class SessionController extends Controller
             if (array_key_exists("token", $GLOBALS["body"])) {
                 // Display error code if access_token is already invalid
                 return $this->errorCode()->conflict("Access_token is already revoked");
-            } else if (array_key_exists("refresh_token", $GLOBALS["body"])) {
+            } else {
                 // Display error code if refresh_token is already invalid
                 return $this->errorCode()->conflict("Refresh_token is already revoked");
-            } else {
-                return $this->errorCode()->badRequest();
             }
         }
     }
@@ -278,14 +276,11 @@ class SessionController extends Controller
         );
 
         // Update user information
-        $update = $this->database()->update(
+        $this->database()->update(
             "admins",
             $fields,
             ["email" => $GLOBALS["session"]["user_id"]]
         );
-        if (!$update) {
-            return $this->errorCode()->badRequest();
-        }
 
         // Display success code
         return $this->successCode()->success();
@@ -310,18 +305,15 @@ class SessionController extends Controller
 
         // Check if values are the same
         if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["password_confirmation"]) {
-            return $this->errorCode()->conflict("Passwords doesn't match.");
+            return $this->errorCode()->conflict("Passwords doesn't match");
         }
 
         // Update user password
-        $update = $this->database()->update(
+        $this->database()->update(
             "admins",
             ["password" => password_hash($GLOBALS["body"]["password"], PASSWORD_BCRYPT)],
             ["email" => $GLOBALS["session"]["user_id"]]
         );
-        if (!$update) {
-            return $this->errorCode()->badRequest();
-        }
 
         // Invalidate current token
         return $this->logout($request, $response);
