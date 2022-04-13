@@ -74,15 +74,10 @@ abstract class Controller
     /**
      * Get current date
      *
-     * @param int|null $timestamp
-     *
      * @return string
      */
-    protected function getDate(?int $timestamp = null): string
+    protected function getDate(): string
     {
-        if ($timestamp) {
-            return date("Y-m-d H:i:s", $timestamp);
-        }
         return $this->date;
     }
 
@@ -151,19 +146,5 @@ abstract class Controller
             throw new BadRequest("Missing value in array");
         }
         return false;
-    }
-
-    /**
-     * Generate random string
-     *
-     * @param int $length of the generated string
-     *
-     * @return string
-     */
-    protected function randString(int $length = 16): string
-    {
-        // Password generator with custom length
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return substr(str_shuffle($chars), 0, $length);
     }
 }
