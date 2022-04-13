@@ -45,13 +45,63 @@ class TestCase extends PHPUnit_TestCase
     }
 
     /**
+     * AssertSame with custom http code
+     *
+     * @param Response $result
+     * @param int      $code
+     * @param string   $description
+     */
+    protected function assertHTTPCode(Response $result, int $code = 200, string $description = "Success")
+    {
+        self::assertSame(
+            json_encode([
+                "code_value"       => $code,
+                "code_description" => $description
+            ]),
+            $result->getBody()->__toString()
+        );
+        self::assertSame($code, $result->getStatusCode());
+    }
+
+    /**
+     * Generate random string
+     *
+     * @param int $length of the generated string
+     *
+     * @return string
+     */
+    protected function randString(int $length = 16): string
+    {
+        // Password generator with custom length
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return substr(str_shuffle($chars), 0, $length);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
     {
         $this->response = new Response();
 
-        // TODO: Create fake admin account
+        $password = password_hash("test!123", PASSWORD_BCRYPT);
+        $new_user = $GLOBALS["pdo"]
+            ->query("INSERT INTO admins (email, password, first_name, last_name, active, scope) VALUES ('test@example.com', '$password', 'Test', 'User', True, 'admin') RETURNING email, scope;")
+            ->fetch();
+        $GLOBALS["session"]["user_id"] = $new_user["email"];
+        $GLOBALS["session"]["scope"] = $new_user["scope"];
+
+        $GLOBALS["session"]["client_id"] = $GLOBALS["pdo"]
+            ->query("SELECT client_id FROM clients WHERE user_id = '{$GLOBALS["session"]["user_id"]}';")
+            ->fetchColumn();
+
+        $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
+        $new_token = $GLOBALS["pdo"]
+            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
+            ->fetch();
+
+        $GLOBALS["session"]["access_token"] = $new_token["access_token"];
+        $GLOBALS["session"]["expires"] = strtotime($new_token["expires"]);
     }
 
     /**
@@ -59,7 +109,9 @@ class TestCase extends PHPUnit_TestCase
      */
     protected function tearDown(): void
     {
-        // TODO: Remove fake admin account
+        $GLOBALS["pdo"]
+            ->query("DELETE FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}';")
+            ->execute();
 
         // Unset variables
         unset($GLOBALS["session"]);
