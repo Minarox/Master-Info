@@ -26,6 +26,11 @@ abstract class Controller
     private Database $database;
 
     /**
+     * @var string $date
+     */
+    private string $date;
+
+    /**
      * Construct SuccessCode, ErrorCode and Database object to be used in Controllers
      */
     public function __construct()
@@ -33,6 +38,7 @@ abstract class Controller
         $this->successCode = new SuccessCode();
         $this->errorCode   = new ErrorCode();
         $this->database    = new Database();
+        $this->date        = date("Y-m-d H:i:s");
     }
 
     /**
@@ -63,6 +69,16 @@ abstract class Controller
     public function database(): Database
     {
         return $this->database;
+    }
+
+    /**
+     * Get current date
+     *
+     * @return string
+     */
+    protected function getDate(): string
+    {
+        return $this->date;
     }
 
     /**
@@ -130,19 +146,5 @@ abstract class Controller
             throw new BadRequest("Missing value in array");
         }
         return false;
-    }
-
-    /**
-     * Generate random string
-     *
-     * @param int $length of the generated string
-     *
-     * @return string
-     */
-    protected function randString(int $length = 16): string
-    {
-        // Password generator with custom length
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return substr(str_shuffle($chars), 0, $length);
     }
 }
