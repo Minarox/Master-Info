@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649882113">
-  <project timestamp="1649882113">
+<coverage generated="1649886783">
+  <project timestamp="1649886783">
     <file name="/home/web/epsi/mspr/api/src/Code.php">
       <class name="Code" namespace="global">
         <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
       </class>
-      <line num="20" type="method" name="response" visibility="protected" complexity="2" crap="2" count="28"/>
-      <line num="22" type="stmt" count="28"/>
-      <line num="24" type="stmt" count="28"/>
-      <line num="29" type="stmt" count="28"/>
-      <line num="30" type="stmt" count="19"/>
-      <line num="31" type="stmt" count="19"/>
-      <line num="32" type="stmt" count="19"/>
+      <line num="20" type="method" name="response" visibility="protected" complexity="2" crap="2" count="29"/>
+      <line num="22" type="stmt" count="29"/>
+      <line num="24" type="stmt" count="29"/>
+      <line num="29" type="stmt" count="29"/>
+      <line num="30" type="stmt" count="20"/>
+      <line num="31" type="stmt" count="20"/>
+      <line num="32" type="stmt" count="20"/>
       <line num="34" type="stmt" count="9"/>
       <metrics loc="37" ncloc="25" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
     </file>
@@ -31,8 +31,8 @@
       <line num="77" type="stmt" count="2"/>
       <line num="88" type="method" name="methodNotAllowed" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="90" type="stmt" count="2"/>
-      <line num="101" type="method" name="conflict" visibility="public" complexity="1" crap="1" count="5"/>
-      <line num="103" type="stmt" count="5"/>
+      <line num="101" type="method" name="conflict" visibility="public" complexity="1" crap="1" count="6"/>
+      <line num="103" type="stmt" count="6"/>
       <metrics loc="105" ncloc="45" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="14" coveredelements="14"/>
     </file>
     <file name="/home/web/epsi/mspr/api/src/Codes/SuccessCode.php">
@@ -56,10 +56,10 @@
       <line num="41" type="stmt" count="0"/>
       <line num="49" type="method" name="successCode" visibility="protected" complexity="1" crap="1" count="5"/>
       <line num="51" type="stmt" count="5"/>
-      <line num="59" type="method" name="errorCode" visibility="protected" complexity="1" crap="1" count="5"/>
-      <line num="61" type="stmt" count="5"/>
-      <line num="69" type="method" name="database" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="71" type="stmt" count="11"/>
+      <line num="59" type="method" name="errorCode" visibility="protected" complexity="1" crap="1" count="6"/>
+      <line num="61" type="stmt" count="6"/>
+      <line num="69" type="method" name="database" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="71" type="stmt" count="12"/>
       <line num="79" type="method" name="getDate" visibility="protected" complexity="1" crap="1" count="9"/>
       <line num="81" type="stmt" count="9"/>
       <line num="92" type="method" name="checkScope" visibility="protected" complexity="4" crap="20" count="0"/>
@@ -70,10 +70,10 @@
       <line num="103" type="stmt" count="0"/>
       <line num="104" type="stmt" count="0"/>
       <line num="106" type="stmt" count="0"/>
-      <line num="122" type="method" name="checkExist" visibility="protected" complexity="4" crap="5.40" count="3"/>
-      <line num="125" type="stmt" count="3"/>
-      <line num="126" type="stmt" count="2"/>
-      <line num="127" type="stmt" count="2"/>
+      <line num="122" type="method" name="checkExist" visibility="protected" complexity="4" crap="5.40" count="4"/>
+      <line num="125" type="stmt" count="4"/>
+      <line num="126" type="stmt" count="3"/>
+      <line num="127" type="stmt" count="3"/>
       <line num="131" type="stmt" count="0"/>
       <line num="134" type="stmt" count="0"/>
       <line num="136" type="stmt" count="0"/>
@@ -94,7 +94,7 @@
     </file>
     <file name="/home/web/epsi/mspr/api/src/Controllers/SessionController.php">
       <class name="Controllers\SessionController" namespace="global">
-        <metrics complexity="26" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="113" coveredstatements="82" elements="121" coveredelements="88"/>
+        <metrics complexity="27" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="120" coveredstatements="89" elements="128" coveredelements="95"/>
       </class>
       <line num="31" type="method" name="login" visibility="public" complexity="6" crap="37.31" count="1"/>
       <line num="33" type="stmt" count="1"/>
@@ -190,35 +190,42 @@
       <line num="279" type="stmt" count="1"/>
       <line num="282" type="stmt" count="1"/>
       <line num="286" type="stmt" count="1"/>
-      <line num="300" type="method" name="editPassword" visibility="public" complexity="2" crap="2" count="2"/>
-      <line num="303" type="stmt" count="2"/>
-      <line num="304" type="stmt" count="2"/>
-      <line num="307" type="stmt" count="2"/>
-      <line num="308" type="stmt" count="1"/>
-      <line num="312" type="stmt" count="1"/>
-      <line num="314" type="stmt" count="1"/>
-      <line num="315" type="stmt" count="1"/>
-      <line num="319" type="stmt" count="1"/>
-      <line num="333" type="method" name="logout" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="336" type="stmt" count="2"/>
-      <line num="338" type="stmt" count="2"/>
-      <line num="340" type="stmt" count="2"/>
-      <line num="341" type="stmt" count="2"/>
-      <line num="342" type="stmt" count="2"/>
-      <line num="345" type="stmt" count="2"/>
-      <line num="355" type="method" name="createFromGlobals" visibility="private" complexity="5" crap="30" count="0"/>
-      <line num="357" type="stmt" count="0"/>
-      <line num="359" type="stmt" count="0"/>
-      <line num="360" type="stmt" count="0"/>
-      <line num="361" type="stmt" count="0"/>
-      <line num="362" type="stmt" count="0"/>
-      <line num="363" type="stmt" count="0"/>
-      <line num="364" type="stmt" count="0"/>
-      <line num="365" type="stmt" count="0"/>
-      <line num="366" type="stmt" count="0"/>
-      <line num="369" type="stmt" count="0"/>
-      <metrics loc="371" ncloc="255" classes="1" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="113" coveredstatements="82" elements="121" coveredelements="88"/>
+      <line num="300" type="method" name="editPassword" visibility="public" complexity="3" crap="3" count="3"/>
+      <line num="303" type="stmt" count="3"/>
+      <line num="304" type="stmt" count="3"/>
+      <line num="305" type="stmt" count="3"/>
+      <line num="308" type="stmt" count="3"/>
+      <line num="309" type="stmt" count="1"/>
+      <line num="313" type="stmt" count="2"/>
+      <line num="315" type="stmt" count="2"/>
+      <line num="316" type="stmt" count="2"/>
+      <line num="318" type="stmt" count="2"/>
+      <line num="320" type="stmt" count="2"/>
+      <line num="321" type="stmt" count="1"/>
+      <line num="325" type="stmt" count="1"/>
+      <line num="327" type="stmt" count="1"/>
+      <line num="328" type="stmt" count="1"/>
+      <line num="332" type="stmt" count="1"/>
+      <line num="346" type="method" name="logout" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="349" type="stmt" count="2"/>
+      <line num="351" type="stmt" count="2"/>
+      <line num="353" type="stmt" count="2"/>
+      <line num="354" type="stmt" count="2"/>
+      <line num="355" type="stmt" count="2"/>
+      <line num="358" type="stmt" count="2"/>
+      <line num="368" type="method" name="createFromGlobals" visibility="private" complexity="5" crap="30" count="0"/>
+      <line num="370" type="stmt" count="0"/>
+      <line num="372" type="stmt" count="0"/>
+      <line num="373" type="stmt" count="0"/>
+      <line num="374" type="stmt" count="0"/>
+      <line num="375" type="stmt" count="0"/>
+      <line num="376" type="stmt" count="0"/>
+      <line num="377" type="stmt" count="0"/>
+      <line num="378" type="stmt" count="0"/>
+      <line num="379" type="stmt" count="0"/>
+      <line num="382" type="stmt" count="0"/>
+      <metrics loc="384" ncloc="267" classes="1" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="120" coveredstatements="89" elements="128" coveredelements="95"/>
     </file>
-    <metrics files="6" loc="738" ncloc="454" classes="6" methods="26" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="156" coveredstatements="110" elements="182" coveredelements="131"/>
+    <metrics files="6" loc="751" ncloc="466" classes="6" methods="26" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="163" coveredstatements="117" elements="189" coveredelements="138"/>
   </project>
 </coverage>
