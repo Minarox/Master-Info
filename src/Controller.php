@@ -94,7 +94,7 @@ abstract class Controller
         // Check if scope is in current session
         $scopes[] = "super_admin";
         foreach ($scopes as $scope) {
-            if (in_array($scope, $GLOBALS["session"]["scope"])) {
+            if ($scope === $GLOBALS["session"]["scope"]) {
                 return true;
             }
         }
