@@ -41,6 +41,14 @@ class SessionController extends Controller
             $email = (array_key_exists("email", $GLOBALS["body"]))
                 ? $GLOBALS["body"]["email"] : $GLOBALS["body"]["username"];
 
+            // Fetch admin_id
+            $admin = $this->database()->find(
+                "admins",
+                ["admin_id"],
+                ["email" => $email],
+                true
+            );
+
             // Fetch client_id and client_secret
             $client = $this->database()->find(
                 "clients",
@@ -48,7 +56,7 @@ class SessionController extends Controller
                     "client_id",
                     "client_secret"
                 ],
-                ["user_id" => $email],
+                ["user_id" => $admin["admin_id"]],
                 true
             );
 
