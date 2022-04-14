@@ -50,19 +50,18 @@ class SessionControllerTest extends TestCase
         $this->sessionController->login($request, $this->response);
     }
 
-    // TODO: Fix bad method error
     /**
-     * Test login function without params
+     * Test login function with password
      * Usage: POST /login | Scope: none
      *
      * @throws NotFound|BadRequest
      */
-    /*public function testLoginWithEmail()
+    public function testLoginWithEmail()
     {
         // Fields
         $GLOBALS["body"] = [
             "grant_type" => "password",
-            "email" => $GLOBALS["session"]["user_id"],
+            "email" => $GLOBALS["session"]["user_email"],
             "password" => "test!123"
         ];
 
@@ -70,8 +69,30 @@ class SessionControllerTest extends TestCase
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
         $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
 
-        var_dump($result->getBody()->__toString());
-    }*/
+        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+    }
+
+    /**
+     * Test login function with client
+     * Usage: POST /login | Scope: none
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testLoginWithClient()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "grant_type" => "client_credentials",
+            "client_id" => $GLOBALS["session"]["client_id"],
+            "client_secret" => $GLOBALS["session"]["client_secret"]
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+
+        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+    }
 
     /**
      * Test introspect function with token
