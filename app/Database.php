@@ -141,7 +141,7 @@ class Database
      * @throws BadRequest
      * @throws NotFound
      */
-    public function create(string $table, array $params): array
+    public function create(string $table, array $params, string $returnColumn = '*'): array
     {
         // Setting up variables
         $filteredParams = $this->filterArray($params);
@@ -157,8 +157,8 @@ class Database
         // Create a new record in the database
         return $this->containsValues(
             $this->pdo
-                ->prepare("INSERT INTO $table ($fields_list) VALUES ($values_list);")
-                ->execute(),
+                ->query("INSERT INTO $table ($fields_list) VALUES ($values_list) RETURNING $returnColumn;")
+                ->fetch(),
             1
         );
     }
