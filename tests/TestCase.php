@@ -86,9 +86,9 @@ class TestCase extends PHPUnit_TestCase
 
         $password = password_hash("test!123", PASSWORD_BCRYPT);
         $new_user = $GLOBALS["pdo"]
-            ->query("INSERT INTO admins (email, password, first_name, last_name, active, scope) VALUES ('test@example.com', '$password', 'Test', 'User', True, 'admin') RETURNING email, scope;")
+            ->query("INSERT INTO admins (email, password, first_name, last_name) VALUES ('test@example.com', '$password', 'Test', 'User') RETURNING admin_id, scope;")
             ->fetch();
-        $GLOBALS["session"]["user_id"] = $new_user["email"];
+        $GLOBALS["session"]["user_id"] = $new_user["admin_id"];
         $GLOBALS["session"]["scope"] = $new_user["scope"];
 
         $GLOBALS["session"]["client_id"] = $GLOBALS["pdo"]
@@ -110,7 +110,7 @@ class TestCase extends PHPUnit_TestCase
     protected function tearDown(): void
     {
         $GLOBALS["pdo"]
-            ->query("DELETE FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}';")
+            ->query("DELETE FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}';")
             ->execute();
 
         // Unset variables

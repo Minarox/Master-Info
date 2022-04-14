@@ -319,7 +319,7 @@ class SessionControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT email, first_name, last_name FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                    ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                     ->fetch()
             ),
             $result->getBody()->__toString()
@@ -353,7 +353,7 @@ class SessionControllerTest extends TestCase
                 "last_name" => "User"
             ],
             $GLOBALS["pdo"]
-                ->query("SELECT email, first_name, last_name FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                 ->fetch()
         );
     }
@@ -383,7 +383,7 @@ class SessionControllerTest extends TestCase
             password_verify(
                 "test1234",
                 $GLOBALS["pdo"]
-                    ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                    ->query("SELECT password FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                     ->fetchColumn()
             )
         );

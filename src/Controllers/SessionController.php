@@ -255,7 +255,7 @@ class SessionController extends Controller
                         "first_name",
                         "last_name"
                     ],
-                    ["email" => $GLOBALS["session"]["user_id"]],
+                    ["admin_id" => $GLOBALS["session"]["user_id"]],
                     true
                 )
             )
@@ -287,7 +287,7 @@ class SessionController extends Controller
         $this->database()->update(
             "admins",
             $fields,
-            ["email" => $GLOBALS["session"]["user_id"]]
+            ["admin_id" => $GLOBALS["session"]["user_id"]]
         );
 
         // Display success code
@@ -321,7 +321,7 @@ class SessionController extends Controller
         $old_password = ($this->database()->find(
             "admins",
             ["password"],
-            ["email" => $GLOBALS["session"]["user_id"]],
+            ["admin_id" => $GLOBALS["session"]["user_id"]],
             true
         ))["password"];
 
@@ -333,7 +333,7 @@ class SessionController extends Controller
         $this->database()->update(
             "admins",
             ["password" => password_hash($GLOBALS["body"]["new_password"], PASSWORD_BCRYPT)],
-            ["email" => $GLOBALS["session"]["user_id"]]
+            ["admin_id" => $GLOBALS["session"]["user_id"]]
         );
 
         // Invalidate current token
