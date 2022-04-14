@@ -61,7 +61,10 @@ class CustomUserStorage extends UserCredentials implements UserCredentialsInterf
         // Search user id in database
         $user = (new Database())->find(
             "admins",
-            ["scope"],
+            [
+                "admin_id",
+                "scope"
+            ],
             [
                 "email" => $username,
                 "active" => 1
@@ -78,7 +81,7 @@ class CustomUserStorage extends UserCredentials implements UserCredentialsInterf
 
         // Return array
         return array(
-            "user_id" => $username,
+            "user_id" => $user["admin_id"],
             "scope"   => $user["scope"]
         );
     }
