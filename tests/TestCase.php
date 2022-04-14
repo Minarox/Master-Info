@@ -86,14 +86,17 @@ class TestCase extends PHPUnit_TestCase
 
         $password = password_hash("test!123", PASSWORD_BCRYPT);
         $new_user = $GLOBALS["pdo"]
-            ->query("INSERT INTO admins (email, password, first_name, last_name) VALUES ('test@example.com', '$password', 'Test', 'User') RETURNING admin_id, scope;")
+            ->query("INSERT INTO admins (email, password, first_name, last_name, scope) VALUES ('test@example.com', '$password', 'Test', 'User', 'super_admin') RETURNING admin_id, email, scope;")
             ->fetch();
         $GLOBALS["session"]["user_id"] = $new_user["admin_id"];
+        $GLOBALS["session"]["user_email"] = $new_user["email"];
         $GLOBALS["session"]["scope"] = $new_user["scope"];
 
-        $GLOBALS["session"]["client_id"] = $GLOBALS["pdo"]
-            ->query("SELECT client_id FROM clients WHERE user_id = '{$GLOBALS["session"]["user_id"]}';")
-            ->fetchColumn();
+         $new_client = $GLOBALS["pdo"]
+            ->query("SELECT client_id, client_secret FROM clients WHERE user_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+            ->fetch();
+        $GLOBALS["session"]["client_id"] = $new_client["client_id"];
+        $GLOBALS["session"]["client_secret"] = $new_client["client_secret"];
 
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $new_token = $GLOBALS["pdo"]
