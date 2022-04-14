@@ -8,7 +8,7 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 /**
- * Controller for Actions table
+ * Controller for base path
  */
 class BaseController extends Controller
 {
