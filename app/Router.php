@@ -33,7 +33,11 @@ return function (App $app) {
 
     // Admin controller
     $app->get("/admins", [AdminController::class, "getAdmins"]);
+    $app->post("/admins", [AdminController::class, "addAdmin"]);
     $app->get("/admins/{admin_id}", [AdminController::class, "getAdmin"]);
+    $app->put("/admins/{admin_id}", [AdminController::class, "editAdmin"]);
+    $app->delete("/admins/{admin_id}", [AdminController::class, "deleteAdmin"]);
+    $app->put("/admins/{admin_id}/password", [AdminController::class, "editAdminPassword"]);
 
     /**
      * Redirect to 404 if none of the routes match
