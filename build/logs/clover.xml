@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649938417">
-  <project timestamp="1649938417">
+<coverage generated="1649946274">
+  <project timestamp="1649946274">
     <file name="/home/web/epsi/mspr/api/src/Code.php">
       <class name="Code" namespace="global">
         <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
       </class>
-      <line num="20" type="method" name="response" visibility="protected" complexity="2" crap="2" count="31"/>
-      <line num="22" type="stmt" count="31"/>
-      <line num="24" type="stmt" count="31"/>
-      <line num="29" type="stmt" count="31"/>
-      <line num="30" type="stmt" count="22"/>
-      <line num="31" type="stmt" count="22"/>
-      <line num="32" type="stmt" count="22"/>
+      <line num="20" type="method" name="response" visibility="protected" complexity="2" crap="2" count="37"/>
+      <line num="22" type="stmt" count="37"/>
+      <line num="24" type="stmt" count="37"/>
+      <line num="29" type="stmt" count="37"/>
+      <line num="30" type="stmt" count="28"/>
+      <line num="31" type="stmt" count="28"/>
+      <line num="32" type="stmt" count="28"/>
       <line num="34" type="stmt" count="9"/>
       <metrics loc="37" ncloc="25" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="8" coveredelements="8"/>
     </file>
@@ -31,60 +31,60 @@
       <line num="77" type="stmt" count="2"/>
       <line num="88" type="method" name="methodNotAllowed" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="90" type="stmt" count="2"/>
-      <line num="101" type="method" name="conflict" visibility="public" complexity="1" crap="1" count="6"/>
-      <line num="103" type="stmt" count="6"/>
+      <line num="101" type="method" name="conflict" visibility="public" complexity="1" crap="1" count="8"/>
+      <line num="103" type="stmt" count="8"/>
       <metrics loc="105" ncloc="45" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="14" coveredelements="14"/>
     </file>
     <file name="/home/web/epsi/mspr/api/src/Codes/SuccessCode.php">
       <class name="Codes\SuccessCode" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
       </class>
-      <line num="22" type="method" name="success" visibility="public" complexity="1" crap="1" count="7"/>
-      <line num="24" type="stmt" count="7"/>
+      <line num="22" type="method" name="success" visibility="public" complexity="1" crap="1" count="11"/>
+      <line num="24" type="stmt" count="11"/>
       <line num="35" type="method" name="created" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="37" type="stmt" count="2"/>
       <metrics loc="39" ncloc="20" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
     <file name="/home/web/epsi/mspr/api/src/Controller.php">
       <class name="Controller" namespace="global">
-        <metrics complexity="13" methods="7" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="15" elements="31" coveredelements="19"/>
+        <metrics complexity="13" methods="7" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="18" elements="31" coveredelements="22"/>
       </class>
       <line num="36" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="38" type="stmt" count="0"/>
       <line num="39" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
       <line num="41" type="stmt" count="0"/>
-      <line num="49" type="method" name="successCode" visibility="protected" complexity="1" crap="1" count="5"/>
-      <line num="51" type="stmt" count="5"/>
-      <line num="59" type="method" name="errorCode" visibility="protected" complexity="1" crap="1" count="8"/>
-      <line num="61" type="stmt" count="8"/>
-      <line num="69" type="method" name="database" visibility="public" complexity="1" crap="1" count="14"/>
-      <line num="71" type="stmt" count="14"/>
+      <line num="49" type="method" name="successCode" visibility="protected" complexity="1" crap="1" count="9"/>
+      <line num="51" type="stmt" count="9"/>
+      <line num="59" type="method" name="errorCode" visibility="protected" complexity="1" crap="1" count="10"/>
+      <line num="61" type="stmt" count="10"/>
+      <line num="69" type="method" name="database" visibility="public" complexity="1" crap="1" count="20"/>
+      <line num="71" type="stmt" count="20"/>
       <line num="79" type="method" name="getDate" visibility="protected" complexity="1" crap="1" count="9"/>
       <line num="81" type="stmt" count="9"/>
-      <line num="92" type="method" name="checkScope" visibility="protected" complexity="4" crap="4.05" count="2"/>
-      <line num="95" type="stmt" count="2"/>
-      <line num="96" type="stmt" count="2"/>
-      <line num="97" type="stmt" count="2"/>
-      <line num="98" type="stmt" count="1"/>
-      <line num="103" type="stmt" count="1"/>
-      <line num="104" type="stmt" count="1"/>
+      <line num="92" type="method" name="checkScope" visibility="protected" complexity="4" crap="4.05" count="21"/>
+      <line num="95" type="stmt" count="21"/>
+      <line num="96" type="stmt" count="21"/>
+      <line num="97" type="stmt" count="21"/>
+      <line num="98" type="stmt" count="15"/>
+      <line num="103" type="stmt" count="6"/>
+      <line num="104" type="stmt" count="6"/>
       <line num="106" type="stmt" count="0"/>
-      <line num="122" type="method" name="checkExist" visibility="protected" complexity="4" crap="5.40" count="6"/>
-      <line num="125" type="stmt" count="6"/>
-      <line num="126" type="stmt" count="5"/>
-      <line num="127" type="stmt" count="5"/>
-      <line num="131" type="stmt" count="0"/>
-      <line num="134" type="stmt" count="0"/>
-      <line num="136" type="stmt" count="0"/>
-      <line num="145" type="stmt" count="1"/>
-      <line num="146" type="stmt" count="1"/>
+      <line num="122" type="method" name="checkExist" visibility="protected" complexity="4" crap="4.02" count="18"/>
+      <line num="125" type="stmt" count="18"/>
+      <line num="126" type="stmt" count="16"/>
+      <line num="127" type="stmt" count="10"/>
+      <line num="131" type="stmt" count="8"/>
+      <line num="134" type="stmt" count="8"/>
+      <line num="136" type="stmt" count="8"/>
+      <line num="145" type="stmt" count="4"/>
+      <line num="146" type="stmt" count="4"/>
       <line num="148" type="stmt" count="0"/>
-      <metrics loc="150" ncloc="85" classes="1" methods="7" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="15" elements="31" coveredelements="19"/>
+      <metrics loc="150" ncloc="85" classes="1" methods="7" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="18" elements="31" coveredelements="22"/>
     </file>
     <file name="/home/web/epsi/mspr/api/src/Controllers/AdminController.php">
       <class name="Controllers\AdminController" namespace="global">
-        <metrics complexity="4" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="7" elements="30" coveredelements="8"/>
+        <metrics complexity="9" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="59" coveredstatements="59" elements="65" coveredelements="65"/>
       </class>
       <line num="30" type="method" name="getAdmins" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="33" type="stmt" count="2"/>
@@ -94,29 +94,64 @@
       <line num="41" type="stmt" count="1"/>
       <line num="47" type="stmt" count="1"/>
       <line num="53" type="stmt" count="1"/>
-      <line num="68" type="method" name="getAdmin" visibility="public" complexity="2" crap="6" count="0"/>
-      <line num="71" type="stmt" count="0"/>
-      <line num="74" type="stmt" count="0"/>
-      <line num="77" type="stmt" count="0"/>
-      <line num="85" type="stmt" count="0"/>
-      <line num="90" type="stmt" count="0"/>
-      <line num="92" type="stmt" count="0"/>
-      <line num="93" type="stmt" count="0"/>
-      <line num="97" type="stmt" count="0"/>
-      <line num="100" type="stmt" count="0"/>
-      <line num="101" type="stmt" count="0"/>
-      <line num="103" type="stmt" count="0"/>
-      <line num="118" type="method" name="editAdmin" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="121" type="stmt" count="0"/>
-      <line num="124" type="stmt" count="0"/>
-      <line num="127" type="stmt" count="0"/>
-      <line num="128" type="stmt" count="0"/>
-      <line num="129" type="stmt" count="0"/>
-      <line num="130" type="stmt" count="0"/>
-      <line num="131" type="stmt" count="0"/>
-      <line num="133" type="stmt" count="0"/>
-      <line num="137" type="stmt" count="0"/>
-      <metrics loc="139" ncloc="91" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="7" elements="30" coveredelements="8"/>
+      <line num="68" type="method" name="getAdmin" visibility="public" complexity="2" crap="2" count="3"/>
+      <line num="71" type="stmt" count="3"/>
+      <line num="74" type="stmt" count="2"/>
+      <line num="77" type="stmt" count="2"/>
+      <line num="85" type="stmt" count="2"/>
+      <line num="90" type="stmt" count="1"/>
+      <line num="92" type="stmt" count="1"/>
+      <line num="93" type="stmt" count="1"/>
+      <line num="99" type="stmt" count="1"/>
+      <line num="102" type="stmt" count="1"/>
+      <line num="103" type="stmt" count="1"/>
+      <line num="105" type="stmt" count="1"/>
+      <line num="120" type="method" name="editAdmin" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="123" type="stmt" count="3"/>
+      <line num="126" type="stmt" count="2"/>
+      <line num="129" type="stmt" count="1"/>
+      <line num="132" type="stmt" count="1"/>
+      <line num="133" type="stmt" count="1"/>
+      <line num="134" type="stmt" count="1"/>
+      <line num="135" type="stmt" count="1"/>
+      <line num="136" type="stmt" count="1"/>
+      <line num="138" type="stmt" count="1"/>
+      <line num="142" type="stmt" count="1"/>
+      <line num="157" type="method" name="editAdminPassword" visibility="public" complexity="2" crap="2" count="5"/>
+      <line num="160" type="stmt" count="5"/>
+      <line num="163" type="stmt" count="4"/>
+      <line num="166" type="stmt" count="3"/>
+      <line num="167" type="stmt" count="2"/>
+      <line num="170" type="stmt" count="2"/>
+      <line num="171" type="stmt" count="1"/>
+      <line num="175" type="stmt" count="1"/>
+      <line num="177" type="stmt" count="1"/>
+      <line num="178" type="stmt" count="1"/>
+      <line num="182" type="stmt" count="1"/>
+      <line num="197" type="method" name="addAdmin" visibility="public" complexity="2" crap="2" count="5"/>
+      <line num="200" type="stmt" count="5"/>
+      <line num="203" type="stmt" count="4"/>
+      <line num="204" type="stmt" count="3"/>
+      <line num="205" type="stmt" count="3"/>
+      <line num="206" type="stmt" count="3"/>
+      <line num="207" type="stmt" count="2"/>
+      <line num="210" type="stmt" count="2"/>
+      <line num="211" type="stmt" count="1"/>
+      <line num="215" type="stmt" count="1"/>
+      <line num="218" type="stmt" count="1"/>
+      <line num="219" type="stmt" count="1"/>
+      <line num="220" type="stmt" count="1"/>
+      <line num="221" type="stmt" count="1"/>
+      <line num="222" type="stmt" count="1"/>
+      <line num="223" type="stmt" count="1"/>
+      <line num="228" type="stmt" count="1"/>
+      <line num="243" type="method" name="deleteAdmin" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="246" type="stmt" count="3"/>
+      <line num="249" type="stmt" count="2"/>
+      <line num="252" type="stmt" count="1"/>
+      <line num="254" type="stmt" count="1"/>
+      <line num="258" type="stmt" count="1"/>
+      <metrics loc="260" ncloc="160" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="59" coveredstatements="59" elements="65" coveredelements="65"/>
     </file>
     <file name="/home/web/epsi/mspr/api/src/Controllers/BaseController.php">
       <class name="Controllers\BaseController" namespace="global">
@@ -265,6 +300,6 @@
       <line num="390" type="stmt" count="2"/>
       <metrics loc="392" ncloc="274" classes="1" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="123" coveredstatements="118" elements="131" coveredelements="124"/>
     </file>
-    <metrics files="7" loc="898" ncloc="564" classes="7" methods="29" coveredmethods="22" conditionals="0" coveredconditionals="0" statements="193" coveredstatements="159" elements="222" coveredelements="181"/>
+    <metrics files="7" loc="1019" ncloc="633" classes="7" methods="32" coveredmethods="27" conditionals="0" coveredconditionals="0" statements="225" coveredstatements="214" elements="257" coveredelements="241"/>
   </project>
 </coverage>
