@@ -7,6 +7,7 @@ use Codes\ErrorCode;
 use Controllers\AdminController;
 use Controllers\BaseController;
 use Controllers\SessionController;
+use Controllers\UserController;
 use Slim\App;
 
 /**
@@ -38,6 +39,9 @@ return function (App $app) {
     $app->put("/admins/{admin_id}", [AdminController::class, "editAdmin"]);
     $app->delete("/admins/{admin_id}", [AdminController::class, "deleteAdmin"]);
     $app->put("/admins/{admin_id}/password", [AdminController::class, "editAdminPassword"]);
+
+    // User controller
+    $app->get("/users", [UserController::class, "getUsers"]);
 
     /**
      * Redirect to 404 if none of the routes match
