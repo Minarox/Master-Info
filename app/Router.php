@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace app;
 
 use Codes\ErrorCode;
+use Controllers\AdminController;
 use Controllers\BaseController;
 use Controllers\SessionController;
 use Slim\App;
@@ -18,8 +19,10 @@ return function (App $app) {
         return $response;
     });
 
+    // Base controller
     $app->get("/", [BaseController::class, "basePath"]);
 
+    // Session controller
     $app->post("/login", [SessionController::class, "login"]);
     $app->post("/introspect", [SessionController::class, "introspect"]);
     $app->post("/revoke", [SessionController::class, "revoke"]);
@@ -27,6 +30,14 @@ return function (App $app) {
     $app->put("/userinfo", [SessionController::class, "editUserInfo"]);
     $app->put("/userinfo/password", [SessionController::class, "editPassword"]);
     $app->get("/logout", [SessionController::class, "logout"]);
+
+    // Admin controller
+    $app->get("/admins", [AdminController::class, "getAdmins"]);
+    $app->post("/admins", [AdminController::class, "addAdmin"]);
+    $app->get("/admins/{admin_id}", [AdminController::class, "getAdmin"]);
+    $app->put("/admins/{admin_id}", [AdminController::class, "editAdmin"]);
+    $app->delete("/admins/{admin_id}", [AdminController::class, "deleteAdmin"]);
+    $app->put("/admins/{admin_id}/password", [AdminController::class, "editAdminPassword"]);
 
     /**
      * Redirect to 404 if none of the routes match

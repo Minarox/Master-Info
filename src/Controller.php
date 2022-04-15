@@ -87,21 +87,21 @@ abstract class Controller
      * @param array   $scopes         Scopes to check
      * @param boolean $throwException Raise exception
      *
-     * @throws Forbidden if user doesn't have the permissions
+     * @throws Unauthorized if user doesn't have the permissions
      */
     protected function checkScope(array $scopes = [], bool $throwException = true): bool
     {
         // Check if scope is in current session
         $scopes[] = "super_admin";
         foreach ($scopes as $scope) {
-            if (in_array($scope, $GLOBALS["session"]["scope"])) {
+            if ($scope === $GLOBALS["session"]["scope"]) {
                 return true;
             }
         }
 
         // Return error if not found
         if ($throwException) {
-            throw new Forbidden("User doesn't have the permission");
+            throw new Unauthorized("User doesn't have the permission");
         }
         return false;
     }
