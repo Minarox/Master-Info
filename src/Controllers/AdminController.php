@@ -5,10 +5,10 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
-use Forbidden;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Unauthorized;
 
 /**
  * Controller for admins
@@ -25,7 +25,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function getAdmins(Request $request, Response $response): Response
     {
@@ -63,7 +63,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function getAdmin(Request $request, Response $response, array $args): Response
     {
@@ -115,7 +115,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function editAdmin(Request $request, Response $response, array $args): Response
     {
@@ -152,7 +152,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function editAdminPassword(Request $request, Response $response, array $args): Response
     {
@@ -192,7 +192,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function addAdmin(Request $request, Response $response): Response
     {
@@ -238,7 +238,7 @@ class AdminController extends Controller
      * @return Response Response to show
      * @throws NotFound if database return nothing
      * @throws BadRequest if request contain errors
-     * @throws Forbidden if user don't have the permission
+     * @throws Unauthorized if user don't have the permission
      */
     public function deleteAdmin(Request $request, Response $response, array $args): Response
     {
