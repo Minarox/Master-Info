@@ -263,6 +263,99 @@ class EmailControllerTest extends TestCase
         $this->emailController->addEmail($request, $this->response);
     }
 
+
+    /**
+     * Test editEmail function
+     * Usage: PUT /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditEmail()
+    {
+        $GLOBALS["body"] = [
+            "title"       => "Test email model 2",
+            "description" => "email model for unit testing",
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"]);
+        $result = $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result);
+    }
+
+    /**
+     * Test editEmail function without permission
+     * Usage: PUT /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditEmailWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "app";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test editEmail function without params
+     * Usage: PUT /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditEmailWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/emails/");
+        $this->emailController->editEmail($request, $this->response, []);
+    }
+
+    /**
+     * Test editEmail function without body
+     * Usage: PUT /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditEmailWithoutBody()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test editEmail function with bad ID
+     * Usage: PUT /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditEmailWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/emails/0", $GLOBALS["body"] = []);
+        $this->emailController->editEmail($request, $this->response, ["email_id" => "0"]);
+    }
+
     /**
      * SetUp parameters before execute tests
      */

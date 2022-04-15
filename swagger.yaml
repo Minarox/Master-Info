@@ -889,6 +889,53 @@ paths:
         - OAuth2_App: [ "admin", "super_admin" ]
         - OAuth2_Pass: [ "admin", "super_admin" ]
         - AccessToken: [ ]
+    put:
+      tags:
+        - "Email"
+      summary: "Edit email"
+      description: "Edit information of an email"
+      operationId: "editEmail"
+      parameters:
+        - name: "email_id"
+          in: "path"
+          description: "Target email"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_email"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"
@@ -1335,3 +1382,17 @@ definitions:
         example: "Content of the mail"
     xml:
       name: "new_email"
+  update_email:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+      content:
+        type: "string"
+        example: "Content of the mail"
+    xml:
+      name: "update_email"
