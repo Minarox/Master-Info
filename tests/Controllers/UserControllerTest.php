@@ -21,6 +21,11 @@ class UserControllerTest extends TestCase
     private UserController $userController;
 
     /**
+     * @var string user_id
+     */
+    private string $user_id;
+
+    /**
      * Construct AdminController for tests
      *
      * @param string|null $name
@@ -76,5 +81,107 @@ class UserControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("GET", "/users");
         $this->userController->getUsers($request, $this->response);
+    }
+
+    /**
+     * Test getUser function
+     * Usage: GET /users/{user_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetUser()
+    {
+        // Call function
+        $request = $this->createRequest("GET", "/users/" . $this->user_id);
+        $result = $this->userController->getUser($request, $this->response, ["user_id" => $this->user_id]);
+
+        // Check if request = database and http code is correct
+        self::assertSame(
+            json_encode(
+                $GLOBALS["pdo"]
+                    ->query("SELECT email, first_name, last_name, device, created_at, updated_at FROM users WHERE user_id = '$this->user_id' LIMIT 1;")
+                    ->fetch()
+            ),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
+     * Test getUser function without permission
+     * Usage: GET /users/{user_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetUserWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "app";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("GET", "/users/" . $this->user_id);
+        $this->userController->getUser($request, $this->response, ["user_id" => $this->user_id]);
+    }
+
+    /**
+     * Test getUser function without params
+     * Usage: GET /users/{user_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetUserWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/users/");
+        $this->userController->getUser($request, $this->response, []);
+    }
+
+    /**
+     * Test getUser function with bad ID
+     * Usage: GET /users/{user_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetUserWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("GET", "/users/00000000-0000-0000-0000-000000000000");
+        $this->userController->getUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
+    }
+
+    /**
+     * SetUp parameters before execute tests
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user_id = $GLOBALS["pdo"]
+            ->query("INSERT INTO users (email, first_name, last_name, device) VALUES ('test_user@example.com', 'Test', 'User', 'Android 10') RETURNING user_id;")
+            ->fetchColumn();
+    }
+
+    /**
+     * Clean parameters after execute tests
+     */
+    protected function tearDown(): void
+    {
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM users WHERE user_id = '$this->user_id';")
+            ->execute();
+
+        parent::tearDown();
     }
 }
