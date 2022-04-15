@@ -6,7 +6,7 @@ namespace Controllers;
 require_once __DIR__ . "/../TestCase.php";
 
 use BadRequest;
-use Forbidden;
+use Unauthorized;
 use NotFound;
 use TestCase;
 
@@ -38,7 +38,7 @@ class AdminControllerTest extends TestCase
      * Test getAdmins function
      * Usage: GET /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testGetAdmins()
     {
@@ -62,7 +62,7 @@ class AdminControllerTest extends TestCase
      * Test getAdmins function without permission
      * Usage: GET /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testGetAdminsWithoutScope()
     {
@@ -70,7 +70,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
@@ -82,7 +82,7 @@ class AdminControllerTest extends TestCase
      * Test getAdmin function
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testGetAdmin()
     {
@@ -111,7 +111,7 @@ class AdminControllerTest extends TestCase
      * Test getAdmins function without permission
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testGetAdminWithoutScope()
     {
@@ -119,7 +119,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
@@ -131,7 +131,7 @@ class AdminControllerTest extends TestCase
      * Test getAdmin function with bad ID
      * Usage: GET /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testGetAdminWithBadID()
     {
@@ -148,7 +148,7 @@ class AdminControllerTest extends TestCase
      * Test editAdmin function
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdmin()
     {
@@ -170,7 +170,7 @@ class AdminControllerTest extends TestCase
      * Test editAdmin function without permission
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminWithoutScope()
     {
@@ -178,7 +178,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
@@ -190,7 +190,7 @@ class AdminControllerTest extends TestCase
      * Test editAdmin function with bad ID
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminWithBadID()
     {
@@ -207,7 +207,7 @@ class AdminControllerTest extends TestCase
      * Test editAdminPassword function
      * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminPassword()
     {
@@ -234,7 +234,7 @@ class AdminControllerTest extends TestCase
      * Test editAdminPassword function without permission
      * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminPasswordWithoutScope()
     {
@@ -242,7 +242,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
@@ -254,7 +254,7 @@ class AdminControllerTest extends TestCase
      * Test editAdminPassword function with bad ID
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminPasswordWithBadID()
     {
@@ -271,7 +271,7 @@ class AdminControllerTest extends TestCase
      * Test editAdminPassword function without params
      * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminPasswordWithoutParams()
     {
@@ -288,7 +288,7 @@ class AdminControllerTest extends TestCase
      * Test editAdminPassword function with bad passwords
      * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testEditAdminPasswordWithBadPasswords()
     {
@@ -310,7 +310,7 @@ class AdminControllerTest extends TestCase
      * Test addAdmin function
      * Usage: POST /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testAddAdmin()
     {
@@ -348,7 +348,7 @@ class AdminControllerTest extends TestCase
      * Test addAdmin function without permission
      * Usage: POST /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testAddAdminPasswordWithoutScope()
     {
@@ -356,7 +356,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
@@ -368,7 +368,7 @@ class AdminControllerTest extends TestCase
      * Test addAdmin function without params
      * Usage: POST /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testAddAdminPasswordWithoutParams()
     {
@@ -385,7 +385,7 @@ class AdminControllerTest extends TestCase
      * Test addAdmin function with bad passwords
      * Usage: POST /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testAddAdminPasswordWithBadPasswords()
     {
@@ -412,7 +412,7 @@ class AdminControllerTest extends TestCase
      * Test addAdmin function with missing params
      * Usage: POST /admins | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testAddAdminPasswordWithMissingParams()
     {
@@ -436,7 +436,7 @@ class AdminControllerTest extends TestCase
      * Test deleteAdmin function without permission
      * Usage: DELETE /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testDeleteAdmin()
     {
@@ -452,7 +452,7 @@ class AdminControllerTest extends TestCase
      * Test deleteAdmin function with bad ID
      * Usage: DELETE /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testDeleteAdminWithBadID()
     {
@@ -469,7 +469,7 @@ class AdminControllerTest extends TestCase
      * Test deleteAdmin function without permission
      * Usage: DELETE /admins/{admin_id} | Scope: super_admin
      *
-     * @throws NotFound|BadRequest|Forbidden
+     * @throws NotFound|BadRequest|Unauthorized
      */
     public function testDeleteAdminWithoutScope()
     {
@@ -477,7 +477,7 @@ class AdminControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Check if exception is thrown
-        $this->expectException(Forbidden::class);
+        $this->expectException(Unauthorized::class);
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
