@@ -131,6 +131,42 @@ class UserController extends Controller
     }
 
     /**
+     * Edit information of a user
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function editUser(Request $request, Response $response, array $args): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope();
+
+        // Check if admin exist
+        $this->checkExist("user_id", $args, "users", true, "user_id");
+
+        // Edit admin information
+        $this->database()->update(
+            "users",
+            [
+                "email" => $GLOBALS["body"]["email"] ?? '',
+                "first_name" => $GLOBALS["body"]["first_name"] ?? '',
+                "last_name" => $GLOBALS["body"]["last_name"] ?? '',
+                "device" => $GLOBALS["body"]["device"] ?? ''
+            ],
+            ["user_id" => $args["user_id"]]
+        );
+
+        // Display success code
+        return $this->successCode()->success();
+    }
+
+    /**
      * Delete existing user
      * Usage: DELETE /users/{user_id} | Scope: super_admin
      *

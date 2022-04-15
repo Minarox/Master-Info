@@ -254,6 +254,103 @@ class UserControllerTest extends TestCase
         $this->userController->addUser($request, $this->response);
     }
 
+
+    /**
+     * Test editUser function
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditUser()
+    {
+        $GLOBALS["body"] = [
+            "email"      => "test123@example.com",
+            "first_name" => "Test_edit",
+            "last_name"  => "User_edit",
+            "device"     => "test"
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"]);
+        $result = $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result);
+    }
+
+    /**
+     * Test editUser function without permission
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditUserWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"] = []);
+        $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
+    }
+
+    /**
+     * Test editUser function without params
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditUserWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/");
+        $this->userController->editUser($request, $this->response, []);
+    }
+
+    /**
+     * Test editUser function without body
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditUserWithoutBody()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"] = []);
+        $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
+    }
+
+    /**
+     * Test editUser function with bad ID
+     * Usage: PUT /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditUserWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/00000000-0000-0000-0000-000000000000", $GLOBALS["body"] = []);
+        $this->userController->editUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
+    }
+
+
+
     /**
      * Test deleteUser function
      * Usage: DELETE /users/{user_id} | Scope: super_admin

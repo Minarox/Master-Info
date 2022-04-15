@@ -44,6 +44,7 @@ return function (App $app) {
     $app->get("/users", [UserController::class, "getUsers"]);
     $app->post("/users", [UserController::class, "addUser"]);
     $app->get("/users/{user_id}", [UserController::class, "getUser"]);
+    $app->put("/users/{user_id}", [UserController::class, "editUser"]);
     $app->delete("/users/{user_id}", [UserController::class, "deleteUser"]);
 
     /**
