@@ -307,8 +307,8 @@ paths:
       description: "Return list of all admins in the database"
       operationId: "getAdmins"
       responses:
-        "201":
-          description: "Created"
+        "200":
+          description: "Success"
           schema:
             type: "array"
             items:
