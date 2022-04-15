@@ -53,6 +53,7 @@ return function (App $app) {
     $app->post("/emails", [EmailController::class, "addEmail"]);
     $app->get("/emails/{email_id}", [EmailController::class, "getEmail"]);
     $app->put("/emails/{email_id}", [EmailController::class, "editEmail"]);
+    $app->post("/emails/{email_id}", [EmailController::class, "addTemplateEmail"]);
     $app->delete("/emails/{email_id}", [EmailController::class, "deleteEmail"]);
 
     /**

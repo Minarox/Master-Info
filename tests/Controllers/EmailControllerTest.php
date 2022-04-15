@@ -263,6 +263,112 @@ class EmailControllerTest extends TestCase
         $this->emailController->addEmail($request, $this->response);
     }
 
+    /**
+     * Test addTemplateEmail function
+     * Usage: POST /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddTemplateEmail()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "title"       => "Test email model 2",
+            "description" => "Email model for unit testing"
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"]);
+        $result = $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
+
+        // Fetch new email
+        $new_email = $GLOBALS["pdo"]
+            ->query("SELECT title, description, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
+            ->fetch();
+        $template = $GLOBALS["pdo"]
+            ->query("SELECT content FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
+            ->fetchColumn();
+
+        // Remove new email
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM emails WHERE title = '{$GLOBALS["body"]["title"]}';")
+            ->execute();
+
+        // Check if request = database and http code is correct
+        self::assertSame($new_email["content"], $template);
+        $this->assertHTTPCode($result, 201, "Created");
+    }
+
+    /**
+     * Test addTemplateEmail function without permission
+     * Usage: POST /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddTemplateEmailWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "app";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id);
+        $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test addTemplateEmail function without params
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddTemplateEmailWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test addTemplateEmail function without body
+     * Usage: POST /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddTemplateEmailWithoutBody()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test addTemplateEmail function with bad ID
+     * Usage: POST /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddTemplateEmailWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/0", $GLOBALS["body"] = []);
+        $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => "0"]);
+    }
 
     /**
      * Test editEmail function
