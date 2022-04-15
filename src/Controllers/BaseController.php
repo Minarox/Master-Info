@@ -8,7 +8,7 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 /**
- * Controller for Actions table
+ * Controller for base path
  */
 class BaseController extends Controller
 {
@@ -25,11 +25,11 @@ class BaseController extends Controller
         // Display description
         $response->getBody()->write(
             json_encode([
-                "Version"     => "v1.0",
-                "Title"       => "MSPR",
-                "Description" => "API de gestion du back-office du projet MSPR 2022.",
-                "Host"        => "https://mspr.minarox.fr/",
-                "BasePath"    => "api/"
+                "version"     => "v0.2",
+                "title"       => "Cerealis API",
+                "description" => "Enterprise Resource Management API",
+                "host"        => "https://mspr.minarox.fr",
+                "base_path"   => "/api"
             ]));
         return $response->withStatus(200);
     }

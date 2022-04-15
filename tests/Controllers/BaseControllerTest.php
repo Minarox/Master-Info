@@ -44,11 +44,11 @@ class BaseControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "Version"     => "v1.0",
-                "Title"       => "MSPR",
-                "Description" => "API de gestion du back-office du projet MSPR 2022.",
-                "Host"        => "https://mspr.minarox.fr/",
-                "BasePath"    => "api/"
+                "version"     => "v0.2",
+                "title"       => "Cerealis API",
+                "description" => "Enterprise Resource Management API",
+                "host"        => "https://mspr.minarox.fr",
+                "base_path"    => "/api"
             ]),
             $result->getBody()->__toString()
         );

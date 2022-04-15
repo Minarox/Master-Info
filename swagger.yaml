@@ -1,0 +1,870 @@
+swagger: "2.0"
+info:
+  title: "Cerealis API"
+  description: "Enterprise Resource Management API"
+  termsOfService: "https://www.cerealis.com/privacy-policy"
+  contact:
+    name: "Cerealis"
+    url: "https://www.cerealis.com/contact/"
+    email: "support@cerealis.com"
+  license:
+    name: "Apache 2.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+  version: "0.2.0"
+host: "mspr.minarox.fr"
+basePath: "/api"
+schemes:
+  - "https"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+securityDefinitions:
+  OAuth2_App:
+    type: "oauth2"
+    flow: "application"
+    tokenUrl: "https://mspr.minarox.fr/api/login"
+    scopes:
+      admin: "Default scope"
+      super_admin: "Management of admins"
+      app: "Android App"
+  OAuth2_Pass:
+    type: "oauth2"
+    flow: "password"
+    tokenUrl: "https://mspr.minarox.fr/api/login"
+    scopes:
+      admin: "Default scope"
+      super_admin: "Management of admins"
+      app: "Android App"
+  AccessToken:
+    type: "apiKey"
+    in: "query"
+    name: "access_token"
+    description: "You need to generate an access token with /login endpoint."
+tags:
+  - name: "Base"
+    description: "API Description"
+
+  - name: "Session"
+    description: "Session management"
+
+  - name: "Admin"
+    description: "Admin management"
+paths:
+  /:
+    get:
+      tags:
+        - "Base"
+      summary: "API Description"
+      description: "Display information about the API"
+      operationId: "basePath"
+      responses:
+        "200":
+          description: "API Description"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/api_description"
+  /login:
+    post:
+      tags:
+        - "Session"
+      summary: "Login to the API"
+      description: "Connection to the API using identifiers such as a combination of username / password or client_id / client_secret."
+      operationId: "login"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Login information"
+          required: true
+          schema:
+            $ref: "#/definitions/login"
+      responses:
+        "200":
+          description: "Login information"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/token"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+  /introspect:
+    post:
+      tags:
+        - "Session"
+      summary: "Token information"
+      description: "Token validity information"
+      operationId: "introspect"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Access_token or Refresh_token to check"
+          required: true
+          schema:
+            $ref: "#/definitions/token_string"
+      responses:
+        "200":
+          description: "Token status"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/token_status"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /revoke:
+    post:
+      tags:
+        - "Session"
+      summary: "Invalidates a token"
+      description: "Invalidates a specific token"
+      operationId: "revoke"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Access_token or Refresh_token to revoke"
+          required: true
+          schema:
+            $ref: "#/definitions/token_string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /userinfo:
+    get:
+      tags:
+        - "Session"
+      summary: "Current user information"
+      description: "Information of the user currently connected to the API"
+      operationId: "userinfo"
+      responses:
+        "200":
+          description: "User information"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/session"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+    put:
+      tags:
+        - "Session"
+      summary: "Edit current user information"
+      description: "Edit the information of the user currently connected to the API"
+      operationId: "editUserinfo"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User information"
+          required: true
+          schema:
+            $ref: "#/definitions/session"
+      responses:
+        "200":
+          description: "User information"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /userinfo/password:
+    put:
+      tags:
+        - "Session"
+      summary: "Edit password"
+      description: "Edit the password of the user currently connected to the API"
+      operationId: "editPassword"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New password"
+          required: true
+          schema:
+            $ref: "#/definitions/password"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /logout:
+    get:
+      tags:
+        - "Session"
+      summary: "Logout from the API"
+      description: "Disconnects the current session from the API"
+      operationId: "logout"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+      security:
+        - OAuth2_App: [ "admin", "super_admin", "app" ]
+        - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /admins:
+    get:
+      tags:
+        - "Admin"
+      summary: "List of admins"
+      description: "Return list of all admins in the database"
+      operationId: "getAdmins"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/201"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    post:
+      tags:
+        - "Admin"
+      summary: "Create new Admin"
+      description: "Create new admin account in the database"
+      operationId: "addAdmin"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New admin"
+          required: true
+          schema:
+            $ref: "#/definitions/new_admin"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+  /admins/{admin_id}:
+    get:
+      tags:
+        - "Admin"
+      summary: "Information of admin"
+      description: "Return information of the admin"
+      operationId: "getAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Admin information"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/admin"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "404":
+          description: "Not found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    put:
+      tags:
+        - "Admin"
+      summary: "Edit admin"
+      description: "Edit account information of an admin"
+      operationId: "editAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_admin"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    delete:
+      tags:
+        - "Admin"
+      summary: "Remove admin"
+      description: "Delete existing admin"
+      operationId: "deleteAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+  /admins/{admin_id}/password:
+    put:
+      tags:
+        - "Admin"
+      summary: "Edit admin password"
+      description: "Edit password of the admin"
+      operationId: "editAdminPassword"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "New password"
+          required: true
+          schema:
+            $ref: "#/definitions/new_password"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+definitions:
+  200:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 200
+      code_description:
+        type: "string"
+        example: "Success"
+    xml:
+      name: "200"
+  201:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 201
+      code_description:
+        type: "string"
+        example: "Created"
+    xml:
+      name: "201"
+  400:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 400
+      code_description:
+        type: "string"
+        example: "Bad Request"
+    xml:
+      name: "400"
+  401:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 401
+      code_description:
+        type: "string"
+        example: "Unauthorized"
+    xml:
+      name: "401"
+  404:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 404
+      code_description:
+        type: "string"
+        example: "Not Found"
+    xml:
+      name: "404"
+  409:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 409
+      code_description:
+        type: "string"
+        example: "Conflict"
+    xml:
+      name: "409"
+  api_description:
+    type: "object"
+    properties:
+      version:
+        type: "string"
+        example: "v1.0"
+      title:
+        type: "string"
+        example: "Cerealis API"
+      description:
+        type: "string"
+        example: "Enterprise Resource Management API"
+      host:
+        type: "string"
+        example: "https://mspr.minarox.fr"
+      base_path:
+        type: "string"
+        example: "/api"
+    xml:
+      name: "api_description"
+  login:
+    type: "object"
+    required:
+      - "grant_type"
+    properties:
+      grant_type:
+        type: "string"
+        example: "client_credentials"
+      username:
+        type: "string"
+        example: "user@example.com"
+      password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      client_id:
+        type: "string"
+        example: "0000000000000000000000000000000000000000"
+      client_secret:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+    xml:
+      name: "login"
+  token:
+    type: "object"
+    properties:
+      access_token:
+        type: "string"
+        example: "0000000000000000000000000000000000000000"
+      expires_in:
+        type: "integer"
+        format: "int32"
+        example: "3600"
+      token_type:
+        type: "string"
+        example: "Bearer"
+      scope:
+        type: "string"
+        example: "null"
+      refresh_token:
+        type: "string"
+        example: "0000000000000000000000000000000000000000"
+    xml:
+      name: "token"
+  token_string:
+    type: "object"
+    properties:
+      access_token:
+        type: "string"
+        example: "0000000000000000000000000000000000000000"
+      refresh_token:
+        type: "string"
+        example: "0000000000000000000000000000000000000000"
+    xml:
+      name: "token_string"
+  token_status:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+        example: "true"
+      expires:
+        type: "integer"
+        example: "12345678"
+    xml:
+      name: "token_string"
+  session:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "user@example.com"
+      first_name:
+        type: "string"
+        example: "Name"
+      last_name:
+        type: "string"
+        example: "Name"
+    xml:
+      name: "session"
+  password:
+    type: "object"
+    required:
+      - old_password
+      - new_password
+      - confirm_new_password
+    properties:
+      old_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      confirm_new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+    xml:
+      name: "password"
+  admins_list:
+    type: "object"
+    properties:
+      admin_id:
+        type: "string"
+        example: "00000000-0000-0000-0000-000000000000"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "admins_list"
+  new_admin:
+    type: "object"
+    required:
+      - email
+      - password
+      - confirm_password
+      - first_name
+      - last_name
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      confirm_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "new_admin"
+  admin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+      created_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+      updated_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+    xml:
+      name: "admin"
+  update_admin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "update_admin"
+  new_password:
+    type: "object"
+    required:
+      - new_password
+      - confirm_new_password
+    properties:
+      new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      confirm_new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+    xml:
+      name: "new_password"

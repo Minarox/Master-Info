@@ -50,19 +50,18 @@ class SessionControllerTest extends TestCase
         $this->sessionController->login($request, $this->response);
     }
 
-    // TODO: Fix bad method error
     /**
-     * Test login function without params
+     * Test login function with password
      * Usage: POST /login | Scope: none
      *
      * @throws NotFound|BadRequest
      */
-    /*public function testLoginWithEmail()
+    public function testLoginWithEmail()
     {
         // Fields
         $GLOBALS["body"] = [
             "grant_type" => "password",
-            "email" => $GLOBALS["session"]["user_id"],
+            "email" => $GLOBALS["session"]["user_email"],
             "password" => "test!123"
         ];
 
@@ -70,8 +69,30 @@ class SessionControllerTest extends TestCase
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
         $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
 
-        var_dump($result->getBody()->__toString());
-    }*/
+        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+    }
+
+    /**
+     * Test login function with client
+     * Usage: POST /login | Scope: none
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testLoginWithClient()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "grant_type" => "client_credentials",
+            "client_id" => $GLOBALS["session"]["client_id"],
+            "client_secret" => $GLOBALS["session"]["client_secret"]
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+
+        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+    }
 
     /**
      * Test introspect function with token
@@ -319,7 +340,7 @@ class SessionControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT email, first_name, last_name FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                    ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                     ->fetch()
             ),
             $result->getBody()->__toString()
@@ -353,7 +374,7 @@ class SessionControllerTest extends TestCase
                 "last_name" => "User"
             ],
             $GLOBALS["pdo"]
-                ->query("SELECT email, first_name, last_name FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                 ->fetch()
         );
     }
@@ -368,8 +389,9 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "password" => "test1234",
-            "password_confirmation" => "test1234",
+            "old_password" => "test!123",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test1234",
         ];
 
         // Call function
@@ -382,24 +404,25 @@ class SessionControllerTest extends TestCase
             password_verify(
                 "test1234",
                 $GLOBALS["pdo"]
-                    ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                    ->query("SELECT password FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                     ->fetchColumn()
             )
         );
     }
 
     /**
-     * Test editPassword function with bad password
+     * Test editPassword function with bad new passwords
      * Usage: PUT /userinfo/password | Scope: admin, super_admin, app
      *
      * @throws NotFound|BadRequest
      */
-    public function testEditPasswordWithBadValues()
+    public function testEditPasswordWithBadNewPasswords()
     {
         // Fields
         $GLOBALS["body"] = [
-            "password" => "test1234",
-            "password_confirmation" => "test!123",
+            "old_password" => "test!123",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test!123",
         ];
 
         // Call function
@@ -407,7 +430,30 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
-        $this->assertHTTPCode($result, 409, "Passwords doesn't match");
+        $this->assertHTTPCode($result, 409, "New passwords doesn't match");
+    }
+
+    /**
+     * Test editPassword function with bad old password
+     * Usage: PUT /userinfo/password | Scope: admin, super_admin, app
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testEditPasswordWithBadOldPassword()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "old_password" => "test1234",
+            "new_password" => "test1234",
+            "confirm_new_password" => "test1234",
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $result = $this->sessionController->editPassword($request, $this->response);
+
+        // Check if request = database and http code is correct
+        $this->assertHTTPCode($result, 409, "Old password doesn't match");
     }
 
     /**
