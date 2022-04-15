@@ -13,7 +13,7 @@ use TestCase;
 class BaseControllerTest extends TestCase
 {
     /**
-     * @var BaseController
+     * @var BaseController $baseController
      */
     private BaseController $baseController;
 
