@@ -162,6 +162,99 @@ class UserControllerTest extends TestCase
     }
 
     /**
+     * Test addUser function
+     * Usage: POST /admins | Scope: app, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddUser()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email"            => "test_add2@example.com",
+            "first_name"       => "Test_add_user2",
+            "last_name"        => "User_add2"
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/users", $GLOBALS["body"]);
+        $result = $this->userController->addUser($request, $this->response);
+
+        // Fetch new user
+        $new_user = $GLOBALS["pdo"]
+            ->query("SELECT email, first_name, last_name FROM users WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->fetch();
+
+        // Remove new user
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM users WHERE email = '{$GLOBALS["body"]["email"]}';")
+            ->execute();
+
+        // Check if request = database and http code is correct
+        self::assertSame($new_user, $GLOBALS["body"]);
+        $this->assertHTTPCode($result, 201, "Created");
+    }
+
+    /**
+     * Test addUser function without permission
+     * Usage: POST /admins | Scope: app, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdminWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("POST", "/users");
+        $this->userController->addUser($request, $this->response);
+    }
+
+    /**
+     * Test addUser function without params
+     * Usage: POST /users | Scope: app, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddUserWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/users", $GLOBALS["body"] = []);
+        $this->userController->addUser($request, $this->response);
+    }
+
+    /**
+     * Test addUser function with missing params
+     * Usage: POST /users | Scope: app, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddUserWithMissingParams()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email" => "test_add2@example.com"
+        ];
+
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/users", $GLOBALS["body"]);
+        $this->userController->addUser($request, $this->response);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void

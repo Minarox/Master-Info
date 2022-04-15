@@ -32,7 +32,7 @@ class UserController extends Controller
         // Check scope before accessing function
         $this->checkScope(["admin"]);
 
-        // Display admins list
+        // Display users list
         $response->getBody()->write(
             json_encode(
                 $this->database()->find(
@@ -91,5 +91,42 @@ class UserController extends Controller
             )
         );
         return $response;
+    }
+
+    /**
+     * Create new user
+     * Usage: POST /users | Scope: app, super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function addUser(Request $request, Response $response): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope(["app"]);
+
+        // Check if values exist in request
+        $this->checkExist("email", $GLOBALS["body"], null, true);
+        $this->checkExist("first_name", $GLOBALS["body"], null, true);
+        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+
+        // Create new user
+        $this->database()->create(
+            "users",
+            [
+                "email" => $GLOBALS["body"]["email"],
+                "first_name" => $GLOBALS["body"]["first_name"],
+                "last_name" => $GLOBALS["body"]["last_name"],
+                "device" => $GLOBALS["body"]["scope"] ?? '',
+            ]
+        );
+
+        // Display success code
+        return $this->successCode()->created();
     }
 }
