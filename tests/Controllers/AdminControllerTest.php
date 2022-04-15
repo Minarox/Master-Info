@@ -334,14 +334,14 @@ class AdminControllerTest extends TestCase
             ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
             ->fetchColumn();
 
-        // Check if request = database and http code is correct
-        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_password));
-        $this->assertHTTPCode($result);
-
         // Remove new admin
         $GLOBALS["pdo"]
             ->prepare("DELETE FROM admins WHERE email = '{$GLOBALS["body"]["email"]}';")
             ->execute();
+
+        // Check if request = database and http code is correct
+        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_password));
+        $this->assertHTTPCode($result, 201, "Created");
     }
 
     /**
