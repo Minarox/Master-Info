@@ -678,6 +678,53 @@ paths:
         - OAuth2_App: [ "admin", "super_admin" ]
         - OAuth2_Pass: [ "admin", "super_admin" ]
         - AccessToken: [ ]
+    put:
+      tags:
+        - "User"
+      summary: "Edit user"
+      description: "Edit information of a user"
+      operationId: "editUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "Target user"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_user"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
     delete:
       tags:
         - "User"
@@ -1095,3 +1142,20 @@ definitions:
         example: "Device name"
     xml:
       name: "new_user"
+  update_user:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      device:
+        type: "string"
+        example: "Device name"
+    xml:
+      name: "update_user"
