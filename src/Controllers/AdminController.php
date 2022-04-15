@@ -235,7 +235,7 @@ class AdminController extends Controller
         );
 
         // Display success code
-        return $this->successCode()->success();
+        return $this->successCode()->created();
     }
 
     /**
