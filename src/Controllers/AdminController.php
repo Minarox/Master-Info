@@ -178,6 +178,16 @@ class AdminController extends Controller
             ["admin_id" => $args["admin_id"]]
         );
 
+        // Invalidate admin sessions
+        $this->database()->delete(
+            "tokens",
+            ["user_id" => $args["admin_id"]]
+        );
+        $this->database()->delete(
+            "refresh_tokens",
+            ["user_id" => $args["admin_id"]]
+        );
+
         // Display success code
         return $this->successCode()->success();
     }
