@@ -216,8 +216,8 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("GET", "/admins/");
-        $this->adminController->getAdmin($request, $this->response, []);
+        $request = $this->createRequest("PUT", "/admins/");
+        $this->adminController->editAdmin($request, $this->response, []);
     }
 
     /**
@@ -233,7 +233,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
         $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -314,7 +314,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("GET", "/admins/");
+        $request = $this->createRequest("PUT", "/admins/");
         $this->adminController->editAdminPassword($request, $this->response, []);
     }
 
@@ -331,7 +331,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
         $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
