@@ -44,6 +44,7 @@ return function (App $app) {
     $app->get("/users", [UserController::class, "getUsers"]);
     $app->post("/users", [UserController::class, "addUser"]);
     $app->get("/users/{user_id}", [UserController::class, "getUser"]);
+    $app->delete("/users/{user_id}", [UserController::class, "deleteUser"]);
 
     /**
      * Redirect to 404 if none of the routes match
