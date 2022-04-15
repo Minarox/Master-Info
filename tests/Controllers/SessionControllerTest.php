@@ -61,8 +61,8 @@ class SessionControllerTest extends TestCase
         // Fields
         $GLOBALS["body"] = [
             "grant_type" => "password",
-            "email" => $GLOBALS["session"]["user_email"],
-            "password" => "test!123"
+            "email"      => $GLOBALS["session"]["user_email"],
+            "password"   => "test!123"
         ];
 
         // Call function
@@ -82,8 +82,8 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "grant_type" => "client_credentials",
-            "client_id" => $GLOBALS["session"]["client_id"],
+            "grant_type"    => "client_credentials",
+            "client_id"     => $GLOBALS["session"]["client_id"],
             "client_secret" => $GLOBALS["session"]["client_secret"]
         ];
 
@@ -113,7 +113,7 @@ class SessionControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "active" => true,
+                "active"  => true,
                 "expires" => $GLOBALS["session"]["expires"]
             ]),
             $result->getBody()->__toString()
@@ -145,7 +145,7 @@ class SessionControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "active" => false,
+                "active"  => false,
                 "expires" => strtotime($current_date)
             ]),
             $result->getBody()->__toString()
@@ -177,7 +177,7 @@ class SessionControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "active" => true,
+                "active"  => true,
                 "expires" => strtotime($expires)
             ]),
             $result->getBody()->__toString()
@@ -369,9 +369,9 @@ class SessionControllerTest extends TestCase
         $this->assertHTTPCode($result);
         self::assertSame(
             [
-                "email" => "test@example.com",
+                "email"      => "test@example.com",
                 "first_name" => "Test2",
-                "last_name" => "User"
+                "last_name"  => "User"
             ],
             $GLOBALS["pdo"]
                 ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
@@ -389,8 +389,8 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "old_password" => "test!123",
-            "new_password" => "test1234",
+            "old_password"         => "test!123",
+            "new_password"         => "test1234",
             "confirm_new_password" => "test1234",
         ];
 
@@ -420,8 +420,8 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "old_password" => "test!123",
-            "new_password" => "test1234",
+            "old_password"         => "test!123",
+            "new_password"         => "test1234",
             "confirm_new_password" => "test!123",
         ];
 
@@ -443,8 +443,8 @@ class SessionControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "old_password" => "test1234",
-            "new_password" => "test1234",
+            "old_password"         => "test1234",
+            "new_password"         => "test1234",
             "confirm_new_password" => "test1234",
         ];
 
