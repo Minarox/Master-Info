@@ -44,7 +44,7 @@ class AdminControllerTest extends TestCase
     {
         // Call function
         $request = $this->createRequest("GET", "/admins");
-        $result = $this->adminController->getAdmins($request, $this->response);
+        $result  = $this->adminController->getAdmins($request, $this->response);
 
         // Check if request = database and http code is correct
         self::assertSame(
@@ -88,7 +88,7 @@ class AdminControllerTest extends TestCase
     {
         // Call function
         $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"]);
-        $result = $this->adminController->getAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
+        $result  = $this->adminController->getAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Fetch admin information
         $data = $GLOBALS["pdo"]
@@ -97,7 +97,7 @@ class AdminControllerTest extends TestCase
         $expires = $GLOBALS["pdo"]
             ->query("SELECT expires - INTERVAL 1 HOUR FROM tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
-        $data["last_connexion"] = ($expires) ? $expires : null;
+        $data["last_connexion"] = ($expires) ?: null;
 
         // Check if request = database and http code is correct
         self::assertSame(
@@ -108,7 +108,7 @@ class AdminControllerTest extends TestCase
     }
 
     /**
-     * Test getAdmins function without permission
+     * Test getAdmin function without permission
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
@@ -125,6 +125,23 @@ class AdminControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->getAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
+    }
+
+    /**
+     * Test getAdmin function without params
+     * Usage: GET /admins/{admin_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetAdminWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/");
+        $this->adminController->editAdmin($request, $this->response, []);
     }
 
     /**
@@ -153,9 +170,9 @@ class AdminControllerTest extends TestCase
     public function testEditAdmin()
     {
         $GLOBALS["body"] = [
-            "email" => "test123@example.com",
+            "email"      => "test123@example.com",
             "first_name" => "Test_edit",
-            "last_name" => "User_edit"
+            "last_name"  => "User_edit"
         ];
 
         // Call function
@@ -182,7 +199,41 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
+    }
+
+    /**
+     * Test editAdmin function without params
+     * Usage: PUT /admins/{admin_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditAdminWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/");
+        $this->adminController->getAdmin($request, $this->response, []);
+    }
+
+    /**
+     * Test editAdmin function without body
+     * Usage: PUT /admins/{admin_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditAdminWithoutBody()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
         $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -212,7 +263,7 @@ class AdminControllerTest extends TestCase
     public function testEditAdminPassword()
     {
         $GLOBALS["body"] = [
-            "new_password" => "test1234",
+            "new_password"         => "test1234",
             "confirm_new_password" => "test1234"
         ];
 
@@ -251,6 +302,40 @@ class AdminControllerTest extends TestCase
     }
 
     /**
+     * Test editAdminPassword function without params
+     * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditAdminPasswordWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/");
+        $this->adminController->editAdminPassword($request, $this->response, []);
+    }
+
+    /**
+     * Test editAdminPassword function without body
+     * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testEditAdminPasswordWithoutBody()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
+    }
+
+    /**
      * Test editAdminPassword function with bad ID
      * Usage: PUT /admins/{admin_id} | Scope: super_admin
      *
@@ -268,23 +353,6 @@ class AdminControllerTest extends TestCase
     }
 
     /**
-     * Test editAdminPassword function without params
-     * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testEditAdminPasswordWithoutParams()
-    {
-        // Check if exception is thrown
-        $this->expectException(BadRequest::class);
-        $this->expectExceptionMessage("Missing value in array");
-
-        // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]. "/password", $GLOBALS["body"] = []);
-        $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
-    }
-
-    /**
      * Test editAdminPassword function with bad passwords
      * Usage: PUT /admins/{admin_id}/password | Scope: super_admin
      *
@@ -294,7 +362,7 @@ class AdminControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "new_password" => "test1234",
+            "new_password"         => "test1234",
             "confirm_new_password" => "test!123"
         ];
 
@@ -316,13 +384,13 @@ class AdminControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "email" => "test_add@example.com",
-            "password" => "test1234",
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
             "confirm_password" => "test1234",
-            "first_name" => "Test_add_user",
-            "last_name" => "User_add",
-            "scope" => "admin",
-            "active" => '1'
+            "first_name"       => "Test_add_user",
+            "last_name"        => "User_add",
+            "scope"            => "admin",
+            "active"           => '1'
         ];
 
         // Call function
@@ -391,13 +459,13 @@ class AdminControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "email" => "test_add@example.com",
-            "password" => "test1234",
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
             "confirm_password" => "test!1234",
-            "first_name" => "Test_add_user",
-            "last_name" => "User_add",
-            "scope" => "admin",
-            "active" => '1'
+            "first_name"       => "Test_add_user",
+            "last_name"        => "User_add",
+            "scope"            => "admin",
+            "active"           => '1'
         ];
 
         // Call function
@@ -418,8 +486,8 @@ class AdminControllerTest extends TestCase
     {
         // Fields
         $GLOBALS["body"] = [
-            "email" => "test_add@example.com",
-            "password" => "test1234",
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
             "confirm_password" => "test1234"
         ];
 
@@ -483,5 +551,22 @@ class AdminControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("POST", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->deleteAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
+    }
+
+    /**
+     * Test deleteAdmin function without params
+     * Usage: DELETE /admins/{admin_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteAdminWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("GET", "/admins/");
+        $this->adminController->deleteAdmin($request, $this->response, []);
     }
 }
