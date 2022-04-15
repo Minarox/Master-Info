@@ -312,7 +312,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/201"
+              $ref: "#/definitions/admins"
         "400":
           description: "Bad Request"
           schema:
@@ -750,7 +750,7 @@ definitions:
         example: "abcdefgh12345678"
     xml:
       name: "password"
-  admins_list:
+  admins:
     type: "object"
     properties:
       admin_id:
@@ -769,7 +769,7 @@ definitions:
         type: "boolean"
         example: "true"
     xml:
-      name: "admins_list"
+      name: "admins"
   new_admin:
     type: "object"
     required:
