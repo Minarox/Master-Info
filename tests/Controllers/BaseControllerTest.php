@@ -48,7 +48,7 @@ class BaseControllerTest extends TestCase
                 "title"       => "Cerealis API",
                 "description" => "Enterprise Resource Management API",
                 "host"        => "https://mspr.minarox.fr",
-                "base_path"    => "/api"
+                "base_path"   => "/api"
             ]),
             $result->getBody()->__toString()
         );
