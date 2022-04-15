@@ -418,7 +418,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
-    public function testAddAdminPasswordWithoutScope()
+    public function testAddAdminWithoutScope()
     {
         // Change scope
         $GLOBALS["session"]["scope"] = "admin";
@@ -438,7 +438,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
-    public function testAddAdminPasswordWithoutParams()
+    public function testAddAdminWithoutParams()
     {
         // Check if exception is thrown
         $this->expectException(BadRequest::class);
@@ -455,7 +455,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
-    public function testAddAdminPasswordWithBadPasswords()
+    public function testAddAdminWithBadPasswords()
     {
         // Fields
         $GLOBALS["body"] = [
@@ -482,7 +482,7 @@ class AdminControllerTest extends TestCase
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
-    public function testAddAdminPasswordWithMissingParams()
+    public function testAddAdminWithMissingParams()
     {
         // Fields
         $GLOBALS["body"] = [
