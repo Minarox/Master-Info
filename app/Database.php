@@ -211,6 +211,11 @@ class Database
         $values_list    = rtrim($values_list, ", ");
         $selectors_list = rtrim($selectors_list, " AND ");
 
+        // Throw exception if empty
+        if (!$values_list) {
+            throw new BadRequest("Missing value in array");
+        }
+
         // Update the database
         return $this->containsValues(
             $this->pdo
