@@ -53,6 +53,9 @@ tags:
 
   - name: "User"
     description: "User management"
+
+  - name: "Email"
+    description: "Email management"
 paths:
   /:
     get:
@@ -766,6 +769,42 @@ paths:
         - OAuth2_App: [ "super_admin" ]
         - OAuth2_Pass: [ "super_admin" ]
         - AccessToken: [ ]
+  /emails:
+    get:
+      tags:
+        - "Email"
+      summary: "List of emails"
+      description: "Return list of all emails in the database"
+      operationId: "getEmails"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/emails"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"
@@ -1159,3 +1198,17 @@ definitions:
         example: "Device name"
     xml:
       name: "update_user"
+  emails:
+    type: "object"
+    properties:
+      email_id:
+        type: "integer"
+        example: "123"
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+    xml:
+      name: "emails"
