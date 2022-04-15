@@ -678,6 +678,47 @@ paths:
         - OAuth2_App: [ "admin", "super_admin" ]
         - OAuth2_Pass: [ "admin", "super_admin" ]
         - AccessToken: [ ]
+    delete:
+      tags:
+        - "User"
+      summary: "Remove user"
+      description: "Delete existing user"
+      operationId: "deleteUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "Target user"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"

@@ -129,4 +129,34 @@ class UserController extends Controller
         // Display success code
         return $this->successCode()->created();
     }
+
+    /**
+     * Delete existing user
+     * Usage: DELETE /users/{user_id} | Scope: super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function deleteUser(Request $request, Response $response, array $args): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope();
+
+        // Check if admin exist
+        $this->checkExist("user_id", $args, "users", true, "user_id");
+
+        // Remove admin
+        $this->database()->delete(
+            "users",
+            ["user_id" => $args["user_id"]]
+        );
+
+        // Display success code
+        return $this->successCode()->success();
+    }
 }

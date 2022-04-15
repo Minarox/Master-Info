@@ -255,6 +255,76 @@ class UserControllerTest extends TestCase
     }
 
     /**
+     * Test deleteUser function
+     * Usage: DELETE /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUser()
+    {
+        // Call function
+        $request = $this->createRequest("DELETE", "/users/" . $this->user_id);
+        $result = $this->userController->deleteUser($request, $this->response, ["user_id" => $this->user_id]);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result);
+    }
+
+    /**
+     * Test deleteUser function with bad ID
+     * Usage: DELETE /user_id/{admin_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUserWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/users/00000000-0000-0000-0000-000000000000");
+        $this->userController->deleteUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
+    }
+
+    /**
+     * Test deleteUser function without permission
+     * Usage: DELETE /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUserWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/users/" . $this->user_id);
+        $this->userController->deleteUser($request, $this->response, ["user_id" => $this->user_id]);
+    }
+
+    /**
+     * Test deleteUser function without params
+     * Usage: DELETE /users/{user_id} | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUserWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/users/");
+        $this->userController->deleteUser($request, $this->response, []);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
