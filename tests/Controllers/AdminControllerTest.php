@@ -501,7 +501,7 @@ class AdminControllerTest extends TestCase
     }
 
     /**
-     * Test deleteAdmin function without permission
+     * Test deleteAdmin function
      * Usage: DELETE /admins/{admin_id} | Scope: super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
@@ -509,7 +509,7 @@ class AdminControllerTest extends TestCase
     public function testDeleteAdmin()
     {
         // Call function
-        $request = $this->createRequest("POST", "/admins/" . $GLOBALS["session"]["user_id"]);
+        $request = $this->createRequest("DELETE", "/admins/" . $GLOBALS["session"]["user_id"]);
         $result = $this->adminController->deleteAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Check if http code is correct
@@ -529,7 +529,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("POST", "/admins/00000000-0000-0000-0000-000000000000");
+        $request = $this->createRequest("DELETE", "/admins/00000000-0000-0000-0000-000000000000");
         $this->adminController->deleteAdmin($request, $this->response, ["admin_id" => "00000000-0000-0000-0000-000000000000"]);
     }
 
@@ -549,7 +549,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("POST", "/admins/" . $GLOBALS["session"]["user_id"]);
+        $request = $this->createRequest("DELETE", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->deleteAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -566,7 +566,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("GET", "/admins/");
+        $request = $this->createRequest("DELETE", "/admins/");
         $this->adminController->deleteAdmin($request, $this->response, []);
     }
 }
