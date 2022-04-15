@@ -336,8 +336,17 @@ class SessionController extends Controller
             ["admin_id" => $GLOBALS["session"]["user_id"]]
         );
 
-        // Invalidate current token
-        return $this->logout($request, $response);
+        // Invalidate sessions
+        $this->database()->delete(
+            "tokens",
+            ["user_id" => $GLOBALS["session"]["user_id"]]
+        );
+        $this->database()->delete(
+            "refresh_tokens",
+            ["user_id" => $GLOBALS["session"]["user_id"]]
+        );
+
+        return $this->successCode()->success();
     }
 
     /**
