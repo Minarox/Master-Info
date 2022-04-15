@@ -42,6 +42,7 @@ return function (App $app) {
 
     // User controller
     $app->get("/users", [UserController::class, "getUsers"]);
+    $app->post("/users", [UserController::class, "addUser"]);
     $app->get("/users/{user_id}", [UserController::class, "getUser"]);
 
     /**
