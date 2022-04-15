@@ -162,6 +162,108 @@ class EmailControllerTest extends TestCase
     }
 
     /**
+     * Test addEmail function
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddEmail()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "title"       => "Test email model 2",
+            "description" => "Email model for unit testing",
+            "content"     => '<!DOCTYPE html>
+                              <html lang="en">
+                              <head>
+                                  <meta charset="UTF-8">
+                                  <title>Title</title>
+                              </head>
+                              <body>
+                              
+                              </body>
+                              </html>'
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"]);
+        $result = $this->emailController->addEmail($request, $this->response);
+
+        // Fetch new email
+        $new_email = $GLOBALS["pdo"]
+            ->query("SELECT title, description, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
+            ->fetch();
+
+        // Remove new email
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM emails WHERE title = '{$GLOBALS["body"]["title"]}';")
+            ->execute();
+
+        // Check if request = database and http code is correct
+        self::assertSame($new_email, $GLOBALS["body"]);
+        $this->assertHTTPCode($result, 201, "Created");
+    }
+
+    /**
+     * Test addEmail function without permission
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddEmailWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "app";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails");
+        $this->emailController->addEmail($request, $this->response);
+    }
+
+    /**
+     * Test addEmail function without params
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddEmailWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"] = []);
+        $this->emailController->addEmail($request, $this->response);
+    }
+
+    /**
+     * Test addEmail function with missing params
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddEmailWithMissingParams()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "title" => "Test email model 2",
+        ];
+
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"]);
+        $this->emailController->addEmail($request, $this->response);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
