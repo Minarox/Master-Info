@@ -6,6 +6,7 @@ namespace app;
 use Codes\ErrorCode;
 use Controllers\AdminController;
 use Controllers\BaseController;
+use Controllers\EmailController;
 use Controllers\SessionController;
 use Controllers\UserController;
 use Slim\App;
@@ -46,6 +47,13 @@ return function (App $app) {
     $app->get("/users/{user_id}", [UserController::class, "getUser"]);
     $app->put("/users/{user_id}", [UserController::class, "editUser"]);
     $app->delete("/users/{user_id}", [UserController::class, "deleteUser"]);
+
+    // Email controller
+    $app->get("/emails", [EmailController::class, "getEmails"]);
+    $app->post("/emails", [EmailController::class, "addEmail"]);
+    $app->get("/emails/{email_id}", [EmailController::class, "getEmail"]);
+    $app->put("/emails/{email_id}", [EmailController::class, "editEmail"]);
+    $app->delete("/emails/{email_id}", [EmailController::class, "deleteEmail"]);
 
     /**
      * Redirect to 404 if none of the routes match
