@@ -80,7 +80,7 @@ class AdminControllerTest extends TestCase
 
     /**
      * Test getAdmin function
-     * Usage: PUT /admins/{admin_id} | Scope: super_admin
+     * Usage: GET /admins/{admin_id} | Scope: super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
@@ -109,7 +109,7 @@ class AdminControllerTest extends TestCase
 
     /**
      * Test getAdmin function without permission
-     * Usage: PUT /admins/{admin_id} | Scope: super_admin
+     * Usage: GET /admins/{admin_id} | Scope: super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
@@ -159,6 +159,132 @@ class AdminControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("GET", "/admins/00000000-0000-0000-0000-000000000000");
         $this->adminController->getAdmin($request, $this->response, ["admin_id" => "00000000-0000-0000-0000-000000000000"]);
+    }
+
+    /**
+     * Test addAdmin function
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdmin()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
+            "confirm_password" => "test1234",
+            "first_name"       => "Test_add_user",
+            "last_name"        => "User_add",
+            "scope"            => "admin",
+            "active"           => '1'
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $result = $this->adminController->addAdmin($request, $this->response);
+
+        // Fetch password hash
+        $new_password = $GLOBALS["pdo"]
+            ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->fetchColumn();
+
+        // Remove new admin
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM admins WHERE email = '{$GLOBALS["body"]["email"]}';")
+            ->execute();
+
+        // Check if request = database and http code is correct
+        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_password));
+        $this->assertHTTPCode($result, 201, "Created");
+    }
+
+    /**
+     * Test addAdmin function without permission
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdminWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("POST", "/admins");
+        $this->adminController->addAdmin($request, $this->response);
+    }
+
+    /**
+     * Test addAdmin function without params
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdminWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"] = []);
+        $this->adminController->addAdmin($request, $this->response);
+    }
+
+    /**
+     * Test addAdmin function with bad passwords
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdminWithBadPasswords()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
+            "confirm_password" => "test!1234",
+            "first_name"       => "Test_add_user",
+            "last_name"        => "User_add",
+            "scope"            => "admin",
+            "active"           => '1'
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $result = $this->adminController->addAdmin($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 409, "Passwords doesn't match");
+    }
+
+    /**
+     * Test addAdmin function with missing params
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testAddAdminWithMissingParams()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email"            => "test_add@example.com",
+            "password"         => "test1234",
+            "confirm_password" => "test1234"
+        ];
+
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $this->adminController->addAdmin($request, $this->response);
     }
 
     /**
@@ -372,132 +498,6 @@ class AdminControllerTest extends TestCase
 
         // Check if http code is correct
         $this->assertHTTPCode($result, 409, "New passwords doesn't match");
-    }
-
-    /**
-     * Test addAdmin function
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddAdmin()
-    {
-        // Fields
-        $GLOBALS["body"] = [
-            "email"            => "test_add@example.com",
-            "password"         => "test1234",
-            "confirm_password" => "test1234",
-            "first_name"       => "Test_add_user",
-            "last_name"        => "User_add",
-            "scope"            => "admin",
-            "active"           => '1'
-        ];
-
-        // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
-        $result = $this->adminController->addAdmin($request, $this->response);
-
-        // Fetch password hash
-        $new_password = $GLOBALS["pdo"]
-            ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
-            ->fetchColumn();
-
-        // Remove new admin
-        $GLOBALS["pdo"]
-            ->prepare("DELETE FROM admins WHERE email = '{$GLOBALS["body"]["email"]}';")
-            ->execute();
-
-        // Check if request = database and http code is correct
-        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_password));
-        $this->assertHTTPCode($result, 201, "Created");
-    }
-
-    /**
-     * Test addAdmin function without permission
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddAdminWithoutScope()
-    {
-        // Change scope
-        $GLOBALS["session"]["scope"] = "admin";
-
-        // Check if exception is thrown
-        $this->expectException(Unauthorized::class);
-        $this->expectExceptionMessage("User doesn't have the permission");
-
-        // Call function
-        $request = $this->createRequest("POST", "/admins");
-        $this->adminController->addAdmin($request, $this->response);
-    }
-
-    /**
-     * Test addAdmin function without params
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddAdminWithoutParams()
-    {
-        // Check if exception is thrown
-        $this->expectException(BadRequest::class);
-        $this->expectExceptionMessage("Missing value in array");
-
-        // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"] = []);
-        $this->adminController->addAdmin($request, $this->response);
-    }
-
-    /**
-     * Test addAdmin function with bad passwords
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddAdminWithBadPasswords()
-    {
-        // Fields
-        $GLOBALS["body"] = [
-            "email"            => "test_add@example.com",
-            "password"         => "test1234",
-            "confirm_password" => "test!1234",
-            "first_name"       => "Test_add_user",
-            "last_name"        => "User_add",
-            "scope"            => "admin",
-            "active"           => '1'
-        ];
-
-        // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
-        $result = $this->adminController->addAdmin($request, $this->response);
-
-        // Check if http code is correct
-        $this->assertHTTPCode($result, 409, "Passwords doesn't match");
-    }
-
-    /**
-     * Test addAdmin function with missing params
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddAdminWithMissingParams()
-    {
-        // Fields
-        $GLOBALS["body"] = [
-            "email"            => "test_add@example.com",
-            "password"         => "test1234",
-            "confirm_password" => "test1234"
-        ];
-
-        // Check if exception is thrown
-        $this->expectException(BadRequest::class);
-        $this->expectExceptionMessage("Missing value in array");
-
-        // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
-        $this->adminController->addAdmin($request, $this->response);
     }
 
     /**
