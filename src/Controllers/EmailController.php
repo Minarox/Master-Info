@@ -90,4 +90,39 @@ class EmailController extends Controller
         );
         return $response;
     }
+
+    /**
+     * Create new email
+     * Usage: POST /emails | Scope: admin, super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function addEmail(Request $request, Response $response): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope(["admin"]);
+
+        // Check if values exist in request
+        $this->checkExist("title", $GLOBALS["body"], null, true);
+        $this->checkExist("content", $GLOBALS["body"], null, true);
+
+        // Create new email
+        $this->database()->create(
+            "emails",
+            [
+                "title" => $GLOBALS["body"]["title"],
+                "description" => $GLOBALS["body"]["description"] ?? '',
+                "content" => $GLOBALS["body"]["content"]
+            ]
+        );
+
+        // Display success code
+        return $this->successCode()->created();
+    }
 }
