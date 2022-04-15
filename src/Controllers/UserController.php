@@ -51,4 +51,45 @@ class UserController extends Controller
         );
         return $response;
     }
+
+    /**
+     * Return information of a user
+     * Usage: GET /users/{user_id} | Scope: admin, super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function getUser(Request $request, Response $response, array $args): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope(["admin"]);
+
+        // Check if user exist
+        $this->checkExist("user_id", $args, "users", true, "user_id");
+
+        // Fetch and display user information
+        $response->getBody()->write(
+            json_encode(
+                $this->database()->find(
+                    "users",
+                    [
+                        "email",
+                        "first_name",
+                        "last_name",
+                        "device",
+                        "created_at",
+                        "updated_at"
+                    ],
+                    ["user_id" => $args["user_id"]],
+                    true
+                )
+            )
+        );
+        return $response;
+    }
 }
