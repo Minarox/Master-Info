@@ -70,6 +70,9 @@ class AdminController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
+        // Check if admin exist
+        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+
         // Fetch admin information
         $data = $this->database()->find(
             "admins",
@@ -103,6 +106,52 @@ class AdminController extends Controller
             json_encode($data)
         );
         return $response;
+    }
+
+    /**
+     * Create new admin
+     * Usage: POST /admins | Scope: super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function addAdmin(Request $request, Response $response): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope();
+
+        // Check if values exist in request
+        $this->checkExist("email", $GLOBALS["body"], null, true);
+        $this->checkExist("password", $GLOBALS["body"], null, true);
+        $this->checkExist("confirm_password", $GLOBALS["body"], null, true);
+        $this->checkExist("first_name", $GLOBALS["body"], null, true);
+        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+
+        // Check if new passwords are the same
+        if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["confirm_password"]) {
+            return $this->errorCode()->conflict("Passwords doesn't match");
+        }
+
+        // Create new admin
+        $this->database()->create(
+            "admins",
+            [
+                "email" => $GLOBALS["body"]["email"],
+                "password" => password_hash($GLOBALS["body"]["password"], PASSWORD_BCRYPT),
+                "first_name" => $GLOBALS["body"]["first_name"],
+                "last_name" => $GLOBALS["body"]["last_name"],
+                "scope" => $GLOBALS["body"]["scope"] ?? "admin",
+                "active" => $GLOBALS["body"]["active"] ?? '1'
+            ]
+        );
+
+        // Display success code
+        return $this->successCode()->created();
     }
 
     /**
@@ -190,52 +239,6 @@ class AdminController extends Controller
 
         // Display success code
         return $this->successCode()->success();
-    }
-
-    /**
-     * Create new admin
-     * Usage: POST /admins | Scope: super_admin
-     *
-     * @param Request  $request  Slim request interface
-     * @param Response $response Slim response interface
-     *
-     * @return Response Response to show
-     * @throws NotFound if database return nothing
-     * @throws BadRequest if request contain errors
-     * @throws Unauthorized if user don't have the permission
-     */
-    public function addAdmin(Request $request, Response $response): Response
-    {
-        // Check scope before accessing function
-        $this->checkScope();
-
-        // Check if values exist in request
-        $this->checkExist("email", $GLOBALS["body"], null, true);
-        $this->checkExist("password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_password", $GLOBALS["body"], null, true);
-        $this->checkExist("first_name", $GLOBALS["body"], null, true);
-        $this->checkExist("last_name", $GLOBALS["body"], null, true);
-
-        // Check if new passwords are the same
-        if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["confirm_password"]) {
-            return $this->errorCode()->conflict("Passwords doesn't match");
-        }
-
-        // Create new admin
-        $this->database()->create(
-            "admins",
-            [
-                "email" => $GLOBALS["body"]["email"],
-                "password" => password_hash($GLOBALS["body"]["password"], PASSWORD_BCRYPT),
-                "first_name" => $GLOBALS["body"]["first_name"],
-                "last_name" => $GLOBALS["body"]["last_name"],
-                "scope" => $GLOBALS["body"]["scope"] ?? "admin",
-                "active" => $GLOBALS["body"]["active"] ?? '1'
-            ]
-        );
-
-        // Display success code
-        return $this->successCode()->created();
     }
 
     /**

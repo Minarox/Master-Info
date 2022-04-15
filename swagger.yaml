@@ -10,7 +10,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
-  version: "0.2.0"
+  version: "0.3.0"
 host: "mspr.minarox.fr"
 basePath: "/api"
 schemes:
@@ -50,6 +50,9 @@ tags:
 
   - name: "Admin"
     description: "Admin management"
+
+  - name: "User"
+    description: "User management"
 paths:
   /:
     get:
@@ -307,12 +310,12 @@ paths:
       description: "Return list of all admins in the database"
       operationId: "getAdmins"
       responses:
-        "201":
-          description: "Created"
+        "200":
+          description: "Success"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/201"
+              $ref: "#/definitions/admins"
         "400":
           description: "Bad Request"
           schema:
@@ -555,6 +558,214 @@ paths:
         - OAuth2_App: [ "super_admin" ]
         - OAuth2_Pass: [ "super_admin" ]
         - AccessToken: [ ]
+  /users:
+    get:
+      tags:
+        - "User"
+      summary: "List of users"
+      description: "Return list of all users in the database"
+      operationId: "getUsers"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/users"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    post:
+      tags:
+        - "User"
+      summary: "Add user"
+      description: "Create new user"
+      operationId: "addUser"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New user"
+          required: true
+          schema:
+            $ref: "#/definitions/new_user"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/201"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "app", "super_admin" ]
+        - OAuth2_Pass: [ "app", "super_admin" ]
+        - AccessToken: [ ]
+  /users/{user_id}:
+    get:
+      tags:
+        - "User"
+      summary: "Information of user"
+      description: "Return information of a user"
+      operationId: "getUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "Target user"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/user"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    put:
+      tags:
+        - "User"
+      summary: "Edit user"
+      description: "Edit information of a user"
+      operationId: "editUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "Target user"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_user"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    delete:
+      tags:
+        - "User"
+      summary: "Remove user"
+      description: "Delete existing user"
+      operationId: "deleteUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "Target user"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"
@@ -750,7 +961,7 @@ definitions:
         example: "abcdefgh12345678"
     xml:
       name: "password"
-  admins_list:
+  admins:
     type: "object"
     properties:
       admin_id:
@@ -769,7 +980,7 @@ definitions:
         type: "boolean"
         example: "true"
     xml:
-      name: "admins_list"
+      name: "admins"
   new_admin:
     type: "object"
     required:
@@ -868,3 +1079,83 @@ definitions:
         example: "abcdefgh12345678"
     xml:
       name: "new_password"
+  users:
+    type: "object"
+    properties:
+      user_id:
+        type: "string"
+        example: "00000000-0000-0000-0000-000000000000"
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+    xml:
+      name: "users"
+  user:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      device:
+        type: "string"
+        example: "Device name"
+      created_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+      updated_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+    xml:
+      name: "user"
+  new_user:
+    type: "object"
+    required:
+      - email
+      - first_name
+      - last_name
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      device:
+        type: "string"
+        example: "Device name"
+    xml:
+      name: "new_user"
+  update_user:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      device:
+        type: "string"
+        example: "Device name"
+    xml:
+      name: "update_user"
