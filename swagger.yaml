@@ -10,7 +10,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
-  version: "0.1.0"
+  version: "0.2.0"
 host: "mspr.minarox.fr"
 basePath: "/api"
 schemes:
@@ -47,6 +47,9 @@ tags:
 
   - name: "Session"
     description: "Session management"
+
+  - name: "Admin"
+    description: "Admin management"
 paths:
   /:
     get:
@@ -200,7 +203,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/admin"
+              $ref: "#/definitions/session"
         "401":
           description: "Unauthorized"
           schema:
@@ -223,7 +226,7 @@ paths:
           description: "User information"
           required: true
           schema:
-            $ref: "#/definitions/admin"
+            $ref: "#/definitions/session"
       responses:
         "200":
           description: "User information"
@@ -295,6 +298,262 @@ paths:
       security:
         - OAuth2_App: [ "admin", "super_admin", "app" ]
         - OAuth2_Pass: [ "admin", "super_admin", "app" ]
+        - AccessToken: [ ]
+  /admins:
+    get:
+      tags:
+        - "Admin"
+      summary: "List of admins"
+      description: "Return list of all admins in the database"
+      operationId: "getAdmins"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/201"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    post:
+      tags:
+        - "Admin"
+      summary: "Create new Admin"
+      description: "Create new admin account in the database"
+      operationId: "addAdmin"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New admin"
+          required: true
+          schema:
+            $ref: "#/definitions/new_admin"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "409":
+          description: "Conflict"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/409"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+  /admins/{admin_id}:
+    get:
+      tags:
+        - "Admin"
+      summary: "Information of admin"
+      description: "Return information of the admin"
+      operationId: "getAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Admin information"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/admin"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "404":
+          description: "Not found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    put:
+      tags:
+        - "Admin"
+      summary: "Edit admin"
+      description: "Edit account information of an admin"
+      operationId: "editAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_admin"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+    delete:
+      tags:
+        - "Admin"
+      summary: "Remove admin"
+      description: "Delete existing admin"
+      operationId: "deleteAdmin"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
+  /admins/{admin_id}/password:
+    put:
+      tags:
+        - "Admin"
+      summary: "Edit admin password"
+      description: "Edit password of the admin"
+      operationId: "editAdminPassword"
+      parameters:
+        - name: "admin_id"
+          in: "path"
+          description: "Target admin"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "New password"
+          required: true
+          schema:
+            $ref: "#/definitions/new_password"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
         - AccessToken: [ ]
 definitions:
   200:
@@ -456,7 +715,7 @@ definitions:
         example: "12345678"
     xml:
       name: "token_string"
-  admin:
+  session:
     type: "object"
     properties:
       email:
@@ -469,7 +728,7 @@ definitions:
         type: "string"
         example: "Name"
     xml:
-      name: "admin"
+      name: "session"
   password:
     type: "object"
     required:
@@ -491,3 +750,121 @@ definitions:
         example: "abcdefgh12345678"
     xml:
       name: "password"
+  admins_list:
+    type: "object"
+    properties:
+      admin_id:
+        type: "string"
+        example: "00000000-0000-0000-0000-000000000000"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "admins_list"
+  new_admin:
+    type: "object"
+    required:
+      - email
+      - password
+      - confirm_password
+      - first_name
+      - last_name
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      confirm_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "new_admin"
+  admin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+      created_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+      updated_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+    xml:
+      name: "admin"
+  update_admin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "test@example.com"
+      first_name:
+        type: "string"
+        example: "First name"
+      last_name:
+        type: "string"
+        example: "Last name"
+      scope:
+        type: "string"
+        example: "admin"
+      active:
+        type: "boolean"
+        example: "true"
+    xml:
+      name: "update_admin"
+  new_password:
+    type: "object"
+    required:
+      - new_password
+      - confirm_new_password
+    properties:
+      new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+      confirm_new_password:
+        type: "string"
+        format: "password"
+        example: "abcdefgh12345678"
+    xml:
+      name: "new_password"
