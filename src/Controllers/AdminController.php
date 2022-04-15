@@ -70,6 +70,9 @@ class AdminController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
+        // Check if admin exist
+        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+
         // Fetch admin information
         $data = $this->database()->find(
             "admins",
