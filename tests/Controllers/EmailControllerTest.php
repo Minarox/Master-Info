@@ -357,6 +357,76 @@ class EmailControllerTest extends TestCase
     }
 
     /**
+     * Test deleteEmail function
+     * Usage: DELETE /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteEmail()
+    {
+        // Call function
+        $request = $this->createRequest("DELETE", "/emails/" . $this->email_id);
+        $result = $this->emailController->deleteEmail($request, $this->response, ["email_id" => $this->email_id]);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result);
+    }
+
+    /**
+     * Test deleteEmail function with bad ID
+     * Usage: DELETE /email_id/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteEmailWithBadID()
+    {
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/emails/0");
+        $this->emailController->deleteEmail($request, $this->response, ["email_id" => "0"]);
+    }
+
+    /**
+     * Test deleteEmail function without permission
+     * Usage: DELETE /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteEmailWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/emails/" . $this->email_id);
+        $this->emailController->deleteEmail($request, $this->response, ["email_id" => $this->email_id]);
+    }
+
+    /**
+     * Test deleteEmail function without params
+     * Usage: DELETE /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteEmailWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("DELETE", "/emails/");
+        $this->emailController->deleteEmail($request, $this->response, []);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void

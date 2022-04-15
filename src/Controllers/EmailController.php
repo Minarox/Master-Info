@@ -160,4 +160,34 @@ class EmailController extends Controller
         // Display success code
         return $this->successCode()->success();
     }
+
+    /**
+     * Delete existing email
+     * Usage: DELETE /emails/{email_id} | Scope: admin, super_admin
+     *
+     * @param Request  $request  Slim request interface
+     * @param Response $response Slim response interface
+     *
+     * @return Response Response to show
+     * @throws NotFound if database return nothing
+     * @throws BadRequest if request contain errors
+     * @throws Unauthorized if user don't have the permission
+     */
+    public function deleteEmail(Request $request, Response $response, array $args): Response
+    {
+        // Check scope before accessing function
+        $this->checkScope();
+
+        // Check if email exist
+        $this->checkExist("email_id", $args, "emails", true, "email_id");
+
+        // Remove email
+        $this->database()->delete(
+            "emails",
+            ["email_id" => $args["email_id"]]
+        );
+
+        // Display success code
+        return $this->successCode()->success();
+    }
 }
