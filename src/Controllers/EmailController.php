@@ -79,6 +79,7 @@ class EmailController extends Controller
                     [
                         "title",
                         "description",
+                        "subject",
                         "content",
                         "created_at",
                         "updated_at"
@@ -110,6 +111,7 @@ class EmailController extends Controller
 
         // Check if values exist in request
         $this->checkExist("title", $GLOBALS["body"], null, true);
+        $this->checkExist("subject", $GLOBALS["body"], null, true);
         $this->checkExist("content", $GLOBALS["body"], null, true);
 
         // Create new email
@@ -118,6 +120,7 @@ class EmailController extends Controller
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
+                "subject" => $GLOBALS["body"]["subject"],
                 "content" => $GLOBALS["body"]["content"]
             ]
         );
@@ -150,12 +153,15 @@ class EmailController extends Controller
         $this->checkExist("title", $GLOBALS["body"], null, true);
 
         // Fetch template
-        $template = ($this->database()->find(
+        $template = $this->database()->find(
             "emails",
-            ["content"],
+            [
+                "subject",
+                "content"
+            ],
             ["email_id" => $args["email_id"]],
             true
-        ))["content"];
+        );
 
         // Create new email
         $this->database()->create(
@@ -163,7 +169,8 @@ class EmailController extends Controller
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
-                "content" => $template
+                "subject" => $template["subject"],
+                "content" => $template["content"]
             ]
         );
 
@@ -197,6 +204,7 @@ class EmailController extends Controller
             [
                 "title" => $GLOBALS["body"]["title"] ?? '',
                 "description" => $GLOBALS["body"]["description"] ?? '',
+                "subject" => $GLOBALS["body"]["subject"] ?? '',
                 "content" => $GLOBALS["body"]["content"] ?? ''
             ],
             ["email_id" => $args["email_id"]]

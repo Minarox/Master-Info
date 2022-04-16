@@ -1440,6 +1440,9 @@ definitions:
       description:
         type: "string"
         example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
       content:
         type: "string"
         example: "Content of the mail"
@@ -1465,6 +1468,9 @@ definitions:
       description:
         type: "string"
         example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
       content:
         type: "string"
         example: "Content of the mail"
@@ -1492,6 +1498,9 @@ definitions:
       description:
         type: "string"
         example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
       content:
         type: "string"
         example: "Content of the mail"

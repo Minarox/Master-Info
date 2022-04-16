@@ -99,7 +99,7 @@ class EmailControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT title, description, content, created_at, updated_at FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
+                    ->query("SELECT title, description, subject, content, created_at, updated_at FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
                     ->fetch()
             ),
             $result->getBody()->__toString()
@@ -173,6 +173,7 @@ class EmailControllerTest extends TestCase
         $GLOBALS["body"] = [
             "title"       => "Test email model 2",
             "description" => "Email model for unit testing",
+            "subject"     => "Test subject 2",
             "content"     => '<!DOCTYPE html>
                               <html lang="en">
                               <head>
@@ -191,7 +192,7 @@ class EmailControllerTest extends TestCase
 
         // Fetch new email
         $new_email = $GLOBALS["pdo"]
-            ->query("SELECT title, description, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
+            ->query("SELECT title, description, subject, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
             ->fetch();
 
         // Remove new email
@@ -283,11 +284,11 @@ class EmailControllerTest extends TestCase
 
         // Fetch new email
         $new_email = $GLOBALS["pdo"]
-            ->query("SELECT title, description, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
+            ->query("SELECT title, description, subject, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
             ->fetch();
         $template = $GLOBALS["pdo"]
-            ->query("SELECT content FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
-            ->fetchColumn();
+            ->query("SELECT subject, content FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
+            ->fetch();
 
         // Remove new email
         $GLOBALS["pdo"]
@@ -295,7 +296,13 @@ class EmailControllerTest extends TestCase
             ->execute();
 
         // Check if request = database and http code is correct
-        self::assertSame($new_email["content"], $template);
+        self::assertSame(
+            [
+                "subject" => $new_email["subject"],
+                "content" => $new_email["content"]
+            ],
+            $template
+        );
         $this->assertHTTPCode($result, 201, "Created");
     }
 
@@ -550,7 +557,7 @@ class EmailControllerTest extends TestCase
                     </body>
                     </html>';
         $this->email_id = $GLOBALS["pdo"]
-            ->query("INSERT INTO emails (title, description, content) VALUES ('Test email model', 'Email model for unit testing', '$content') RETURNING email_id;")
+            ->query("INSERT INTO emails (title, description, subject, content) VALUES ('Test email model', 'Email model for unit testing', 'Test subject', '$content') RETURNING email_id;")
             ->fetchColumn();
     }
 
