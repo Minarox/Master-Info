@@ -16,3 +16,10 @@ username  = "example_user"
 password  = "example_password"
 charset   = "utf8mb4"
 collation = "utf8mb14_unicode_ci"
+
+[stmp]
+host     = "stmp.example.com"
+port     = "1234"
+username = "username"
+password = "password"
+from     = "newsletter@example.com"
