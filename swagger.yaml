@@ -908,8 +908,8 @@ paths:
           schema:
             $ref: "#/definitions/new_template_email"
       responses:
-        "200":
-          description: "Success"
+        "201":
+          description: "Created"
           schema:
             type: "array"
             items:
@@ -1002,6 +1002,49 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+  /emails/send:
+    post:
+      tags:
+        - "Email"
+      summary: "Send emails to users"
+      description: "Send newsletter to users"
+      operationId: "sendEmails"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/send_emails"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/success_email"
         "400":
           description: "Bad Request"
           schema:
@@ -1506,3 +1549,27 @@ definitions:
         example: "Content of the mail"
     xml:
       name: "update_email"
+  success_email:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 200
+      code_description:
+        type: "string"
+        example: "All emails have been sent"
+    xml:
+      name: "success_email"
+  send_emails:
+    type: "object"
+    properties:
+      email_id:
+        type: "integer"
+        format: "int32"
+        example: 130
+      users:
+        type: "array"
+        items: { }
+    xml:
+      name: "send_emails"
