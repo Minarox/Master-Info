@@ -51,6 +51,7 @@ return function (App $app) {
     // Email controller
     $app->get("/emails", [EmailController::class, "getEmails"]);
     $app->post("/emails", [EmailController::class, "addEmail"]);
+    $app->POST("/emails/send", [EmailController::class, "sendEmails"]);
     $app->get("/emails/{email_id}", [EmailController::class, "getEmail"]);
     $app->put("/emails/{email_id}", [EmailController::class, "editEmail"]);
     $app->post("/emails/{email_id}", [EmailController::class, "addTemplateEmail"]);
