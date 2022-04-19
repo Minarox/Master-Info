@@ -6,5 +6,5 @@ module.exports = {
     port: 8100,
     public: "mspr.minarox.fr",
     disableHostCheck: true,
-  }
+  },
 };
