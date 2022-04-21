@@ -30,7 +30,7 @@ class LogController extends Controller
     public function getLogs(Request $request, Response $response): Response
     {
         // Check scope before accessing function
-        $this->checkScope([]);
+        $this->checkScope();
 
         // Display emails list
         $response->getBody()->write(

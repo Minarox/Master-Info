@@ -4,9 +4,9 @@ declare(strict_types = 1);
 use app\Database;
 use Codes\ErrorCode;
 use Codes\SuccessCode;
-use Controllers\LogController;
 use Enums\Action;
 use Enums\Type;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * Abstract class for Controllers
@@ -18,7 +18,7 @@ abstract class Controller
      *
      * @return SuccessCode
      */
-    protected function successCode(): SuccessCode
+    #[Pure] protected function successCode(): SuccessCode
     {
         return new SuccessCode();
     }
@@ -28,7 +28,7 @@ abstract class Controller
      *
      * @return ErrorCode
      */
-    protected function errorCode(): ErrorCode
+    #[Pure] protected function errorCode(): ErrorCode
     {
         return new ErrorCode();
     }
