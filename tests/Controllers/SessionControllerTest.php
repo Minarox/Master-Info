@@ -67,9 +67,27 @@ class SessionControllerTest extends TestCase
 
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
-        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+        $result = $this->sessionController->login($request, $this->response);
 
-        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+        // Fetch access and refresh token from database
+        $access_token = $GLOBALS["pdo"]
+            ->query("SELECT access_token FROM tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+        $refresh_token = $GLOBALS["pdo"]
+            ->query("SELECT refresh_token FROM refresh_tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+
+        // Check if request = database
+        self::assertSame(
+            json_encode([
+                "access_token" => $access_token,
+                "expires_in" => (int) CONFIG["oauth2"]["access_lifetime"],
+                "token_type" => CONFIG["oauth2"]["token_bearer_header_name"],
+                "scope" => "super_admin",
+                "refresh_token" => $refresh_token
+            ]),
+            $result->getBody()->__toString()
+        );
     }
 
     /**
@@ -89,9 +107,23 @@ class SessionControllerTest extends TestCase
 
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
-        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+        $result = $this->sessionController->login($request, $this->response);
 
-        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+        // Fetch access token from database
+        $access_token = $GLOBALS["pdo"]
+            ->query("SELECT access_token FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+
+        // Check if request = database
+        self::assertSame(
+            json_encode([
+                "access_token" => $access_token,
+                "expires_in" => (int) CONFIG["oauth2"]["access_lifetime"],
+                "token_type" => CONFIG["oauth2"]["token_bearer_header_name"],
+                "scope" => "super_admin"
+            ]),
+            $result->getBody()->__toString()
+        );
     }
 
     /**
