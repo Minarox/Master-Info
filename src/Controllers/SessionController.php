@@ -30,7 +30,7 @@ class SessionController extends Controller
      */
     public function login(Request $request, Response $response): Response
     {
-        $this->checkExist("grant_type", $GLOBALS["body"], null, true);
+        $this->checkExist("grant_type", $GLOBALS["body"], strict: true);
 
         // Simplify password grant_type
         if ($GLOBALS["body"]["grant_type"] == "password"
@@ -308,9 +308,9 @@ class SessionController extends Controller
     public function editPassword(Request $request, Response $response): Response
     {
         // Check if values exist in request
-        $this->checkExist("old_password", $GLOBALS["body"], null, true);
-        $this->checkExist("new_password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_new_password", $GLOBALS["body"], null, true);
+        $this->checkExist("old_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("new_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_new_password", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["new_password"] !== $GLOBALS["body"]["confirm_new_password"]) {

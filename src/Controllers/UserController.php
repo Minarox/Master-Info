@@ -79,7 +79,7 @@ class UserController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
 
         // Fetch and display user information
         $response->getBody()->write(
@@ -120,9 +120,9 @@ class UserController extends Controller
         $this->checkScope(["app"]);
 
         // Check if values exist in request
-        $this->checkExist("email", $GLOBALS["body"], null, true);
-        $this->checkExist("first_name", $GLOBALS["body"], null, true);
-        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+        $this->checkExist("email", $GLOBALS["body"], strict: true);
+        $this->checkExist("first_name", $GLOBALS["body"], strict: true);
+        $this->checkExist("last_name", $GLOBALS["body"], strict: true);
 
         // Create new user
         $user_id = ($this->database()->create(
@@ -161,7 +161,7 @@ class UserController extends Controller
         $this->checkScope();
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
 
         // Edit user information
         $this->database()->update(
@@ -200,7 +200,7 @@ class UserController extends Controller
         $this->checkScope();
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
 
         // Remove user
         $this->database()->delete(

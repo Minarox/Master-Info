@@ -85,13 +85,12 @@ abstract class Controller
      * @param array       $args          Array to search inside
      * @param string|null $table         Table to check
      * @param bool        $strict        Raise exception
-     * @param string      $column        Column to search
      *
      * @return bool true if found, false otherwise
      * @throws BadRequest if request contain errors
      * @throws NotFound if value not found
      */
-    protected function checkExist(string $value, array $args, string $table = null, bool $strict = false, string $column = "id"): bool
+    public function checkExist(string $value, array $args, string $table = null, bool $strict = false): bool
     {
         // Check if key exist in array
         if (array_key_exists($value, $args)) {
@@ -100,12 +99,12 @@ abstract class Controller
             }
 
             // Create array with correct values
-            $fields = array($column => $args[$value]);
+            $fields = array($value => $args[$value]);
 
             // Check if value exist (throw NotFound exception automatically if not) and return true
             return (bool) $this->database()->find(
                 $table,
-                [$column],
+                [$value],
                 $fields,
                 true,
                 null,
