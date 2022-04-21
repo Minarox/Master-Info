@@ -6,6 +6,7 @@ namespace Controllers;
 require_once __DIR__ . "/../TestCase.php";
 
 use BadRequest;
+use Exception;
 use NotFound;
 use TestCase;
 use Unauthorized;
@@ -537,6 +538,158 @@ class EmailControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("DELETE", "/emails/");
         $this->emailController->deleteEmail($request, $this->response, []);
+    }
+
+    /**
+     * Test sendEmails function
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmails()
+    {
+        // Create new user
+        $user_id = $GLOBALS["pdo"]
+            ->query("INSERT INTO users (email, first_name, last_name, device) VALUES ('postmaster@minarox.fr', 'Test', 'User', 'Android 10') RETURNING user_id;")
+            ->fetchColumn();
+
+        // Fields
+        $GLOBALS["body"] = [
+            "email_id" => $this->email_id,
+            "users" => [
+                $user_id
+            ]
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $result  = $this->emailController->sendEmails($request, $this->response);
+
+        // Remove user
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM users WHERE user_id = '$user_id';")
+            ->execute();
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 200, "All emails have been sent");
+    }
+
+    /**
+     * Test sendEmails function without permission
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmailsWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "app";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"] = []);
+        $this->emailController->sendEmails($request, $this->response);
+    }
+
+    /**
+     * Test sendEmails function without params
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmailsWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"] = []);
+        $this->emailController->sendEmails($request, $this->response);
+    }
+
+    /**
+     * Test sendEmails function with bad email id
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmailsWithBadEmailID()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email_id" => 0
+        ];
+
+        // Check if exception is thrown
+        $this->expectException(NotFound::class);
+        $this->expectExceptionMessage("Nothing was found in the database");
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $this->emailController->sendEmails($request, $this->response);
+    }
+
+    /**
+     * Test sendEmails function with bad user id
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmailsWithBadUserID()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "email_id" => $this->email_id,
+            "users" => [
+                "00000000-0000-0000-0000-000000000000"
+            ]
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $result = $this->emailController->sendEmails($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 400, "Bad Request");
+    }
+
+    /**
+     * Test sendEmails function with good and bad user id
+     * Usage: POST /emails/send | Scope: admin, super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized|Exception
+     */
+    public function testSendEmailsWithGoodAndBadUserID()
+    {
+        // Create new user
+        $user_id = $GLOBALS["pdo"]
+            ->query("INSERT INTO users (email, first_name, last_name, device) VALUES ('postmaster@minarox.fr', 'Test', 'User', 'Android 10') RETURNING user_id;")
+            ->fetchColumn();
+
+        // Fields
+        $GLOBALS["body"] = [
+            "email_id" => $this->email_id,
+            "users" => [
+                $user_id,
+                "00000000-0000-0000-0000-000000000000"
+            ]
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $result = $this->emailController->sendEmails($request, $this->response);
+
+        // Remove user
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM users WHERE user_id = '$user_id';")
+            ->execute();
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 200, "1 out of 2 emails were sent");
     }
 
     /**
