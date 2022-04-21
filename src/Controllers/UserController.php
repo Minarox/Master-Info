@@ -5,6 +5,8 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -15,6 +17,13 @@ use Unauthorized;
  */
 class UserController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::User;
+
     /**
      * Return array of users
      * Usage: GET /users | Scope: admin, super_admin
@@ -116,15 +125,19 @@ class UserController extends Controller
         $this->checkExist("last_name", $GLOBALS["body"], null, true);
 
         // Create new user
-        $this->database()->create(
+        $user_id = ($this->database()->create(
             "users",
             [
                 "email" => $GLOBALS["body"]["email"],
                 "first_name" => $GLOBALS["body"]["first_name"],
                 "last_name" => $GLOBALS["body"]["last_name"],
                 "device" => $GLOBALS["body"]["scope"] ?? '',
-            ]
-        );
+            ],
+            "user_id"
+        ))["user_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $user_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
@@ -161,6 +174,9 @@ class UserController extends Controller
             ],
             ["user_id" => $args["user_id"]]
         );
+
+        // Add log
+        $this->addLog(Action::Edit, $args["user_id"], $this->type);
 
         // Display success code
         return $this->successCode()->success();
