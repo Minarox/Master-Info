@@ -117,7 +117,7 @@ class Database
                     ->query("SELECT $values FROM $table $selectors_list $order LIMIT $findOne;")
                     ->fetchAll();
             }
-        } catch (PDOException $e) {
+        } catch (PDOException) {
             if ($exception) {
                 throw new BadRequest("The database return an error when executing the query");
             } else {
