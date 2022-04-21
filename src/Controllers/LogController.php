@@ -47,9 +47,7 @@ class LogController extends Controller
                         "target_type",
                         "created_at"
                     ],
-                    ['*'],
-                    false,
-                    "created_at DESC"
+                    order: "created_at DESC"
                 )
             )
         );

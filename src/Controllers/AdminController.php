@@ -45,8 +45,7 @@ class AdminController extends Controller
                         "active"
                     ],
                     ['*'],
-                    false,
-                    "first_name"
+                    order: "first_name"
                 )
             )
         );
