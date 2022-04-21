@@ -147,10 +147,10 @@ class UserController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
-        // Check if admin exist
+        // Check if user exist
         $this->checkExist("user_id", $args, "users", true, "user_id");
 
-        // Edit admin information
+        // Edit user information
         $this->database()->update(
             "users",
             [
@@ -183,10 +183,10 @@ class UserController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
-        // Check if admin exist
+        // Check if user exist
         $this->checkExist("user_id", $args, "users", true, "user_id");
 
-        // Remove admin
+        // Remove user
         $this->database()->delete(
             "users",
             ["user_id" => $args["user_id"]]

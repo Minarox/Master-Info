@@ -16,7 +16,7 @@ use TestCase;
 class AdminControllerTest extends TestCase
 {
     /**
-     * @var AdminController
+     * @var AdminController $adminController
      */
     private AdminController $adminController;
 

@@ -13,7 +13,7 @@ use TestCase;
 class BaseControllerTest extends TestCase
 {
     /**
-     * @var BaseController
+     * @var BaseController $baseController
      */
     private BaseController $baseController;
 
@@ -44,7 +44,7 @@ class BaseControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "version"     => "v0.3",
+                "version"     => "v0.4",
                 "title"       => "Cerealis API",
                 "description" => "Enterprise Resource Management API",
                 "host"        => "https://mspr.minarox.fr",
