@@ -164,8 +164,13 @@ abstract class Controller
      * @throws BadRequest if request contain errors
      * @throws NotFound if database return nothing
      */
-    public function addLog(string $source_id, Type $source_type, Action $action, string $target_id, Type $target_type)
+    public function addLog(Action $action, string $target_id, Type $target_type, string $source_id = '', Type $source_type = Type::Admin)
     {
+        // Default value is current user
+        if (empty($source_id)) {
+            $source_id = $GLOBALS["session"]["user_id"];
+        }
+
         // Create new log
         $this->database->create(
             "logs",
