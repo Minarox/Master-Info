@@ -107,8 +107,7 @@ abstract class Controller
                 [$value],
                 $fields,
                 true,
-                null,
-                $strict
+                exception: $strict
             );
         }
 

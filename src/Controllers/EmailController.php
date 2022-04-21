@@ -46,8 +46,7 @@ class EmailController extends Controller
                         "description"
                     ],
                     ['*'],
-                    false,
-                    "email_id"
+                    order: "email_id"
                 )
             )
         );
@@ -316,8 +315,7 @@ class EmailController extends Controller
                 ],
                 ["user_id" => $user],
                 true,
-                null,
-                false
+                exception: false
             );
 
             if ($user) {

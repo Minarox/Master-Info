@@ -52,9 +52,7 @@ class UserController extends Controller
                         "first_name",
                         "last_name"
                     ],
-                    ['*'],
-                    false,
-                    "first_name"
+                    order: "first_name"
                 )
             )
         );
