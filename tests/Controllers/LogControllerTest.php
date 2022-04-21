@@ -97,11 +97,11 @@ class LogControllerTest extends TestCase
         $type_2 = Type::Admin;
         $action = Action::Add;
         $this->logController->addLog(
-            $type_1->name,
-            $type_1,
             $action,
             $GLOBALS["session"]["user_id"],
-            $type_2
+            $type_2,
+            $type_1->name,
+            $type_1
         );
 
         // Fetch admin full name
@@ -133,9 +133,9 @@ class LogControllerTest extends TestCase
         $type = Type::Admin;
         $action = Action::Edit;
         $this->logController->addLog(
+            $action,
             $GLOBALS["session"]["user_id"],
             $type,
-            $action,
             $GLOBALS["session"]["user_id"],
             $type
         );
@@ -175,11 +175,11 @@ class LogControllerTest extends TestCase
         $type_2 = Type::Email;
         $action = Action::Add;
         $this->logController->addLog(
-            $GLOBALS["session"]["user_id"],
-            $type_1,
             $action,
             (string) $email_id,
-            $type_2
+            $type_2,
+            $GLOBALS["session"]["user_id"],
+            $type_1
         );
 
         // Fetch admin full name
