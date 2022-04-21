@@ -10,7 +10,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
-  version: "0.3.0"
+  version: "0.4.0"
 host: "mspr.minarox.fr"
 basePath: "/api"
 schemes:
@@ -53,6 +53,9 @@ tags:
 
   - name: "User"
     description: "User management"
+
+  - name: "Email"
+    description: "Email management"
 paths:
   /:
     get:
@@ -766,6 +769,304 @@ paths:
         - OAuth2_App: [ "super_admin" ]
         - OAuth2_Pass: [ "super_admin" ]
         - AccessToken: [ ]
+  /emails:
+    get:
+      tags:
+        - "Email"
+      summary: "List of emails"
+      description: "Return list of all emails in the database"
+      operationId: "getEmails"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/emails"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    post:
+      tags:
+        - "Email"
+      summary: "Add email"
+      description: "Create new email"
+      operationId: "addEmail"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New email"
+          required: true
+          schema:
+            $ref: "#/definitions/new_email"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/201"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+  /emails/{email_id}:
+    get:
+      tags:
+        - "Email"
+      summary: "Information of email"
+      description: "Return information of an email"
+      operationId: "getEmail"
+      parameters:
+        - name: "email_id"
+          in: "path"
+          description: "Target email"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/email"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    post:
+      tags:
+        - "Email"
+      summary: "Add email from template"
+      description: "Add new email from existing one"
+      operationId: "addTemplateEmail"
+      parameters:
+        - name: "email_id"
+          in: "path"
+          description: "Target email"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/new_template_email"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/201"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    put:
+      tags:
+        - "Email"
+      summary: "Edit email"
+      description: "Edit information of an email"
+      operationId: "editEmail"
+      parameters:
+        - name: "email_id"
+          in: "path"
+          description: "Target email"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/update_email"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+    delete:
+      tags:
+        - "Email"
+      summary: "Remove email"
+      description: "Delete existing email"
+      operationId: "deleteEmail"
+      parameters:
+        - name: "email_id"
+          in: "path"
+          description: "Target email"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/200"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
+  /emails/send:
+    post:
+      tags:
+        - "Email"
+      summary: "Send emails to users"
+      description: "Send newsletter to users"
+      operationId: "sendEmails"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Information to update"
+          required: true
+          schema:
+            $ref: "#/definitions/send_emails"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/success_email"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "admin", "super_admin" ]
+        - OAuth2_Pass: [ "admin", "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"
@@ -1159,3 +1460,116 @@ definitions:
         example: "Device name"
     xml:
       name: "update_user"
+  emails:
+    type: "object"
+    properties:
+      email_id:
+        type: "integer"
+        example: "123"
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+    xml:
+      name: "emails"
+  email:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
+      content:
+        type: "string"
+        example: "Content of the mail"
+      created_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+      updated_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+    xml:
+      name: "email"
+  new_email:
+    type: "object"
+    required:
+      - title
+      - content
+    properties:
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
+      content:
+        type: "string"
+        example: "Content of the mail"
+    xml:
+      name: "new_email"
+  new_template_email:
+    type: "object"
+    required:
+      - title
+    properties:
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+    xml:
+      name: "new_template_email"
+  update_email:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+        example: "Title"
+      description:
+        type: "string"
+        example: "Description of the mail"
+      subject:
+        type: "string"
+        example: "Subject of the mail"
+      content:
+        type: "string"
+        example: "Content of the mail"
+    xml:
+      name: "update_email"
+  success_email:
+    type: "object"
+    properties:
+      code_value:
+        type: "integer"
+        format: "int32"
+        example: 200
+      code_description:
+        type: "string"
+        example: "All emails have been sent"
+    xml:
+      name: "success_email"
+  send_emails:
+    type: "object"
+    properties:
+      email_id:
+        type: "integer"
+        format: "int32"
+        example: 130
+      users:
+        type: "array"
+        items: { }
+    xml:
+      name: "send_emails"

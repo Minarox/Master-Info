@@ -11,22 +11,22 @@ use TestCase;
 use Unauthorized;
 
 /**
- * Test class for AdminController
+ * Test class for UserController
  */
 class UserControllerTest extends TestCase
 {
     /**
-     * @var UserController
+     * @var UserController $userController
      */
     private UserController $userController;
 
     /**
-     * @var string user_id
+     * @var string $user_id
      */
     private string $user_id;
 
     /**
-     * Construct AdminController for tests
+     * Construct UserController for tests
      *
      * @param string|null $name
      * @param array       $data
@@ -163,7 +163,7 @@ class UserControllerTest extends TestCase
 
     /**
      * Test addUser function
-     * Usage: POST /admins | Scope: app, super_admin
+     * Usage: POST /users | Scope: app, super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
@@ -197,11 +197,11 @@ class UserControllerTest extends TestCase
 
     /**
      * Test addUser function without permission
-     * Usage: POST /admins | Scope: app, super_admin
+     * Usage: POST /users | Scope: app, super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
      */
-    public function testAddAdminWithoutScope()
+    public function testAddUserWithoutScope()
     {
         // Change scope
         $GLOBALS["session"]["scope"] = "admin";
@@ -369,7 +369,7 @@ class UserControllerTest extends TestCase
 
     /**
      * Test deleteUser function with bad ID
-     * Usage: DELETE /user_id/{admin_id} | Scope: super_admin
+     * Usage: DELETE /user_id/{email_id} | Scope: super_admin
      *
      * @throws NotFound|BadRequest|Unauthorized
      */

@@ -15,7 +15,7 @@ use TestCase;
 class SessionControllerTest extends TestCase
 {
     /**
-     * @var SessionController
+     * @var SessionController $sessionController
      */
     private SessionController $sessionController;
 
