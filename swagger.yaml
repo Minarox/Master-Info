@@ -56,6 +56,9 @@ tags:
 
   - name: "Email"
     description: "Email management"
+
+  - name: "Log"
+    description: "Log management"
 paths:
   /:
     get:
@@ -1067,6 +1070,42 @@ paths:
         - OAuth2_App: [ "admin", "super_admin" ]
         - OAuth2_Pass: [ "admin", "super_admin" ]
         - AccessToken: [ ]
+  /logs:
+    get:
+      tags:
+        - "Log"
+      summary: "List of logs"
+      description: "Return list of all logs in the database"
+      operationId: "getLogs"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/logs"
+        "400":
+          description: "Bad Request"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/400"
+        "401":
+          description: "Unauthorized"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/401"
+        "404":
+          description: "Not Found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/404"
+      security:
+        - OAuth2_App: [ "super_admin" ]
+        - OAuth2_Pass: [ "super_admin" ]
+        - AccessToken: [ ]
 definitions:
   200:
     type: "object"
@@ -1573,3 +1612,33 @@ definitions:
         items: { }
     xml:
       name: "send_emails"
+  logs:
+    type: "object"
+    properties:
+      source:
+        type: "string"
+        example: "Name of the source"
+      source_id:
+        type: "string"
+        example: "00000000-0000-0000-0000-000000000000"
+      source_type:
+        type: "string"
+        example: "Admin"
+      action:
+        type: "string"
+        example: "EmailSend"
+      target:
+        type: "string"
+        example: "Name of the target"
+      target_id:
+        type: "string"
+        example: "00000000-0000-0000-0000-000000000000"
+      target_type:
+        type: "string"
+        example: "User"
+      created_at:
+        type: "string"
+        format: "date"
+        example: "2000-01-01 00:00:00"
+    xml:
+      name: "logs"

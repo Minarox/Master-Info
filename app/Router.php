@@ -7,6 +7,7 @@ use Codes\ErrorCode;
 use Controllers\AdminController;
 use Controllers\BaseController;
 use Controllers\EmailController;
+use Controllers\LogController;
 use Controllers\SessionController;
 use Controllers\UserController;
 use Slim\App;
@@ -56,6 +57,9 @@ return function (App $app) {
     $app->put("/emails/{email_id}", [EmailController::class, "editEmail"]);
     $app->post("/emails/{email_id}", [EmailController::class, "addTemplateEmail"]);
     $app->delete("/emails/{email_id}", [EmailController::class, "deleteEmail"]);
+
+    // Log controller
+    $app->get("/logs", [LogController::class, "getLogs"]);
 
     /**
      * Redirect to 404 if none of the routes match
