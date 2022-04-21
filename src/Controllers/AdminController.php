@@ -71,7 +71,7 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Fetch admin information
         $data = $this->database()->find(
@@ -126,11 +126,11 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if values exist in request
-        $this->checkExist("email", $GLOBALS["body"], null, true);
-        $this->checkExist("password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_password", $GLOBALS["body"], null, true);
-        $this->checkExist("first_name", $GLOBALS["body"], null, true);
-        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+        $this->checkExist("email", $GLOBALS["body"], strict: true);
+        $this->checkExist("password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("first_name", $GLOBALS["body"], strict: true);
+        $this->checkExist("last_name", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["confirm_password"]) {
@@ -172,7 +172,7 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Edit admin information
         $this->database()->update(
@@ -209,11 +209,11 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Check if values exist in request
-        $this->checkExist("new_password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_new_password", $GLOBALS["body"], null, true);
+        $this->checkExist("new_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_new_password", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["new_password"] !== $GLOBALS["body"]["confirm_new_password"]) {
@@ -259,7 +259,7 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Remove admin
         $this->database()->delete(
