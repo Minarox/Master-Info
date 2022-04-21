@@ -61,7 +61,7 @@ abstract class Controller
      *
      * @throws Unauthorized if user doesn't have the permissions
      */
-    protected function checkScope(array $scopes = [], bool $throwException = true): bool
+    public function checkScope(array $scopes = [], bool $throwException = true): bool
     {
         // Check if scope is in current session
         $scopes[] = "super_admin";
