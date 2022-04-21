@@ -68,7 +68,7 @@ class BaseControllerTest extends TestCase
     public function testCheckScope()
     {
         // Call function
-        $result = $this->baseController->checkScope([], false);
+        $result = $this->baseController->checkScope(throwException: false);
         self::assertTrue($result);
     }
 
@@ -83,7 +83,7 @@ class BaseControllerTest extends TestCase
         $GLOBALS["session"]["scope"] = "admin";
 
         // Call function
-        $result = $this->baseController->checkScope([], false);
+        $result = $this->baseController->checkScope(throwException: false);
         self::assertFalse($result);
     }
 
@@ -102,7 +102,7 @@ class BaseControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $this->baseController->checkScope([], true);
+        $this->baseController->checkScope(throwException: true);
     }
 
     /**
