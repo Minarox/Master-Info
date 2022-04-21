@@ -13,7 +13,7 @@ use Enums\Type;
 use Unauthorized;
 
 /**
- * Test class for UserController
+ * Test class for LogController
  */
 class LogControllerTest extends TestCase
 {
@@ -83,129 +83,6 @@ class LogControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("GET", "/logs");
         $this->logController->getLogs($request, $this->response);
-    }
-
-    /**
-     * Test addLog function
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddLog()
-    {
-        // Add new log
-        $type_1 = Type::App;
-        $type_2 = Type::Admin;
-        $action = Action::Add;
-        $this->logController->addLog(
-            $action,
-            $GLOBALS["session"]["user_id"],
-            $type_2,
-            $type_1->name,
-            $type_1
-        );
-
-        // Fetch admin full name
-        $admin = $GLOBALS["pdo"]
-            ->query("SELECT first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
-            ->fetch();
-        $name = $admin["first_name"] . ' ' . $admin["last_name"];
-
-        // Check if log added = database
-        $log_id = $GLOBALS["pdo"]
-            ->query("SELECT log_id FROM logs WHERE source = '$type_1->name' AND source_id = '$type_1->name' AND source_type = '$type_1->name' AND action = '$action->name' AND target = '$name' AND target_id = '{$GLOBALS["session"]["user_id"]}' AND target_type = '$type_2->name' LIMIT 1;")
-            ->fetchColumn();
-        self::assertNotFalse((bool) $log_id);
-
-        // Remove new log
-        $GLOBALS["pdo"]
-            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
-            ->execute();
-    }
-
-    /**
-     * Test addLog function for admin
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddLogForAdmin()
-    {
-        // Add new log
-        $type = Type::Admin;
-        $action = Action::Edit;
-        $this->logController->addLog(
-            $action,
-            $GLOBALS["session"]["user_id"],
-            $type,
-            $GLOBALS["session"]["user_id"],
-            $type
-        );
-
-        // Fetch admin full name
-        $admin = $GLOBALS["pdo"]
-            ->query("SELECT first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
-            ->fetch();
-        $name = $admin["first_name"] . ' ' . $admin["last_name"];
-
-        // Check if log added = database
-        $log_id = $GLOBALS["pdo"]
-            ->query("SELECT log_id FROM logs WHERE source = '$name' AND source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target = '$name' AND target_id = '{$GLOBALS["session"]["user_id"]}' AND target_type = '$type->name' LIMIT 1;")
-            ->fetchColumn();
-        self::assertNotFalse((bool) $log_id);
-
-        // Remove new log
-        $GLOBALS["pdo"]
-            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
-            ->execute();
-    }
-
-    /**
-     * Test addLog function for email
-     *
-     * @throws NotFound|BadRequest|Unauthorized
-     */
-    public function testAddLogForEmail()
-    {
-        // Add email
-        $email_id = $GLOBALS["pdo"]
-            ->query("INSERT INTO emails (title, description, subject, content) VALUES ('Test email model', 'Email model for unit testing', 'Test subject', '<!DOCTYPE html>') RETURNING email_id;")
-            ->fetchColumn();
-
-        // Add new log
-        $type_1 = Type::Admin;
-        $type_2 = Type::Email;
-        $action = Action::Add;
-        $this->logController->addLog(
-            $action,
-            (string) $email_id,
-            $type_2,
-            $GLOBALS["session"]["user_id"],
-            $type_1
-        );
-
-        // Fetch admin full name
-        $admin = $GLOBALS["pdo"]
-            ->query("SELECT first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
-            ->fetch();
-        $name = $admin["first_name"] . ' ' . $admin["last_name"];
-
-        // Fetch email title
-        $title = $GLOBALS["pdo"]
-            ->query("SELECT title FROM emails WHERE email_id = '$email_id' LIMIT 1;")
-            ->fetchColumn();
-
-        // Check if log added = database
-        $log_id = $GLOBALS["pdo"]
-            ->query("SELECT log_id FROM logs WHERE source = '$name' AND source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type_1->name' AND action = '$action->name' AND target = '$title' AND target_id = '$email_id' AND target_type = '$type_2->name' LIMIT 1;")
-            ->fetchColumn();
-        self::assertNotFalse((bool) $log_id);
-
-        // Remove email and new log
-        $GLOBALS["pdo"]
-            ->prepare("DELETE FROM emails WHERE email_id = '$email_id';")
-            ->execute();
-        $GLOBALS["pdo"]
-            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
-            ->execute();
     }
 
     /**
