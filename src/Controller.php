@@ -14,44 +14,13 @@ use Enums\Type;
 abstract class Controller
 {
     /**
-     * @var SuccessCode $successCode
-     */
-    private SuccessCode $successCode;
-
-    /**
-     * @var ErrorCode $errorCode
-     */
-    private ErrorCode $errorCode;
-
-    /**
-     * @var Database $database
-     */
-    private Database $database;
-
-    /**
-     * @var string $date
-     */
-    private string $date;
-
-    /**
-     * Construct SuccessCode, ErrorCode and Database object to be used in Controllers
-     */
-    public function __construct()
-    {
-        $this->successCode = new SuccessCode();
-        $this->errorCode   = new ErrorCode();
-        $this->database    = new Database();
-        $this->date        = date("Y-m-d H:i:s");
-    }
-
-    /**
      * Getter for SuccessCode object
      *
      * @return SuccessCode
      */
     protected function successCode(): SuccessCode
     {
-        return $this->successCode;
+        return new SuccessCode();
     }
 
     /**
@@ -61,7 +30,7 @@ abstract class Controller
      */
     protected function errorCode(): ErrorCode
     {
-        return $this->errorCode;
+        return new ErrorCode();
     }
 
     /**
@@ -71,7 +40,7 @@ abstract class Controller
      */
     public function database(): Database
     {
-        return $this->database;
+        return new Database();
     }
 
     /**
@@ -81,7 +50,7 @@ abstract class Controller
      */
     protected function getDate(): string
     {
-        return $this->date;
+        return date("Y-m-d H:i:s");
     }
 
     /**
@@ -134,7 +103,7 @@ abstract class Controller
             $fields = array($column => $args[$value]);
 
             // Check if value exist (throw NotFound exception automatically if not) and return true
-            return (bool) $this->database->find(
+            return (bool) $this->database()->find(
                 $table,
                 [$column],
                 $fields,
@@ -172,7 +141,7 @@ abstract class Controller
         }
 
         // Create new log
-        $this->database->create(
+        $this->database()->create(
             "logs",
             [
                 "source" => $this->getName($source_id, $source_type),
