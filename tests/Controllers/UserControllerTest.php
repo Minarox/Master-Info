@@ -276,7 +276,6 @@ class UserControllerTest extends TestCase
         $this->userController->addUser($request, $this->response);
     }
 
-
     /**
      * Test editUser function
      * Usage: PUT /users/{user_id} | Scope: super_admin
@@ -390,8 +389,6 @@ class UserControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/users/00000000-0000-0000-0000-000000000000", $GLOBALS["body"] = []);
         $this->userController->editUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
     }
-
-
 
     /**
      * Test deleteUser function
