@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for /home/web/epsi/mspr/api/src/Controllers</title>
+  <title>Dashboard for /home/web/epsi/mspr/api/src/Enums</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">/home/web/epsi/mspr/api/src</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Controllers</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Enums</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -155,7 +155,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,6], "Class Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -173,7 +173,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,27], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -223,7 +223,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[100,9,"<a href=\"AdminController.php.html#18\">Controllers\\AdminController<\/a>"],[100,1,"<a href=\"BaseController.php.html#13\">Controllers\\BaseController<\/a>"],[100,11,"<a href=\"EmailController.php.html#20\">Controllers\\EmailController<\/a>"],[100,4,"<a href=\"LogController.php.html#16\">Controllers\\LogController<\/a>"],[100,22,"<a href=\"SessionController.php.html#18\">Controllers\\SessionController<\/a>"],[100,6,"<a href=\"UserController.php.html#18\">Controllers\\UserController<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -247,7 +247,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"AdminController.php.html#39\">Controllers\\AdminController::getAdmins<\/a>"],[100,2,"<a href=\"AdminController.php.html#76\">Controllers\\AdminController::getAdmin<\/a>"],[100,2,"<a href=\"AdminController.php.html#131\">Controllers\\AdminController::addAdmin<\/a>"],[100,1,"<a href=\"AdminController.php.html#181\">Controllers\\AdminController::editAdmin<\/a>"],[100,2,"<a href=\"AdminController.php.html#221\">Controllers\\AdminController::editAdminPassword<\/a>"],[100,1,"<a href=\"AdminController.php.html#274\">Controllers\\AdminController::deleteAdmin<\/a>"],[100,1,"<a href=\"BaseController.php.html#23\">Controllers\\BaseController::basePath<\/a>"],[100,1,"<a href=\"EmailController.php.html#41\">Controllers\\EmailController::getEmails<\/a>"],[100,1,"<a href=\"EmailController.php.html#76\">Controllers\\EmailController::getEmail<\/a>"],[100,1,"<a href=\"EmailController.php.html#117\">Controllers\\EmailController::addEmail<\/a>"],[100,1,"<a href=\"EmailController.php.html#158\">Controllers\\EmailController::addTemplateEmail<\/a>"],[100,1,"<a href=\"EmailController.php.html#211\">Controllers\\EmailController::editEmail<\/a>"],[100,1,"<a href=\"EmailController.php.html#250\">Controllers\\EmailController::deleteEmail<\/a>"],[100,5,"<a href=\"EmailController.php.html#284\">Controllers\\EmailController::sendEmails<\/a>"],[100,4,"<a href=\"LogController.php.html#30\">Controllers\\LogController::getLogs<\/a>"],[100,6,"<a href=\"SessionController.php.html#31\">Controllers\\SessionController::login<\/a>"],[100,4,"<a href=\"SessionController.php.html#108\">Controllers\\SessionController::introspect<\/a>"],[100,6,"<a href=\"SessionController.php.html#169\">Controllers\\SessionController::revoke<\/a>"],[100,1,"<a href=\"SessionController.php.html#255\">Controllers\\SessionController::userInfo<\/a>"],[100,1,"<a href=\"SessionController.php.html#286\">Controllers\\SessionController::editUserInfo<\/a>"],[100,3,"<a href=\"SessionController.php.html#317\">Controllers\\SessionController::editPassword<\/a>"],[100,1,"<a href=\"SessionController.php.html#372\">Controllers\\SessionController::logout<\/a>"],[100,1,"<a href=\"UserController.php.html#39\">Controllers\\UserController::getUsers<\/a>"],[100,1,"<a href=\"UserController.php.html#74\">Controllers\\UserController::getUser<\/a>"],[100,2,"<a href=\"UserController.php.html#115\">Controllers\\UserController::addUser<\/a>"],[100,1,"<a href=\"UserController.php.html#156\">Controllers\\UserController::editUser<\/a>"],[100,1,"<a href=\"UserController.php.html#195\">Controllers\\UserController::deleteUser<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);

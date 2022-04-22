@@ -17,7 +17,8 @@ $folders = array(
     "/exceptions/",
     "/../src/",
     "/../src/Codes/",
-    "/../src/Controllers/"
+    "/../src/Controllers/",
+    "/../src/Enums/"
 );
 
 /**

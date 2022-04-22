@@ -65,11 +65,68 @@ class SessionControllerTest extends TestCase
             "password"   => "test!123"
         ];
 
+        // Remove old access and refresh token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM refresh_tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
-        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+        $result = $this->sessionController->login($request, $this->response);
 
-        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+        // Fetch access and refresh token from database
+        $access_token = $GLOBALS["pdo"]
+            ->query("SELECT access_token FROM tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+        $refresh_token = $GLOBALS["pdo"]
+            ->query("SELECT refresh_token FROM refresh_tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+
+        // Remove new access and refresh token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM refresh_tokens WHERE refresh_token = '$refresh_token';")
+            ->execute();
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE access_token = '$access_token';")
+            ->execute();
+
+        // Check if request = database
+        self::assertSame(
+            json_encode([
+                "access_token" => $access_token,
+                "expires_in" => (int) CONFIG["oauth2"]["access_lifetime"],
+                "token_type" => CONFIG["oauth2"]["token_bearer_header_name"],
+                "scope" => "super_admin",
+                "refresh_token" => $refresh_token
+            ]),
+            $result->getBody()->__toString()
+        );
+    }
+
+    /**
+     * Test login function with bad password
+     * Usage: POST /login | Scope: none
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testLoginWithBadPassword()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "grant_type" => "password",
+            "email"      => $GLOBALS["session"]["user_email"],
+            "password"   => "test!1234"
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $result = $this->sessionController->login($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 401, "Invalid username and password combination");
     }
 
     /**
@@ -87,11 +144,35 @@ class SessionControllerTest extends TestCase
             "client_secret" => $GLOBALS["session"]["client_secret"]
         ];
 
+        // Remove old access token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
-        $result = $this->sessionController->login($request->withMethod("POST"), $this->response);
+        $result = $this->sessionController->login($request, $this->response);
 
-        $this->assertHTTPCode($result, 405, "The request method must be POST when requesting an access token");
+        // Fetch access token from database
+        $access_token = $GLOBALS["pdo"]
+            ->query("SELECT access_token FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}' ORDER BY expires DESC LIMIT 1;")
+            ->fetchColumn();
+
+        // Remove new access token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE access_token = '$access_token';")
+            ->execute();
+
+        // Check if request = database
+        self::assertSame(
+            json_encode([
+                "access_token" => $access_token,
+                "expires_in" => (int) CONFIG["oauth2"]["access_lifetime"],
+                "token_type" => CONFIG["oauth2"]["token_bearer_header_name"],
+                "scope" => "super_admin"
+            ]),
+            $result->getBody()->__toString()
+        );
     }
 
     /**

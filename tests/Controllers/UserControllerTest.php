@@ -6,6 +6,8 @@ namespace Controllers;
 require_once __DIR__ . "/../TestCase.php";
 
 use BadRequest;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use TestCase;
 use Unauthorized;
@@ -26,6 +28,11 @@ class UserControllerTest extends TestCase
     private string $user_id;
 
     /**
+     * @var string $type
+     */
+    private string $type;
+
+    /**
      * Construct UserController for tests
      *
      * @param string|null $name
@@ -36,6 +43,7 @@ class UserControllerTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->userController = new UserController();
+        $this->type           = Type::User->name;
         $GLOBALS["pdo"]       = $this->userController->database()->getPdo();
     }
 
@@ -182,8 +190,22 @@ class UserControllerTest extends TestCase
 
         // Fetch new user
         $new_user = $GLOBALS["pdo"]
-            ->query("SELECT email, first_name, last_name FROM users WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->query("SELECT user_id, email, first_name, last_name FROM users WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
             ->fetch();
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Add;
+        $name = $new_user["first_name"] . ' ' . $new_user["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target = '$name' AND target_id = '{$new_user["user_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
 
         // Remove new user
         $GLOBALS["pdo"]
@@ -191,7 +213,7 @@ class UserControllerTest extends TestCase
             ->execute();
 
         // Check if request = database and http code is correct
-        self::assertSame($new_user, $GLOBALS["body"]);
+        self::assertSame(array_slice($new_user, 1), $GLOBALS["body"]);
         $this->assertHTTPCode($result, 201, "Created");
     }
 
@@ -254,7 +276,6 @@ class UserControllerTest extends TestCase
         $this->userController->addUser($request, $this->response);
     }
 
-
     /**
      * Test editUser function
      * Usage: PUT /users/{user_id} | Scope: super_admin
@@ -274,7 +295,27 @@ class UserControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"]);
         $result = $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
 
+        // Fetch user
+        $edit_user = $GLOBALS["pdo"]
+            ->query("SELECT user_id, email, first_name, last_name, device FROM users WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->fetch();
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Edit;
+        $name = $edit_user["first_name"] . ' ' . $edit_user["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target = '$name' AND target_id = '{$edit_user["user_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Check if http code is correct
+        self::assertSame(array_slice($edit_user, 1), $GLOBALS["body"]);
         $this->assertHTTPCode($result);
     }
 
@@ -349,8 +390,6 @@ class UserControllerTest extends TestCase
         $this->userController->editUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
     }
 
-
-
     /**
      * Test deleteUser function
      * Usage: DELETE /users/{user_id} | Scope: super_admin
@@ -362,6 +401,19 @@ class UserControllerTest extends TestCase
         // Call function
         $request = $this->createRequest("DELETE", "/users/" . $this->user_id);
         $result = $this->userController->deleteUser($request, $this->response, ["user_id" => $this->user_id]);
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Remove;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target_id = '$this->user_id' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
 
         // Check if http code is correct
         $this->assertHTTPCode($result);

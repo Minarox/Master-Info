@@ -5,6 +5,8 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -15,6 +17,13 @@ use Unauthorized;
  */
 class AdminController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::Admin;
+
     /**
      * Return array of admins
      * Usage: GET /admins | Scope: super_admin
@@ -45,8 +54,7 @@ class AdminController extends Controller
                         "active"
                     ],
                     ['*'],
-                    false,
-                    "first_name"
+                    order: "first_name"
                 )
             )
         );
@@ -71,7 +79,7 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Fetch admin information
         $data = $this->database()->find(
@@ -126,11 +134,11 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if values exist in request
-        $this->checkExist("email", $GLOBALS["body"], null, true);
-        $this->checkExist("password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_password", $GLOBALS["body"], null, true);
-        $this->checkExist("first_name", $GLOBALS["body"], null, true);
-        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+        $this->checkExist("email", $GLOBALS["body"], strict: true);
+        $this->checkExist("password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("first_name", $GLOBALS["body"], strict: true);
+        $this->checkExist("last_name", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["password"] !== $GLOBALS["body"]["confirm_password"]) {
@@ -138,7 +146,7 @@ class AdminController extends Controller
         }
 
         // Create new admin
-        $this->database()->create(
+        $admin_id = ($this->database()->create(
             "admins",
             [
                 "email" => $GLOBALS["body"]["email"],
@@ -147,8 +155,12 @@ class AdminController extends Controller
                 "last_name" => $GLOBALS["body"]["last_name"],
                 "scope" => $GLOBALS["body"]["scope"] ?? "admin",
                 "active" => $GLOBALS["body"]["active"] ?? '1'
-            ]
-        );
+            ],
+            "admin_id"
+        ))["admin_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $admin_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
@@ -172,7 +184,7 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Edit admin information
         $this->database()->update(
@@ -186,6 +198,9 @@ class AdminController extends Controller
             ],
             ["admin_id" => $args["admin_id"]]
         );
+
+        // Add log
+        $this->addLog(Action::Edit, $args["admin_id"], $this->type);
 
         // Display success code
         return $this->successCode()->success();
@@ -209,11 +224,11 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
 
         // Check if values exist in request
-        $this->checkExist("new_password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_new_password", $GLOBALS["body"], null, true);
+        $this->checkExist("new_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_new_password", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["new_password"] !== $GLOBALS["body"]["confirm_new_password"]) {
@@ -226,6 +241,9 @@ class AdminController extends Controller
             ["password" => password_hash($GLOBALS["body"]["new_password"], PASSWORD_BCRYPT)],
             ["admin_id" => $args["admin_id"]]
         );
+
+        // Add log
+        $this->addLog(Action::EditPassword, $args["admin_id"], $this->type);
 
         // Invalidate admin sessions
         $this->database()->delete(
@@ -259,7 +277,10 @@ class AdminController extends Controller
         $this->checkScope();
 
         // Check if admin exist
-        $this->checkExist("admin_id", $args, "admins", true, "admin_id");
+        $this->checkExist("admin_id", $args, "admins", true);
+
+        // Add log
+        $this->addLog(Action::Remove, $args["admin_id"], $this->type);
 
         // Remove admin
         $this->database()->delete(
