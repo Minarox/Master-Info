@@ -529,6 +529,19 @@ class EmailControllerTest extends TestCase
         $request = $this->createRequest("DELETE", "/emails/" . $this->email_id);
         $result = $this->emailController->deleteEmail($request, $this->response, ["email_id" => $this->email_id]);
 
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Remove;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target_id = '$this->email_id' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Check if http code is correct
         $this->assertHTTPCode($result);
     }
@@ -596,15 +609,15 @@ class EmailControllerTest extends TestCase
     public function testSendEmails()
     {
         // Create new user
-        $user_id = $GLOBALS["pdo"]
-            ->query("INSERT INTO users (email, first_name, last_name, device) VALUES ('postmaster@minarox.fr', 'Test', 'User', 'Android 10') RETURNING user_id;")
-            ->fetchColumn();
+        $new_user = $GLOBALS["pdo"]
+            ->query("INSERT INTO users (email, first_name, last_name, device) VALUES ('postmaster@minarox.fr', 'Test', 'User', 'Android 10') RETURNING user_id, first_name, last_name;")
+            ->fetch();
 
         // Fields
         $GLOBALS["body"] = [
             "email_id" => $this->email_id,
             "users" => [
-                $user_id
+                $new_user["user_id"]
             ]
         ];
 
@@ -612,9 +625,24 @@ class EmailControllerTest extends TestCase
         $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
         $result  = $this->emailController->sendEmails($request, $this->response);
 
+        // Check if log added = database
+        $type_1 = Type::Admin;
+        $type_2 = Type::User;
+        $action = Action::EmailSend;
+        $name = $new_user["first_name"] . ' ' . $new_user["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type_1->name' AND action = '$action->name' AND target = '$name' AND target_id = '{$new_user["user_id"]}' AND target_type = '$type_2->name' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Remove user
         $GLOBALS["pdo"]
-            ->prepare("DELETE FROM users WHERE user_id = '$user_id';")
+            ->prepare("DELETE FROM users WHERE user_id = '{$new_user["user_id"]}';")
             ->execute();
 
         // Check if http code is correct
