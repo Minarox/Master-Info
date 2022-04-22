@@ -32,6 +32,23 @@ class LogController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
+        // Fetch query params
+        $params = $request->getQueryParams();
+
+        // Fields
+        $fields = array_filter([
+            "source LIKE" => array_key_exists("source", $params) ? '%' . $params["source"] . '%' : '',
+            "source_id" => $params["source_id"] ?? '',
+            "source_type" => $params["source_type"] ?? '',
+            "action" => $params["action"] ?? '',
+            "target LIKE" => array_key_exists("target", $params) ? '%' . $params["target"] . '%' : '',
+            "target_id" => $params["target_id"] ?? '',
+            "target_type" => $params["target_type"] ?? ''
+        ]);
+        if (empty($fields)) {
+            $fields = ['*'];
+        }
+
         // Display emails list
         $response->getBody()->write(
             json_encode(
@@ -47,6 +64,7 @@ class LogController extends Controller
                         "target_type",
                         "created_at"
                     ],
+                    $fields,
                     order: "created_at DESC"
                 )
             )

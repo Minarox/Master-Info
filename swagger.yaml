@@ -16,6 +16,7 @@ basePath: "/api"
 schemes:
   - "https"
 consumes:
+  - "application/x-www-form-urlencoded"
   - "application/json"
 produces:
   - "application/json"
@@ -1077,6 +1078,28 @@ paths:
       summary: "List of logs"
       description: "Return list of all logs in the database"
       operationId: "getLogs"
+      parameters:
+        - name: "source"
+          in: "query"
+          type: "string"
+        - name: "source_id"
+          in: "query"
+          type: "string"
+        - name: "source_type"
+          in: "query"
+          type: "string"
+        - name: "action"
+          in: "query"
+          type: "string"
+        - name: "target"
+          in: "query"
+          type: "string"
+        - name: "target_id"
+          in: "query"
+          type: "string"
+        - name: "target_type"
+          in: "query"
+          type: "string"
       responses:
         "200":
           description: "Success"
