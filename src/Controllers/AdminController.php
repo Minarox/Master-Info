@@ -199,6 +199,9 @@ class AdminController extends Controller
             ["admin_id" => $args["admin_id"]]
         );
 
+        // Add log
+        $this->addLog(Action::Edit, $args["admin_id"], $this->type);
+
         // Display success code
         return $this->successCode()->success();
     }

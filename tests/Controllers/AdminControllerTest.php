@@ -328,7 +328,26 @@ class AdminControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"]);
         $result = $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
+        // Fetch new admin info
+        $edit_admin = $GLOBALS["pdo"]
+            ->query("SELECT admin_id, email, first_name, last_name FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->fetch();
+
+        // Check if log added = database
+        $action = Action::Edit;
+        $name = $edit_admin["first_name"] . ' ' . $edit_admin["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$this->type' AND action = '$action->name' AND target = '$name' AND target_id = '{$edit_admin["admin_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Check if http code is correct
+        self::assertSame($GLOBALS["body"], array_slice($edit_admin, 1));
         $this->assertHTTPCode($result);
     }
 
