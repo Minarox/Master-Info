@@ -244,7 +244,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
@@ -321,7 +321,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
@@ -396,7 +396,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("-1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
