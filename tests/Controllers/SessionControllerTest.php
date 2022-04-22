@@ -46,7 +46,7 @@ class SessionControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/actions",  $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/actions");
         $this->sessionController->login($request, $this->response);
     }
 
@@ -74,7 +74,7 @@ class SessionControllerTest extends TestCase
             ->execute();
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Fetch access and refresh token from database
@@ -122,7 +122,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Check if http code is correct
@@ -150,7 +150,7 @@ class SessionControllerTest extends TestCase
             ->execute();
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Fetch access token from database
@@ -188,7 +188,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -220,7 +220,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -252,7 +252,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -279,7 +279,7 @@ class SessionControllerTest extends TestCase
     public function testIntrospectWithoutParams()
     {
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check http code is correct
@@ -299,7 +299,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -329,7 +329,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -354,7 +354,7 @@ class SessionControllerTest extends TestCase
     public function testRevokeWithoutParams()
     {
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -379,7 +379,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -404,7 +404,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -453,7 +453,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo");
         $result = $this->sessionController->editUserInfo($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -482,7 +482,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -513,7 +513,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -536,7 +536,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct

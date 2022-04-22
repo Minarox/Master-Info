@@ -196,7 +196,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails");
         $result = $this->emailController->addEmail($request, $this->response);
 
         // Fetch new email
@@ -260,7 +260,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails");
         $this->emailController->addEmail($request, $this->response);
     }
 
@@ -282,7 +282,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails");
         $this->emailController->addEmail($request, $this->response);
     }
 
@@ -301,7 +301,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id);
         $result = $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
 
         // Fetch new email
@@ -368,7 +368,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id);
         $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
     }
 
@@ -385,7 +385,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails/" . $this->email_id);
         $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => $this->email_id]);
     }
 
@@ -402,7 +402,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/0", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails/0");
         $this->emailController->addTemplateEmail($request, $this->response, ["email_id" => "0"]);
     }
 
@@ -420,7 +420,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id);
         $result = $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
 
         // Fetch email
@@ -462,7 +462,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id);
         $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
     }
 
@@ -496,7 +496,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/emails/" . $this->email_id);
         $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
     }
 
@@ -513,7 +513,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("PUT", "/emails/0", $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/emails/0");
         $this->emailController->editEmail($request, $this->response, ["email_id" => "0"]);
     }
 
@@ -627,7 +627,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails/send");
         $result  = $this->emailController->sendEmails($request, $this->response);
 
         // Check if log added = database
@@ -670,7 +670,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails/send");
         $this->emailController->sendEmails($request, $this->response);
     }
 
@@ -687,7 +687,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/emails/send");
         $this->emailController->sendEmails($request, $this->response);
     }
 
@@ -709,7 +709,7 @@ class EmailControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails/send");
         $this->emailController->sendEmails($request, $this->response);
     }
 
@@ -730,7 +730,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails/send");
         $result = $this->emailController->sendEmails($request, $this->response);
 
         // Check if http code is correct
@@ -760,7 +760,7 @@ class EmailControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/emails/send", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/emails/send");
         $result = $this->emailController->sendEmails($request, $this->response);
 
         // Remove user

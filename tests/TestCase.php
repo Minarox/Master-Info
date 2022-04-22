@@ -25,14 +25,17 @@ class TestCase extends PHPUnit_TestCase
      *
      * @param string $method
      * @param string $path
-     * @param array  $body
      *
      * @return Request
      */
-    protected function createRequest(string $method, string $path, array $body = []): Request
+    protected function createRequest(string $method, string $path): Request
     {
+        if (!isset($GLOBALS["body"])) {
+            $GLOBALS["body"] = [];
+        }
+
         $uri    = new Uri("http", "localhost", 8899, "/v1" . $path);
-        $stream = (new StreamFactory())->createStream(json_encode($body));
+        $stream = (new StreamFactory())->createStream(json_encode($GLOBALS["body"]));
 
         $headers = new Headers();
         $headers->addHeader("Content-type", "application/json");
