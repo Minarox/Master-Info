@@ -303,6 +303,11 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT access_token FROM tokens WHERE access_token = '{$GLOBALS["session"]["access_token"]}' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 
@@ -328,6 +333,11 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT refresh_token FROM refresh_tokens WHERE refresh_token = '$refresh_token' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
 
         $GLOBALS["pdo"]
@@ -449,13 +459,9 @@ class SessionControllerTest extends TestCase
         // Check if request = database and http code is correct
         $this->assertHTTPCode($result);
         self::assertSame(
-            [
-                "email"      => "test@example.com",
-                "first_name" => "Test2",
-                "last_name"  => "User"
-            ],
+            $GLOBALS["body"],
             $GLOBALS["pdo"]
-                ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->query("SELECT first_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                 ->fetch()
         );
     }
@@ -550,6 +556,11 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->logout($request, $this->response);
 
         // Check if request = database and http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT access_token FROM tokens WHERE access_token = '{$GLOBALS["session"]["access_token"]}' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 }

@@ -543,6 +543,11 @@ class EmailControllerTest extends TestCase
             ->execute();
 
         // Check if http code is correct
+        self::assertFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT email_id FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 
