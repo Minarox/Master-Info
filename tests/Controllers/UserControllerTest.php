@@ -185,7 +185,7 @@ class UserControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/users", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/users");
         $result = $this->userController->addUser($request, $this->response);
 
         // Fetch new user
@@ -250,7 +250,7 @@ class UserControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/users", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/users");
         $this->userController->addUser($request, $this->response);
     }
 
@@ -272,7 +272,7 @@ class UserControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/users", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/users");
         $this->userController->addUser($request, $this->response);
     }
 
@@ -292,7 +292,7 @@ class UserControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id);
         $result = $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
 
         // Fetch user
@@ -335,7 +335,7 @@ class UserControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id);
         $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
     }
 
@@ -369,7 +369,7 @@ class UserControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/users/" . $this->user_id);
         $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
     }
 
@@ -386,7 +386,7 @@ class UserControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("PUT", "/users/00000000-0000-0000-0000-000000000000", $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/users/00000000-0000-0000-0000-000000000000");
         $this->userController->editUser($request, $this->response, ["user_id" => "00000000-0000-0000-0000-000000000000"]);
     }
 
