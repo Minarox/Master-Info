@@ -71,7 +71,7 @@ class SessionController extends Controller
         $server        = (new OAuth2())->getServer();
         $request       = new OAuth_Request(
             $_GET,
-            $GLOBALS["body"],
+            $GLOBALS["body"] ?? $_POST,
             array(),
             $_COOKIE,
             $_FILES,
