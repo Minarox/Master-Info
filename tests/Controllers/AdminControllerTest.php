@@ -6,9 +6,11 @@ namespace Controllers;
 require_once __DIR__ . "/../TestCase.php";
 
 use BadRequest;
-use Unauthorized;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use TestCase;
+use Unauthorized;
 
 /**
  * Test class for AdminController
@@ -21,6 +23,11 @@ class AdminControllerTest extends TestCase
     private AdminController $adminController;
 
     /**
+     * @var string $type
+     */
+    private string $type;
+
+    /**
      * Construct AdminController for tests
      *
      * @param string|null $name
@@ -31,6 +38,7 @@ class AdminControllerTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->adminController = new AdminController();
+        $this->type           = Type::Admin->name;
         $GLOBALS["pdo"]        = $this->adminController->database()->getPdo();
     }
 
@@ -177,17 +185,30 @@ class AdminControllerTest extends TestCase
             "first_name"       => "Test_add_user",
             "last_name"        => "User_add",
             "scope"            => "admin",
-            "active"           => '1'
+            "active"           => 1
         ];
 
         // Call function
         $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
         $result = $this->adminController->addAdmin($request, $this->response);
 
-        // Fetch password hash
-        $new_password = $GLOBALS["pdo"]
-            ->query("SELECT password FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+        // Fetch new admin info
+        $new_admin = $GLOBALS["pdo"]
+            ->query("SELECT admin_id, password, email, first_name, last_name, scope, active FROM admins WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
+            ->fetch();
+
+        // Check if log added = database
+        $action = Action::Add;
+        $name = $new_admin["first_name"] . ' ' . $new_admin["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$this->type' AND action = '$action->name' AND target = '$name' AND target_id = '{$new_admin["admin_id"]}' AND target_type = '$this->type' LIMIT 1;")
             ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
 
         // Remove new admin
         $GLOBALS["pdo"]
@@ -195,7 +216,9 @@ class AdminControllerTest extends TestCase
             ->execute();
 
         // Check if request = database and http code is correct
-        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_password));
+        self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_admin["password"]));
+        unset($GLOBALS["body"]["password"], $GLOBALS["body"]["confirm_password"]);
+        self::assertSame($GLOBALS["body"], array_slice($new_admin, 2));
         $this->assertHTTPCode($result, 201, "Created");
     }
 

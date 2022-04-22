@@ -5,6 +5,8 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -15,6 +17,13 @@ use Unauthorized;
  */
 class AdminController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::Admin;
+
     /**
      * Return array of admins
      * Usage: GET /admins | Scope: super_admin
@@ -137,7 +146,7 @@ class AdminController extends Controller
         }
 
         // Create new admin
-        $this->database()->create(
+        $admin_id = ($this->database()->create(
             "admins",
             [
                 "email" => $GLOBALS["body"]["email"],
@@ -146,8 +155,12 @@ class AdminController extends Controller
                 "last_name" => $GLOBALS["body"]["last_name"],
                 "scope" => $GLOBALS["body"]["scope"] ?? "admin",
                 "active" => $GLOBALS["body"]["active"] ?? '1'
-            ]
-        );
+            ],
+            "admin_id"
+        ))["admin_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $admin_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
