@@ -77,6 +77,14 @@ class SessionControllerTest extends TestCase
             ->query("SELECT refresh_token FROM refresh_tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
 
+        // Remove access and refresh token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM refresh_tokens WHERE refresh_token = '$refresh_token';")
+            ->execute();
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE access_token = '$access_token';")
+            ->execute();
+
         // Check if request = database
         self::assertSame(
             json_encode([
@@ -136,6 +144,11 @@ class SessionControllerTest extends TestCase
         $access_token = $GLOBALS["pdo"]
             ->query("SELECT access_token FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
+
+        // Remove access token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE access_token = '$access_token';")
+            ->execute();
 
         // Check if request = database
         self::assertSame(
