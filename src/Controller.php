@@ -121,17 +121,17 @@ abstract class Controller
     /**
      * Create new log
      *
-     * @param string $source_id
-     * @param Type   $source_type
-     * @param Action $action
-     * @param string $target_id
-     * @param Type   $target_type
+     * @param Action     $action
+     * @param string|int $target_id
+     * @param Type       $target_type
+     * @param string     $source_id
+     * @param Type       $source_type
      *
      * @return void
      * @throws BadRequest if request contain errors
      * @throws NotFound if database return nothing
      */
-    public function addLog(Action $action, string $target_id, Type $target_type, string $source_id = '', Type $source_type = Type::Admin)
+    public function addLog(Action $action, string|int $target_id, Type $target_type, string $source_id = '', Type $source_type = Type::Admin)
     {
         // Default value is current user
         if (empty($source_id)) {
@@ -156,10 +156,14 @@ abstract class Controller
     /**
      * Fetch full name for source or target field of Logs table
      *
+     * @param string|int $id
+     * @param Type       $type
+     *
+     * @return string
      * @throws BadRequest
      * @throws NotFound
      */
-    private function getName(string $id, Type $type): string
+    private function getName(string|int $id, Type $type): string
     {
         switch ($type->name) {
             case "User":
