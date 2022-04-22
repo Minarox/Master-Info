@@ -70,7 +70,7 @@ class TestCase extends PHPUnit_TestCase
      *
      * @return string
      */
-    protected function randString(int $length = 16): string
+    protected function randString(int $length = 40): string
     {
         // Password generator with custom length
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -100,7 +100,7 @@ class TestCase extends PHPUnit_TestCase
 
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $new_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
+            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
             ->fetch();
 
         $GLOBALS["session"]["access_token"] = $new_token["access_token"];
