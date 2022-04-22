@@ -219,7 +219,7 @@ class AdminControllerTest extends TestCase
         self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_admin["password"]));
         unset($GLOBALS["body"]["password"], $GLOBALS["body"]["confirm_password"]);
         self::assertSame($GLOBALS["body"], array_slice($new_admin, 2));
-        $this->assertHTTPCode($result, 201, "Created");
+        $this->assertHTTPCode($result, 201);
     }
 
     /**

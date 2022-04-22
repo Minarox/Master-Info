@@ -283,7 +283,7 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check http code is correct
-        $this->assertHTTPCode($result, 400, "Bad Request");
+        $this->assertHTTPCode($result, 400);
     }
 
     /**
@@ -358,7 +358,7 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
-        $this->assertHTTPCode($result, 400, "Bad Request");
+        $this->assertHTTPCode($result, 400);
     }
 
     /**

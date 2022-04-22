@@ -214,7 +214,7 @@ class UserControllerTest extends TestCase
 
         // Check if request = database and http code is correct
         self::assertSame(array_slice($new_user, 1), $GLOBALS["body"]);
-        $this->assertHTTPCode($result, 201, "Created");
+        $this->assertHTTPCode($result, 201);
     }
 
     /**

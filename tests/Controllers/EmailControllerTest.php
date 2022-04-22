@@ -224,7 +224,7 @@ class EmailControllerTest extends TestCase
 
         // Check if request = database and http code is correct
         self::assertSame(array_slice($new_email, 1), $GLOBALS["body"]);
-        $this->assertHTTPCode($result, 201, "Created");
+        $this->assertHTTPCode($result, 201);
     }
 
     /**
@@ -332,7 +332,7 @@ class EmailControllerTest extends TestCase
 
         // Check if request = database and http code is correct
         self::assertSame(array_slice($new_email, 3), $template);
-        $this->assertHTTPCode($result, 201, "Created");
+        $this->assertHTTPCode($result, 201);
     }
 
     /**
@@ -734,7 +734,7 @@ class EmailControllerTest extends TestCase
         $result = $this->emailController->sendEmails($request, $this->response);
 
         // Check if http code is correct
-        $this->assertHTTPCode($result, 400, "Bad Request");
+        $this->assertHTTPCode($result, 400);
     }
 
     /**

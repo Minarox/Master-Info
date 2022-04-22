@@ -54,8 +54,22 @@ class TestCase extends PHPUnit_TestCase
      * @param int      $code
      * @param string   $description
      */
-    protected function assertHTTPCode(Response $result, int $code = 200, string $description = "Success")
+    protected function assertHTTPCode(Response $result, int $code = 200, string $description = '')
     {
+        if (empty($description)) {
+            match ($code) {
+                200 => $description = "Success",
+                201 => $description = "Created",
+                400 => $description = "Bad Request",
+                401 => $description = "Unauthorized",
+                403 => $description = "Forbidden",
+                404 => $description = "Not Found",
+                405 => $description = "Method Not Allowed",
+                409 => $description = "Conflict",
+                410 => $description = "Custom Error Code"
+            };
+        }
+
         self::assertSame(
             json_encode([
                 "code_value"       => $code,
