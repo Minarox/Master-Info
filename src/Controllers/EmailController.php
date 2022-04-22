@@ -255,6 +255,9 @@ class EmailController extends Controller
         // Check if email exist
         $this->checkExist("email_id", $args, "emails", true);
 
+        // Add log
+        $this->addLog(Action::Remove, $args["email_id"], $this->type);
+
         // Remove email
         $this->database()->delete(
             "emails",
@@ -328,6 +331,7 @@ class EmailController extends Controller
             $user = $this->database()->find(
                 "users",
                 [
+                    "user_id",
                     "email",
                     "first_name",
                     "last_name"
@@ -344,6 +348,9 @@ class EmailController extends Controller
                 // Send email to the user
                 $mail->send();
                 $mail->clearAddresses();
+
+                // Add log
+                $this->addLog(Action::EmailSend, $user["user_id"], Type::User);
             } else {
                 $errors ++;
             }
