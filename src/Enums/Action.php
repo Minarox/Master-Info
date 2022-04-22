@@ -9,6 +9,7 @@ namespace Enums;
 enum Action {
     case Add;
     case Edit;
+    case EditPassword;
     case Remove;
     case EmailSend;
 }
