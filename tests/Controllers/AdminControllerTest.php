@@ -567,6 +567,18 @@ class AdminControllerTest extends TestCase
         $request = $this->createRequest("DELETE", "/admins/" . $GLOBALS["session"]["user_id"]);
         $result = $this->adminController->deleteAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
+        // Check if log added = database
+        $action = Action::Remove;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$this->type' AND action = '$action->name' AND target_id = '{$GLOBALS["session"]["user_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Check if http code is correct
         $this->assertHTTPCode($result);
     }

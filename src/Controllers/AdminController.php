@@ -279,6 +279,9 @@ class AdminController extends Controller
         // Check if admin exist
         $this->checkExist("admin_id", $args, "admins", true);
 
+        // Add log
+        $this->addLog(Action::Remove, $args["admin_id"], $this->type);
+
         // Remove admin
         $this->database()->delete(
             "admins",
