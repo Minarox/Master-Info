@@ -86,6 +86,41 @@ class LogControllerTest extends TestCase
     }
 
     /**
+     * Test getLogs function without permission
+     * Usage: GET /logs | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testGetLogsWithParams()
+    {
+        // Fields
+        $fields = [
+            "source" => "Test user",
+            "source_id" => $GLOBALS["session"]["user_id"],
+            "source_type" => Type::Admin->name,
+            "action" => Action::Edit->name,
+            "target" => "Test user 2",
+            "target_id" => $GLOBALS["session"]["client_id"],
+            "target_type" => Type::Admin->name
+        ];
+
+        // Call function
+        $request = $this->createRequest("GET", "/logs")->withQueryParams($fields);
+        $result = $this->logController->getLogs($request, $this->response);
+
+        // Check if request = database and http code is correct
+        self::assertSame(
+            json_encode(
+                $GLOBALS["pdo"]
+                    ->query("SELECT source, source_id, source_type, action, target, target_id, target_type, created_at FROM logs WHERE log_id = '$this->log_id' ORDER BY created_at DESC LIMIT 1;")
+                    ->fetchAll()
+            ),
+            $result->getBody()->__toString()
+        );
+        self::assertSame(200, $result->getStatusCode());
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
