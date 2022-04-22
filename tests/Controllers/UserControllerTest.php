@@ -295,7 +295,7 @@ class UserControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/users/" . $this->user_id, $GLOBALS["body"]);
         $result = $this->userController->editUser($request, $this->response, ["user_id" => $this->user_id]);
 
-        // Fetch new user
+        // Fetch user
         $edit_user = $GLOBALS["pdo"]
             ->query("SELECT user_id, email, first_name, last_name, device FROM users WHERE email = '{$GLOBALS["body"]["email"]}' LIMIT 1;")
             ->fetch();
