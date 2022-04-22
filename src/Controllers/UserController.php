@@ -135,7 +135,7 @@ class UserController extends Controller
         ))["user_id"];
 
         // Add log
-        $this->addLog(Action::Add, $user_id, $this->type);
+        $this->addLog(Action::Add, $user_id, $this->type, source_type: $GLOBALS["session"]["scope"] == "app" ? Type::App : Type::Admin);
 
         // Display success code
         return $this->successCode()->created();
