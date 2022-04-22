@@ -178,15 +178,19 @@ class EmailController extends Controller
         );
 
         // Create new email
-        $this->database()->create(
+        $email_id = ($this->database()->create(
             "emails",
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
                 "subject" => $template["subject"],
                 "content" => $template["content"]
-            ]
-        );
+            ],
+            "email_id"
+        ))["email_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $email_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
