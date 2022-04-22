@@ -91,6 +91,29 @@ class SessionControllerTest extends TestCase
     }
 
     /**
+     * Test login function with bad password
+     * Usage: POST /login | Scope: none
+     *
+     * @throws NotFound|BadRequest
+     */
+    public function testLoginWithBadPassword()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "grant_type" => "password",
+            "email"      => $GLOBALS["session"]["user_email"],
+            "password"   => "test!1234"
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $result = $this->sessionController->login($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 401, "Invalid username and password combination");
+    }
+
+    /**
      * Test login function with client
      * Usage: POST /login | Scope: none
      *
