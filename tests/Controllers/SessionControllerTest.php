@@ -65,6 +65,14 @@ class SessionControllerTest extends TestCase
             "password"   => "test!123"
         ];
 
+        // Remove old access and refresh token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM refresh_tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
         $result = $this->sessionController->login($request, $this->response);
@@ -77,7 +85,7 @@ class SessionControllerTest extends TestCase
             ->query("SELECT refresh_token FROM refresh_tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
 
-        // Remove access and refresh token from database
+        // Remove new access and refresh token from database
         $GLOBALS["pdo"]
             ->prepare("DELETE FROM refresh_tokens WHERE refresh_token = '$refresh_token';")
             ->execute();
@@ -136,6 +144,11 @@ class SessionControllerTest extends TestCase
             "client_secret" => $GLOBALS["session"]["client_secret"]
         ];
 
+        // Remove old access token from database
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}';")
+            ->execute();
+
         // Call function
         $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
         $result = $this->sessionController->login($request, $this->response);
@@ -145,7 +158,7 @@ class SessionControllerTest extends TestCase
             ->query("SELECT access_token FROM tokens WHERE client_id = '{$GLOBALS["session"]["client_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
 
-        // Remove access token from database
+        // Remove new access token from database
         $GLOBALS["pdo"]
             ->prepare("DELETE FROM tokens WHERE access_token = '$access_token';")
             ->execute();
