@@ -439,13 +439,26 @@ class AdminControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"] . "/password", $GLOBALS["body"]);
         $result = $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
-        // Fetch password hash
-        $new_password = $GLOBALS["pdo"]
-            ->query("SELECT password FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+        // Fetch admin info
+        $edit_admin = $GLOBALS["pdo"]
+            ->query("SELECT admin_id, password, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+            ->fetch();
+
+        // Check if log added = database
+        $action = Action::EditPassword;
+        $name = $edit_admin["first_name"] . ' ' . $edit_admin["last_name"];
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$this->type' AND action = '$action->name' AND target = '$name' AND target_id = '{$edit_admin["admin_id"]}' AND target_type = '$this->type' LIMIT 1;")
             ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
 
         // Check if request = database and http code is correct
-        self::assertTrue(password_verify($GLOBALS["body"]["new_password"], $new_password));
+        self::assertTrue(password_verify($GLOBALS["body"]["new_password"], $edit_admin["password"]));
         $this->assertHTTPCode($result);
     }
 

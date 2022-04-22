@@ -242,6 +242,9 @@ class AdminController extends Controller
             ["admin_id" => $args["admin_id"]]
         );
 
+        // Add log
+        $this->addLog(Action::EditPassword, $args["admin_id"], $this->type);
+
         // Invalidate admin sessions
         $this->database()->delete(
             "tokens",
