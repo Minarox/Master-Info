@@ -423,7 +423,26 @@ class EmailControllerTest extends TestCase
         $request = $this->createRequest("PUT", "/emails/" . $this->email_id, $GLOBALS["body"]);
         $result = $this->emailController->editEmail($request, $this->response, ["email_id" => $this->email_id]);
 
+        // Fetch email
+        $edit_email = $GLOBALS["pdo"]
+            ->query("SELECT email_id, title, description FROM emails WHERE email_id = '$this->email_id' LIMIT 1;")
+            ->fetch();
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Edit;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target = '{$edit_email["title"]}' AND target_id = '{$edit_email["email_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
         // Check if http code is correct
+        self::assertSame(array_slice($edit_email, 1), $GLOBALS["body"]);
         $this->assertHTTPCode($result);
     }
 

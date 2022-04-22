@@ -228,6 +228,9 @@ class EmailController extends Controller
             ["email_id" => $args["email_id"]]
         );
 
+        // Add log
+        $this->addLog(Action::Edit, $args["email_id"], $this->type);
+
         // Display success code
         return $this->successCode()->success();
     }
