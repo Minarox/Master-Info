@@ -46,7 +46,7 @@ class SessionControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/actions",  $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/actions");
         $this->sessionController->login($request, $this->response);
     }
 
@@ -74,7 +74,7 @@ class SessionControllerTest extends TestCase
             ->execute();
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Fetch access and refresh token from database
@@ -122,7 +122,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Check if http code is correct
@@ -150,7 +150,7 @@ class SessionControllerTest extends TestCase
             ->execute();
 
         // Call function
-        $request = $this->createRequest("POST", "/login", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/login");
         $result = $this->sessionController->login($request, $this->response);
 
         // Fetch access token from database
@@ -188,7 +188,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -220,7 +220,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -244,7 +244,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
@@ -252,7 +252,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -279,11 +279,11 @@ class SessionControllerTest extends TestCase
     public function testIntrospectWithoutParams()
     {
         // Call function
-        $request = $this->createRequest("POST", "/introspect", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/introspect");
         $result = $this->sessionController->introspect($request, $this->response);
 
         // Check http code is correct
-        $this->assertHTTPCode($result, 400, "Bad Request");
+        $this->assertHTTPCode($result, 400);
     }
 
     /**
@@ -299,10 +299,15 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT access_token FROM tokens WHERE access_token = '{$GLOBALS["session"]["access_token"]}' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 
@@ -316,7 +321,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
@@ -324,10 +329,15 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT refresh_token FROM refresh_tokens WHERE refresh_token = '$refresh_token' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
 
         $GLOBALS["pdo"]
@@ -344,11 +354,11 @@ class SessionControllerTest extends TestCase
     public function testRevokeWithoutParams()
     {
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
-        $this->assertHTTPCode($result, 400, "Bad Request");
+        $this->assertHTTPCode($result, 400);
     }
 
     /**
@@ -369,7 +379,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -386,7 +396,7 @@ class SessionControllerTest extends TestCase
     {
         $expires = date("Y-m-d H:i:s", strtotime("-1 hours"));
         $refresh_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
+            ->query("INSERT INTO refresh_tokens (refresh_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING refresh_token;")
             ->fetchColumn();
 
         $GLOBALS["body"] = [
@@ -394,7 +404,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/revoke", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/revoke");
         $result = $this->sessionController->revoke($request, $this->response);
 
         // Check http code is correct
@@ -443,19 +453,15 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo");
         $result = $this->sessionController->editUserInfo($request, $this->response);
 
         // Check if request = database and http code is correct
         $this->assertHTTPCode($result);
         self::assertSame(
-            [
-                "email"      => "test@example.com",
-                "first_name" => "Test2",
-                "last_name"  => "User"
-            ],
+            $GLOBALS["body"],
             $GLOBALS["pdo"]
-                ->query("SELECT email, first_name, last_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->query("SELECT first_name FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
                 ->fetch()
         );
     }
@@ -476,7 +482,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -507,7 +513,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -530,7 +536,7 @@ class SessionControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/userinfo/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/userinfo/password");
         $result = $this->sessionController->editPassword($request, $this->response);
 
         // Check if request = database and http code is correct
@@ -550,6 +556,11 @@ class SessionControllerTest extends TestCase
         $result = $this->sessionController->logout($request, $this->response);
 
         // Check if request = database and http code is correct
+        self::assertNotFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT access_token FROM tokens WHERE access_token = '{$GLOBALS["session"]["access_token"]}' AND expires <= NOW() LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 }
