@@ -5,10 +5,11 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use ServiceUnavailable;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Unauthorized;
@@ -18,6 +19,13 @@ use Unauthorized;
  */
 class EmailController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::Email;
+
     /**
      * Return array of emails
      * Usage: GET /emails | Scope: admin, super_admin
@@ -117,15 +125,19 @@ class EmailController extends Controller
         $this->checkExist("content", $GLOBALS["body"], strict: true);
 
         // Create new email
-        $this->database()->create(
+        $email_id = ($this->database()->create(
             "emails",
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
                 "subject" => $GLOBALS["body"]["subject"],
                 "content" => $GLOBALS["body"]["content"]
-            ]
-        );
+            ],
+            "email_id"
+        ))["email_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $email_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
