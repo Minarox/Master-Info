@@ -30,7 +30,7 @@ class SessionController extends Controller
      */
     public function login(Request $request, Response $response): Response
     {
-        $this->checkExist("grant_type", $GLOBALS["body"], null, true);
+        $this->checkExist("grant_type", $GLOBALS["body"], strict: true);
 
         // Simplify password grant_type
         if ($GLOBALS["body"]["grant_type"] == "password"
@@ -69,7 +69,16 @@ class SessionController extends Controller
 
         // Create new access_token
         $server        = (new OAuth2())->getServer();
-        $token_request = $server->handleTokenRequest($this->createFromGlobals($GLOBALS["body"]));
+        $request       = new OAuth_Request(
+            $_GET,
+            $GLOBALS["body"] ?? $_POST,
+            array(),
+            $_COOKIE,
+            $_FILES,
+            array_merge($_SERVER, ["REQUEST_METHOD" => "POST"]),
+            json_encode($GLOBALS["body"])
+        );
+        $token_request = $server->handleTokenRequest($request);
 
         // Return error code if error in request
         if ($server->getResponse()->getParameter("error") !== null)
@@ -308,9 +317,9 @@ class SessionController extends Controller
     public function editPassword(Request $request, Response $response): Response
     {
         // Check if values exist in request
-        $this->checkExist("old_password", $GLOBALS["body"], null, true);
-        $this->checkExist("new_password", $GLOBALS["body"], null, true);
-        $this->checkExist("confirm_new_password", $GLOBALS["body"], null, true);
+        $this->checkExist("old_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("new_password", $GLOBALS["body"], strict: true);
+        $this->checkExist("confirm_new_password", $GLOBALS["body"], strict: true);
 
         // Check if new passwords are the same
         if ($GLOBALS["body"]["new_password"] !== $GLOBALS["body"]["confirm_new_password"]) {
@@ -373,29 +382,5 @@ class SessionController extends Controller
             ]
         );
         return $this->successCode()->success();
-    }
-
-    /**
-     * Creates a new request with custom body
-     *
-     * @param array $customBody
-     *
-     * @return OAuth_Request
-     */
-    private function createFromGlobals(array $customBody): OAuth_Request
-    {
-        $request = new OAuth_Request($_GET, $customBody, array(), $_COOKIE, $_FILES, $_SERVER);
-
-        $contentType   = $request->server("CONTENT_TYPE", '');
-        $requestMethod = $request->server("REQUEST_METHOD", "GET");
-        if (0 === strpos($contentType, "application/x-www-form-urlencoded")
-            && in_array(strtoupper($requestMethod), array("PUT", "DELETE"))) {
-            parse_str($request->getContent(), $request->request);
-        } else if (0 === strpos($contentType, "application/json")
-                   && in_array(strtoupper($requestMethod), array("POST", "PUT", "DELETE"))) {
-            $request->request = $customBody;
-        }
-
-        return $request;
     }
 }

@@ -4,6 +4,9 @@ declare(strict_types = 1);
 use app\Database;
 use Codes\ErrorCode;
 use Codes\SuccessCode;
+use Enums\Action;
+use Enums\Type;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * Abstract class for Controllers
@@ -11,44 +14,13 @@ use Codes\SuccessCode;
 abstract class Controller
 {
     /**
-     * @var SuccessCode
-     */
-    private SuccessCode $successCode;
-
-    /**
-     * @var ErrorCode
-     */
-    private ErrorCode $errorCode;
-
-    /**
-     * @var Database
-     */
-    private Database $database;
-
-    /**
-     * @var string $date
-     */
-    private string $date;
-
-    /**
-     * Construct SuccessCode, ErrorCode and Database object to be used in Controllers
-     */
-    public function __construct()
-    {
-        $this->successCode = new SuccessCode();
-        $this->errorCode   = new ErrorCode();
-        $this->database    = new Database();
-        $this->date        = date("Y-m-d H:i:s");
-    }
-
-    /**
      * Getter for SuccessCode object
      *
      * @return SuccessCode
      */
-    protected function successCode(): SuccessCode
+    #[Pure] protected function successCode(): SuccessCode
     {
-        return $this->successCode;
+        return new SuccessCode();
     }
 
     /**
@@ -56,9 +28,9 @@ abstract class Controller
      *
      * @return ErrorCode
      */
-    protected function errorCode(): ErrorCode
+    #[Pure] protected function errorCode(): ErrorCode
     {
-        return $this->errorCode;
+        return new ErrorCode();
     }
 
     /**
@@ -68,7 +40,7 @@ abstract class Controller
      */
     public function database(): Database
     {
-        return $this->database;
+        return new Database();
     }
 
     /**
@@ -78,7 +50,7 @@ abstract class Controller
      */
     protected function getDate(): string
     {
-        return $this->date;
+        return date("Y-m-d H:i:s");
     }
 
     /**
@@ -89,7 +61,7 @@ abstract class Controller
      *
      * @throws Unauthorized if user doesn't have the permissions
      */
-    protected function checkScope(array $scopes = [], bool $throwException = true): bool
+    public function checkScope(array $scopes = [], bool $throwException = true): bool
     {
         // Check if scope is in current session
         $scopes[] = "super_admin";
@@ -113,13 +85,12 @@ abstract class Controller
      * @param array       $args          Array to search inside
      * @param string|null $table         Table to check
      * @param bool        $strict        Raise exception
-     * @param string      $column        Column to search
      *
      * @return bool true if found, false otherwise
      * @throws BadRequest if request contain errors
      * @throws NotFound if value not found
      */
-    protected function checkExist(string $value, array $args, string $table = null, bool $strict = false, string $column = "id"): bool
+    public function checkExist(string $value, array $args, string $table = null, bool $strict = false): bool
     {
         // Check if key exist in array
         if (array_key_exists($value, $args)) {
@@ -128,16 +99,15 @@ abstract class Controller
             }
 
             // Create array with correct values
-            $fields = array($column => $args[$value]);
+            $fields = array($value => $args[$value]);
 
             // Check if value exist (throw NotFound exception automatically if not) and return true
-            return (bool) $this->database->find(
+            return (bool) $this->database()->find(
                 $table,
-                [$column],
+                [$value],
                 $fields,
                 true,
-                null,
-                $strict
+                exception: $strict
             );
         }
 
@@ -146,5 +116,78 @@ abstract class Controller
             throw new BadRequest("Missing value in array");
         }
         return false;
+    }
+
+    /**
+     * Create new log
+     *
+     * @param Action     $action
+     * @param string|int $target_id
+     * @param Type       $target_type
+     * @param string     $source_id
+     * @param Type       $source_type
+     *
+     * @return void
+     * @throws BadRequest if request contain errors
+     * @throws NotFound if database return nothing
+     */
+    public function addLog(Action $action, string|int $target_id, Type $target_type, string $source_id = '', Type $source_type = Type::Admin)
+    {
+        // Default value is current user
+        if (empty($source_id)) {
+            $source_id = $GLOBALS["session"]["user_id"];
+        }
+
+        // Create new log
+        $this->database()->create(
+            "logs",
+            [
+                "source" => $this->getName($source_id, $source_type),
+                "source_id" => $source_id,
+                "source_type" => $source_type->name,
+                "action" => $action->name,
+                "target" => $this->getName($target_id, $target_type),
+                "target_id" => $target_id,
+                "target_type" => $target_type->name
+            ]
+        );
+    }
+
+    /**
+     * Fetch full name for source or target field of Logs table
+     *
+     * @param string|int $id
+     * @param Type       $type
+     *
+     * @return string
+     * @throws BadRequest
+     * @throws NotFound
+     */
+    private function getName(string|int $id, Type $type): string
+    {
+        switch ($type->name) {
+            case "User":
+            case "Admin":
+                $name = $this->database()->find(
+                    strtolower($type->name) . 's',
+                    [
+                        "first_name",
+                        "last_name"
+                    ],
+                    [strtolower($type->name) . "_id" => $id],
+                    true
+                );
+
+                return $name["first_name"] . ' ' . $name["last_name"];
+            case "Email":
+                return ($this->database()->find(
+                    "emails",
+                    ["title"],
+                    ["email_id" => $id],
+                    true
+                ))["title"];
+            default:
+                return Type::App->name;
+        }
     }
 }

@@ -5,10 +5,11 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use ServiceUnavailable;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Unauthorized;
@@ -18,6 +19,13 @@ use Unauthorized;
  */
 class EmailController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::Email;
+
     /**
      * Return array of emails
      * Usage: GET /emails | Scope: admin, super_admin
@@ -46,8 +54,7 @@ class EmailController extends Controller
                         "description"
                     ],
                     ['*'],
-                    false,
-                    "email_id"
+                    order: "email_id"
                 )
             )
         );
@@ -72,7 +79,7 @@ class EmailController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if email exist
-        $this->checkExist("email_id", $args, "emails", true, "email_id");
+        $this->checkExist("email_id", $args, "emails", true);
 
         // Fetch and display email information
         $response->getBody()->write(
@@ -113,20 +120,24 @@ class EmailController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if values exist in request
-        $this->checkExist("title", $GLOBALS["body"], null, true);
-        $this->checkExist("subject", $GLOBALS["body"], null, true);
-        $this->checkExist("content", $GLOBALS["body"], null, true);
+        $this->checkExist("title", $GLOBALS["body"], strict: true);
+        $this->checkExist("subject", $GLOBALS["body"], strict: true);
+        $this->checkExist("content", $GLOBALS["body"], strict: true);
 
         // Create new email
-        $this->database()->create(
+        $email_id = ($this->database()->create(
             "emails",
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
                 "subject" => $GLOBALS["body"]["subject"],
                 "content" => $GLOBALS["body"]["content"]
-            ]
-        );
+            ],
+            "email_id"
+        ))["email_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $email_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
@@ -150,10 +161,10 @@ class EmailController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if email exist
-        $this->checkExist("email_id", $args, "emails", true, "email_id");
+        $this->checkExist("email_id", $args, "emails", true);
 
         // Check if values exist in request
-        $this->checkExist("title", $GLOBALS["body"], null, true);
+        $this->checkExist("title", $GLOBALS["body"], strict: true);
 
         // Fetch template
         $template = $this->database()->find(
@@ -167,15 +178,19 @@ class EmailController extends Controller
         );
 
         // Create new email
-        $this->database()->create(
+        $email_id = ($this->database()->create(
             "emails",
             [
                 "title" => $GLOBALS["body"]["title"],
                 "description" => $GLOBALS["body"]["description"] ?? '',
                 "subject" => $template["subject"],
                 "content" => $template["content"]
-            ]
-        );
+            ],
+            "email_id"
+        ))["email_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $email_id, $this->type);
 
         // Display success code
         return $this->successCode()->created();
@@ -199,7 +214,7 @@ class EmailController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if email exist
-        $this->checkExist("email_id", $args, "emails", true, "email_id");
+        $this->checkExist("email_id", $args, "emails", true);
 
         // Edit email information
         $this->database()->update(
@@ -212,6 +227,9 @@ class EmailController extends Controller
             ],
             ["email_id" => $args["email_id"]]
         );
+
+        // Add log
+        $this->addLog(Action::Edit, $args["email_id"], $this->type);
 
         // Display success code
         return $this->successCode()->success();
@@ -235,7 +253,10 @@ class EmailController extends Controller
         $this->checkScope();
 
         // Check if email exist
-        $this->checkExist("email_id", $args, "emails", true, "email_id");
+        $this->checkExist("email_id", $args, "emails", true);
+
+        // Add log
+        $this->addLog(Action::Remove, $args["email_id"], $this->type);
 
         // Remove email
         $this->database()->delete(
@@ -266,10 +287,10 @@ class EmailController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if email exist
-        $this->checkExist("email_id", $GLOBALS["body"], "emails", true, "email_id");
+        $this->checkExist("email_id", $GLOBALS["body"], "emails", true);
 
         // Check if users exist in request
-        $this->checkExist("users", $GLOBALS["body"], null, true);
+        $this->checkExist("users", $GLOBALS["body"], strict: true);
 
         // Fetch email template
         $email = $this->database()->find(
@@ -310,14 +331,14 @@ class EmailController extends Controller
             $user = $this->database()->find(
                 "users",
                 [
+                    "user_id",
                     "email",
                     "first_name",
                     "last_name"
                 ],
                 ["user_id" => $user],
                 true,
-                null,
-                false
+                exception: false
             );
 
             if ($user) {
@@ -327,6 +348,9 @@ class EmailController extends Controller
                 // Send email to the user
                 $mail->send();
                 $mail->clearAddresses();
+
+                // Add log
+                $this->addLog(Action::EmailSend, $user["user_id"], Type::User);
             } else {
                 $errors ++;
             }

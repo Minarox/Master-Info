@@ -5,6 +5,8 @@ namespace Controllers;
 
 use BadRequest;
 use Controller;
+use Enums\Action;
+use Enums\Type;
 use NotFound;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -15,6 +17,13 @@ use Unauthorized;
  */
 class UserController extends Controller
 {
+    /**
+     * Default type value
+     *
+     * @var Type $type
+     */
+    private Type $type = Type::User;
+
     /**
      * Return array of users
      * Usage: GET /users | Scope: admin, super_admin
@@ -43,9 +52,7 @@ class UserController extends Controller
                         "first_name",
                         "last_name"
                     ],
-                    ['*'],
-                    false,
-                    "first_name"
+                    order: "first_name"
                 )
             )
         );
@@ -70,7 +77,7 @@ class UserController extends Controller
         $this->checkScope(["admin"]);
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
 
         // Fetch and display user information
         $response->getBody()->write(
@@ -111,20 +118,24 @@ class UserController extends Controller
         $this->checkScope(["app"]);
 
         // Check if values exist in request
-        $this->checkExist("email", $GLOBALS["body"], null, true);
-        $this->checkExist("first_name", $GLOBALS["body"], null, true);
-        $this->checkExist("last_name", $GLOBALS["body"], null, true);
+        $this->checkExist("email", $GLOBALS["body"], strict: true);
+        $this->checkExist("first_name", $GLOBALS["body"], strict: true);
+        $this->checkExist("last_name", $GLOBALS["body"], strict: true);
 
         // Create new user
-        $this->database()->create(
+        $user_id = ($this->database()->create(
             "users",
             [
                 "email" => $GLOBALS["body"]["email"],
                 "first_name" => $GLOBALS["body"]["first_name"],
                 "last_name" => $GLOBALS["body"]["last_name"],
                 "device" => $GLOBALS["body"]["scope"] ?? '',
-            ]
-        );
+            ],
+            "user_id"
+        ))["user_id"];
+
+        // Add log
+        $this->addLog(Action::Add, $user_id, $this->type, source_type: $GLOBALS["session"]["scope"] == "app" ? Type::App : Type::Admin);
 
         // Display success code
         return $this->successCode()->created();
@@ -148,7 +159,7 @@ class UserController extends Controller
         $this->checkScope();
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
 
         // Edit user information
         $this->database()->update(
@@ -161,6 +172,9 @@ class UserController extends Controller
             ],
             ["user_id" => $args["user_id"]]
         );
+
+        // Add log
+        $this->addLog(Action::Edit, $args["user_id"], $this->type);
 
         // Display success code
         return $this->successCode()->success();
@@ -184,7 +198,10 @@ class UserController extends Controller
         $this->checkScope();
 
         // Check if user exist
-        $this->checkExist("user_id", $args, "users", true, "user_id");
+        $this->checkExist("user_id", $args, "users", true);
+
+        // Add log
+        $this->addLog(Action::Remove, $args["user_id"], $this->type);
 
         // Remove user
         $this->database()->delete(
