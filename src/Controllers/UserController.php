@@ -200,6 +200,9 @@ class UserController extends Controller
         // Check if user exist
         $this->checkExist("user_id", $args, "users", true);
 
+        // Add log
+        $this->addLog(Action::Remove, $args["user_id"], $this->type);
+
         // Remove user
         $this->database()->delete(
             "users",
