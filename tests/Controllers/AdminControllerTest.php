@@ -99,17 +99,17 @@ class AdminControllerTest extends TestCase
         $result  = $this->adminController->getAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Fetch admin information
-        $data = $GLOBALS["pdo"]
+        $admin = $GLOBALS["pdo"]
             ->query("SELECT email, first_name, last_name, scope, active, created_at, updated_at FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
             ->fetch();
         $expires = $GLOBALS["pdo"]
             ->query("SELECT expires - INTERVAL 1 HOUR FROM tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
-        $data["last_connexion"] = ($expires) ?: null;
+        $admin["last_connexion"] = ($expires) ?: null;
 
         // Check if request = database and http code is correct
         self::assertSame(
-            json_encode($data),
+            json_encode($admin),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -275,7 +275,7 @@ class AdminControllerTest extends TestCase
             "first_name"       => "Test_add_user",
             "last_name"        => "User_add",
             "scope"            => "admin",
-            "active"           => '1'
+            "active"           => 1
         ];
 
         // Call function
@@ -580,6 +580,11 @@ class AdminControllerTest extends TestCase
             ->execute();
 
         // Check if http code is correct
+        self::assertFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT admin_id FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 

@@ -416,6 +416,11 @@ class UserControllerTest extends TestCase
             ->execute();
 
         // Check if http code is correct
+        self::assertFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT user_id FROM users WHERE user_id = '$this->user_id' LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 
