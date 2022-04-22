@@ -25,14 +25,17 @@ class TestCase extends PHPUnit_TestCase
      *
      * @param string $method
      * @param string $path
-     * @param array  $body
      *
      * @return Request
      */
-    protected function createRequest(string $method, string $path, array $body = []): Request
+    protected function createRequest(string $method, string $path): Request
     {
+        if (!isset($GLOBALS["body"])) {
+            $GLOBALS["body"] = [];
+        }
+
         $uri    = new Uri("http", "localhost", 8899, "/v1" . $path);
-        $stream = (new StreamFactory())->createStream(json_encode($body));
+        $stream = (new StreamFactory())->createStream(json_encode($GLOBALS["body"]));
 
         $headers = new Headers();
         $headers->addHeader("Content-type", "application/json");
@@ -51,8 +54,22 @@ class TestCase extends PHPUnit_TestCase
      * @param int      $code
      * @param string   $description
      */
-    protected function assertHTTPCode(Response $result, int $code = 200, string $description = "Success")
+    protected function assertHTTPCode(Response $result, int $code = 200, string $description = '')
     {
+        if (empty($description)) {
+            match ($code) {
+                200 => $description = "Success",
+                201 => $description = "Created",
+                400 => $description = "Bad Request",
+                401 => $description = "Unauthorized",
+                403 => $description = "Forbidden",
+                404 => $description = "Not Found",
+                405 => $description = "Method Not Allowed",
+                409 => $description = "Conflict",
+                410 => $description = "Custom Error Code"
+            };
+        }
+
         self::assertSame(
             json_encode([
                 "code_value"       => $code,
@@ -70,7 +87,7 @@ class TestCase extends PHPUnit_TestCase
      *
      * @return string
      */
-    protected function randString(int $length = 16): string
+    protected function randString(int $length = 40): string
     {
         // Password generator with custom length
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -100,7 +117,7 @@ class TestCase extends PHPUnit_TestCase
 
         $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $new_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString(40)}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
+            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
             ->fetch();
 
         $GLOBALS["session"]["access_token"] = $new_token["access_token"];

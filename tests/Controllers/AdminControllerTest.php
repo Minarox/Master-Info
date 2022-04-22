@@ -99,17 +99,17 @@ class AdminControllerTest extends TestCase
         $result  = $this->adminController->getAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Fetch admin information
-        $data = $GLOBALS["pdo"]
+        $admin = $GLOBALS["pdo"]
             ->query("SELECT email, first_name, last_name, scope, active, created_at, updated_at FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
             ->fetch();
         $expires = $GLOBALS["pdo"]
             ->query("SELECT expires - INTERVAL 1 HOUR FROM tokens WHERE user_id = '{$GLOBALS["session"]["user_id"]}' ORDER BY expires DESC LIMIT 1;")
             ->fetchColumn();
-        $data["last_connexion"] = ($expires) ?: null;
+        $admin["last_connexion"] = ($expires) ?: null;
 
         // Check if request = database and http code is correct
         self::assertSame(
-            json_encode($data),
+            json_encode($admin),
             $result->getBody()->__toString()
         );
         self::assertSame(200, $result->getStatusCode());
@@ -189,7 +189,7 @@ class AdminControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/admins");
         $result = $this->adminController->addAdmin($request, $this->response);
 
         // Fetch new admin info
@@ -219,7 +219,7 @@ class AdminControllerTest extends TestCase
         self::assertTrue(password_verify($GLOBALS["body"]["password"], $new_admin["password"]));
         unset($GLOBALS["body"]["password"], $GLOBALS["body"]["confirm_password"]);
         self::assertSame($GLOBALS["body"], array_slice($new_admin, 2));
-        $this->assertHTTPCode($result, 201, "Created");
+        $this->assertHTTPCode($result, 201);
     }
 
     /**
@@ -255,7 +255,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"] = []);
+        $request = $this->createRequest("POST", "/admins");
         $this->adminController->addAdmin($request, $this->response);
     }
 
@@ -275,11 +275,11 @@ class AdminControllerTest extends TestCase
             "first_name"       => "Test_add_user",
             "last_name"        => "User_add",
             "scope"            => "admin",
-            "active"           => '1'
+            "active"           => 1
         ];
 
         // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/admins");
         $result = $this->adminController->addAdmin($request, $this->response);
 
         // Check if http code is correct
@@ -306,7 +306,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("POST", "/admins", $GLOBALS["body"]);
+        $request = $this->createRequest("POST", "/admins");
         $this->adminController->addAdmin($request, $this->response);
     }
 
@@ -325,7 +325,7 @@ class AdminControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]);
         $result = $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Fetch new admin info
@@ -367,7 +367,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("User doesn't have the permission");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -401,7 +401,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->editAdmin($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -418,7 +418,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/00000000-0000-0000-0000-000000000000", $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/00000000-0000-0000-0000-000000000000");
         $this->adminController->editAdmin($request, $this->response, ["admin_id" => "00000000-0000-0000-0000-000000000000"]);
     }
 
@@ -436,7 +436,7 @@ class AdminControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"] . "/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"] . "/password");
         $result = $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Fetch admin info
@@ -512,7 +512,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Missing value in array");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"], $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]);
         $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
     }
 
@@ -529,7 +529,7 @@ class AdminControllerTest extends TestCase
         $this->expectExceptionMessage("Nothing was found in the database");
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/00000000-0000-0000-0000-000000000000/password", $GLOBALS["body"] = []);
+        $request = $this->createRequest("PUT", "/admins/00000000-0000-0000-0000-000000000000/password");
         $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => "00000000-0000-0000-0000-000000000000"]);
     }
 
@@ -548,7 +548,7 @@ class AdminControllerTest extends TestCase
         ];
 
         // Call function
-        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]. "/password", $GLOBALS["body"]);
+        $request = $this->createRequest("PUT", "/admins/" . $GLOBALS["session"]["user_id"]. "/password");
         $result = $this->adminController->editAdminPassword($request, $this->response, ["admin_id" => $GLOBALS["session"]["user_id"]]);
 
         // Check if http code is correct
@@ -580,6 +580,11 @@ class AdminControllerTest extends TestCase
             ->execute();
 
         // Check if http code is correct
+        self::assertFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT admin_id FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
+                ->fetchColumn()
+        );
         $this->assertHTTPCode($result);
     }
 

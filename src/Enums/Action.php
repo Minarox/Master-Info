@@ -6,7 +6,8 @@ namespace Enums;
 /**
  * Action enum for logs
  */
-enum Action {
+enum Action
+{
     case Add;
     case Edit;
     case EditPassword;
