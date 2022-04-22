@@ -6,6 +6,8 @@ namespace Controllers;
 require_once __DIR__ . "/../TestCase.php";
 
 use BadRequest;
+use Enums\Action;
+use Enums\Type;
 use Exception;
 use NotFound;
 use TestCase;
@@ -27,6 +29,11 @@ class EmailControllerTest extends TestCase
     private int $email_id;
 
     /**
+     * @var string $type
+     */
+    private string $type;
+
+    /**
      * Construct AdminController for tests
      *
      * @param string|null $name
@@ -37,7 +44,8 @@ class EmailControllerTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->emailController = new EmailController();
-        $GLOBALS["pdo"]       = $this->emailController->database()->getPdo();
+        $this->type            = Type::Email->name;
+        $GLOBALS["pdo"]        = $this->emailController->database()->getPdo();
     }
 
     /**
@@ -193,8 +201,21 @@ class EmailControllerTest extends TestCase
 
         // Fetch new email
         $new_email = $GLOBALS["pdo"]
-            ->query("SELECT title, description, subject, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
+            ->query("SELECT email_id, title, description, subject, content FROM emails WHERE title = '{$GLOBALS["body"]["title"]}' LIMIT 1;")
             ->fetch();
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Add;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target = '{$new_email["title"]}' AND target_id = '{$new_email["email_id"]}' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
 
         // Remove new email
         $GLOBALS["pdo"]
@@ -202,7 +223,7 @@ class EmailControllerTest extends TestCase
             ->execute();
 
         // Check if request = database and http code is correct
-        self::assertSame($new_email, $GLOBALS["body"]);
+        self::assertSame(array_slice($new_email, 1), $GLOBALS["body"]);
         $this->assertHTTPCode($result, 201, "Created");
     }
 
