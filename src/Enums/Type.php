@@ -6,7 +6,8 @@ namespace Enums;
 /**
  * Type enum for logs
  */
-enum Type {
+enum Type
+{
     case Admin;
     case User;
     case Email;
