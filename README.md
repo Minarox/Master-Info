@@ -1,6 +1,6 @@
-# Intégration continue - Front-End
+# Cerealis CRM
 Développement d’une application suivant un processus d’intégration continue.  
-[Accès au Front-End](https://ic.minarox.fr/)
+[Accès au CRM](https://mspr.minarox.fr/)
 
 ## Administrateur
 Le compte administrateur crée la config des groupes, c'est-à-dire qu'il définit :
