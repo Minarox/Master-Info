@@ -8,7 +8,7 @@ const app = createApp(App);
 app.mixin({
   data() {
     return {
-      api_url: "https://ic.minarox.fr/api",
+      api_url: "https://mspr.minarox.fr/api",
     };
   },
   methods: {

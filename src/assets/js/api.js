@@ -1,6 +1,6 @@
 "use strict";
 const axios = require("axios").default;
-const api_url = "https://ic.minarox.fr/api";
+const api_url = "https://mspr.minarox.fr/api";
 
 export const API = {
   login,
