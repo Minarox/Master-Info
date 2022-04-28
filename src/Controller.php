@@ -103,7 +103,7 @@ abstract class Controller
 
             // Check if value exist (throw NotFound exception automatically if not) and return true
             return (bool) $this->database()->find(
-                $table,
+                strtolower($table),
                 [$value],
                 $fields,
                 true,
