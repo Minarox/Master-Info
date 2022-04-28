@@ -4,11 +4,10 @@
       <section>
         <router-link id="logo" :to="admin ? '/admin' : '/'">
           <img
-            src="@/assets/img/cloudbees-core_logo.png"
-            alt="Logo CloudBees Core"
-            title="&copy; CloudBees Core"
+            src="@/assets/img/logo_cerealis.png"
+            alt="Logo Cerealis"
           />
-          <p>Intégration continue</p>
+          <p>Cerealis</p>
         </router-link>
       </section>
 
