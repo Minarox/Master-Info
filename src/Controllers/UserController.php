@@ -122,6 +122,37 @@ class UserController extends Controller
         $this->checkExist("first_name", $GLOBALS["body"], strict: true);
         $this->checkExist("last_name", $GLOBALS["body"], strict: true);
 
+        // Check if user already exist
+        if ($this->checkExist("email", $GLOBALS["body"], "users")) {
+            // Fetch user_id
+            $user_id = ($this->database()->find(
+                "users",
+                ["user_id"],
+                [
+                    "email" => $GLOBALS["body"]["email"]
+                ],
+                true
+            ))["user_id"];
+
+            // Edit user information
+            $this->database()->update(
+                "users",
+                [
+                    "email" => $GLOBALS["body"]["email"],
+                    "first_name" => $GLOBALS["body"]["first_name"],
+                    "last_name" => $GLOBALS["body"]["last_name"],
+                    "device" => $GLOBALS["body"]["scope"] ?? ''
+                ],
+                ["user_id" => $user_id]
+            );
+
+            // Add log
+            $this->addLog(Action::Edit, $user_id, $this->type, source_type: $GLOBALS["session"]["scope"] == "app" ? Type::App : Type::Admin);
+
+            // Display success code
+            return $this->successCode()->success();
+        }
+
         // Create new user
         $user_id = ($this->database()->create(
             "users",
@@ -129,7 +160,7 @@ class UserController extends Controller
                 "email" => $GLOBALS["body"]["email"],
                 "first_name" => $GLOBALS["body"]["first_name"],
                 "last_name" => $GLOBALS["body"]["last_name"],
-                "device" => $GLOBALS["body"]["scope"] ?? '',
+                "device" => $GLOBALS["body"]["scope"] ?? ''
             ],
             "user_id"
         ))["user_id"];
