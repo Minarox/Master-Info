@@ -3,6 +3,10 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
+<a href="https://github.com/Inge-Info/MSPR_API">
+    <img src="public/logo_cerealis.png" alt="Logo" width="80" height="80">
+</a>
+
 <h3 align="center">Cerealis API</h3>
 
   <p align="center">
