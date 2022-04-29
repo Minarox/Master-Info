@@ -1319,7 +1319,7 @@ definitions:
       grant_type:
         type: string
         example: client_credentials
-      username:
+      email:
         type: string
         example: user@example.com
       password:
