@@ -46,8 +46,12 @@ class SessionController extends Controller
                 "admins",
                 ["admin_id"],
                 ["email" => $email],
-                true
+                true,
+                exception: false
             );
+            if (!$admin) {
+                return $this->errorCode()->unauthorized("Invalid username and password combination");
+            }
 
             // Fetch client_id and client_secret
             $client = $this->database()->find(

@@ -112,6 +112,29 @@ class SessionControllerTest extends TestCase
      *
      * @throws NotFound|BadRequest
      */
+    public function testLoginWithBadEmail()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "grant_type" => "password",
+            "email"      => "tests@example.com",
+            "password"   => "test!123"
+        ];
+
+        // Call function
+        $request = $this->createRequest("POST", "/login");
+        $result = $this->sessionController->login($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 401, "Invalid username and password combination");
+    }
+
+    /**
+     * Test login function with bad password
+     * Usage: POST /login | Scope: none
+     *
+     * @throws NotFound|BadRequest
+     */
     public function testLoginWithBadPassword()
     {
         // Fields
