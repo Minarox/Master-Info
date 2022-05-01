@@ -1,18 +1,6 @@
 <template>
-  <Header />
   <router-view />
 </template>
-
-<script>
-import Header from "@/components/global/Header";
-
-export default {
-  name: "App",
-  components: {
-    Header
-  }
-};
-</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");

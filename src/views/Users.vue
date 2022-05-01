@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header :user="user" @component="switchComponent" />
     <transition name="fade">
       <component
         v-if="component"
