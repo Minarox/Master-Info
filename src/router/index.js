@@ -30,11 +30,9 @@ router.beforeEach((to, from, next) => {
     API.logout()
       .then(() => {
         returnToLogin(to, from, next);
-        next();
       })
       .catch(() => {
         returnToLogin(to, from, next);
-        next();
       });
   } else {
     next();
