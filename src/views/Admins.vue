@@ -162,8 +162,8 @@
 </template>
 
 <script>
-import DeleteGroup from "../components/admin/DeleteGroup";
-import DeleteUser from "../components/admin/DeleteUser";
+import DeleteGroup from "@/components/admins/DeleteGroup";
+import DeleteUser from "@/components/admins/DeleteUser";
 
 export default {
   name: "Admins",
