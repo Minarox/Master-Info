@@ -15,7 +15,9 @@ export default {
   },
   mounted() {
     API.logout().then(() => {
-      this.$router.push("/login");
+      this.$router.push("/login").then();
+    }).catch(() => {
+      this.$router.push("/login").then();
     });
   },
 };
