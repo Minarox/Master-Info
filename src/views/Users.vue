@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header :username="user['username']" :admin="user['is_admin']" />
     <transition name="fade">
       <component
         v-if="component"
@@ -24,60 +23,7 @@
           </section>
         </article>
 
-        <article class="group" v-if="group">
-          <header>
-            <h2>Groupe actuel :</h2>
-            <i class="fas fa-sync-alt" @click="updateGroup"></i>
-          </header>
-          <section>
-            <p>
-              Nom du groupe : <span>{{ group["group"]["name"] }}</span>
-            </p>
-            <p>
-              Code d'invitation : <span>{{ group["group"]["link"] }}</span>
-            </p>
-            <p>
-              Nombre de membres : <span>{{ group["users"].length }}</span>
-            </p>
-            <p>
-              Date de création : <span>{{ group["group"]["created_at"] }}</span>
-            </p>
-          </section>
-          <hr />
-          <header>
-            <h2>Membres :</h2>
-          </header>
-          <section>
-            <p
-              v-for="user in group['users']"
-              :key="user['id']"
-              :class="
-                user['id'] === group['group']['admin'] ? 'group_admin' : ''
-              "
-            >
-              {{ user["username"] }}
-            </p>
-          </section>
-          <section>
-            <button
-              v-if="user['id'] === group['group']['admin']"
-              type="button"
-              class="button"
-              @click="component = 'EditGroup'"
-            >
-              Modifier le groupe
-            </button>
-            <button
-              type="button"
-              class="button btn-warning"
-              @click="component = 'LeaveGroup'"
-            >
-              Quitter le groupe
-            </button>
-          </section>
-        </article>
-
-        <article class="no_group" v-else>
+<!--        <article class="no_group" v-else>
           <header>
             <h2>Invitation et groupe :</h2>
           </header>
@@ -115,24 +61,22 @@
               </button>
             </div>
           </section>
-        </article>
+        </article>-->
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import Header from "../components/global/Header";
-import AddGroup from "../components/home/AddGroup";
-import EditGroup from "../components/home/EditGroup";
-import LeaveGroup from "../components/home/LeaveGroup";
-import RandomGroup from "../components/home/RandomGroup";
-import { API } from "../assets/js/api";
+import AddGroup from "@/components/home/AddGroup";
+import EditGroup from "@/components/home/EditGroup";
+import LeaveGroup from "@/components/home/LeaveGroup";
+import RandomGroup from "@/components/home/RandomGroup";
+//import { API } from "@/assets/js/api";
 
 export default {
   name: "Users",
   components: {
-    Header,
     AddGroup,
     EditGroup,
     LeaveGroup,
@@ -151,9 +95,7 @@ export default {
     };
   },
   mounted() {
-    if (this.isAdmin(false)) this.$router.push("/admin");
-
-    this.updateSession();
+    /*this.updateSession();
     this.session_handler = setInterval(() => {
       this.updateSession();
     }, 6000);
@@ -168,89 +110,8 @@ export default {
       this.group_handler = setInterval(() => {
         this.updateGroup();
       }, 6000);
-    }
-  },
-  beforeUnmount() {
-    clearInterval(this.session_handler);
-    clearInterval(this.users_handler);
-    clearInterval(this.group_handler);
-  },
-  methods: {
-    updateSession() {
-      API.currentSession()
-        .then((response) => {
-          console.log("refresh session");
-          this.user = response;
-        })
-        .catch((error) => {
-          this.unauthorizedError(error);
-        });
-    },
-    updateUsers() {
-      API.getUsers()
-        .then((response) => {
-          console.log("refresh users");
-          this.users = response;
-        })
-        .catch((error) => {
-          this.unauthorizedError(error);
-        });
-    },
-    updateGroup() {
-      API.getCurrentGroup()
-        .then((response) => {
-          console.log("refresh group");
-          this.group = response;
-        })
-        .catch(() => {
-          clearInterval(this.group_handler);
-          this.group = null;
-        });
-    },
-    formCode() {
-      if (this.code.length < 16) {
-        // Error message
-      } else {
-        API.joinGroup(this.code)
-          .then(() => {
-            this.updateSession();
-            this.updateUsers();
-          })
-          .catch((error) => {
-            this.unauthorizedError(error);
-            // Error message
-          });
-      }
-    },
-  },
-  computed: {
-    usersWithoutGroup() {
-      let array = [];
-      for (let i = 0; i < this.users.length; i++)
-        if (
-          !this.users[i]["group_id"] &&
-          this.users[i]["id"] !== this.user["id"]
-        )
-          array.push({ username: this.users[i]["username"] });
-      return array;
-    },
-    groupID() {
-      return this.user["group_id"];
-    },
-  },
-  watch: {
-    groupID(value) {
-      if (value) {
-        this.updateGroup();
-        this.group_handler = setInterval(() => {
-          this.updateGroup();
-        }, 8000);
-      } else {
-        clearInterval(this.group_handler);
-        this.group = null;
-      }
-    },
-  },
+    }*/
+  }
 };
 </script>
 
