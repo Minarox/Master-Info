@@ -79,7 +79,7 @@ export default {
   z-index: 100;
   position: sticky;
   top: 0;
-  height: 56px;
+  height: 64px;
   padding: 0 20px;
   display: flex;
   align-items: center;
