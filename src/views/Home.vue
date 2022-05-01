@@ -130,7 +130,7 @@ import RandomGroup from "../components/home/RandomGroup";
 import { API } from "../assets/js/api";
 
 export default {
-  name: "Home",
+  name: "Users",
   components: {
     Header,
     AddGroup,

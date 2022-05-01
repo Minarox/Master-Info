@@ -169,7 +169,7 @@ import DeleteUser from "../components/admin/DeleteUser";
 import { API } from "../assets/js/api";
 
 export default {
-  name: "Admin",
+  name: "Admins",
   components: {
     Header,
     DeleteGroup,
