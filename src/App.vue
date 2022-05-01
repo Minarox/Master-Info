@@ -151,7 +151,7 @@ form button > * {
 
 .popup article {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   border-radius: 6px;
   background-color: var(--popup-bg);
