@@ -8,34 +8,30 @@
         </router-link>
       </section>
 
-      <section v-if="username" id="normal_menu" @mouseleave="opened = false">
-        <a
-          class="button"
-          @click="
-            first_open = true;
-            opened = !opened;
-          "
-        >
+      <nav v-if="path">
+        <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
+        <router-link :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
+        <router-link :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
+        <router-link :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+      </nav>
+
+      <section v-if="user && path" id="normal_menu" @mouseleave="opened = false">
+        <a class="button" @click="first_open = true; opened = !opened;">
           <img src="@/assets/img/user_logo.png" alt="User logo" />
-          {{ username }}
+          {{ user["first_name"] }}
           <i class="fas fa-sort-down"></i>
         </a>
-        <ul
-          :class="opened ? 'dropdown open' : 'dropdown'"
-          @mouseleave="opened = false"
-        >
+        <ul :class="opened ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
           <li>
-            <!-- Logout button -->
-            <router-link to="/logout" @click="opened = false"
-              >Déconnexion</router-link
-            >
+            <a href="" @click.prevent="opened = false">Profil</a>
+            <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
           </li>
         </ul>
       </section>
     </article>
 
     <!-- Mobile menu -->
-    <article v-if="username" id="mobile_menu" @mouseleave="opened = false">
+    <article v-if="user && path" id="mobile_menu" @mouseleave="opened = false">
       <a
         @click="
           first_open = true;
@@ -46,9 +42,13 @@
       </a>
       <ul :class="opened ? 'dropdown open' : 'dropdown'">
         <li>
-          <router-link to="/logout" @click="opened = false"
-            >Déconnexion</router-link
-          >
+          <router-link @click="opened = false" :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
+          <router-link @click="opened = false" :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
+          <router-link @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
+          <router-link @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+          <hr>
+          <a href="" @click.prevent="opened = false">Profil</a>
+          <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
         </li>
       </ul>
     </article>
@@ -72,6 +72,11 @@ export default {
       for (const element of dropdowns) element.style.animationDuration = ".2s";
     },
   },
+  computed: {
+    path: function () {
+      return !(this.$route.path === "/login" || this.$route.path === "/logout");
+    }
+  }
 };
 </script>
 
@@ -112,6 +117,29 @@ export default {
 #header #logo,
 #header #logo img {
   height: 34px;
+}
+
+nav {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav > * {
+  padding: 22px;
+  text-decoration: none;
+  color: dimgrey;
+}
+
+nav > *:hover {
+  color: black;
+  transition: all .2s;
+}
+
+.current {
+  color: black !important;
+  font-weight: 500;
 }
 
 #header #normal_menu {
@@ -286,12 +314,12 @@ export default {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 850px) {
   header {
     padding: 0 calc(20px - 12px) 0 20px;
   }
 
-  #header #normal_menu {
+  #header #normal_menu, nav {
     display: none;
   }
 
