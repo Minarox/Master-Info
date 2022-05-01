@@ -23,7 +23,7 @@
         </a>
         <ul :class="opened ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
           <li>
-            <a href="" @click.prevent="opened = false">Profil</a>
+            <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">Profil</a>
             <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
           </li>
         </ul>
@@ -47,7 +47,7 @@
           <router-link @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
           <router-link @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
           <hr>
-          <a href="" @click.prevent="opened = false">Profil</a>
+          <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">Profil</a>
           <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
         </li>
       </ul>
@@ -58,10 +58,10 @@
 <script>
 export default {
   name: "Header",
+  props: ["user"],
   data() {
     return {
       session: JSON.parse(localStorage.getItem("session")),
-      user: JSON.parse(localStorage.getItem("user")),
       opened: false,
       first_open: false,
     };
