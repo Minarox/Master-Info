@@ -3,34 +3,48 @@ const axios = require("axios").default;
 const api_url = "https://mspr.minarox.fr/api";
 
 export const API = {
+  // Session
   login,
-  currentSession,
+  userInfo,
+  editUserInfo,
+  editPassword,
   logout,
 
-  getConfig,
-  setMaxUsers,
-  setUsersPerGroup,
-  setLastGroupConfig,
-  deleteUser,
-  getGroups,
-  deleteGroup,
+  // Admin
+  getAdmins,
+  addAdmin,
+  getAdmin,
+  editAdmin,
+  deleteAdmin,
+  editAdminPassword,
 
-  getCurrentGroup,
-  addGroup,
-  editGroup,
+  // User
   getUsers,
-  leaveCurrentGroup,
-  joinRandomGroup,
-  joinGroup,
+  addUser,
+  getUser,
+  editUser,
+  deleteUser,
+
+  // Email
+  getEmails,
+  addEmail,
+  sendEmails,
+  getEmail,
+  editEmail,
+  addTemplateEmail,
+  deleteEmail,
+
+  // Log
+  getLogs
 };
 
 function headers() {
   let session = JSON.parse(localStorage.getItem("session"));
 
-  if (session && session["token"]) {
+  if (session && session["access_token"]) {
     return {
       headers: {
-        Authorization: session["username"] + " " + session["token"],
+        Authorization: "Bearer " + session["access_token"],
         "Content-Type": "application/json",
       },
     };
@@ -43,143 +57,289 @@ function headers() {
   }
 }
 
-function login(username, password) {
+function login(email, password) {
   return axios
     .post(
       api_url + "/login",
-      { username: username, password: password },
+      { grant_type: "password", email: email, password: password },
       headers()
     )
-    .then((response) => {
+    .then(response => {
+      response["data"]["expires_at"] = response["data"]["expires_in"] + Date.now();
       localStorage.setItem("session", JSON.stringify(response["data"]));
       return response["data"];
     });
 }
 
-function currentSession() {
-  return axios.get(api_url + "/session", headers()).then((response) => {
-    localStorage.setItem("session", JSON.stringify(response["data"]));
-    return response["data"];
-  });
+function userInfo() {
+  return axios
+      .get(
+          api_url + "/userinfo",
+          headers()
+      )
+      .then(response => {
+        localStorage.setItem("user", JSON.stringify(response["data"]));
+        return response["data"];
+      });
+}
+
+function editUserInfo(email, first_name, last_name) {
+  return axios
+      .put(
+          api_url + "/userinfo",
+          {email: email, first_name: first_name, last_name: last_name},
+          headers()
+      )
+      .then(response => {
+        this.userInfo().then(() => {
+          return response["data"];
+        })
+      });
+}
+
+function editPassword(old_password, new_password, confirm_new_password) {
+  return axios
+      .put(
+          api_url + "/userinfo/password",
+          {old_password: old_password, new_password: new_password, confirm_new_password: confirm_new_password},
+          headers()
+      )
+      .then(response => {
+        this.logout().then(() => {
+          return response["data"];
+        })
+      });
 }
 
 function logout() {
   return axios
     .get(api_url + "/logout", headers())
-    .then((response) => {
+    .then(response => {
       localStorage.removeItem("session");
+      localStorage.removeItem("user");
       return response["data"];
     })
-    .catch((error) => {
+    .catch(error => {
       localStorage.removeItem("session");
+      localStorage.removeItem("user");
       return error;
     });
 }
 
-function getConfig() {
-  return axios.get(api_url + "/admin/config", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function setMaxUsers(max_users) {
+function getAdmins() {
   return axios
-    .post(api_url + "/admin/max-users", { max_users: max_users }, headers())
-    .then((response) => {
-      return response["data"];
-    });
+      .get(
+          api_url + "/admins",
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
-function setUsersPerGroup(users_per_group) {
+function addAdmin(email, password, confirm_password, first_name, last_name) {
   return axios
-    .post(
-      api_url + "/admin/users-per-group",
-      { users_per_group: users_per_group },
-      headers()
-    )
-    .then((response) => {
-      return response["data"];
-    });
+      .post(
+          api_url + "/admins",
+          {email: email, password: password, confirm_password: confirm_password, first_name: first_name, last_name: last_name},
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
-function setLastGroupConfig(last_group_mode) {
+function getAdmin(admin_id) {
   return axios
-    .post(
-      api_url + "/admin/last-group",
-      { last_group_mode: last_group_mode },
-      headers()
-    )
-    .then((response) => {
-      return response["data"];
-    });
+      .get(
+          api_url + "/admins/" + admin_id.toString(),
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
-function deleteUser(user_id) {
+function editAdmin(admin_id, email, first_name, last_name, scope, active) {
   return axios
-    .delete(api_url + "/admin/user/" + user_id, headers())
-    .then((response) => {
-      return response["data"];
-    });
+      .put(
+          api_url + "/admins/" + admin_id.toString(),
+          {email: email, first_name: first_name, last_name: last_name, scope: scope, active: active},
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
-function getGroups() {
-  return axios.get(api_url + "/admin/groups", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function deleteGroup(group_id) {
+function deleteAdmin(admin_id) {
   return axios
-    .delete(api_url + "/admin/group/" + group_id, headers())
-    .then((response) => {
-      return response["data"];
-    });
+      .delete(
+          api_url + "/admins/" + admin_id.toString(),
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
-function getCurrentGroup() {
-  return axios.get(api_url + "/group", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function addGroup(name) {
+function editAdminPassword(admin_id, new_password, confirm_new_password) {
   return axios
-    .post(api_url + "/group", { name: name }, headers())
-    .then((response) => {
-      return response["data"];
-    });
-}
-
-function editGroup(name, admin) {
-  return axios
-    .put(api_url + "/group", { name: name, admin: admin }, headers())
-    .then((response) => {
-      return response["data"];
-    });
+      .put(
+          api_url + "/admins/" + admin_id.toString() + "/password",
+          {new_password: new_password, confirm_new_password: confirm_new_password},
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
 }
 
 function getUsers() {
-  return axios.get(api_url + "/group/users", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function leaveCurrentGroup() {
-  return axios.get(api_url + "/group/leave", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function joinRandomGroup() {
-  return axios.get(api_url + "/group/random", headers()).then((response) => {
-    return response["data"];
-  });
-}
-
-function joinGroup(group_link) {
   return axios
-    .get(api_url + "/group/join/" + group_link, headers())
-    .then((response) => {
-      return response["data"];
-    });
+      .get(
+          api_url + "/users",
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
+}
+
+function addUser(email, first_name, last_name, device) {
+  return axios
+      .post(
+          api_url + "/users",
+          {email: email, first_name: first_name, last_name: last_name, device: device},
+          headers()
+      )
+      .then(response => {
+        return response["data"];
+      });
+}
+
+function getUser(user_id) {
+    return axios
+        .get(
+            api_url + "/users/" + user_id.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function editUser(user_id, email, first_name, last_name, device) {
+    return axios
+        .put(
+            api_url + "/users/" + user_id.toString(),
+            {email: email, first_name: first_name, last_name: last_name, device: device},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function deleteUser(user_id) {
+    return axios
+        .delete(
+            api_url + "/users/" + user_id.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getEmails() {
+    return axios
+        .get(
+            api_url + "/emails",
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function addEmail(title, description, subject, content) {
+    return axios
+        .post(
+            api_url + "/emails",
+            {title: title, description: description, subject: subject, content: content},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function sendEmails(email_id, users) {
+    return axios
+        .post(
+            api_url + "/emails/send",
+            {email_id: email_id, users: users},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getEmail(email_id) {
+    return axios
+        .get(
+            api_url + "/emails/" + email_id.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function editEmail(email_id, title, description, subject, content) {
+    return axios
+        .put(
+            api_url + "/emails/" + email_id.toString(),
+            {title: title, description: description, subject: subject, content: content},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function addTemplateEmail(email_id, title, description) {
+    return axios
+        .post(
+            api_url + "/emails/" + email_id.toString(),
+            {title: title, description: description},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function deleteEmail(email_id) {
+        return axios
+        .delete(
+            api_url + "/emails/" + email_id.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getLogs(source, source_id, source_type, action, target, target_id, target_type) {
+        return axios
+        .get(
+            api_url + "/logs?source=" + source.toString() + "&source_id=" + source_id.toString() + "&source_type=" + source_type.toString() + "&action=" + action.toString() + "&target=" + target.toString() + "&target_id=" + target_id.toString() + "&target_type=" + target_type.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
 }
