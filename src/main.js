@@ -14,7 +14,7 @@ app.mixin({
   methods: {
     checkSessionExist() {
       if (localStorage.getItem("session")) {
-        API.currentSession().then();
+        API.userInfo().then();
         router.push("/").then();
       }
     },
