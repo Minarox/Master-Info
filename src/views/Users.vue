@@ -31,7 +31,6 @@ import EditUserInfo from "@/components/session/EditUserInfo";
 import UserInfo from "@/components/session/UserInfo";
 import EditPassword from "@/components/session/EditPassword";
 import Header from "@/components/global/Header";
-//import { API } from "@/assets/js/api";
 
 export default {
   name: "Users",
@@ -46,24 +45,6 @@ export default {
       user: JSON.parse(localStorage.getItem("user")),
       component: ""
     };
-  },
-  mounted() {
-    /*this.updateSession();
-    this.session_handler = setInterval(() => {
-      this.updateSession();
-    }, 6000);
-
-    this.updateUsers();
-    this.users_handler = setInterval(() => {
-      this.updateUsers();
-    }, 6000);
-
-    if (this.user["group_id"]) {
-      this.updateGroup();
-      this.group_handler = setInterval(() => {
-        this.updateGroup();
-      }, 6000);
-    }*/
   }
 };
 </script>
