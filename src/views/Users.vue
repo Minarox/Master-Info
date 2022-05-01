@@ -4,7 +4,7 @@
       <component
         v-if="component"
         :is="component"
-        :group="group"
+        :user="user"
         @component="switchComponent"
       />
     </transition>
@@ -14,84 +14,36 @@
         <article class="users">
           <header>
             <h1>Utilisateurs sans groupe :</h1>
-            <i class="fas fa-sync-alt" @click="updateUsers"></i>
+            <i class="fas fa-sync-alt" @click="component = 'UserInfo'"></i>
           </header>
           <section>
-            <p v-for="user in usersWithoutGroup" :key="user['id']">
-              {{ user["username"] }}
-            </p>
+
           </section>
         </article>
-
-<!--        <article class="no_group" v-else>
-          <header>
-            <h2>Invitation et groupe :</h2>
-          </header>
-          <section>
-            <div>
-              <form @submit.prevent="formCode">
-                <label for="code">Code :</label>
-                <div>
-                  <input
-                    type="text"
-                    name="code"
-                    id="code"
-                    v-model="code"
-                    maxlength="16"
-                    required
-                  />
-                  <button type="submit">Valider</button>
-                </div>
-              </form>
-            </div>
-            <div>
-              <button
-                type="button"
-                class="button"
-                @click="component = 'AddGroup'"
-              >
-                Créer un nouveau groupe
-              </button>
-              <button
-                type="button"
-                class="button btn-warning"
-                @click="component = 'RandomGroup'"
-              >
-                Rejoindre aléatoirement un groupe
-              </button>
-            </div>
-          </section>
-        </article>-->
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import AddGroup from "@/components/home/AddGroup";
-import EditGroup from "@/components/home/EditGroup";
-import LeaveGroup from "@/components/home/LeaveGroup";
-import RandomGroup from "@/components/home/RandomGroup";
+import EditUserInfo from "@/components/session/EditUserInfo";
+import UserInfo from "@/components/session/UserInfo";
+import EditPassword from "@/components/session/EditPassword";
+import Header from "@/components/global/Header";
 //import { API } from "@/assets/js/api";
 
 export default {
   name: "Users",
   components: {
-    AddGroup,
-    EditGroup,
-    LeaveGroup,
-    RandomGroup,
+    Header,
+    EditUserInfo,
+    UserInfo,
+    EditPassword
   },
   data() {
     return {
-      component: "",
-      code: "",
-      users: [],
-      user: JSON.parse(localStorage.getItem("session")),
-      group: null,
-      session_handler: null,
-      users_handler: null,
-      group_handler: null,
+      user: JSON.parse(localStorage.getItem("user")),
+      component: ""
     };
   },
   mounted() {
