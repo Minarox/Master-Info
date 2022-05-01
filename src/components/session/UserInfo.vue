@@ -2,32 +2,38 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Modifier le groupe</h2>
+        <h2>Votre profil</h2>
       </header>
 
       <section>
-        <form @submit.prevent="formGroup">
-          <label for="name">Nom du groupe :</label>
-          <input type="text" name="name" id="name" v-model="name" required />
-
-          <label for="admin">Administrateur :</label>
-          <select name="admin" id="admin" v-model="admin">
-            <option
-              v-for="user in group['users']"
-              :value="user['id']"
-              :key="user['id']"
-            >
-              {{ user["username"] }}
-            </option>
-          </select>
+        <form>
+          <label for="email">Adresse email :</label>
+          <input type="email" name="email" id="email" v-model="email" disabled />
+          <label for="first_name">Prénom :</label>
+          <input type="text" name="first_name" id="first_name" v-model="first_name" disabled />
+          <label for="last_name">Nom :</label>
+          <input type="text" name="last_name" id="last_name" v-model="last_name" disabled />
           <div>
-            <button type="submit">Valider</button>
+            <button
+              type="button"
+              class="button"
+              @click="$emit('component', { name: 'EditUserInfo' })"
+            >
+              Modifier
+            </button>
+            <button
+                type="button"
+                class="button btn-warning"
+                @click="$emit('component', { name: 'EditPassword' })"
+            >
+              Changer le mot de passe
+            </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Retour
+              Fermer
             </button>
           </div>
         </form>
@@ -37,37 +43,22 @@
 </template>
 
 <script>
-import { API } from "../../assets/js/api";
-
 export default {
-  name: "EditGroup",
-  props: ["group"],
+  name: "UserInfo",
+  props: ["user"],
   data() {
     return {
-      name: "",
-      admin: "",
+      email: this.user["email"],
+      first_name: this.user["first_name"],
+      last_name: this.user["last_name"]
     };
   },
   mounted() {
-    if (!this.group) {
-      this.$emit("component", { name: "" });
-    }
-    this.name = this.group["group"]["name"];
-    this.admin = this.group["group"]["admin"];
     this.addEvents("", document.getElementsByClassName("popup")[0]);
   },
   beforeUnmount() {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
-  },
-  methods: {
-    formGroup() {
-      if (this.name && this.admin) {
-        API.editGroup(this.name, this.admin).then(() => {
-          this.$router.go(0);
-        });
-      }
-    },
-  },
+  }
 };
 </script>
 
