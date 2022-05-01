@@ -26,8 +26,7 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !session) {
     returnToLogin(to, from, next);
-    next();
-  } else if (session && session["expires_at"] >= Date.now()) {
+  } else if (session && Date.now() / 1000 > session["expires_at"]) {
     API.logout()
       .then(() => {
         returnToLogin(to, from, next);

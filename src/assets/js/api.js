@@ -65,7 +65,7 @@ function login(email, password) {
       headers()
     )
     .then(response => {
-      response["data"]["expires_at"] = response["data"]["expires_in"] + Date.now();
+      response["data"]["expires_at"] = Date.now() / 1000 + response["data"]["expires_in"];
       localStorage.setItem("session", JSON.stringify(response["data"]));
       return response["data"];
     });
@@ -90,8 +90,8 @@ function editUserInfo(email, first_name, last_name) {
           {email: email, first_name: first_name, last_name: last_name},
           headers()
       )
-      .then(response => {
-        this.userInfo().then(() => {
+      .then(() => {
+        this.userInfo().then(response => {
           return response["data"];
         })
       });
