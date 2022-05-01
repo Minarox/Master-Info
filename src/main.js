@@ -43,24 +43,24 @@ app.mixin({
       this.component = payload.name;
     },
     addEvents(component, container, self = this) {
-      window.addEventListener("click", function (e) {
+      this.$el.addEventListener("click", function (e) {
         if (e.target === container) {
           self.$emit("component", { name: component });
         }
       });
-      window.addEventListener("keydown", function (e) {
+      this.$el.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           self.$emit("component", { name: component });
         }
       });
     },
     removeEvents(component, container, self = this) {
-      window.removeEventListener("click", function (e) {
+      this.$el.removeEventListener("click", function (e) {
         if (e.target === container) {
           self.$emit("component", { name: component });
         }
       });
-      window.removeEventListener("keydown", function (e) {
+      this.$el.removeEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           self.$emit("component", { name: component });
         }
