@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header :username="user['username']" :admin="user['is_admin']" />
     <transition name="fade">
       <component
         v-if="component"
@@ -163,15 +162,12 @@
 </template>
 
 <script>
-import Header from "../components/global/Header";
 import DeleteGroup from "../components/admin/DeleteGroup";
 import DeleteUser from "../components/admin/DeleteUser";
-import { API } from "../assets/js/api";
 
 export default {
   name: "Admins",
   components: {
-    Header,
     DeleteGroup,
     DeleteUser,
   },
@@ -192,88 +188,8 @@ export default {
     };
   },
   mounted() {
-    if (this.isAdmin()) {
-      this.updateConfig();
-      this.config_handler = setInterval(() => {
-        this.updateConfig();
-      }, 6000);
 
-      this.updateGroups();
-      this.groups_handler = setInterval(() => {
-        this.updateGroups();
-      }, 6000);
-
-      this.updateUsers();
-      this.users_handler = setInterval(() => {
-        this.updateUsers();
-      }, 6000);
-    }
-  },
-  unmounted() {
-    clearInterval(this.config_handler);
-    clearInterval(this.groups_handler);
-    clearInterval(this.users_handler);
-  },
-  methods: {
-    updateConfig() {
-      API.getConfig()
-        .then((response) => {
-          console.log("refresh config");
-          this.config = response;
-          this.maxUsers = response["maxUsers"];
-          this.usersPerGroup = response["usersPerGroup"];
-          this.lastGroupMode = response["lastGroupMode"];
-        })
-        .catch((error) => {
-          this.unauthorizedError(error);
-        });
-    },
-    updateGroups() {
-      API.getGroups()
-        .then((response) => {
-          console.log("refresh groups");
-          this.groups = response;
-        })
-        .catch((error) => {
-          this.unauthorizedError(error);
-        });
-    },
-    updateUsers() {
-      API.getUsers()
-        .then((response) => {
-          console.log("refresh users");
-          this.users = response;
-        })
-        .catch((error) => {
-          this.unauthorizedError(error);
-        });
-    },
-    configForm() {
-      API.setMaxUsers(this.maxUsers)
-        .then(() => {
-          API.setUsersPerGroup(this.usersPerGroup)
-            .then(() => {
-              API.setLastGroupConfig(this.lastGroupMode)
-                .then(() => {
-                  // Success
-                  this.updateConfig();
-                })
-                .catch(() => {
-                  // Error
-                  this.updateConfig();
-                });
-            })
-            .catch(() => {
-              // Error
-              this.updateConfig();
-            });
-        })
-        .catch(() => {
-          // Error
-          this.updateConfig();
-        });
-    },
-  },
+  }
 };
 </script>
 
