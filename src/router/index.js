@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import Logout from "../views/Logout.vue";
-import Admin from "../views/Admin";
-import { API } from "../assets/js/api";
+import Users from "@/views/Users.vue";
+import Login from "@/views/Login.vue";
+import Logout from "@/views/Logout.vue";
+import Admins from "@/views/Admins.vue";
+import { API } from "@/assets/js/api";
 
 const routes = [
-  { path: "/", name: "Home", component: Home },
-  { path: "/admin", name: "Admin", component: Admin },
+  { path: "/", name: "Users", component: Users },
+  { path: "/admins", name: "Admins", component: Admins },
   { path: "/login", name: "Login", component: Login },
   { path: "/logout", name: "Logout", component: Logout },
   { path: "/:pathMatch(.*)*", redirect: "/" },
