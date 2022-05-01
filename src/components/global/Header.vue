@@ -2,7 +2,7 @@
   <header id="header">
     <article>
       <section>
-        <router-link id="logo" :to="admin ? '/admin' : '/'">
+        <router-link id="logo" :to="'/'">
           <img src="@/assets/img/logo_cerealis.png" alt="Logo Cerealis" />
           <p>Cerealis</p>
         </router-link>
@@ -58,9 +58,10 @@
 <script>
 export default {
   name: "Header",
-  props: ["username", "admin"],
   data() {
     return {
+      session: JSON.parse(localStorage.getItem("session")),
+      user: JSON.parse(localStorage.getItem("user")),
       opened: false,
       first_open: false,
     };
