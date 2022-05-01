@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <Header />
-
-    <main>
+  <main>
       <div>
         <article>
           <header>
@@ -45,19 +42,14 @@
           </section>
         </article>
       </div>
-    </main>
-  </div>
+  </main>
 </template>
 
 <script>
-import Header from "../components/global/Header";
-import { API } from "../assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "Login",
-  components: {
-    Header,
-  },
   data() {
     return {
       username: "",
