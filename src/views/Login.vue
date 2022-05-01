@@ -7,27 +7,23 @@
           </header>
 
           <section>
-            <div :class="errorBadLogin || errorMaxUsers ? 'error' : ''">
-              <p v-if="errorBadLogin">Mot de passe incorrecte.</p>
-              <p v-if="errorMaxUsers">
-                Nombre maximal d'utilisateurs atteint. <br />
-                Veuillez contacter l'administrateur.
-              </p>
+            <div :class="error ? 'error' : ''">
+              <p v-if="error">Adresse email ou mot de passe incorrecte.</p>
             </div>
             <form @submit.prevent="loginForm">
-              <label for="login">Nom d'utilisateur</label>
+              <label for="login">Adresse email</label>
               <input
-                type="text"
+                type="email"
                 name="login"
                 id="login"
                 autofocus
                 autocomplete="username"
                 required
-                v-model="username"
+                v-model="email"
               />
               <label for="password">Mot de passe</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 id="password"
                 autocomplete="password"
@@ -52,11 +48,10 @@ export default {
   name: "Login",
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       loading: false,
-      errorBadLogin: false,
-      errorMaxUsers: false,
+      error: false
     };
   },
   mounted() {
@@ -65,28 +60,27 @@ export default {
   methods: {
     loginForm() {
       this.loading = true;
-      API.login(this.username, this.password)
+      API.login(this.email, this.password)
         .then(() => {
-          this.$router.push("/");
+          API.userInfo()
+          .then(() => {
+            this.$router.push("/");
+          });
         })
         .catch((error) => {
           this.loading = false;
-          if (error.response.status === 401) {
-            this.errorBadLogin = true;
-          } else if (error.response.status === 403) {
-            this.errorMaxUsers = true;
+          if (error.response.status === 400 || error.response.status === 401) {
+            this.error = true;
           }
         });
     },
   },
   watch: {
     username: function () {
-      this.errorBadLogin = false;
-      this.errorMaxUsers = false;
+      this.error = false;
     },
     password: function () {
-      this.errorBadLogin = false;
-      this.errorMaxUsers = false;
+      this.error = false;
     },
   },
 };
