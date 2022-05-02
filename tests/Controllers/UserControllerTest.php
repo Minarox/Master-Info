@@ -63,7 +63,7 @@ class UserControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT user_id, email, first_name, last_name FROM users ORDER BY first_name LIMIT 300;")
+                    ->query("SELECT user_id, email, first_name, last_name, device, created_at FROM users ORDER BY first_name LIMIT 300;")
                     ->fetchAll()
             ),
             $result->getBody()->__toString()

@@ -50,7 +50,9 @@ class UserController extends Controller
                         "user_id",
                         "email",
                         "first_name",
-                        "last_name"
+                        "last_name",
+                        "device",
+                        "created_at"
                     ],
                     order: "first_name"
                 )
