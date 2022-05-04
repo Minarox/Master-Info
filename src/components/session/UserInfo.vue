@@ -45,12 +45,12 @@
 <script>
 export default {
   name: "UserInfo",
-  props: ["user"],
+  props: ["current_user"],
   data() {
     return {
-      email: this.user["email"],
-      first_name: this.user["first_name"],
-      last_name: this.user["last_name"]
+      email: this.current_user["email"],
+      first_name: this.current_user["first_name"],
+      last_name: this.current_user["last_name"]
     };
   },
   mounted() {

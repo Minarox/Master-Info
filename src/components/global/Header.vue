@@ -15,10 +15,10 @@
         <router-link :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
       </nav>
 
-      <section v-if="user && path" id="normal_menu" @mouseleave="opened = false">
+      <section v-if="current_user && path" id="normal_menu" @mouseleave="opened = false">
         <a class="button" @click="first_open = true; opened = !opened;">
           <img src="@/assets/img/user_logo.png" alt="User logo" />
-          {{ user["first_name"] }}
+          {{ current_user["first_name"] }}
           <i class="fas fa-sort-down"></i>
         </a>
         <ul :class="opened ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
@@ -31,7 +31,7 @@
     </article>
 
     <!-- Mobile menu -->
-    <article v-if="user && path" id="mobile_menu" @mouseleave="opened = false">
+    <article v-if="current_user && path" id="mobile_menu" @mouseleave="opened = false">
       <a
         @click="
           first_open = true;
@@ -58,7 +58,7 @@
 <script>
 export default {
   name: "Header",
-  props: ["user"],
+  props: ["current_user"],
   data() {
     return {
       session: JSON.parse(localStorage.getItem("session")),
