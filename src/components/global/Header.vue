@@ -89,7 +89,7 @@ export default {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
   box-shadow: rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
@@ -111,12 +111,13 @@ export default {
   align-items: center;
   gap: 16px;
   text-decoration: none;
-  font-size: 1.4em;
+  font-size: 1.5em;
+  font-weight: 500;
 }
 
 #header #logo,
 #header #logo img {
-  height: 34px;
+  height: 40px;
 }
 
 nav {
@@ -156,13 +157,13 @@ nav > *:hover {
   text-transform: initial;
   border-radius: 4px;
   transition: background-color 100ms;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
   color: var(--text);
 }
 
 #header #normal_menu a:hover {
   transition: background-color 100ms;
-  background-color: var(--global-bg);
+  background-color: var(--bg-content);
 }
 
 #header #normal_menu a img {
@@ -181,7 +182,7 @@ nav > *:hover {
 
 #header #normal_menu ul {
   position: absolute;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
   border: 1px solid rgba(0, 0, 0, 0.05);
   right: 0;
   min-width: 120px;
@@ -226,12 +227,12 @@ nav > *:hover {
   font-size: 1.4em;
   padding: 12px;
   transition: background-color 100ms;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
 }
 
 #mobile_menu a:hover {
   transition: background-color 100ms;
-  background-color: var(--hover-bg);
+  background-color: var(--bg-content-header);
 }
 
 #mobile_menu ul {
@@ -240,7 +241,7 @@ nav > *:hover {
   top: 56px;
   width: 100vw;
   padding: 4px 0;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
   list-style-type: none;
   display: flex;
   flex-flow: column nowrap;
@@ -260,12 +261,12 @@ nav > *:hover {
   text-decoration: none;
   font-size: 1.3em;
   transition: background-color 100ms;
-  background-color: var(--popup-bg);
+  background-color: var(--bg-content);
 }
 
 #header #mobile_menu ul li a:hover {
   transition: background-color 100ms;
-  background-color: var(--hover-bg);
+  background-color: var(--bg-content-header);
 }
 
 #header #mobile_menu ul hr {

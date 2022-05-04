@@ -2,7 +2,7 @@
   <div>
     <Header />
 
-    <main>
+    <main class="popup">
       <div>
         <article>
           <header>
@@ -11,7 +11,7 @@
 
           <section>
             <div :class="error ? 'error' : ''">
-              <p v-if="error">Adresse email ou mot de passe incorrecte.</p>
+              <p>Adresse email ou mot de passe incorrecte.</p>
             </div>
             <form @submit.prevent="loginForm">
               <label for="login">Adresse email</label>
@@ -82,7 +82,7 @@ export default {
     },
   },
   watch: {
-    username: function () {
+    email: function () {
       this.error = false;
     },
     password: function () {
@@ -93,37 +93,18 @@ export default {
 </script>
 
 <style scoped>
-main > div {
-  padding-top: 50px;
-}
-
-article {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  border-radius: 6px;
-  background-color: var(--popup-bg);
-  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px 0;
-}
-
-article > header {
-  background-color: var(--hover-bg);
-  padding: 16px;
-  text-align: center;
-  border-radius: 6px 6px 0 0;
-  font-size: 1.3em;
-  font-weight: 500;
-}
-
-section {
-  padding: 20px;
+.popup {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0);
 }
 
 section > div {
+  opacity: 0;
+  border-radius: 8px;
   max-height: 0;
   overflow: hidden;
   background-color: #ff000026;
-  border: 1px solid var(--popup-bg);
+  border: 1px solid #ff000026;
   text-align: center;
   transition: all 0.3s ease-in-out;
 }
@@ -133,17 +114,9 @@ section > div p {
 }
 
 .error {
+  opacity: 1;
   max-height: 60px;
-  border: 1px solid #ff000026;
   margin-bottom: 20px;
   padding: 10px;
-}
-
-form input {
-  margin-bottom: 30px;
-}
-
-form button {
-  width: 150px;
 }
 </style>

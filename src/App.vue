@@ -6,16 +6,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
 :root {
+  --title: var(--bg-color-semi-right);
   --text: #2f2f2f;
   --text-label: #565656;
 
-  --global-bg: #eeeeee;
-  --popup-bg: white;
-  --hover-bg: #dfdfdf;
-  --scroll-bar: #666666;
+  --bg-color-left: #2c5364;
+  --bg-color-semi-left: #264755;
+  --bg-color-center: #203a43;
+  --bg-color-semi-right: #172C34;
+  --bg-color-right: #0f2027;
 
-  --btn: #406a80;
-  --btn-hover: #5287a2;
+  --bg-content: white;
+  --bg-content-header: rgba(15, 32, 39, 0.12);
+  --scroll-bar: var(--bg-color-semi-right);
+
+  --btn: #2c5364;
+  --btn-hover: #427185;
 
   --btn-warning: #bc4747;
   --btn-warning-hover: #e05353;
@@ -54,7 +60,8 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--global-bg);
+  background: var(--bg-color-center);
+  background: linear-gradient(to right, var(--bg-color-left), var(--bg-color-center), var(--bg-color-right));
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
@@ -86,10 +93,11 @@ form select {
   display: block;
   width: 100%;
   outline: none;
-  padding: 6px;
-  height: 34px;
-  border: none;
-  border-bottom: 1px solid var(--text-label);
+  padding: 8px;
+  height: 36px;
+  border: 1px solid var(--text-label);
+  border-radius: 8px;
+  margin-bottom: 26px;
 }
 
 form button,
@@ -99,12 +107,11 @@ form button,
   outline: none;
   cursor: pointer;
   border-radius: 3px;
-  font-size: 14px;
   font-weight: 500;
   line-height: 16px;
   padding: 10px 24px;
   border: none;
-  color: #fff;
+  color: white;
   background-color: var(--btn);
   transition: background-color 0.17s ease, color 0.17s ease;
   text-decoration: none;
@@ -133,16 +140,18 @@ form button:hover,
 }
 
 form button > * {
-  color: #fff;
+  color: white;
 }
 
 .popup {
+  z-index: 1;
   padding: 12px;
   position: absolute;
-  top: 56px;
+  top: 64px;
   width: 100vw;
-  height: calc(100vh - 56px);
-  background-color: rgba(0, 0, 0, 0.36);
+  height: calc(100vh - 64px);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -153,18 +162,22 @@ form button > * {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  border-radius: 6px;
-  background-color: var(--popup-bg);
+  border-radius: 12px;
+  background-color: var(--bg-content);
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px 0;
 }
 
 .popup article > header {
-  background-color: var(--hover-bg);
-  padding: 16px;
+  background-color: var(--bg-content-header);
+  padding: 26px 12px;
   text-align: center;
-  border-radius: 6px 6px 0 0;
-  font-size: 1.3em;
-  font-weight: 500;
+  border-radius: 12px 12px 0 0;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.popup article > header > * {
+  color: var(--title);
 }
 
 .popup article > section {
