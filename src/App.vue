@@ -79,7 +79,7 @@ main > div {
   width: 100%;
   max-width: 1200px;
   margin: 30px auto;
-  padding: 0 12px;
+  padding: 0 30px;
   display: flex;
   flex-flow: column nowrap;
   gap: 30px;
@@ -178,6 +178,7 @@ form button > * {
 .popup article {
   width: 100%;
   max-width: 600px;
+  height: max-content;
   margin: 0 auto;
   border-radius: 12px;
   background-color: var(--bg-content);
@@ -200,7 +201,7 @@ form button > * {
 .popup article > section {
   padding: 20px;
   overflow: auto;
-  max-height: calc(100vh - 140px);
+  max-height: calc(100vh - 169px);
 }
 
 .popup article > section form div {
@@ -273,7 +274,7 @@ form button > * {
   color: var(--bg-content);
 }
 
-#filter form input {
+#filter form input, #filter form select {
   margin-bottom: 0;
   border: none;
   box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%),
