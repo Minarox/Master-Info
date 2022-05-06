@@ -105,29 +105,29 @@
 </template>
 
 <script>
-import EditUserInfo from "@/components/session/EditUserInfo";
+import Header from "@/components/global/Header";
 import UserInfo from "@/components/session/UserInfo";
+import EditUserInfo from "@/components/session/EditUserInfo";
 import EditPassword from "@/components/session/EditPassword";
+import AddUser from "@/components/users/AddUser";
+import EditUser from "@/components/users/EditUser";
 import DeleteUser from "@/components/users/DeleteUser";
 import SendEmailUser from "@/components/users/SendEmailUser";
-import EditUser from "@/components/users/EditUser";
-import AddUser from "@/components/users/AddUser";
 import DeleteUsers from "@/components/users/DeleteUsers";
 import SendEmailUsers from "@/components/users/SendEmailUsers";
-import Header from "@/components/global/Header";
 import {API} from "@/assets/js/api";
 
 export default {
   name: "Users",
   components: {
     Header,
-    EditUserInfo,
     UserInfo,
+    EditUserInfo,
     EditPassword,
+    AddUser,
+    EditUser,
     DeleteUser,
     SendEmailUser,
-    EditUser,
-    AddUser,
     DeleteUsers,
     SendEmailUsers
   },
