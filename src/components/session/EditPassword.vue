@@ -14,7 +14,7 @@
           <label for="confirm_new_password">Confirmation du nouveau mot de passe :</label>
           <input type="text" name="confirm_new_password" id="confirm_new_password" v-model="confirm_new_password" required />
           <div>
-            <button type="submit">
+            <button type="submit" class="button">
               Valider
             </button>
             <button
@@ -35,7 +35,7 @@
 import { API } from "@/assets/js/api";
 
 export default {
-  name: "EditUserInfo",
+  name: "EditPassword",
   data() {
     return {
       old_password: '',

@@ -6,18 +6,17 @@
       </header>
 
       <section>
-        <form>
+        <form @submit.prevent="editUserInfo">
           <label for="email">Adresse email :</label>
-          <input type="email" name="email" id="email" v-model="email" disabled />
+          <input type="email" name="email" id="email" v-model="email" required />
           <label for="first_name">Prénom :</label>
-          <input type="text" name="first_name" id="first_name" v-model="first_name" disabled />
+          <input type="text" name="first_name" id="first_name" v-model="first_name" required />
           <label for="last_name">Nom :</label>
-          <input type="text" name="last_name" id="last_name" v-model="last_name" disabled />
+          <input type="text" name="last_name" id="last_name" v-model="last_name" required />
           <div>
             <button
-              type="button"
+              type="submit"
               class="button"
-              @click="$emit('component', { name: 'EditUserInfo' })"
             >
               Modifier
             </button>
@@ -43,6 +42,8 @@
 </template>
 
 <script>
+import {API} from "@/assets/js/api";
+
 export default {
   name: "UserInfo",
   props: ["current_user"],
@@ -58,6 +59,14 @@ export default {
   },
   beforeUnmount() {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
-  }
+  },
+  methods: {
+    editUserInfo() {
+      API.editUserInfo(this.email, this.first_name, this.last_name)
+          .then(() => {
+            this.$router.go(0);
+          })
+    },
+  },
 };
 </script>

@@ -6,7 +6,7 @@
       </header>
 
       <section>
-        <form @submit.prevent="addAdmin">
+        <form @submit.prevent="editAdmin">
           <label for="email">Email :</label>
           <input type="email" name="email" id="email" v-model="email" required>
 
@@ -73,7 +73,7 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    addAdmin: function() {
+    editAdmin: function() {
       API.editAdmin(this.selected_admin["admin_id"], this.email, this.first_name, this.last_name, this.scope, this.active)
         .then(() => {
           this.$emit('component', { name: '' });
