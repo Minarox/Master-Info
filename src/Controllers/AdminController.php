@@ -51,7 +51,8 @@ class AdminController extends Controller
                         "first_name",
                         "last_name",
                         "scope",
-                        "active"
+                        "active",
+                        "created_at"
                     ],
                     ['*'],
                     order: "first_name"
