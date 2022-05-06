@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Users from "@/views/Users.vue";
+import Emails from "@/views/Emails";
 import Admins from "@/views/Admins";
 import Logs from "@/views/Logs";
 import Login from "@/views/Login.vue";
@@ -8,6 +9,7 @@ import { API } from "@/assets/js/api";
 
 const routes = [
   { path: "/", name: "Users", component: Users },
+  { path: "/emails", name: "Emails", component: Emails },
   { path: "/admins", name: "Admins", component: Admins },
   { path: "/logs", name: "Logs", component: Logs },
   { path: "/login", name: "Login", component: Login },
