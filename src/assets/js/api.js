@@ -126,10 +126,10 @@ function logout() {
     });
 }
 
-function getAdmins() {
+function getAdmins(email, first_name, last_name, scope, active) {
   return axios
       .get(
-          api_url + "/admins",
+          api_url + "/admins?email=" + email.toString() + "&first_name=" + first_name.toString() + "&last_name=" + last_name.toString() + "&scope=" + scope.toString() + "&active=" + active.toString(),
           headers()
       )
       .then(response => {
@@ -195,10 +195,10 @@ function editAdminPassword(admin_id, new_password, confirm_new_password) {
       });
 }
 
-function getUsers() {
+function getUsers(email, first_name, last_name, device) {
   return axios
       .get(
-          api_url + "/users",
+          api_url + "/users?email=" + email.toString() + "&first_name=" + first_name.toString() + "&last_name=" + last_name.toString() + "&device=" + device.toString(),
           headers()
       )
       .then(response => {
