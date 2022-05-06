@@ -2,12 +2,12 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Suppression de l'utilisateur</h2>
+        <h2>Suppression des utilisateurs</h2>
       </header>
 
       <section>
         <form @submit.prevent="deleteUser">
-          <p>Voulez vous vraiment supprimer l'utilisateur {{ full_name }} ?</p>
+          <p>Voulez vous vraiment supprimer les utilisateurs sélectionnés ?</p>
           <div>
             <button
                 type="submit"
@@ -33,7 +33,7 @@
 import {API} from "@/assets/js/api";
 
 export default {
-  name: "DeleteUser",
+  name: "DeleteUsers",
   props: ["selected_user"],
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
@@ -48,11 +48,6 @@ export default {
           this.$emit('component', { name: '' });
           this.$emit('reload');
         });
-    }
-  },
-  computed: {
-    full_name: function () {
-      return this.selected_user["first_name"] + ' ' + this.selected_user["last_name"];
     }
   }
 };
