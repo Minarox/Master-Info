@@ -58,7 +58,7 @@ class AdminControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT admin_id, first_name, last_name, scope, active, created_at FROM admins ORDER BY first_name LIMIT 300;")
+                    ->query("SELECT admin_id, email, first_name, last_name, scope, active, created_at FROM admins ORDER BY first_name LIMIT 300;")
                     ->fetchAll()
             ),
             $result->getBody()->__toString()
