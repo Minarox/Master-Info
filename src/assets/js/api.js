@@ -137,11 +137,11 @@ function getAdmins() {
       });
 }
 
-function addAdmin(email, password, confirm_password, first_name, last_name) {
+function addAdmin(email, password, confirm_password, first_name, last_name, scope) {
   return axios
       .post(
           api_url + "/admins",
-          {email: email, password: password, confirm_password: confirm_password, first_name: first_name, last_name: last_name},
+          {email: email, password: password, confirm_password: confirm_password, first_name: first_name, last_name: last_name, scope: scope},
           headers()
       )
       .then(response => {
