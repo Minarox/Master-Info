@@ -377,7 +377,7 @@ form button > * {
   fill: var(--title);
 }
 
-#main table tbody tr td[colspan='4'] {
+#main table tbody tr td[colspan] {
   text-align: center;
   background-color: var(--bg-content);
   padding: calc((100vh / 2) - 64px - 30px * 2) 0;
