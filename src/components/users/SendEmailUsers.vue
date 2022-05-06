@@ -38,7 +38,7 @@ import {API} from "@/assets/js/api";
 
 export default {
   name: "SendEmailUsers",
-  props: ["selected_user"],
+  props: ["selected_users"],
   data() {
     return {
       emails: {},
@@ -48,7 +48,7 @@ export default {
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
 
-    API.getEmails().then(response => {
+    API.getEmails('', '').then(response => {
       this.emails = response;
     });
   },
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     sendEmails: function() {
-      API.sendEmails(this.email_id, [this.selected_user["user_id"]])
+      API.sendEmails(this.email_id, Object.keys(this.selected_users).map((key) => this.selected_users[key]))
         .then(() => {
           this.$emit('component', { name: '' });
         });

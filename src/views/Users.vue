@@ -7,6 +7,7 @@
         :is="component"
         :current_user="current_user"
         :selected_user="selected_user"
+        :selected_users="selected_users"
         @component="switchComponent"
         @reload="getUsers"
       />
@@ -69,7 +70,7 @@
               <!-- Content -->
               <tbody v-if="users">
               <tr v-for="user in users" :key="user['user_id']">
-                <td><input type="checkbox" name="name1" />&nbsp;</td>
+                <td><input type="checkbox" :name="user['user_id']" @change="toggleUser(user['user_id'])"/>&nbsp;</td>
                 <td>{{ user["email"] }}</td>
                 <td>{{ user["first_name"] + ' ' + user["last_name"] }}</td>
                 <td>{{ user["device"] }}</td>
@@ -97,8 +98,8 @@
         </article>
 
         <article id="buttons">
-          <a href="" @click.prevent="" class="button">Envoyer un mail</a>
-          <a href="" @click.prevent="" class="button btn-warning">Supprimer les utilisateurs</a>
+          <a href="" @click.prevent="component = 'SendEmailUsers'" class="button">Envoyer un mail</a>
+          <a href="" @click.prevent="component = 'DeleteUsers'" class="button btn-warning">Supprimer les utilisateurs</a>
         </article>
       </div>
     </main>
@@ -136,6 +137,7 @@ export default {
       component: "",
       users: [],
       selected_user: [],
+      selected_users: [],
       email: '',
       first_name: '',
       last_name: '',
@@ -158,6 +160,13 @@ export default {
     resetForm() {
       this.email = this.first_name = this.last_name = this.device = '';
       this.getUsers();
+    },
+    toggleUser(user_id) {
+      if (this.selected_users.includes(user_id.toString())) {
+        this.selected_users.splice(this.selected_users.indexOf(user_id.toString()), 1);
+      } else {
+        this.selected_users.push(user_id.toString());
+      }
     }
   }
 };

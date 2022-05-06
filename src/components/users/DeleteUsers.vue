@@ -34,9 +34,10 @@ import {API} from "@/assets/js/api";
 
 export default {
   name: "DeleteUsers",
-  props: ["selected_user"],
+  props: ["selected_users"],
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
+    console.log(Object.keys(this.selected_users).map((key) => this.selected_users[key]));
   },
   beforeUnmount() {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
@@ -45,6 +46,7 @@ export default {
     deleteUsers: function() {
       // TODO: Add delete users function to API
       // TODO: Add success and error messages
+      // TODO: Test all functions
       API.deleteUser(this.selected_user["user_id"])
         .then(() => {
           this.$emit('component', { name: '' });
