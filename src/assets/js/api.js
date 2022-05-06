@@ -61,7 +61,7 @@ function login(email, password) {
   return axios
     .post(
       api_url + "/login",
-      { grant_type: "password", email: email, password: password },
+      { grant_type: "password", email: email.toString(), password: password.toString() },
       headers()
     )
     .then(response => {
@@ -87,7 +87,7 @@ function editUserInfo(email, first_name, last_name) {
   return axios
       .put(
           api_url + "/userinfo",
-          {email: email, first_name: first_name, last_name: last_name},
+          {email: email.toString(), first_name: first_name.toString(), last_name: last_name.toString()},
           headers()
       )
       .then(() => {
@@ -101,7 +101,7 @@ function editPassword(old_password, new_password, confirm_new_password) {
   return axios
       .put(
           api_url + "/userinfo/password",
-          {old_password: old_password, new_password: new_password, confirm_new_password: confirm_new_password},
+          {old_password: old_password.toString(), new_password: new_password.toString(), confirm_new_password: confirm_new_password.toString()},
           headers()
       )
       .then(response => {
@@ -141,7 +141,7 @@ function addAdmin(email, password, confirm_password, first_name, last_name, scop
   return axios
       .post(
           api_url + "/admins",
-          {email: email, password: password, confirm_password: confirm_password, first_name: first_name, last_name: last_name, scope: scope},
+          {email: email.toString(), password: password.toString(), confirm_password: confirm_password.toString(), first_name: first_name.toString(), last_name: last_name.toString(), scope: scope.toString()},
           headers()
       )
       .then(response => {
@@ -164,7 +164,7 @@ function editAdmin(admin_id, email, first_name, last_name, scope, active) {
   return axios
       .put(
           api_url + "/admins/" + admin_id.toString(),
-          {email: email, first_name: first_name, last_name: last_name, scope: scope, active: active},
+          {email: email.toString(), first_name: first_name.toString(), last_name: last_name.toString(), scope: scope.toString(), active: active.toString()},
           headers()
       )
       .then(response => {
@@ -187,7 +187,7 @@ function editAdminPassword(admin_id, new_password, confirm_new_password) {
   return axios
       .put(
           api_url + "/admins/" + admin_id.toString() + "/password",
-          {new_password: new_password, confirm_new_password: confirm_new_password},
+          {new_password: new_password.toString(), confirm_new_password: confirm_new_password.toString()},
           headers()
       )
       .then(response => {
@@ -210,7 +210,7 @@ function addUser(email, first_name, last_name, device) {
   return axios
       .post(
           api_url + "/users",
-          {email: email, first_name: first_name, last_name: last_name, device: device},
+          {email: email.toString(), first_name: first_name.toString(), last_name: last_name.toString(), device: device.toString()},
           headers()
       )
       .then(response => {
@@ -233,7 +233,7 @@ function editUser(user_id, email, first_name, last_name, device) {
     return axios
         .put(
             api_url + "/users/" + user_id.toString(),
-            {email: email, first_name: first_name, last_name: last_name, device: device},
+            {email: email.toString(), first_name: first_name.toString(), last_name: last_name.toString(), device: device.toString()},
             headers()
         )
         .then(response => {
@@ -267,7 +267,7 @@ function addEmail(title, description, subject, content) {
     return axios
         .post(
             api_url + "/emails",
-            {title: title, description: description, subject: subject, content: content},
+            {title: title.toString(), description: description.toString(), subject: subject.toString(), content: content.toString()},
             headers()
         )
         .then(response => {
@@ -279,7 +279,7 @@ function sendEmails(email_id, users) {
     return axios
         .post(
             api_url + "/emails/send",
-            {email_id: email_id, users: users},
+            {email_id: email_id.toString(), users: users},
             headers()
         )
         .then(response => {
@@ -302,7 +302,7 @@ function editEmail(email_id, title, description, subject, content) {
     return axios
         .put(
             api_url + "/emails/" + email_id.toString(),
-            {title: title, description: description, subject: subject, content: content},
+            {title: title.toString(), description: description.toString(), subject: subject.toString(), content: content.toString()},
             headers()
         )
         .then(response => {
@@ -314,7 +314,7 @@ function addTemplateEmail(email_id, title, description) {
     return axios
         .post(
             api_url + "/emails/" + email_id.toString(),
-            {title: title, description: description},
+            {title: title.toString(), description: description.toString()},
             headers()
         )
         .then(response => {
