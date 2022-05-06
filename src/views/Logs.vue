@@ -116,7 +116,7 @@ import EditPassword from "@/components/session/EditPassword";
 import {API} from "@/assets/js/api";
 
 export default {
-  name: "Admins",
+  name: "Logs",
   components: {
     Header,
     UserInfo,
