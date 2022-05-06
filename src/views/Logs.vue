@@ -97,7 +97,7 @@
               </tbody>
               <tbody v-else>
               <tr>
-                <td colspan="5">Rien n'a été trouvé.</td>
+                <td colspan="6" class="empty-table">Aucune donnée n'a été trouvée.</td>
               </tr>
               </tbody>
             </table>
@@ -144,6 +144,9 @@ export default {
           .then(response => {
             this.logs = response;
           })
+          .catch(() => {
+            this.logs = null;
+          })
     },
     resetForm() {
       this.source_type = this.source = this.action = this.target_type = this.target = '';
@@ -154,7 +157,7 @@ export default {
 </script>
 
 <style scoped>
-#main section {
+#main > section {
   height: calc(100vh - 299px);
 }
 </style>
