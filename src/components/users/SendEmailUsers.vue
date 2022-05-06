@@ -6,7 +6,7 @@
       </header>
 
       <section>
-        <form @submit.prevent="sendEmail">
+        <form @submit.prevent="sendEmails">
           <label for="email">Email :</label>
           <select name="email" id="email" v-model="email_id" required>
             <option value="" selected>Sélectionnez un email</option>
@@ -56,16 +56,11 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    sendEmail: function() {
+    sendEmails: function() {
       API.sendEmails(this.email_id, [this.selected_user["user_id"]])
         .then(() => {
           this.$emit('component', { name: '' });
         });
-    }
-  },
-  computed: {
-    full_name: function () {
-      return this.selected_user["first_name"] + ' ' + this.selected_user["last_name"];
     }
   }
 };

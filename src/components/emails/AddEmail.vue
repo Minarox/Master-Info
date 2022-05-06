@@ -44,7 +44,7 @@
 import {API} from "@/assets/js/api";
 
 export default {
-  name: "AddAdmin",
+  name: "AddEmail",
   data() {
     return {
       title: '',

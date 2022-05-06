@@ -111,7 +111,6 @@
 <script>
 import Header from "@/components/global/Header";
 import UserInfo from "@/components/session/UserInfo";
-import EditUserInfo from "@/components/session/EditUserInfo";
 import EditPassword from "@/components/session/EditPassword";
 import {API} from "@/assets/js/api";
 
@@ -120,7 +119,6 @@ export default {
   components: {
     Header,
     UserInfo,
-    EditUserInfo,
     EditPassword
   },
   data() {

@@ -6,7 +6,7 @@
       </header>
 
       <section>
-        <form @submit.prevent="deleteUser">
+        <form @submit.prevent="deleteUsers">
           <p>Voulez vous vraiment supprimer les utilisateurs sélectionnés ?</p>
           <div>
             <button
@@ -42,7 +42,9 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    deleteUser: function() {
+    deleteUsers: function() {
+      // TODO: Add delete users function to API
+      // TODO: Add success and error messages
       API.deleteUser(this.selected_user["user_id"])
         .then(() => {
           this.$emit('component', { name: '' });

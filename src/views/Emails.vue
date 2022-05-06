@@ -8,6 +8,7 @@
         :current_user="current_user"
         :selected_email="selected_email"
         @component="switchComponent"
+        @reload="getEmails"
       />
     </transition>
 
@@ -87,7 +88,6 @@
 <script>
 import Header from "@/components/global/Header";
 import UserInfo from "@/components/session/UserInfo";
-import EditUserInfo from "@/components/session/EditUserInfo";
 import EditPassword from "@/components/session/EditPassword";
 import AddEmail from "@/components/emails/AddEmail";
 import EditEmail from "@/components/emails/EditEmail";
@@ -99,7 +99,6 @@ export default {
   components: {
     Header,
     UserInfo,
-    EditUserInfo,
     EditPassword,
     AddEmail,
     EditEmail,

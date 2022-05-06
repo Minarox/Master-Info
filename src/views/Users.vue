@@ -8,6 +8,7 @@
         :current_user="current_user"
         :selected_user="selected_user"
         @component="switchComponent"
+        @reload="getUsers"
       />
     </transition>
 
@@ -107,7 +108,6 @@
 <script>
 import Header from "@/components/global/Header";
 import UserInfo from "@/components/session/UserInfo";
-import EditUserInfo from "@/components/session/EditUserInfo";
 import EditPassword from "@/components/session/EditPassword";
 import AddUser from "@/components/users/AddUser";
 import EditUser from "@/components/users/EditUser";
@@ -122,7 +122,6 @@ export default {
   components: {
     Header,
     UserInfo,
-    EditUserInfo,
     EditPassword,
     AddUser,
     EditUser,

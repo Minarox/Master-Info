@@ -72,7 +72,6 @@ body {
 
 main {
   height: calc(100vh - 64px);
-  overflow: auto; /* TODO: remove at the end */
 }
 
 main > div {
