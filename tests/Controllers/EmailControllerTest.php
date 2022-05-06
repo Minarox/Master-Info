@@ -64,7 +64,7 @@ class EmailControllerTest extends TestCase
         self::assertSame(
             json_encode(
                 $GLOBALS["pdo"]
-                    ->query("SELECT email_id, title, description FROM emails ORDER BY email_id LIMIT 300;")
+                    ->query("SELECT email_id, title, description, created_at FROM emails ORDER BY email_id LIMIT 300;")
                     ->fetchAll()
             ),
             $result->getBody()->__toString()

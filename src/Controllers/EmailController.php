@@ -51,9 +51,9 @@ class EmailController extends Controller
                     [
                         "email_id",
                         "title",
-                        "description"
+                        "description",
+                        "created_at"
                     ],
-                    ['*'],
                     order: "email_id"
                 )
             )
