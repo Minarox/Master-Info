@@ -371,7 +371,7 @@ form button > * {
 #main table tbody td:last-of-type {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
 }
 
 #main table tbody td:last-of-type > * {
