@@ -96,7 +96,8 @@ form label {
 }
 
 form input,
-form select {
+form select,
+form textarea {
   display: block;
   width: 100%;
   outline: none;
@@ -105,6 +106,11 @@ form select {
   border: 1px solid var(--text-label);
   border-radius: 8px;
   margin-bottom: 26px;
+}
+
+form textarea {
+  height: 250px;
+  resize: vertical;
 }
 
 form button,

@@ -252,10 +252,10 @@ function deleteUser(user_id) {
         });
 }
 
-function getEmails() {
+function getEmails(title, description) {
     return axios
         .get(
-            api_url + "/emails",
+            api_url + "/emails?title=" + title.toString() + "&description=" + description.toString(),
             headers()
         )
         .then(response => {
