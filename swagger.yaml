@@ -1634,6 +1634,10 @@ definitions:
       description:
         type: string
         example: Description of the mail
+      created_at:
+        type: string
+        format: date
+        example: '2000-01-01 00:00:00'
     xml:
       name: emails
   email:
