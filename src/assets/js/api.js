@@ -333,10 +333,10 @@ function deleteEmail(email_id) {
         });
 }
 
-function getLogs(source, source_id, source_type, action, target, target_id, target_type) {
+function getLogs(source, source_type, action, target, target_type) {
         return axios
         .get(
-            api_url + "/logs?source=" + source.toString() + "&source_id=" + source_id.toString() + "&source_type=" + source_type.toString() + "&action=" + action.toString() + "&target=" + target.toString() + "&target_id=" + target_id.toString() + "&target_type=" + target_type.toString(),
+            api_url + "/logs?source=" + source.toString() + "&source_type=" + source_type.toString() + "&action=" + action.toString() + "&target=" + target.toString() + "&target_type=" + target_type.toString(),
             headers()
         )
         .then(response => {
