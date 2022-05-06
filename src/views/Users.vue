@@ -168,4 +168,8 @@ export default {
 #main > section {
   height: calc(100vh - 365px);
 }
+
+.empty-table {
+  height: calc(100vh - 406px);
+}
 </style>
