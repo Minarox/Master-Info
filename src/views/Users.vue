@@ -88,7 +88,7 @@
               </tbody>
               <tbody v-else>
               <tr>
-                <td colspan="4">Rien n'a été trouvé.</td>
+                <td colspan="6" class="empty-table">Aucune donnée n'a été trouvée.</td>
               </tr>
               </tbody>
             </table>
@@ -149,7 +149,7 @@ export default {
 </script>
 
 <style scoped>
-#main section {
+#main > section {
   height: calc(100vh - 365px);
 }
 </style>

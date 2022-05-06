@@ -377,10 +377,12 @@ form button > * {
   fill: var(--title);
 }
 
-#main table tbody tr td[colspan] {
+.empty-table {
+  display: table-cell !important;
   text-align: center;
   background-color: var(--bg-content);
-  padding: calc((100vh / 2) - 64px - 30px * 2) 0;
+  height: calc(100vh - 340px);
+  font-size: 1.1em;
 }
 
 #main table tbody tr:nth-of-type(odd) {
