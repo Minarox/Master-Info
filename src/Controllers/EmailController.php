@@ -43,6 +43,18 @@ class EmailController extends Controller
         // Check scope before accessing function
         $this->checkScope(["admin"]);
 
+        // Fetch query params
+        $params = $request->getQueryParams();
+
+        // Fields
+        $fields = array_filter([
+            "title LIKE" => array_key_exists("title", $params) ? '%' . $params["title"] . '%' : '',
+            "description LIKE" => array_key_exists("description", $params) ? '%' . $params["description"] . '%' : ''
+        ]);
+        if (empty($fields)) {
+            $fields = ['*'];
+        }
+
         // Display emails list
         $response->getBody()->write(
             json_encode(
@@ -54,6 +66,7 @@ class EmailController extends Controller
                         "description",
                         "created_at"
                     ],
+                    $fields,
                     order: "email_id"
                 )
             )

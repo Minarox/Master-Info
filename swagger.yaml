@@ -347,6 +347,22 @@ paths:
       summary: List of admins
       description: Return list of all admins in the database
       operationId: getAdmins
+      parameters:
+        - name: email
+          in: query
+          type: string
+        - name: first_name
+          in: query
+          type: string
+        - name: last_name
+          in: query
+          type: string
+        - name: scope
+          in: query
+          type: string
+        - name: active
+          in: query
+          type: string
       responses:
         '200':
           description: Success
@@ -615,6 +631,19 @@ paths:
       summary: List of users
       description: Return list of all users in the database
       operationId: getUsers
+      parameters:
+        - name: email
+          in: query
+          type: string
+        - name: first_name
+          in: query
+          type: string
+        - name: last_name
+          in: query
+          type: string
+        - name: device
+          in: query
+          type: string
       responses:
         '200':
           description: Success
@@ -839,6 +868,13 @@ paths:
       summary: List of emails
       description: Return list of all emails in the database
       operationId: getEmails
+      parameters:
+        - name: title
+          in: query
+          type: string
+        - name: description
+          in: query
+          type: string
       responses:
         '200':
           description: Success

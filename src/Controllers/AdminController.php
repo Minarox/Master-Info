@@ -41,6 +41,21 @@ class AdminController extends Controller
         // Check scope before accessing function
         $this->checkScope();
 
+        // Fetch query params
+        $params = $request->getQueryParams();
+
+        // Fields
+        $fields = array_filter([
+            "email LIKE" => array_key_exists("email", $params) ? '%' . $params["email"] . '%' : '',
+            "first_name LIKE" => array_key_exists("first_name", $params) ? '%' . $params["first_name"] . '%' : '',
+            "last_name LIKE" => array_key_exists("last_name", $params) ? '%' . $params["last_name"] . '%' : '',
+            "scope" => $params["scope"] ?? '',
+            "active" => $params["active"] ?? '',
+        ]);
+        if (empty($fields)) {
+            $fields = ['*'];
+        }
+
         // Display admins list
         $response->getBody()->write(
             json_encode(
@@ -55,7 +70,7 @@ class AdminController extends Controller
                         "active",
                         "created_at"
                     ],
-                    ['*'],
+                    $fields,
                     order: "first_name"
                 )
             )

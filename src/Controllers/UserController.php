@@ -41,6 +41,20 @@ class UserController extends Controller
         // Check scope before accessing function
         $this->checkScope(["admin"]);
 
+        // Fetch query params
+        $params = $request->getQueryParams();
+
+        // Fields
+        $fields = array_filter([
+            "email LIKE" => array_key_exists("email", $params) ? '%' . $params["email"] . '%' : '',
+            "first_name LIKE" => array_key_exists("first_name", $params) ? '%' . $params["first_name"] . '%' : '',
+            "last_name LIKE" => array_key_exists("last_name", $params) ? '%' . $params["last_name"] . '%' : '',
+            "device LIKE" => array_key_exists("device", $params) ? '%' . $params["device"] . '%' : '',
+        ]);
+        if (empty($fields)) {
+            $fields = ['*'];
+        }
+
         // Display users list
         $response->getBody()->write(
             json_encode(
@@ -54,6 +68,7 @@ class UserController extends Controller
                         "device",
                         "created_at"
                     ],
+                    $fields,
                     order: "first_name"
                 )
             )
