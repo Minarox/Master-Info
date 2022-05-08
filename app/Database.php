@@ -281,7 +281,7 @@ class Database
 
         // Sorts array values
         foreach ($array as $param) {
-            if ($param) {
+            if (!empty($param) || $param === '0') {
                 $filteredArray = array_merge($filteredArray, [$keys[$i] => $param]);
             }
             $i++;
