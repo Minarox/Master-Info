@@ -63,8 +63,20 @@ export default {
     editUser: function() {
       API.editUser(this.selected_user["user_id"], this.email, this.first_name, this.last_name, this.device)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Utilisateur modifié",
+            text: "Les modifications ont été prises en compte."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la modification des informations. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

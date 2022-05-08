@@ -62,8 +62,20 @@ export default {
     addUser: function() {
       API.addUser(this.email, this.first_name, this.last_name, this.device)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Utilisateur ajouté",
+            text: "L'utilisateur à été ajouté à l'application."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'ajout. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

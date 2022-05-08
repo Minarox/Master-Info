@@ -20,7 +20,7 @@
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Retour
+              Annuler
             </button>
           </div>
         </form>
@@ -45,8 +45,21 @@ export default {
     deleteUsers: function() {
       API.deleteUsers(Object.keys(this.selected_users).map((key) => this.selected_users[key]))
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Utilisateurs supprimés",
+            text: "Les utilisateurs sélectionnés ont été supprimés."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la suppression. Aucun utilisateur n'a été impacté."
+          }, 3500);
+          this.$emit('component', { name: '' });
         });
     }
   }

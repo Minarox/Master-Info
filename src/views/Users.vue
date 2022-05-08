@@ -145,6 +145,22 @@ export default {
     };
   },
   mounted() {
+    /*
+
+    this.$notify({
+      group: "success",
+      title: "Success",
+      text: "Your account was registered!"
+    }, 3500)
+
+    this.$notify({
+      group: "error",
+      title: "Error",
+      text: "Your email is already used!"
+    }, 3500)
+
+    */
+
     this.getUsers();
   },
   methods: {
@@ -162,7 +178,13 @@ export default {
       this.getUsers();
     },
     checkEmpty(component) {
-      if (!(this.selected_users && Object.keys(this.selected_users).length === 0)) {
+      if (this.selected_users && Object.keys(this.selected_users).length === 0) {
+        this.$notify({
+          group: "error",
+          title: "Erreur",
+          text: "Veuillez sélectionner au moins un utilisateur."
+        }, 2000);
+      } else {
         this.component = component;
       }
     },

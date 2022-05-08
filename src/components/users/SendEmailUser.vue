@@ -59,6 +59,19 @@ export default {
     sendEmail: function() {
       API.sendEmails(this.email_id, [this.selected_user["user_id"]])
         .then(() => {
+            this.$notify({
+              group: "success",
+              title: "Email envoyé",
+              text: "L'email à bien été envoyé à l'utilisateur."
+            }, 3500);
+            this.$emit('component', { name: '' });
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'envoie."
+          }, 3500);
           this.$emit('component', { name: '' });
         });
     }
