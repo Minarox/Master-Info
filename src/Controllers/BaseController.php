@@ -25,7 +25,7 @@ class BaseController extends Controller
         // Display description
         $response->getBody()->write(
             json_encode([
-                "version"     => "v1.2.1",
+                "version"     => "v1.3.0",
                 "title"       => "Cerealis API",
                 "description" => "Enterprise Resource Management API",
                 "host"        => "https://mspr.minarox.fr",
