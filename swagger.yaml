@@ -723,6 +723,45 @@ paths:
             - app
             - super_admin
         - AccessToken: []
+  /users/delete:
+    put:
+      tags:
+        - User
+      summary: Remove users
+      description: Delete existing users
+      operationId: deleteUsers
+      parameters:
+        - in: body
+          name: body
+          description: Information to update
+          required: true
+          schema:
+            $ref: '#/definitions/delete_users'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/200'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '401':
+          description: Unauthorized
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/401'
+      security:
+        - OAuth2_App:
+            - super_admin
+        - OAuth2_Pass:
+            - super_admin
+        - AccessToken: []
   /users/{user_id}:
     get:
       tags:
@@ -1658,6 +1697,14 @@ definitions:
         example: Device name
     xml:
       name: update_user
+  delete_users:
+    type: object
+    properties:
+      users:
+        type: array
+        items: {}
+    xml:
+      name: delete_users
   emails:
     type: object
     properties:

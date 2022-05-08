@@ -522,6 +522,107 @@ class UserControllerTest extends TestCase
     }
 
     /**
+     * Test deleteUsers function
+     * Usage: PUT /users/delete | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUsers()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "users" => [
+                $this->user_id
+            ]
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/delete");
+        $result = $this->userController->deleteUsers($request, $this->response);
+
+        // Check if log added = database
+        $type = Type::Admin;
+        $action = Action::Remove;
+        $log_id = $GLOBALS["pdo"]
+            ->query("SELECT log_id FROM logs WHERE source_id = '{$GLOBALS["session"]["user_id"]}' AND source_type = '$type->name' AND action = '$action->name' AND target_id = '$this->user_id' AND target_type = '$this->type' LIMIT 1;")
+            ->fetchColumn();
+        self::assertNotFalse((bool) $log_id);
+
+        // Remove new log
+        $GLOBALS["pdo"]
+            ->prepare("DELETE FROM logs WHERE log_id = '$log_id';")
+            ->execute();
+
+        // Check if http code is correct
+        self::assertFalse(
+            $GLOBALS["pdo"]
+                ->query("SELECT user_id FROM users WHERE user_id = '$this->user_id' LIMIT 1;")
+                ->fetchColumn()
+        );
+        $this->assertHTTPCode($result);
+    }
+
+    /**
+     * Test deleteUsers function with bad ID
+     * Usage: PUT /users/delete | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUsersWithBadID()
+    {
+        // Fields
+        $GLOBALS["body"] = [
+            "users" => [
+                "00000000-0000-0000-0000-000000000000"
+            ]
+        ];
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/delete");
+        $result = $this->userController->deleteUsers($request, $this->response);
+
+        // Check if http code is correct
+        $this->assertHTTPCode($result, 400);
+    }
+
+    /**
+     * Test deleteUsers function without permission
+     * Usage: PUT /users/delete | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUsersWithoutScope()
+    {
+        // Change scope
+        $GLOBALS["session"]["scope"] = "admin";
+
+        // Check if exception is thrown
+        $this->expectException(Unauthorized::class);
+        $this->expectExceptionMessage("User doesn't have the permission");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/delete");
+        $this->userController->deleteUsers($request, $this->response);
+    }
+
+    /**
+     * Test deleteUsers function without params
+     * Usage: PUT /users/delete | Scope: super_admin
+     *
+     * @throws NotFound|BadRequest|Unauthorized
+     */
+    public function testDeleteUsersWithoutParams()
+    {
+        // Check if exception is thrown
+        $this->expectException(BadRequest::class);
+        $this->expectExceptionMessage("Missing value in array");
+
+        // Call function
+        $request = $this->createRequest("PUT", "/users/delete");
+        $this->userController->deleteUsers($request, $this->response);
+    }
+
+    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
