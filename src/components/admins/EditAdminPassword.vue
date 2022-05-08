@@ -59,8 +59,20 @@ export default {
     editAdminPassword: function() {
       API.editAdminPassword(this.selected_admin["admin_id"], this.password, this.confirm_password)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Mot de passe modifié",
+            text: "Le mot de passe de l'administrateur à été modifié."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la modification. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   },

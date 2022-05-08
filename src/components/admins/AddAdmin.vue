@@ -75,8 +75,20 @@ export default {
     addAdmin: function() {
       API.addAdmin(this.email, this.password, this.confirm_password, this.first_name, this.last_name, this.scope)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Administrateur ajouté",
+            text: "L'administrateur à été ajouté à l'application."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'ajout. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

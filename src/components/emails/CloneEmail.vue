@@ -69,8 +69,20 @@ export default {
     cloneEmail: function() {
       API.addTemplateEmail(this.selected_email["email_id"], this.title, this.description)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Modèle d'email cloné",
+            text: "Le modèle à été ajouté à l'application."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors du clonage. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

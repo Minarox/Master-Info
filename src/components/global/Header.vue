@@ -82,7 +82,7 @@ export default {
 
 <style scoped>
 #header {
-  z-index: 100;
+  z-index: 99;
   position: sticky;
   top: 0;
   height: 64px;

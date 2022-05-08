@@ -20,7 +20,7 @@
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Retour
+              Annuler
             </button>
           </div>
         </form>
@@ -45,8 +45,21 @@ export default {
     deleteEmail: function() {
       API.deleteEmail(this.selected_email["email_id"])
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Modèle d'email supprimé",
+            text: "Le modèle à été supprimé de l'application."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la suppression. Le modèle n'a pas été impacté."
+          }, 3500);
+          this.$emit('component', { name: '' });
         });
     }
   }

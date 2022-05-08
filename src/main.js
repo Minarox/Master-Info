@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import notifications from 'notiwind';
 import { API } from "./assets/js/api";
 
 const app = createApp(App);
@@ -56,4 +57,4 @@ app.mixin({
   },
 });
 
-app.use(router).mount("#app");
+app.use(router).use(notifications).mount("#app");

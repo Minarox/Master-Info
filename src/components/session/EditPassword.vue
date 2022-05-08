@@ -53,7 +53,19 @@ export default {
     editPassword() {
       API.editPassword(this.old_password, this.new_password, this.confirm_new_password)
           .then(() => {
+            this.$notify({
+              group: "success",
+              title: "Mot de passe modifié",
+              text: "Les modifications ont été prises en compte. Veuillez vous reconnecter."
+            }, 3500);
             this.$router.push("/logout");
+          })
+          .catch(() => {
+            this.$notify({
+              group: "error",
+              title: "Erreur",
+              text: "Une erreur est survenue lors de la modification du mot de passe. Veuillez vérifier les champs avant de réessayer."
+            }, 3500);
           });
     },
   },

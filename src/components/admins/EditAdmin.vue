@@ -76,6 +76,11 @@ export default {
     editAdmin: function() {
       API.editAdmin(this.selected_admin["admin_id"], this.email, this.first_name, this.last_name, this.scope, this.active)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Administrateur modifié",
+            text: "Les modifications ont été prises en compte."
+          }, 3500);
           if (this.current_user["email"] === this.selected_admin["email"]) {
             API.userInfo().then(() => {
               this.$router.go(0);
@@ -84,6 +89,13 @@ export default {
             this.$emit('component', { name: '' });
             this.$emit('reload');
           }
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la modification. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

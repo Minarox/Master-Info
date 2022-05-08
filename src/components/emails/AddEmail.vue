@@ -63,8 +63,20 @@ export default {
     addEmail: function() {
       API.addEmail(this.title, this.description, this.subject, this.content)
         .then(() => {
+          this.$notify({
+            group: "success",
+            title: "Modèle d'email ajouté",
+            text: "Le modèle à été ajouté à l'application."
+          }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
+        })
+        .catch(() => {
+          this.$notify({
+            group: "error",
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'ajout. Veuillez vérifier les champs avant de réessayer."
+          }, 3500);
         });
     }
   }

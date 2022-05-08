@@ -64,8 +64,20 @@ export default {
     editUserInfo() {
       API.editUserInfo(this.email, this.first_name, this.last_name)
           .then(() => {
+            this.$notify({
+              group: "success",
+              title: "Profil modifié",
+              text: "Les modifications ont été prises en compte."
+            }, 3500);
             this.$router.go(0);
           })
+          .catch(() => {
+            this.$notify({
+              group: "error",
+              title: "Erreur",
+              text: "Une erreur est survenue lors de la modification des informations. Veuillez vérifier les champs avant de réessayer."
+            }, 3500);
+        });
     },
   },
 };
