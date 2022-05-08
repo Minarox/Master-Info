@@ -44,10 +44,8 @@ export default {
   },
   methods: {
     deleteUsers: function() {
-      // TODO: Add delete users function to API
-      // TODO: Add success and error messages
-      // TODO: Test all functions
-      API.deleteUser(this.selected_user["user_id"])
+      // TODO: Super_admin and admin permissions
+      API.deleteUsers(Object.keys(this.selected_users).map((key) => this.selected_users[key]))
         .then(() => {
           this.$emit('component', { name: '' });
           this.$emit('reload');

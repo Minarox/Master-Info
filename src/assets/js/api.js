@@ -252,6 +252,18 @@ function deleteUser(user_id) {
         });
 }
 
+function deleteUsers(users) {
+    return axios
+        .put(
+            api_url + "/users/delete",
+            {users: users},
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
 function getEmails(title, description) {
     return axios
         .get(
