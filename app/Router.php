@@ -45,6 +45,7 @@ return function (App $app) {
     // User controller
     $app->get("/users", [UserController::class, "getUsers"]);
     $app->post("/users", [UserController::class, "addUser"]);
+    $app->put("/users/delete", [UserController::class, "deleteUsers"]);
     $app->get("/users/{user_id}", [UserController::class, "getUser"]);
     $app->put("/users/{user_id}", [UserController::class, "editUser"]);
     $app->delete("/users/{user_id}", [UserController::class, "deleteUser"]);
@@ -52,7 +53,7 @@ return function (App $app) {
     // Email controller
     $app->get("/emails", [EmailController::class, "getEmails"]);
     $app->post("/emails", [EmailController::class, "addEmail"]);
-    $app->POST("/emails/send", [EmailController::class, "sendEmails"]);
+    $app->post("/emails/send", [EmailController::class, "sendEmails"]);
     $app->get("/emails/{email_id}", [EmailController::class, "getEmail"]);
     $app->put("/emails/{email_id}", [EmailController::class, "editEmail"]);
     $app->post("/emails/{email_id}", [EmailController::class, "addTemplateEmail"]);
