@@ -399,12 +399,30 @@ form button > * {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-evenly;
-  gap: 30px;
+  gap: 20px 30px;
 }
 
 #buttons > * {
   flex: 0 0 30%;
   box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%),
   0 0.6px 1.8px 0 rgb(0 0 0 / 11%);
+}
+
+@media only screen and (max-width: 700px) {
+  main {
+    overflow: auto;
+  }
+
+  #buttons, #filter form {
+    flex-flow: column nowrap;
+  }
+
+  #buttons, #filter form div {
+    flex: 1 0 100%;
+  }
+
+  #buttons .button, #filter form > * {
+    width: 100%;
+  }
 }
 </style>
