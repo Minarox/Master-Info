@@ -59,7 +59,7 @@
               <!-- Head -->
               <thead>
               <tr>
-                <th>&nbsp;</th>
+                <th><input type="checkbox" @change="toggleAll" id="main-toggle" /></th>
                 <th>Email</th>
                 <th>Nom complet</th>
                 <th>Appareil</th>
@@ -70,7 +70,7 @@
               <!-- Content -->
               <tbody v-if="users">
               <tr v-for="user in users" :key="user['user_id']">
-                <td><input type="checkbox" :name="user['user_id']" @change="toggleUser(user['user_id'])"/>&nbsp;</td>
+                <td><input type="checkbox" :name="user['user_id']" @change="toggleUser(user['user_id'])" class="checkbox"/></td>
                 <td>{{ user["email"] }}</td>
                 <td>{{ user["first_name"] + ' ' + user["last_name"] }}</td>
                 <td>{{ user["device"] }}</td>
@@ -98,8 +98,8 @@
         </article>
 
         <article id="buttons">
-          <a href="" @click.prevent="component = 'SendEmailUsers'" class="button">Envoyer un mail</a>
-          <a v-if="isSuperAdmin(false)" href="" @click.prevent="component = 'DeleteUsers'" class="button btn-warning">Supprimer les utilisateurs</a>
+          <a href="" @click.prevent="checkEmpty('SendEmailUsers')" class="button">Envoyer un mail</a>
+          <a v-if="isSuperAdmin(false)" href="" @click.prevent="checkEmpty('DeleteUsers')" class="button btn-warning">Supprimer les utilisateurs</a>
         </article>
       </div>
     </main>
@@ -161,12 +161,26 @@ export default {
       this.email = this.first_name = this.last_name = this.device = '';
       this.getUsers();
     },
+    checkEmpty(component) {
+      if (!(this.selected_users && Object.keys(this.selected_users).length === 0)) {
+        this.component = component;
+      }
+    },
     toggleUser(user_id) {
       if (this.selected_users.includes(user_id.toString())) {
         this.selected_users.splice(this.selected_users.indexOf(user_id.toString()), 1);
       } else {
         this.selected_users.push(user_id.toString());
       }
+    },
+    toggleAll() {
+      let main_checkbox = document.getElementById("main-toggle");
+      let checkboxes = document.getElementsByClassName("checkbox");
+      for (const checkbox of checkboxes) {
+        checkbox.checked = !main_checkbox.checked;
+        checkbox.click();
+      }
+      if (!main_checkbox.checked) this.selected_users = [];
     }
   }
 };
