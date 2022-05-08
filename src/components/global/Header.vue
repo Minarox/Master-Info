@@ -44,8 +44,8 @@
         <li>
           <router-link @click="opened = false" :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
           <router-link @click="opened = false" :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
-          <router-link @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
-          <router-link @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
+          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
           <hr>
           <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">Profil</a>
           <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
