@@ -37,14 +37,12 @@ export default {
   props: ["selected_users"],
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
-    console.log(Object.keys(this.selected_users).map((key) => this.selected_users[key]));
   },
   beforeUnmount() {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
     deleteUsers: function() {
-      // TODO: Super_admin and admin permissions
       API.deleteUsers(Object.keys(this.selected_users).map((key) => this.selected_users[key]))
         .then(() => {
           this.$emit('component', { name: '' });

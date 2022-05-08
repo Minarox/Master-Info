@@ -56,7 +56,7 @@ import {API} from "@/assets/js/api";
 
 export default {
   name: "EditAdmin",
-  props: ["selected_admin"],
+  props: ["selected_admin", "current_user"],
   data() {
     return {
       email: this.selected_admin["email"],
@@ -76,8 +76,14 @@ export default {
     editAdmin: function() {
       API.editAdmin(this.selected_admin["admin_id"], this.email, this.first_name, this.last_name, this.scope, this.active)
         .then(() => {
-          this.$emit('component', { name: '' });
-          this.$emit('reload');
+          if (this.current_user["email"] === this.selected_admin["email"]) {
+            API.userInfo().then(() => {
+              this.$router.go(0);
+            });
+          } else {
+            this.$emit('component', { name: '' });
+            this.$emit('reload');
+          }
         });
     }
   }

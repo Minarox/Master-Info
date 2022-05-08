@@ -134,7 +134,9 @@ export default {
     };
   },
   mounted() {
-    this.getLogs();
+    if (this.isSuperAdmin()) {
+      this.getLogs();
+    }
   },
   methods: {
     getLogs() {

@@ -147,7 +147,9 @@ export default {
     };
   },
   mounted() {
-    this.getAdmins();
+    if (this.isSuperAdmin()) {
+      this.getAdmins();
+    }
   },
   methods: {
     getAdmins() {

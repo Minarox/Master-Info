@@ -24,6 +24,7 @@ export const API = {
   getUser,
   editUser,
   deleteUser,
+  deleteUsers,
 
   // Email
   getEmails,

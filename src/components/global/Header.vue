@@ -11,8 +11,8 @@
       <nav v-if="path">
         <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
         <router-link :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
-        <router-link :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
-        <router-link :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+        <router-link v-if="isSuperAdmin(false)" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
+        <router-link v-if="isSuperAdmin(false)" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
       </nav>
 
       <section v-if="current_user && path" id="normal_menu" @mouseleave="opened = false">

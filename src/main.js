@@ -18,26 +18,13 @@ app.mixin({
         router.push("/").then();
       }
     },
-    isAdmin(routerPush = true) {
-      let admin = JSON.parse(localStorage.getItem("session"))[
-        "is_admin"
-      ].toString();
-      if (admin !== "1") {
-        if (routerPush) this.$router.push("/").then();
-        return false;
+    isSuperAdmin(routerPush = true) {
+      let session = JSON.parse(localStorage.getItem("session"));
+      if (session["scope"] === "super_admin") {
+        return true;
       }
-      return true;
-    },
-    unauthorizedError(error) {
-      if (error["response"] && error["response"]["status"] === 401) {
-        API.logout()
-          .then(() => {
-            this.$router.push("/login").then();
-          })
-          .catch(() => {
-            this.$router.push("/login").then();
-          });
-      }
+      if (routerPush) this.$router.push("/").then();
+      return false;
     },
     switchComponent(payload) {
       this.component = payload.name;
