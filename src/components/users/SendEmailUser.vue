@@ -48,7 +48,7 @@ export default {
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
 
-    API.getEmails().then(response => {
+    API.getEmails('', '').then(response => {
       this.emails = response;
     });
   },
