@@ -374,8 +374,7 @@ class EmailController extends Controller
             return $this->errorCode()->badRequest();
         } else if ($errors > 0) {
             return $this->successCode()->success(count($GLOBALS["body"]["users"]) - $errors . " out of " . count($GLOBALS["body"]["users"]) . " emails were sent");
-        } else {
-            return $this->successCode()->success("All emails have been sent");
         }
+        return $this->successCode()->success("All emails have been sent");
     }
 }
