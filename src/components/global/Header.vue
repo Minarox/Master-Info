@@ -238,7 +238,7 @@ nav > *:hover {
 #mobile_menu ul {
   position: absolute;
   left: 0;
-  top: 56px;
+  top: 64px;
   width: 100vw;
   padding: 4px 0;
   background-color: var(--bg-content);
