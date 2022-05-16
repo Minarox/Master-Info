@@ -46,10 +46,15 @@ abstract class Controller
     /**
      * Get current date
      *
+     * @param int|null $timestamp
+     *
      * @return string
      */
-    protected function getDate(): string
+    protected function getDate(?int $timestamp = null): string
     {
+        if ($timestamp) {
+            return date("Y-m-d H:i:s", $timestamp);
+        }
         return date("Y-m-d H:i:s");
     }
 
