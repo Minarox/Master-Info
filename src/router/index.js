@@ -3,6 +3,7 @@ import Users from "@/views/Users.vue";
 import Emails from "@/views/Emails";
 import Admins from "@/views/Admins";
 import Logs from "@/views/Logs";
+import Statistics from "@/views/Statistics";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import { API } from "@/assets/js/api";
@@ -12,6 +13,7 @@ const routes = [
   { path: "/emails", name: "Emails", component: Emails },
   { path: "/admins", name: "Admins", component: Admins },
   { path: "/logs", name: "Logs", component: Logs },
+  { path: "/statistics", name: "Statistics", component: Statistics },
   { path: "/login", name: "Login", component: Login },
   { path: "/logout", name: "Logout", component: Logout },
   { path: "/:pathMatch(.*)*", redirect: "/" },

@@ -158,6 +158,6 @@ export default {
 
 <style scoped>
 #main > section {
-  height: calc(100vh - 299px);
+  height: calc(100vh - 304px);
 }
 </style>
