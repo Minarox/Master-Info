@@ -148,10 +148,6 @@ body {
   overflow: hidden;
 }
 
-main {
-  height: calc(100vh - 64px);
-}
-
 main > div {
   width: 100%;
   max-width: 1200px;

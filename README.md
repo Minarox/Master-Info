@@ -56,6 +56,7 @@ authentication and a permissions' system.
   * [Notiwind](https://github.com/emmanuelsw/notiwind)
   * [Tailwind](https://tailwindcss.com/)
   * [Fontawesome](https://fontawesome.com/)
+  * [ChartJS](https://www.chartjs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -124,6 +125,7 @@ Each section has its own components allowing to fully manage the section in ques
   - [x] Emails
   - [x] Administrators
   - [x] Logs
+  - [x] Statistics
 - [x] Notification system
   - [x] Success
   - [x] Error
