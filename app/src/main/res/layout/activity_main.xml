@@ -1,0 +1,58 @@
+<!--
+   Copyright 2016 Google LLC
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.google.ar.core.examples.java.augmentedimage.AugmentedImageActivity">
+
+  <android.opengl.GLSurfaceView
+      android:id="@+id/surfaceview"
+      android:layout_width="411dp"
+      android:layout_height="733dp"
+      app:layout_constraintBottom_toBottomOf="@+id/image_view_fit_to_scan"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageView
+      android:id="@+id/image_view_fit_to_scan"
+      android:layout_width="411dp"
+      android:layout_height="729dp"
+      android:scaleType="fitCenter"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@+id/surfaceview"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/TakePictureButton"
+      android:layout_width="400dp"
+      android:layout_height="75dp"
+      android:drawableStart="@drawable/ic_camera"
+      android:onClick="onSavePicture"
+      android:text="Take picture"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/surfaceview"
+      app:layout_constraintVertical_bias="0.902"
+      tools:ignore="OnClick" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
