@@ -36,7 +36,13 @@ export const API = {
   deleteEmail,
 
   // Log
-  getLogs
+  getLogs,
+
+  // Statistic
+  getGlobalStats,
+  getAvgUsageMonth,
+  getAvgUsageDay,
+  getAvgUsageHour,
 };
 
 function headers() {
@@ -350,6 +356,50 @@ function getLogs(source, source_type, action, target, target_type) {
         return axios
         .get(
             api_url + "/logs?source=" + source.toString() + "&source_type=" + source_type.toString() + "&action=" + action.toString() + "&target=" + target.toString() + "&target_type=" + target_type.toString(),
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getGlobalStats() {
+        return axios
+        .get(
+            api_url + "/statistics",
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getAvgUsageMonth() {
+        return axios
+        .get(
+            api_url + "/statistics/avg-usage-month",
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getAvgUsageDay() {
+        return axios
+        .get(
+            api_url + "/statistics/avg-usage-day",
+            headers()
+        )
+        .then(response => {
+            return response["data"];
+        });
+}
+
+function getAvgUsageHour() {
+        return axios
+        .get(
+            api_url + "/statistics/avg-usage-hour",
             headers()
         )
         .then(response => {
