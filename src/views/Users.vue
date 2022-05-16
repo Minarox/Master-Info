@@ -210,7 +210,7 @@ export default {
 
 <style scoped>
 #main > section {
-  height: calc(100vh - 365px);
+  height: calc(100vh - 370px);
 }
 
 .empty-table {
