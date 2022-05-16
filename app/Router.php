@@ -9,6 +9,7 @@ use Controllers\BaseController;
 use Controllers\EmailController;
 use Controllers\LogController;
 use Controllers\SessionController;
+use Controllers\StatisticController;
 use Controllers\UserController;
 use Slim\App;
 
@@ -61,6 +62,12 @@ return function (App $app) {
 
     // Log controller
     $app->get("/logs", [LogController::class, "getLogs"]);
+
+    // Statistic controller
+    $app->get("/statistics", [StatisticController::class, "getGlobalStats"]);
+    $app->get("/statistics/avg-usage-month", [StatisticController::class, "getAvgUsageMonth"]);
+    $app->get("/statistics/avg-usage-day", [StatisticController::class, "getAvgUsageDay"]);
+    $app->get("/statistics/avg-usage-hour", [StatisticController::class, "getAvgUsageHour"]);
 
     /**
      * Redirect to 404 if none of the routes match
