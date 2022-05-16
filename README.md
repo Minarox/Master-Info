@@ -238,6 +238,7 @@ composer test:coverage
   - [x] Users
   - [x] Emails
   - [x] Logs
+  - [x] Statistics
 - [x] Unit testing (with coverage)
     - [x] HTTP Codes
     - [x] Controllers
