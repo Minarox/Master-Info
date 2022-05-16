@@ -10,7 +10,7 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.3.0
+  version: 1.4.0
 host: mspr.minarox.fr
 basePath: /api
 schemes:
@@ -55,6 +55,8 @@ tags:
     description: Email management
   - name: Log
     description: Log management
+  - name: Statistic
+    description: Global statistics
 paths:
   /:
     get:
@@ -1293,6 +1295,158 @@ paths:
         - OAuth2_Pass:
             - super_admin
         - AccessToken: []
+  /statistics:
+    get:
+      tags:
+        - Statistic
+      summary: Global statistics
+      description: Return global statistics of the app
+      operationId: getGlobalStats
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/global_stats'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '401':
+          description: Unauthorized
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/401'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+      security:
+        - OAuth2_App:
+            - super_admin
+        - OAuth2_Pass:
+            - super_admin
+        - AccessToken: []
+  /statistics/avg-usage-month:
+    get:
+      tags:
+        - Statistic
+      summary: Average usage for 1 month
+      description: Return usage statistics per month
+      operationId: getAvgUsageMonth
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/avg_usage'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '401':
+          description: Unauthorized
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/401'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+      security:
+        - OAuth2_App:
+            - super_admin
+        - OAuth2_Pass:
+            - super_admin
+        - AccessToken: []
+  /statistics/avg-usage-day:
+    get:
+      tags:
+        - Statistic
+      summary: Average usage for 1 week
+      description: Return usage statistics per day
+      operationId: getAvgUsageDay
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/avg_usage'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '401':
+          description: Unauthorized
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/401'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+      security:
+        - OAuth2_App:
+            - super_admin
+        - OAuth2_Pass:
+            - super_admin
+        - AccessToken: []
+  /statistics/avg-usage-hour:
+    get:
+      tags:
+        - Statistic
+      summary: Average usage for 1 day
+      description: Return usage statistics per hour
+      operationId: getAvgUsageHour
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/avg_usage_hour'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '401':
+          description: Unauthorized
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/401'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+      security:
+        - OAuth2_App:
+            - super_admin
+        - OAuth2_Pass:
+            - super_admin
+        - AccessToken: []
 definitions:
   '200':
     type: object
@@ -1852,3 +2006,42 @@ definitions:
         example: '2000-01-01 00:00:00'
     xml:
       name: logs
+  global_stats:
+    type: object
+    properties:
+      nb_users:
+        type: integer
+        example: 500
+      nb_share:
+        type: integer
+        example: 784
+      avg_usage_day:
+        type: number
+        example: 8.123
+      avg_usage_7_days:
+        type: number
+        example: 10.739
+    xml:
+      name: global_stats
+  avg_usage:
+    type: object
+    properties:
+      days:
+        type: array
+        items: { }
+      values:
+        type: array
+        items: { }
+    xml:
+      name: avg_usage
+  avg_usage_hour:
+    type: object
+    properties:
+      hours:
+        type: array
+        items: { }
+      values:
+        type: array
+        items: { }
+    xml:
+      name: avg_usage_hour
