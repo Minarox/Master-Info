@@ -6,7 +6,7 @@
       <div>
         <article>
           <header>
-            <h1>Connexion</h1>
+            <h1>{{ $t("login") }}</h1>
           </header>
 
           <section>
