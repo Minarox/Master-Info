@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
     <!--
  Limits app visibility in the Google Play Store to ARCore supported devices
        (https://developers.google.com/ar/devices).
@@ -23,17 +21,20 @@
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ShareFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".ShareActivity"
             android:exported="false"
             android:screenOrientation="locked"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".AugmentedImageActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
+            android:requestLegacyExternalStorage="true"
             android:screenOrientation="locked"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:requestLegacyExternalStorage="true">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
