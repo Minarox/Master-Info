@@ -30,6 +30,11 @@ public class ShareActivity extends AppCompatActivity {
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
         ShowView.setImageBitmap(myBitmap);
-
     }
+
+    private void ChangeActivity(String ImgName) {
+        Intent myIntent = new Intent(this, AugmentedImageActivity.class);
+        startActivity(myIntent);
+    }
+
 }
