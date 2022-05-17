@@ -37,5 +37,19 @@
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "sunday" : "Sunday"
+  "sunday" : "Sunday",
+  "source-type": "Type of source",
+  "administrator": "Administrator",
+  "user": "User",
+  "app": "Application",
+  "source": "Source",
+  "action": "Action",
+  "add": "Add",
+  "edit": "Edit",
+  "edit-password": "Edit password",
+  "remove": "Remove",
+  "email-send": "Email send",
+  "target-type": "Type of target",
+  "target": "Target",
+  "activity-logs": "Activity logs"
 }
