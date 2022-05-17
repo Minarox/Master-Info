@@ -3,17 +3,17 @@
     <article>
       <header>
         <h2>
-          Modification de l'administrateur<br>
+          {{ $t("edit-admin-title") }}<br>
           {{ full_name }}
         </h2>
       </header>
 
       <section>
         <form @submit.prevent="editAdminPassword">
-          <label for="password">Nouveau mot de passe :</label>
+          <label for="password">{{ $t("new-password") }}</label>
           <input type="password" name="password" id="password" v-model="password" required>
 
-          <label for="confirm_password">Confirmation du nouveau mot de passe :</label>
+          <label for="confirm_password">{{ $t("new-password-confirm") }}</label>
           <input type="password" name="v" id="confirm_password" v-model="confirm_password" required>
 
           <div>
@@ -21,14 +21,14 @@
                 type="submit"
                 class="button"
             >
-              Modifier
+              {{ $t("edit") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -61,8 +61,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Mot de passe modifié",
-            text: "Le mot de passe de l'administrateur à été modifié."
+            title: this.$t("edited-password"),
+            text: this.$t("edited-password-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -70,8 +70,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de la modification. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("edit-error")
           }, 3500);
         });
     }

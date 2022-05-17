@@ -2,27 +2,27 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Nouvel administrateur</h2>
+        <h2>{{ $t("new-admin") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="addAdmin">
-          <label for="email">Email :</label>
+          <label for="email">{{ $t("email") }}</label>
           <input type="email" name="email" id="email" v-model="email" required>
 
-          <label for="password">Mot de passe :</label>
+          <label for="password">{{ $t("password") }}</label>
           <input type="password" name="password" id="password" v-model="password" required>
 
-          <label for="confirm_password">Confirmation du mot de passe :</label>
+          <label for="confirm_password">{{ $t("password-confirm") }}</label>
           <input type="password" name="v" id="confirm_password" v-model="confirm_password" required>
 
-          <label for="first_name">Prénom :</label>
+          <label for="first_name">{{ $t("first-name") }}</label>
           <input type="text" name="first_name" id="first_name" v-model="first_name" required>
 
-          <label for="last_name">Nom :</label>
+          <label for="last_name">{{ $t("last-name") }}</label>
           <input type="text" name="last_name" id="last_name" v-model="last_name" required>
 
-          <label for="scope">Type :</label>
+          <label for="scope">{{ $t("type") }}</label>
           <select name="scope" id="scope" v-model="scope" required>
             <option value=""></option>
             <option value="admin">Admin</option>
@@ -34,14 +34,14 @@
                 type="submit"
                 class="button"
             >
-              Ajouter
+              {{ $t("add") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -77,8 +77,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Administrateur ajouté",
-            text: "L'administrateur à été ajouté à l'application."
+            title: this.$t("admin-added"),
+            text: this.$t("admin-added-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -86,8 +86,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de l'ajout. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("add-error")
           }, 3500);
         });
     }
