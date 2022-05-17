@@ -71,9 +71,22 @@ function loadLocaleMessages() {
   return messages;
 }
 
+let language = '';
+switch (navigator.language) {
+  case "fr":
+    language = "fr";
+    break;
+  case "fr-FR":
+    language = "fr";
+    break;
+  default:
+    language = "en-US"
+    break;
+}
+
 const i18n = createI18n({
-  locale: navigator.language || navigator.userLanguage || process.env.VUE_APP_I18N_LOCALE || "en",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+  locale: language || "en",
+  fallbackLocale: "en",
   messages: loadLocaleMessages(),
   silentTranslationWarn: true,
   missingWarn: false,
