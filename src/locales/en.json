@@ -1,3 +1,7 @@
 {
+  "connection": "Connection",
+  "incorrect-login": "Incorrect email address or password",
+  "email-address": "Email address",
+  "password": "Password",
   "login": "Login"
 }
