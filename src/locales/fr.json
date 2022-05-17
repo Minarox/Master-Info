@@ -19,5 +19,8 @@
   "select-one-user": "Veuillez sélectionner au moins un utilisateur",
   "title": "Titre",
   "description": "Description",
-  "email-templates": "Modèles d'emails enregistrés"
+  "email-templates": "Modèles d'emails enregistrés",
+  "type": "Type",
+  "active": "Actif",
+  "app-admins": "Administrateurs de l'application"
 }

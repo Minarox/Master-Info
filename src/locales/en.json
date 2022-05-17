@@ -19,5 +19,8 @@
   "select-one-user": "Please select at least one user",
   "title": "Title",
   "description": "Description",
-  "email-templates": "Saved email templates"
+  "email-templates": "Saved email templates",
+  "type": "Type",
+  "active": "Active",
+  "app-admins": "Application administrators"
 }
