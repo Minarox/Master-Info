@@ -3,5 +3,18 @@
   "incorrect-login": "Adresse email ou mot de passe incorrecte",
   "email-address": "Adresse email",
   "password": "Mot de passe",
-  "login": "Se connecter"
+  "login": "Se connecter",
+  "email": "Email",
+  "full-name": "Nom complet",
+  "first-name": "Prénom",
+  "last-name": "Nom",
+  "device": "Appareil",
+  "registered-users": "Utilisateurs enregistrés",
+  "added": "Ajouté le",
+  "actions": "Actions",
+  "no-data": "Aucune donnée n'a été trouvée",
+  "send-email": "Envoyer un mail",
+  "delete-users": "Supprimer les utilisateurs",
+  "error": "Erreur",
+  "select-one-user": "Veuillez sélectionner au moins un utilisateur"
 }

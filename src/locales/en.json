@@ -3,5 +3,18 @@
   "incorrect-login": "Incorrect email address or password",
   "email-address": "Email address",
   "password": "Password",
-  "login": "Login"
+  "login": "Login",
+  "email": "Email",
+  "full-name": "Full name",
+  "first-name": "First name",
+  "last-name": "Last name",
+  "device": "Device",
+  "registered-users": "Registered users",
+  "added": "Added on",
+  "actions": "Actions",
+  "no-data": "No data was found",
+  "send-email": "Send an email",
+  "delete-users": "Delete users",
+  "error": "Error",
+  "select-one-user": "Please select at least one user"
 }
