@@ -57,6 +57,7 @@ authentication and a permissions' system.
   * [Tailwind](https://tailwindcss.com/)
   * [Fontawesome](https://fontawesome.com/)
   * [ChartJS](https://www.chartjs.org/)
+  * [i18n](https://kazupon.github.io/vue-i18n/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -130,5 +131,6 @@ Each section has its own components allowing to fully manage the section in ques
   - [x] Success
   - [x] Error
   - [x] Features blocked by conditions
+- [x] Translation
 
 <p align="right">(<a href="#top">back to top</a>)</p>
