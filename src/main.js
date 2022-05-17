@@ -76,6 +76,8 @@ const i18n = createI18n({
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: loadLocaleMessages(),
   silentTranslationWarn: true,
+  missingWarn: false,
+  silentFallbackWarn: true,
   fallbackWarn: false
 });
 
