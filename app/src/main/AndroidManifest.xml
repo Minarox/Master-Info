@@ -22,7 +22,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ShareFormActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".ShareActivity"
             android:exported="false"
