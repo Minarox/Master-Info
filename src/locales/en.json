@@ -22,5 +22,20 @@
   "email-templates": "Saved email templates",
   "type": "Type",
   "active": "Active",
-  "app-admins": "Application administrators"
+  "app-admins": "Application administrators",
+  "statistics": "Statistics",
+  "global-stats": "Global statistics",
+  "nb-users": "Total number of users",
+  "nb-share": "Total number of shares",
+  "avg-usage-month": "Average usage for the month",
+  "avg-usage-day": "Average usage per day",
+  "avg-usage-hour": "Average usage per hour",
+  "avg-usage-7-days": "Average usage over the last 7 days",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday" : "Sunday"
 }
