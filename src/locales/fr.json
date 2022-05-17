@@ -16,5 +16,8 @@
   "send-email": "Envoyer un mail",
   "delete-users": "Supprimer les utilisateurs",
   "error": "Erreur",
-  "select-one-user": "Veuillez sélectionner au moins un utilisateur"
+  "select-one-user": "Veuillez sélectionner au moins un utilisateur",
+  "title": "Titre",
+  "description": "Description",
+  "email-templates": "Modèles d'emails enregistrés"
 }
