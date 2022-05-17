@@ -2,21 +2,21 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Nouvel email à partir d'un modèle</h2>
+        <h2>{{ $t("new-email-from-template-title")}}</h2>
       </header>
 
       <section>
         <form @submit.prevent="cloneEmail">
-          <label for="title">Titre :</label>
+          <label for="title">{{ $t("title")}}</label>
           <input type="text" name="title" id="title" v-model="title" required>
 
-          <label for="description">Description :</label>
+          <label for="description">{{ $t("description")}}</label>
           <input type="text" name="description" id="description" v-model="description" required>
 
-          <label for="subject">Objet :</label>
+          <label for="subject">{{ $t("object")}}</label>
           <input type="text" name="subject" id="subject" v-model="subject" disabled readonly>
 
-          <label for="content">Contenu :</label>
+          <label for="content">{{ $t("content")}}</label>
           <textarea name="content" id="content" v-model="content" disabled readonly></textarea>
 
           <div>
@@ -24,14 +24,14 @@
                 type="submit"
                 class="button"
             >
-              Ajouter
+              {{ $t("add")}}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close")}}
             </button>
           </div>
         </form>
@@ -71,8 +71,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Modèle d'email cloné",
-            text: "Le modèle à été ajouté à l'application."
+            title: this.$t("new-email-from-template"),
+            text: this.$t("new-email-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -80,8 +80,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors du clonage. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("new-email-from-template-error")
           }, 3500);
         });
     }
