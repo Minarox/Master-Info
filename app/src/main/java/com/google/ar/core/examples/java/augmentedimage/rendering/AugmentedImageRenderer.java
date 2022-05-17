@@ -100,4 +100,5 @@ public class AugmentedImageRenderer {
     float blue = (colorHex & 0x0000FF) / 255.0f * TINT_INTENSITY;
     return new float[] {red, green, blue, TINT_ALPHA};
   }
+
 }
