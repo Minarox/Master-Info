@@ -1,3 +1,7 @@
 {
-  "login": "Connexion"
+  "connection": "Connexion",
+  "incorrect-login": "Adresse email ou mot de passe incorrecte",
+  "email-address": "Adresse email",
+  "password": "Mot de passe",
+  "login": "Se connecter"
 }
