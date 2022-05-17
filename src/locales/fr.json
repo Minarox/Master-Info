@@ -37,5 +37,19 @@
   "thursday": "Jeudi",
   "friday": "Vendredi",
   "saturday": "Samedi",
-  "sunday" : "Dimanche"
+  "sunday" : "Dimanche",
+  "source-type": "Type de source",
+  "administrator": "Administrateur",
+  "user": "Utilisateur",
+  "app": "Application",
+  "source": "Source",
+  "action": "Action",
+  "add": "Ajout",
+  "edit": "Edition",
+  "edit-password": "Edition MDP",
+  "remove": "Suppression",
+  "email-send": "Email envoyé",
+  "target-type": "Type de cible",
+  "target": "Cible",
+  "activity-logs": "Journaux d'activités"
 }

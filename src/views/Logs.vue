@@ -15,42 +15,42 @@
         <article id="filter">
           <form @submit.prevent="getLogs">
             <div>
-              <label for="source_type">Type de source</label>
+              <label for="source_type">{{ $t("source-type") }}</label>
               <select name="source_type" id="source_type" v-model="source_type">
                 <option value=""></option>
-                <option value="Admin">Administrateur</option>
-                <option value="User">Utilisateur</option>
-                <option value="Email">Email</option>
-                <option value="App">Application</option>
+                <option value="Admin">{{ $t("administrator") }}</option>
+                <option value="User">{{ $t("user") }}</option>
+                <option value="Email">{{ $t("email") }}</option>
+                <option value="App">{{ $t("app") }}</option>
               </select>
             </div>
             <div>
-              <label for="source">Source</label>
+              <label for="source">{{ $t("source") }}</label>
               <input type="text" name="source" id="source" v-model="source">
             </div>
             <div>
-              <label for="action">Action</label>
+              <label for="action">{{ $t("action") }}</label>
               <select name="action" id="action" v-model="action">
                 <option value=""></option>
-                <option value="Add">Ajout</option>
-                <option value="Edit">Edition</option>
-                <option value="EditPassword">Edition MDP</option>
-                <option value="Remove">Suppression</option>
-                <option value="EmailSend">Email envoyé</option>
+                <option value="Add">{{ $t("add") }}</option>
+                <option value="Edit">{{ $t("edit") }}</option>
+                <option value="EditPassword">{{ $t("edit-password") }}</option>
+                <option value="Remove">{{ $t("remove") }}</option>
+                <option value="EmailSend">{{ $t("email-send") }}</option>
               </select>
             </div>
             <div>
-              <label for="target_type">Type de cible</label>
+              <label for="target_type">{{ $t("target-type") }}</label>
               <select name="target_type" id="target_type" v-model="target_type">
                 <option value=""></option>
-                <option value="Admin">Administrateur</option>
-                <option value="User">Utilisateur</option>
-                <option value="Email">Email</option>
-                <option value="App">Application</option>
+                <option value="Admin">{{ $t("administrator") }}</option>
+                <option value="User">{{ $t("user") }}</option>
+                <option value="Email">{{ $t("email") }}</option>
+                <option value="App">{{ $t("app") }}</option>
               </select>
             </div>
             <div>
-              <label for="target">Cible</label>
+              <label for="target">{{ $t("target") }}</label>
               <input type="text" name="target" id="target" v-model="target">
             </div>
             <button class="svg-button" type="submit">
@@ -64,7 +64,7 @@
 
         <article id="main">
           <header>
-            <h2>Journaux d'activités</h2>
+            <h2>{{ $t("activity-logs") }}</h2>
             <div>
               <a href="" @click.prevent="getLogs" class="svg-button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M496 48V192c0 17.69-14.31 32-32 32H320c-17.69 0-32-14.31-32-32s14.31-32 32-32h63.39c-29.97-39.7-77.25-63.78-127.6-63.78C167.7 96.22 96 167.9 96 256s71.69 159.8 159.8 159.8c34.88 0 68.03-11.03 95.88-31.94c14.22-10.53 34.22-7.75 44.81 6.375c10.59 14.16 7.75 34.22-6.375 44.81c-39.03 29.28-85.36 44.86-134.2 44.86C132.5 479.9 32 379.4 32 256s100.5-223.9 223.9-223.9c69.15 0 134 32.47 176.1 86.12V48c0-17.69 14.31-32 32-32S496 30.31 496 48z"/></svg>
@@ -76,12 +76,12 @@
               <!-- Head -->
               <thead>
               <tr>
-                <th>Type de source</th>
-                <th>Source</th>
-                <th>Action</th>
-                <th>Type de cible</th>
-                <th>Cible</th>
-                <th>Ajouté le</th>
+                <th>{{ $t("source-type") }}</th>
+                <th>{{ $t("source") }}</th>
+                <th>{{ $t("action") }}</th>
+                <th>{{ $t("target-type") }}</th>
+                <th>{{ $t("target") }}</th>
+                <th>{{ $t("added") }}</th>
               </tr>
               </thead>
               <!-- Content -->
@@ -97,7 +97,7 @@
               </tbody>
               <tbody v-else>
               <tr>
-                <td colspan="6" class="empty-table">Aucune donnée n'a été trouvée.</td>
+                <td colspan="6" class="empty-table">{{ $t("no-data") }}</td>
               </tr>
               </tbody>
             </table>
