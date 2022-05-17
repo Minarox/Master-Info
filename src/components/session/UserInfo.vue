@@ -2,37 +2,37 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Votre profil</h2>
+        <h2>{{ $t("your-profile") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="editUserInfo">
-          <label for="email">Adresse email :</label>
+          <label for="email">{{ $t("email-address") }}</label>
           <input type="email" name="email" id="email" v-model="email" required />
-          <label for="first_name">Prénom :</label>
+          <label for="first_name">{{ $t("first-name") }}</label>
           <input type="text" name="first_name" id="first_name" v-model="first_name" required />
-          <label for="last_name">Nom :</label>
+          <label for="last_name">{{ $t("last-name") }}</label>
           <input type="text" name="last_name" id="last_name" v-model="last_name" required />
           <div>
             <button
               type="submit"
               class="button"
             >
-              Modifier
+              {{ $t("edit") }}
             </button>
             <button
                 type="button"
                 class="button btn-warning"
                 @click="$emit('component', { name: 'EditPassword' })"
             >
-              Changer le mot de passe
+              {{ $t("edit-password-button") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -66,16 +66,16 @@ export default {
           .then(() => {
             this.$notify({
               group: "success",
-              title: "Profil modifié",
-              text: "Les modifications ont été prises en compte."
+              title: this.$t("profile-edited-title"),
+              text: this.$t("profile-edited")
             }, 3500);
             this.$router.go(0);
           })
           .catch(() => {
             this.$notify({
               group: "error",
-              title: "Erreur",
-              text: "Une erreur est survenue lors de la modification des informations. Veuillez vérifier les champs avant de réessayer."
+              title: this.$t("error"),
+              text: this.$t("edit-error")
             }, 3500);
         });
     },
