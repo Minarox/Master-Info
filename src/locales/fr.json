@@ -22,5 +22,20 @@
   "email-templates": "Modèles d'emails enregistrés",
   "type": "Type",
   "active": "Actif",
-  "app-admins": "Administrateurs de l'application"
+  "app-admins": "Administrateurs de l'application",
+  "statistics": "Statistiques",
+  "global-stats": "Statistiques globales",
+  "nb-users": "Nombre total d'utilisateurs",
+  "nb-share": "Nombre total de partage",
+  "avg-usage-month": "Moyenne d'utilisation sur le mois",
+  "avg-usage-day": "Moyenne d'utilisation par jours",
+  "avg-usage-hour": "Moyenne d'utilisation par heures",
+  "avg-usage-7-days": "Moyenne d'utilisation sur les 7 derniers jours",
+  "monday": "Lundi",
+  "tuesday": "Mardi",
+  "wednesday": "Mercredi",
+  "thursday": "Jeudi",
+  "friday": "Vendredi",
+  "saturday": "Samedi",
+  "sunday" : "Dimanche"
 }
