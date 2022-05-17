@@ -95,6 +95,7 @@
   "stats": "Statistics",
   "logs": "Logs",
   "profile": "Profile",
+  "your-profile": "Your profile",
   "logout": "Logout",
   "password-edited": "Password edited",
   "password-edited-msg": "The changes have been taken into account. Please log in again.",
