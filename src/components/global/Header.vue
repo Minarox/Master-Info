@@ -9,11 +9,11 @@
       </section>
 
       <nav v-if="path">
-        <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
-        <router-link :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">Statistiques</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+        <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">{{ $t("users") }}</router-link>
+        <router-link :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">{{ $t("emails") }}</router-link>
+        <router-link v-if="isSuperAdmin(false)" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">{{ $t("admins") }}</router-link>
+        <router-link v-if="isSuperAdmin(false)" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">{{ $t("stats") }}</router-link>
+        <router-link v-if="isSuperAdmin(false)" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">{{ $t("logs") }}</router-link>
       </nav>
 
       <section v-if="current_user && path" id="normal_menu" @mouseleave="opened = false">
@@ -24,8 +24,8 @@
         </a>
         <ul :class="opened ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
           <li>
-            <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">Profil</a>
-            <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
+            <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">{{ $t("profile") }}</a>
+            <router-link to="/logout" @click="opened = false">{{ $t("logout") }}</router-link>
           </li>
         </ul>
       </section>
@@ -43,14 +43,14 @@
       </a>
       <ul :class="opened ? 'dropdown open' : 'dropdown'">
         <li>
-          <router-link @click="opened = false" :to="'/'" :class="$route.path === '/' ? 'current' : ''">Utilisateurs</router-link>
-          <router-link @click="opened = false" :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">Emails</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">Administrateurs</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">Statistiques</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">Journaux</router-link>
+          <router-link @click="opened = false" :to="'/'" :class="$route.path === '/' ? 'current' : ''">{{ $t("users") }}</router-link>
+          <router-link @click="opened = false" :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">{{ $t("emails") }}</router-link>
+          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">{{ $t("admins") }}</router-link>
+          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">{{ $t("stats") }}</router-link>
+          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">{{ $t("logs") }}</router-link>
           <hr>
-          <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">Profil</a>
-          <router-link to="/logout" @click="opened = false">Déconnexion</router-link>
+          <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">{{ $t("profile") }}</a>
+          <router-link to="/logout" @click="opened = false">{{ $t("logout") }}</router-link>
         </li>
       </ul>
     </article>

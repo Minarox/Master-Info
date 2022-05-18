@@ -2,35 +2,35 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Nouvel utilisateur</h2>
+        <h2>{{ $t("user-added-title") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="addUser">
-          <label for="email">Email :</label>
+          <label for="email">{{ $t("email") }}</label>
           <input type="email" name="email" id="email" v-model="email" required>
 
-          <label for="first_name">Prénom :</label>
+          <label for="first_name">{{ $t("first-name") }}</label>
           <input type="text" name="first_name" id="first_name" v-model="first_name" required>
 
-          <label for="last_name">Nom :</label>
+          <label for="last_name">{{ $t("last-name") }}</label>
           <input type="text" name="last_name" id="last_name" v-model="last_name" required>
 
-          <label for="device">Appareil :</label>
+          <label for="device">{{ $t("device") }}</label>
           <input type="text" name="device" id="device" v-model="device">
           <div>
             <button
                 type="submit"
                 class="button"
             >
-              Ajouter
+              {{ $t("add") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -64,8 +64,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Utilisateur ajouté",
-            text: "L'utilisateur à été ajouté à l'application."
+            title: this.$t("user-added"),
+            text: this.$t("user-added-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -73,8 +73,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de l'ajout. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("add-error")
           }, 3500);
         });
     }

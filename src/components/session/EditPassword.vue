@@ -2,27 +2,27 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Changement du mot de passe</h2>
+        <h2>{{ $t("edit-password-title") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="editPassword">
-          <label for="old_password">Ancien mot de passe :</label>
+          <label for="old_password">{{ $t("old-password") }}</label>
           <input type="email" name="old_password" id="old_password" v-model="old_password" required />
-          <label for="new_password">Nouveau mot de passe :</label>
+          <label for="new_password">{{ $t("new-password") }}</label>
           <input type="text" name="new_password" id="new_password" v-model="new_password" required />
-          <label for="confirm_new_password">Confirmation du nouveau mot de passe :</label>
+          <label for="confirm_new_password">{{ $t("new-password-confirm") }}</label>
           <input type="text" name="confirm_new_password" id="confirm_new_password" v-model="confirm_new_password" required />
           <div>
             <button type="submit" class="button">
-              Valider
+              {{ $t("confirm") }}
             </button>
             <button
                 type="button"
                 class="button btn-back"
                 @click="$emit('component', { name: 'UserInfo' })"
             >
-              Retour
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -55,16 +55,16 @@ export default {
           .then(() => {
             this.$notify({
               group: "success",
-              title: "Mot de passe modifié",
-              text: "Les modifications ont été prises en compte. Veuillez vous reconnecter."
+              title: this.$t("password-edited"),
+              text: this.$t("password-edited-msg")
             }, 3500);
             this.$router.push("/logout");
           })
           .catch(() => {
             this.$notify({
               group: "error",
-              title: "Erreur",
-              text: "Une erreur est survenue lors de la modification du mot de passe. Veuillez vérifier les champs avant de réessayer."
+              title: this.$t("error"),
+              text: this.$t("password-edited-msg")
             }, 3500);
           });
     },

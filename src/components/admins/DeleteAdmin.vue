@@ -2,25 +2,25 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Suppression de l'administrateur</h2>
+        <h2>{{ $t("remove-admin") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="deleteAdmin">
-          <p>Voulez vous vraiment supprimer l'administrateur {{ full_name }} ?</p>
+          <p>{{ $t("remove-admin-msg") }} {{ full_name }} ?</p>
           <div>
             <button
                 type="submit"
                 class="button btn-warning"
             >
-              Supprimer
+              {{ $t("remove") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Annuler
+              {{ $t("cancel") }}
             </button>
           </div>
         </form>
@@ -47,8 +47,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Administrateur supprimé",
-            text: "L'administrateur à été supprimé de l'application."
+            title: this.$t("delete-admin"),
+            text: this.$t("delete-admin-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -56,8 +56,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de la suppression. L'administrateur n'a pas été impacté."
+            title: this.$t("error"),
+            text: this.$t("delete-error")
           }, 3500);
           this.$emit('component', { name: '' });
         });

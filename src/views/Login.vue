@@ -6,15 +6,15 @@
       <div>
         <article>
           <header>
-            <h1>Connexion</h1>
+            <h1>{{ $t("connection") }}</h1>
           </header>
 
           <section>
             <div :class="error ? 'error' : ''">
-              <p>Adresse email ou mot de passe incorrecte.</p>
+              <p>{{ $t("incorrect-login") }}</p>
             </div>
             <form @submit.prevent="loginForm">
-              <label for="login">Adresse email</label>
+              <label for="login">{{ $t("email-address") }}</label>
               <input
                 type="email"
                 name="login"
@@ -24,7 +24,7 @@
                 required
                 v-model="email"
               />
-              <label for="password">Mot de passe</label>
+              <label for="password">{{ $t("password") }}</label>
               <input
                 type="password"
                 name="password"
@@ -36,7 +36,7 @@
               <button v-if="loading" type="submit" disabled>
                 <i class="fa fa-spinner fa-spin"></i>
               </button>
-              <button v-else type="submit">Se connecter</button>
+              <button v-else type="submit">{{ $t("login") }}</button>
             </form>
           </section>
         </article>

@@ -2,35 +2,35 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Modification de l'utilisateur</h2>
+        <h2>{{ $t("edit-user-title") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="editUser">
-          <label for="email">Email :</label>
+          <label for="email">{{ $t("email") }}</label>
           <input type="email" name="email" id="email" v-model="email" required>
 
-          <label for="first_name">Prénom :</label>
+          <label for="first_name">{{ $t("first-name") }}</label>
           <input type="text" name="first_name" id="first_name" v-model="first_name" required>
 
-          <label for="last_name">Nom :</label>
+          <label for="last_name">{{ $t("last-name") }}</label>
           <input type="text" name="last_name" id="last_name" v-model="last_name" required>
 
-          <label for="device">Appareil :</label>
+          <label for="device">{{ $t("device") }}</label>
           <input type="text" name="device" id="device" v-model="device">
           <div>
             <button
                 type="submit"
                 class="button"
             >
-              Modifier
+              {{ $t("edit") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -65,8 +65,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Utilisateur modifié",
-            text: "Les modifications ont été prises en compte."
+            title: this.$t("edit-user"),
+            text: this.$t("edit-user-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -74,8 +74,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de la modification des informations. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("edit-user-error")
           }, 3500);
         });
     }
