@@ -47,7 +47,7 @@ public class ShareActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                ChangeActivityShareForm();
+                ChangeActivityShareForm(imgFile.getAbsolutePath());
             }
         });
     }
@@ -57,8 +57,9 @@ public class ShareActivity extends AppCompatActivity {
         startActivity(myIntent);
     }
 
-    private void ChangeActivityShareForm() {
+    private void ChangeActivityShareForm(String ImgName) {
         Intent myIntent = new Intent(this, ShareFormActivity.class);
+        myIntent.putExtra("Name", ImgName);// if its string type
         startActivity(myIntent);
     }
 }
