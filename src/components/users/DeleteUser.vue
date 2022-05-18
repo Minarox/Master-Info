@@ -2,25 +2,25 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Suppression de l'utilisateur</h2>
+        <h2>{{ $t("user-delete-title") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="deleteUser">
-          <p>Voulez vous vraiment supprimer l'utilisateur {{ full_name }} ?</p>
+          <p>{{ $t("user-delete-confirm") }} {{ full_name }} ?</p>
           <div>
             <button
                 type="submit"
                 class="button btn-warning"
             >
-              Supprimer
+              {{ $t("remove") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Annuler
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -47,8 +47,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Utilisateur supprimé",
-            text: "L'utilisateur à été supprimé de l'application."
+            title: this.$("user-delete"),
+            text: this.$("user-delete-msg")
           }, 3500);
           this.$emit('component', { name: '' });
           this.$emit('reload');
@@ -56,8 +56,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de la suppression. L'utilisateur n'a pas été impacté."
+            title: this.$t("error"),
+            text:  this.$("user-delete-error"),
           }, 3500);
           this.$emit('component', { name: '' });
         });
