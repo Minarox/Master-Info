@@ -2,14 +2,14 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Envoi d'email à {{ full_name }}</h2>
+        <h2>{{ $t("send-email-user") }} {{ full_name }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="sendEmail">
-          <label for="email">Email :</label>
+          <label for="email">{{ $t("email") }}</label>
           <select name="email" id="email" v-model="email_id" required>
-            <option value="" selected>Sélectionnez un email</option>
+            <option value="" selected>{{ $t("select-email") }}</option>
             <option v-for="email in emails" :key="email['email_id']" :value="email['email_id']">{{ email["title"] }}</option>
           </select>
           <div>
@@ -17,14 +17,14 @@
                 type="submit"
                 class="button"
             >
-              Envoyer
+              {{ $t("send") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -61,16 +61,16 @@ export default {
         .then(() => {
             this.$notify({
               group: "success",
-              title: "Email envoyé",
-              text: "L'email à bien été envoyé à l'utilisateur."
+              title: this.$t("email-send-user"),
+              text: this.$t("email-send-user-msg")
             }, 3500);
             this.$emit('component', { name: '' });
         })
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de l'envoie."
+            title: this.$t("error"),
+            text: this.$t("email-send-user-error")
           }, 3500);
           this.$emit('component', { name: '' });
         });
