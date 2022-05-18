@@ -2,28 +2,28 @@
   <div class="popup">
     <article>
       <header>
-        <h2>Modification de l'administrateur</h2>
+        <h2>{{ $t("edit-admin-title") }}</h2>
       </header>
 
       <section>
         <form @submit.prevent="editAdmin">
-          <label for="email">Email :</label>
+          <label for="email">{{ $t("email") }}</label>
           <input type="email" name="email" id="email" v-model="email" required>
 
-          <label for="first_name">Prénom :</label>
+          <label for="first_name">{{ $t("first-name") }}</label>
           <input type="text" name="first_name" id="first_name" v-model="first_name" required>
 
-          <label for="last_name">Nom :</label>
+          <label for="last_name">{{ $t("last-name") }}</label>
           <input type="text" name="last_name" id="last_name" v-model="last_name" required>
 
-          <label for="scope">Type :</label>
+          <label for="scope">{{ $t("type") }}</label>
           <select name="scope" id="scope" v-model="scope" required>
             <option value=""></option>
             <option value="admin">Admin</option>
             <option value="super_admin">Super admin</option>
           </select>
 
-          <label for="active">Actif :</label>
+          <label for="active">{{ $t("active") }}</label>
           <select name="active" id="active" v-model="active" required>
             <option value=""></option>
             <option value="1">✅</option>
@@ -35,14 +35,14 @@
                 type="submit"
                 class="button"
             >
-              Modifier
+              {{ $t("edit") }}
             </button>
             <button
               type="button"
               class="button btn-back"
               @click="$emit('component', { name: '' })"
             >
-              Fermer
+              {{ $t("close") }}
             </button>
           </div>
         </form>
@@ -78,8 +78,8 @@ export default {
         .then(() => {
           this.$notify({
             group: "success",
-            title: "Administrateur modifié",
-            text: "Les modifications ont été prises en compte."
+            title: this.$t("edit-admin"),
+            text: this.$t("success-edit")
           }, 3500);
           if (this.current_user["email"] === this.selected_admin["email"]) {
             API.userInfo().then(() => {
@@ -93,8 +93,8 @@ export default {
         .catch(() => {
           this.$notify({
             group: "error",
-            title: "Erreur",
-            text: "Une erreur est survenue lors de la modification. Veuillez vérifier les champs avant de réessayer."
+            title: this.$t("error"),
+            text: this.$t("edit-error")
           }, 3500);
         });
     }

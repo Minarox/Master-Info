@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "glob-parent": ">=5.1.2",
     "node-forge": ">=1.0.0",
     "notiwind": "^1.2.5",
     "postcss": ">=8.2.13",
-    "chart.js": "^2.9.4",
     "vue": "^3.0.0",
+    "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
