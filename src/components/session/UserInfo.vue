@@ -18,7 +18,7 @@
               type="submit"
               class="button"
             >
-              {{ $t("edit") }}
+              {{ $t("edit-profile") }}
             </button>
             <button
                 type="button"
