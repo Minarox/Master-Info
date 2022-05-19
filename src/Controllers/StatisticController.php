@@ -168,13 +168,13 @@ class StatisticController extends Controller
         // Compute average for one week
         $data = [
             [
-                "Lundi",
-                "Mardi",
-                "Mercredi",
-                "Jeudi",
-                "Vendredi",
-                "Samedi",
-                "Dimanche"
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday",
+                "saturday",
+                "sunday"
             ],
             []
         ];
