@@ -43,6 +43,10 @@
                     <td>{{ $t("avg-usage-7-days") }}</td>
                     <td>{{ stats["avg_usage_7_days"] }}</td>
                   </tr>
+                  <tr>
+                    <td>{{ $t("most-used-android-version") }}</td>
+                    <td>{{ stats["most_used_android_version"] }}</td>
+                  </tr>
                 </table>
               </section>
             </article>
@@ -96,7 +100,8 @@ export default {
         nb_users: 0,
         nb_share: 0,
         avg_usage_day: 0,
-        avg_usage_7_days: 0
+        avg_usage_7_days: 0,
+        most_used_android_version: ''
       },
       avgUsageMonth: true,
       avgUsageDay: true,
