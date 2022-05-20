@@ -50,6 +50,7 @@ class UserController extends Controller
             "first_name LIKE" => array_key_exists("first_name", $params) ? '%' . $params["first_name"] . '%' : '',
             "last_name LIKE" => array_key_exists("last_name", $params) ? '%' . $params["last_name"] . '%' : '',
             "device LIKE" => array_key_exists("device", $params) ? '%' . $params["device"] . '%' : '',
+            "nb_share LIKE" => array_key_exists("nb_share", $params) ? '%' . $params["nb_share"] . '%' : '',
         ]);
         if (empty($fields)) {
             $fields = ['*'];
@@ -66,6 +67,7 @@ class UserController extends Controller
                         "first_name",
                         "last_name",
                         "device",
+                        "nb_share",
                         "created_at"
                     ],
                     $fields,
@@ -106,6 +108,7 @@ class UserController extends Controller
                         "first_name",
                         "last_name",
                         "device",
+                        "nb_share",
                         "created_at",
                         "updated_at"
                     ],
@@ -142,14 +145,17 @@ class UserController extends Controller
         // Check if user already exist
         if ($this->checkExist("email", $GLOBALS["body"], "users")) {
             // Fetch user_id
-            $user_id = ($this->database()->find(
+            $user = $this->database()->find(
                 "users",
-                ["user_id"],
+                [
+                    "user_id",
+                    "nb_share"
+                ],
                 [
                     "email" => $GLOBALS["body"]["email"]
                 ],
                 true
-            ))["user_id"];
+            );
 
             // Edit user information
             $this->database()->update(
@@ -158,13 +164,14 @@ class UserController extends Controller
                     "email" => $GLOBALS["body"]["email"],
                     "first_name" => $GLOBALS["body"]["first_name"],
                     "last_name" => $GLOBALS["body"]["last_name"],
-                    "device" => $GLOBALS["body"]["scope"] ?? ''
+                    "device" => $GLOBALS["body"]["scope"] ?? '',
+                    "nb_share" => (int) $user["nb_share"] + 1
                 ],
-                ["user_id" => $user_id]
+                ["user_id" => $user["user_id"]]
             );
 
             // Add log
-            $this->addLog(Action::Edit, $user_id, $this->type, source_type: $GLOBALS["session"]["scope"] == "app" ? Type::App : Type::Admin);
+            $this->addLog(Action::Edit, $user["user_id"], $this->type, source_type: $GLOBALS["session"]["scope"] == "app" ? Type::App : Type::Admin);
 
             // Display success code
             return $this->successCode()->success();

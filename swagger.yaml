@@ -1782,6 +1782,9 @@ definitions:
       device:
         type: string
         example: Device name
+      nb_share:
+        type: integer
+        example: 1
       created_at:
         type: string
         format: date
@@ -1803,6 +1806,9 @@ definitions:
       device:
         type: string
         example: Device name
+      nb_share:
+        type: integer
+        example: 1
       created_at:
         type: string
         format: date
