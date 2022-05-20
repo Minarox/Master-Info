@@ -2027,6 +2027,9 @@ definitions:
       avg_usage_7_days:
         type: number
         example: 10.739
+      most_used_android_version:
+        type: string
+        example: Android 8.0
     xml:
       name: global_stats
   avg_usage:
