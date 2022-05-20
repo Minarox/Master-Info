@@ -14,7 +14,7 @@ class BaseController extends Controller
 {
     /**
      * Return API description.
-     * Usage: GET / | Scope: none
+     * Usage: GET /
      *
      * @param Request $request Slim request interface
      * @param Response $response Slim response interface
@@ -25,10 +25,10 @@ class BaseController extends Controller
         // Display description
         $response->getBody()->write(
             json_encode([
-                "version"     => "v1.5.0",
-                "title"       => "Cerealis API",
-                "description" => "Enterprise Resource Management API",
-                "host"        => "https://mspr.minarox.fr",
+                "version"     => "v1.0.0",
+                "title"       => "Pet Feeder API",
+                "description" => "API of a connected object design project.",
+                "host"        => "https://petfeeder.minarox.fr",
                 "base_path"   => "/api"
             ]));
         return $response->withStatus(200);
