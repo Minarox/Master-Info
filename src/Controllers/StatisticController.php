@@ -62,13 +62,19 @@ class StatisticController extends Controller
             exception: false
         ))[0]["count"];
 
+        // Most used android version
+        $android = $this->database()->getPdo()
+            ->query("SELECT device FROM users GROUP BY device ORDER BY count(*) DESC LIMIT 1;")
+            ->fetchColumn();
+
         // Display global statistics
         $response->getBody()->write(
             json_encode([
                 "nb_users" => $nb_users,
                 "nb_share" => $nb_share,
                 "avg_usage_day" => round(($avg_usage_day / 60), 3),
-                "avg_usage_7_days" => round(($avg_usage_7_days / 7), 3)
+                "avg_usage_7_days" => round(($avg_usage_7_days / 7), 3),
+                "most_used_android_version" => $android
             ])
         );
         return $response;

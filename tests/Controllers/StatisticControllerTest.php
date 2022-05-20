@@ -67,13 +67,18 @@ class StatisticControllerTest extends TestCase
             ->fetchColumn();
         $avg_usage_7_days = round(($avg_usage_7_days / 7), 3);
 
+        $android = $GLOBALS["pdo"]
+            ->query("SELECT device FROM users GROUP BY device ORDER BY count(*) DESC LIMIT 1;")
+            ->fetchColumn();
+
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "nb_users"         => (int) $nb_users,
-                "nb_share"         => (int) $nb_share,
-                "avg_usage_day"    => $avg_usage_day,
-                "avg_usage_7_days" => $avg_usage_7_days
+                "nb_users"             => (int) $nb_users,
+                "nb_share"             => (int) $nb_share,
+                "avg_usage_day"        => $avg_usage_day,
+                "avg_usage_7_days"     => $avg_usage_7_days,
+                "most_used_android_version" => $android
             ]),
             $result->getBody()->__toString()
         );
