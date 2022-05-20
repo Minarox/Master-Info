@@ -202,10 +202,10 @@ function editAdminPassword(admin_id, new_password, confirm_new_password) {
       });
 }
 
-function getUsers(email, first_name, last_name, device) {
+function getUsers(email, first_name, last_name, device, nb_share) {
   return axios
       .get(
-          api_url + "/users?email=" + email.toString() + "&first_name=" + first_name.toString() + "&last_name=" + last_name.toString() + "&device=" + device.toString(),
+          api_url + "/users?email=" + email.toString() + "&first_name=" + first_name.toString() + "&last_name=" + last_name.toString() + "&device=" + device.toString() + "&nb_share=" + nb_share.toString(),
           headers()
       )
       .then(response => {
