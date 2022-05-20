@@ -21,6 +21,16 @@ class TestCase extends PHPUnit_TestCase
     protected Response $response;
 
     /**
+     * @var int $passage_id
+     */
+    protected int $passage_id;
+
+    /**
+     * @var int $food_id
+     */
+    protected int $food_id;
+
+    /**
      * Create new request to the API
      *
      * @param string $method
@@ -81,47 +91,19 @@ class TestCase extends PHPUnit_TestCase
     }
 
     /**
-     * Generate random string
-     *
-     * @param int $length of the generated string
-     *
-     * @return string
-     */
-    protected function randString(int $length = 40): string
-    {
-        // Password generator with custom length
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return substr(str_shuffle($chars), 0, $length);
-    }
-
-    /**
      * SetUp parameters before execute tests
      */
     protected function setUp(): void
     {
         $this->response = new Response();
 
-        $password = password_hash("test!123", PASSWORD_BCRYPT);
-        $new_user = $GLOBALS["pdo"]
-            ->query("INSERT INTO admins (email, password, first_name, last_name, scope) VALUES ('test@example.com', '$password', 'Test', 'User', 'super_admin') RETURNING admin_id, email, scope;")
-            ->fetch();
-        $GLOBALS["session"]["user_id"] = $new_user["admin_id"];
-        $GLOBALS["session"]["user_email"] = $new_user["email"];
-        $GLOBALS["session"]["scope"] = $new_user["scope"];
+        $this->passage_id = $GLOBALS["pdo"]
+            ->query("INSERT INTO passage (passage_id) VALUES (NULL) RETURNING passage_id;")
+            ->fetchColumn();
 
-         $new_client = $GLOBALS["pdo"]
-            ->query("SELECT client_id, client_secret FROM clients WHERE user_id = '{$GLOBALS["session"]["user_id"]}' LIMIT 1;")
-            ->fetch();
-        $GLOBALS["session"]["client_id"] = $new_client["client_id"];
-        $GLOBALS["session"]["client_secret"] = $new_client["client_secret"];
-
-        $expires = date("Y-m-d H:i:s", strtotime("+1 hours"));
-        $new_token = $GLOBALS["pdo"]
-            ->query("INSERT INTO tokens (access_token, client_id, user_id, expires, scope) VALUES ('{$this->randString()}', '{$GLOBALS["session"]["client_id"]}', '{$GLOBALS["session"]["user_id"]}', '$expires', '{$GLOBALS["session"]["scope"]}') RETURNING access_token, expires;")
-            ->fetch();
-
-        $GLOBALS["session"]["access_token"] = $new_token["access_token"];
-        $GLOBALS["session"]["expires"] = strtotime($new_token["expires"]);
+        $this->food_id = $GLOBALS["pdo"]
+            ->query("INSERT INTO food (food_id) VALUES (NULL) RETURNING food_id;")
+            ->fetchColumn();
     }
 
     /**
@@ -130,12 +112,13 @@ class TestCase extends PHPUnit_TestCase
     protected function tearDown(): void
     {
         $GLOBALS["pdo"]
-            ->query("DELETE FROM admins WHERE admin_id = '{$GLOBALS["session"]["user_id"]}';")
+            ->query("DELETE FROM food WHERE food_id = '$this->food_id';")
+            ->execute();
+        $GLOBALS["pdo"]
+            ->query("DELETE FROM passage WHERE passage_id = '$this->passage_id';")
             ->execute();
 
-        // Unset variables
-        unset($GLOBALS["session"]);
-        unset($GLOBALS["body"]);
+        // Unset variable
         unset($this->response);
     }
 }

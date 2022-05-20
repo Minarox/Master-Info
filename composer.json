@@ -4,8 +4,6 @@
     "slim/psr7": "^1.4",
     "ext-json": "*",
     "ext-pdo": "*",
-    "bshaffer/oauth2-server-php": "1.11.*",
-    "phpmailer/phpmailer": "^6.5",
     "ext-simplexml": "*"
   },
   "require-dev": {
@@ -14,7 +12,7 @@
     "ext-openssl": "*"
   },
   "scripts": {
-    "start": "php -S localhost:8101 -t public/",
+    "start": "php -S localhost:8201 -t public/",
     "test": "phpunit --configuration phpunit.xml --log-junit build/result.xml  --do-not-cache-result --colors=always",
     "test:coverage": "php -d xdebug.mode=coverage -r 'require \"vendor/bin/phpunit\";' -- --configuration phpunit.xml --do-not-cache-result --colors=always --coverage-clover build/logs/clover.xml --coverage-html build/coverage"
   }
