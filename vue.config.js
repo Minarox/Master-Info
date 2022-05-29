@@ -3,8 +3,8 @@ const path = require("path");
 module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "public/"),
-    port: 8100,
-    public: "mspr.minarox.fr",
+    port: 8200,
+    public: "petfeeder.minarox.fr",
     disableHostCheck: true,
   },
   pluginOptions: {
@@ -12,7 +12,7 @@ module.exports = {
       locale: "en",
       fallbackLocale: "en",
       localeDir: "locales",
-      enableInSFC: true
-    }
-  }
+      enableInSFC: true,
+    },
+  },
 };
