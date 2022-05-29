@@ -9,14 +9,16 @@ import Header from "@/components/global/Header";
 export default {
   name: "Logout",
   components: {
-    Header
+    Header,
   },
   mounted() {
-    API.logout().then(() => {
-      this.$router.push("/login").then();
-    }).catch(() => {
-      this.$router.push("/login").then();
-    });
+    API.logout()
+      .then(() => {
+        this.$router.push("/login").then();
+      })
+      .catch(() => {
+        this.$router.push("/login").then();
+      });
   },
 };
 </script>
