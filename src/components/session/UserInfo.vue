@@ -8,22 +8,37 @@
       <section>
         <form @submit.prevent="editUserInfo">
           <label for="email">{{ $t("email-address") }}</label>
-          <input type="email" name="email" id="email" v-model="email" required />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            v-model="email"
+            required
+          />
           <label for="first_name">{{ $t("first-name") }}</label>
-          <input type="text" name="first_name" id="first_name" v-model="first_name" required />
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            v-model="first_name"
+            required
+          />
           <label for="last_name">{{ $t("last-name") }}</label>
-          <input type="text" name="last_name" id="last_name" v-model="last_name" required />
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            v-model="last_name"
+            required
+          />
           <div>
-            <button
-              type="submit"
-              class="button"
-            >
+            <button type="submit" class="button">
               {{ $t("edit-profile") }}
             </button>
             <button
-                type="button"
-                class="button btn-warning"
-                @click="$emit('component', { name: 'EditPassword' })"
+              type="button"
+              class="button btn-warning"
+              @click="$emit('component', { name: 'EditPassword' })"
             >
               {{ $t("edit-password-button") }}
             </button>
@@ -42,7 +57,7 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "UserInfo",
@@ -51,7 +66,7 @@ export default {
     return {
       email: this.current_user["email"],
       first_name: this.current_user["first_name"],
-      last_name: this.current_user["last_name"]
+      last_name: this.current_user["last_name"],
     };
   },
   mounted() {
@@ -63,20 +78,26 @@ export default {
   methods: {
     editUserInfo() {
       API.editUserInfo(this.email, this.first_name, this.last_name)
-          .then(() => {
-            this.$notify({
+        .then(() => {
+          this.$notify(
+            {
               group: "success",
               title: this.$t("profile-edited-title"),
-              text: this.$t("profile-edited")
-            }, 3500);
-            this.$router.go(0);
-          })
-          .catch(() => {
-            this.$notify({
+              text: this.$t("profile-edited"),
+            },
+            3500
+          );
+          this.$router.go(0);
+        })
+        .catch(() => {
+          this.$notify(
+            {
               group: "error",
               title: this.$t("error"),
-              text: this.$t("edit-error")
-            }, 3500);
+              text: this.$t("edit-error"),
+            },
+            3500
+          );
         });
     },
   },

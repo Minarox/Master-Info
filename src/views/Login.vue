@@ -51,13 +51,13 @@ import Header from "@/components/global/Header";
 
 export default {
   name: "Login",
-  components: {Header},
+  components: { Header },
   data() {
     return {
       email: "",
       password: "",
       loading: false,
-      error: false
+      error: false,
     };
   },
   mounted() {
@@ -68,8 +68,7 @@ export default {
       this.loading = true;
       API.login(this.email, this.password)
         .then(() => {
-          API.userInfo()
-          .then(() => {
+          API.userInfo().then(() => {
             this.$router.push("/");
           });
         })

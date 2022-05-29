@@ -9,10 +9,7 @@
         <form @submit.prevent="deleteUsers">
           <p>{{ $t("users-delete-confirm") }}</p>
           <div>
-            <button
-                type="submit"
-                class="button btn-warning"
-            >
+            <button type="submit" class="button btn-warning">
               {{ $t("remove") }}
             </button>
             <button
@@ -30,7 +27,7 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "DeleteUsers",
@@ -42,27 +39,35 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    deleteUsers: function() {
-      API.deleteUsers(Object.keys(this.selected_users).map((key) => this.selected_users[key]))
+    deleteUsers: function () {
+      API.deleteUsers(
+        Object.keys(this.selected_users).map((key) => this.selected_users[key])
+      )
         .then(() => {
-          this.$notify({
-            group: "success",
-            title: this.$t("users-delete"),
-            text: this.$t("users-delete-msg")
-          }, 3500);
-          this.$emit('component', { name: '' });
-          this.$emit('reload');
+          this.$notify(
+            {
+              group: "success",
+              title: this.$t("users-delete"),
+              text: this.$t("users-delete-msg"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
+          this.$emit("reload");
         })
         .catch(() => {
-          this.$notify({
-            group: "error",
-            title: this.$t("error"),
-            text: this.$t("user-delete-error")
-          }, 3500);
-          this.$emit('component', { name: '' });
+          this.$notify(
+            {
+              group: "error",
+              title: this.$t("error"),
+              text: this.$t("user-delete-error"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

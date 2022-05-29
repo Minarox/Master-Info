@@ -3,11 +3,7 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-<a href="https://github.com/Inge-Info/MSPR_API">
-    <img src="public/static/logo_cerealis.png" alt="Logo" width="80" height="80">
-</a>
-
-<h3 align="center">Cerealis CRM</h3>
+<h3 align="center">Pet Feeder Web</h3>
 
   <p align="center">
     Enterprise Resource Management WebApp.
