@@ -25,6 +25,7 @@
           <label for="scope">{{ $t("type") }}</label>
           <select name="scope" id="scope" v-model="scope" required>
             <option value=""></option>
+            <option value="app">App</option>
             <option value="admin">Admin</option>
             <option value="super_admin">Super admin</option>
           </select>
