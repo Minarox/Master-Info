@@ -71,7 +71,7 @@ class UserController extends Controller
                         "created_at"
                     ],
                     $fields,
-                    order: "first_name"
+                    order: "created_at DESC"
                 )
             )
         );
