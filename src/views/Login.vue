@@ -67,11 +67,17 @@ export default {
     loginForm() {
       this.loading = true;
       API.login(this.email, this.password)
-        .then(() => {
-          API.userInfo()
-          .then(() => {
-            this.$router.push("/");
-          });
+        .then(response => {
+          if (response["scope"] === "app") {
+            localStorage.removeItem("session");
+            this.loading = false;
+            this.error = true;
+          } else {
+            API.userInfo()
+                .then(() => {
+                  this.$router.push("/");
+                });
+          }
         })
         .catch((error) => {
           this.loading = false;
