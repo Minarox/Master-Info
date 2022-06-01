@@ -164,7 +164,7 @@ class UserController extends Controller
                     "email" => $GLOBALS["body"]["email"],
                     "first_name" => $GLOBALS["body"]["first_name"],
                     "last_name" => $GLOBALS["body"]["last_name"],
-                    "device" => $GLOBALS["body"]["scope"] ?? '',
+                    "device" => $GLOBALS["body"]["device"] ?? '',
                     "nb_share" => (int) $user["nb_share"] + 1
                 ],
                 ["user_id" => $user["user_id"]]
@@ -184,7 +184,7 @@ class UserController extends Controller
                 "email" => $GLOBALS["body"]["email"],
                 "first_name" => $GLOBALS["body"]["first_name"],
                 "last_name" => $GLOBALS["body"]["last_name"],
-                "device" => $GLOBALS["body"]["scope"] ?? ''
+                "device" => $GLOBALS["body"]["device"] ?? ''
             ],
             "user_id"
         ))["user_id"];
