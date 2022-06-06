@@ -28,7 +28,10 @@ class PassageController extends Controller
     public function getPassages(Request $request, Response $response): Response
     {
         // Fetch all passages from database
-        $passages = $this->database()->find("passage");
+        $passages = $this->database()->find(
+            "passage",
+            order: "seen_at DESC"
+        );
 
         // Display description
         $response->getBody()->write(
