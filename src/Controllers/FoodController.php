@@ -28,7 +28,10 @@ class FoodController extends Controller
     public function getFoods(Request $request, Response $response): Response
     {
         // Fetch all passages from database
-        $passages = $this->database()->find("food");
+        $passages = $this->database()->find(
+            "food",
+            order: "given_at DESC"
+        );
 
         // Display description
         $response->getBody()->write(
