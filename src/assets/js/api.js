@@ -20,21 +20,21 @@ export const API = {
 };
 
 function getPassages() {
-  return axios.get(api_url + "/passages", headers).then((response) => {
+  return axios.get(api_url + "/passage", headers).then((response) => {
     return response["data"];
   });
 }
 
 function getPassage(passage_id) {
   return axios
-    .get(api_url + "/passages/" + passage_id, headers)
+    .get(api_url + "/passage/" + passage_id, headers)
     .then((response) => {
       return response["data"];
     });
 }
 
 function addPassage() {
-  return axios.post(api_url + "/passages", headers).then((response) => {
+  return axios.post(api_url + "/passage", headers).then((response) => {
     return response["data"];
   });
 }
