@@ -51,13 +51,13 @@ import Header from "@/components/global/Header";
 
 export default {
   name: "Login",
-  components: {Header},
+  components: { Header },
   data() {
     return {
       email: "",
       password: "",
       loading: false,
-      error: false
+      error: false,
     };
   },
   mounted() {
@@ -67,16 +67,15 @@ export default {
     loginForm() {
       this.loading = true;
       API.login(this.email, this.password)
-        .then(response => {
+        .then((response) => {
           if (response["scope"] === "app") {
             localStorage.removeItem("session");
             this.loading = false;
             this.error = true;
           } else {
-            API.userInfo()
-                .then(() => {
-                  this.$router.push("/");
-                });
+            API.userInfo().then(() => {
+              this.$router.push("/");
+            });
           }
         })
         .catch((error) => {

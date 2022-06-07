@@ -9,30 +9,77 @@
       </section>
 
       <nav v-if="path">
-        <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">{{ $t("users") }}</router-link>
-        <router-link :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">{{ $t("emails") }}</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">{{ $t("admins") }}</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">{{ $t("stats") }}</router-link>
-        <router-link v-if="isSuperAdmin(false)" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">{{ $t("logs") }}</router-link>
+        <router-link :to="'/'" :class="$route.path === '/' ? 'current' : ''">{{
+          $t("users")
+        }}</router-link>
+        <router-link
+          :to="'/emails'"
+          :class="$route.path === '/emails' ? 'current' : ''"
+          >{{ $t("emails") }}</router-link
+        >
+        <router-link
+          v-if="isSuperAdmin(false)"
+          :to="'/admins'"
+          :class="$route.path === '/admins' ? 'current' : ''"
+          >{{ $t("admins") }}</router-link
+        >
+        <router-link
+          v-if="isSuperAdmin(false)"
+          :to="'/statistics'"
+          :class="$route.path === '/statistics' ? 'current' : ''"
+          >{{ $t("stats") }}</router-link
+        >
+        <router-link
+          v-if="isSuperAdmin(false)"
+          :to="'/logs'"
+          :class="$route.path === '/logs' ? 'current' : ''"
+          >{{ $t("logs") }}</router-link
+        >
       </nav>
 
-      <section v-if="current_user && path" id="normal_menu" @mouseleave="opened = false">
-        <a class="button" @click="first_open = true; opened = !opened;">
+      <section
+        v-if="current_user && path"
+        id="normal_menu"
+        @mouseleave="opened = false"
+      >
+        <a
+          class="button"
+          @click="
+            first_open = true;
+            opened = !opened;
+          "
+        >
           <img src="@/assets/img/user_logo.png" alt="User logo" />
           {{ current_user["first_name"] }}
           <i class="fas fa-sort-down"></i>
         </a>
-        <ul :class="opened ? 'dropdown open' : 'dropdown'" @mouseleave="opened = false">
+        <ul
+          :class="opened ? 'dropdown open' : 'dropdown'"
+          @mouseleave="opened = false"
+        >
           <li>
-            <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">{{ $t("profile") }}</a>
-            <router-link to="/logout" @click="opened = false">{{ $t("logout") }}</router-link>
+            <a
+              href=""
+              @click.prevent="
+                opened = false;
+                $emit('component', { name: 'UserInfo' });
+              "
+              >{{ $t("profile") }}</a
+            >
+            <router-link to="/logout" @click="opened = false">{{
+              $t("logout")
+            }}</router-link>
           </li>
         </ul>
       </section>
     </article>
 
     <!-- Mobile menu -->
-    <article v-if="current_user && path" id="mobile_menu" @mouseleave="opened = false">
+    <article
+      v-if="current_user && path"
+      id="mobile_menu"
+      @mouseleave="opened = false"
+    >
       <a
         @click="
           first_open = true;
@@ -43,14 +90,51 @@
       </a>
       <ul :class="opened ? 'dropdown open' : 'dropdown'">
         <li>
-          <router-link @click="opened = false" :to="'/'" :class="$route.path === '/' ? 'current' : ''">{{ $t("users") }}</router-link>
-          <router-link @click="opened = false" :to="'/emails'" :class="$route.path === '/emails' ? 'current' : ''">{{ $t("emails") }}</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/admins'" :class="$route.path === '/admins' ? 'current' : ''">{{ $t("admins") }}</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/statistics'" :class="$route.path === '/statistics' ? 'current' : ''">{{ $t("stats") }}</router-link>
-          <router-link v-if="isSuperAdmin(false)" @click="opened = false" :to="'/logs'" :class="$route.path === '/logs' ? 'current' : ''">{{ $t("logs") }}</router-link>
-          <hr>
-          <a href="" @click.prevent="opened = false; $emit('component', { name: 'UserInfo' })">{{ $t("profile") }}</a>
-          <router-link to="/logout" @click="opened = false">{{ $t("logout") }}</router-link>
+          <router-link
+            @click="opened = false"
+            :to="'/'"
+            :class="$route.path === '/' ? 'current' : ''"
+            >{{ $t("users") }}</router-link
+          >
+          <router-link
+            @click="opened = false"
+            :to="'/emails'"
+            :class="$route.path === '/emails' ? 'current' : ''"
+            >{{ $t("emails") }}</router-link
+          >
+          <router-link
+            v-if="isSuperAdmin(false)"
+            @click="opened = false"
+            :to="'/admins'"
+            :class="$route.path === '/admins' ? 'current' : ''"
+            >{{ $t("admins") }}</router-link
+          >
+          <router-link
+            v-if="isSuperAdmin(false)"
+            @click="opened = false"
+            :to="'/statistics'"
+            :class="$route.path === '/statistics' ? 'current' : ''"
+            >{{ $t("stats") }}</router-link
+          >
+          <router-link
+            v-if="isSuperAdmin(false)"
+            @click="opened = false"
+            :to="'/logs'"
+            :class="$route.path === '/logs' ? 'current' : ''"
+            >{{ $t("logs") }}</router-link
+          >
+          <hr />
+          <a
+            href=""
+            @click.prevent="
+              opened = false;
+              $emit('component', { name: 'UserInfo' });
+            "
+            >{{ $t("profile") }}</a
+          >
+          <router-link to="/logout" @click="opened = false">{{
+            $t("logout")
+          }}</router-link>
         </li>
       </ul>
     </article>
@@ -77,8 +161,8 @@ export default {
   computed: {
     path: function () {
       return !(this.$route.path === "/login" || this.$route.path === "/logout");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -137,7 +221,7 @@ nav > * {
 
 nav > *:hover {
   color: black;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .current {
@@ -322,7 +406,8 @@ nav > *:hover {
     padding: 0 calc(20px - 12px) 0 20px;
   }
 
-  #header #normal_menu, nav {
+  #header #normal_menu,
+  nav {
     display: none;
   }
 

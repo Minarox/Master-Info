@@ -8,22 +8,36 @@
       <section>
         <form @submit.prevent="addEmail">
           <label for="title">{{ $t("title") }}</label>
-          <input type="text" name="title" id="title" v-model="title" required>
+          <input type="text" name="title" id="title" v-model="title" required />
 
           <label for="description">{{ $t("description") }}</label>
-          <input type="text" name="description" id="description" v-model="description" required>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            v-model="description"
+            required
+          />
 
           <label for="subject">{{ $t("object") }}</label>
-          <input type="text" name="subject" id="subject" v-model="subject" required>
+          <input
+            type="text"
+            name="subject"
+            id="subject"
+            v-model="subject"
+            required
+          />
 
           <label for="content">{{ $t("content") }}</label>
-          <textarea name="content" id="content" v-model="content" required></textarea>
+          <textarea
+            name="content"
+            id="content"
+            v-model="content"
+            required
+          ></textarea>
 
           <div>
-            <button
-                type="submit"
-                class="button"
-            >
+            <button type="submit" class="button">
               {{ $t("add") }}
             </button>
             <button
@@ -41,17 +55,17 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "AddEmail",
   data() {
     return {
-      title: '',
-      description: '',
-      subject: '',
-      content: ''
-    }
+      title: "",
+      description: "",
+      subject: "",
+      content: "",
+    };
   },
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
@@ -60,25 +74,31 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    addEmail: function() {
+    addEmail: function () {
       API.addEmail(this.title, this.description, this.subject, this.content)
         .then(() => {
-          this.$notify({
-            group: "success",
-            title: this.$t("new-email"),
-            text: this.$t("new-email-msg")
-          }, 3500);
-          this.$emit('component', { name: '' });
-          this.$emit('reload');
+          this.$notify(
+            {
+              group: "success",
+              title: this.$t("new-email"),
+              text: this.$t("new-email-msg"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
+          this.$emit("reload");
         })
         .catch(() => {
-          this.$notify({
-            group: "error",
-            title: this.$t("error"),
-            text: this.$t("add-error")
-          }, 3500);
+          this.$notify(
+            {
+              group: "error",
+              title: this.$t("error"),
+              text: this.$t("add-error"),
+            },
+            3500
+          );
         });
-    }
-  }
+    },
+  },
 };
 </script>
