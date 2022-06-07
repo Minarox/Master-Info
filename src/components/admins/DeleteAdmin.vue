@@ -9,10 +9,7 @@
         <form @submit.prevent="deleteAdmin">
           <p>{{ $t("remove-admin-msg") }} {{ full_name }} ?</p>
           <div>
-            <button
-                type="submit"
-                class="button btn-warning"
-            >
+            <button type="submit" class="button btn-warning">
               {{ $t("remove") }}
             </button>
             <button
@@ -30,7 +27,7 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "DeleteAdmin",
@@ -42,32 +39,42 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    deleteAdmin: function() {
+    deleteAdmin: function () {
       API.deleteAdmin(this.selected_admin["admin_id"])
         .then(() => {
-          this.$notify({
-            group: "success",
-            title: this.$t("delete-admin"),
-            text: this.$t("delete-admin-msg")
-          }, 3500);
-          this.$emit('component', { name: '' });
-          this.$emit('reload');
+          this.$notify(
+            {
+              group: "success",
+              title: this.$t("delete-admin"),
+              text: this.$t("delete-admin-msg"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
+          this.$emit("reload");
         })
         .catch(() => {
-          this.$notify({
-            group: "error",
-            title: this.$t("error"),
-            text: this.$t("delete-error")
-          }, 3500);
-          this.$emit('component', { name: '' });
+          this.$notify(
+            {
+              group: "error",
+              title: this.$t("error"),
+              text: this.$t("delete-error"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
         });
-    }
+    },
   },
   computed: {
     full_name: function () {
-      return this.selected_admin["first_name"] + ' ' + this.selected_admin["last_name"];
-    }
-  }
+      return (
+        this.selected_admin["first_name"] +
+        " " +
+        this.selected_admin["last_name"]
+      );
+    },
+  },
 };
 </script>
 

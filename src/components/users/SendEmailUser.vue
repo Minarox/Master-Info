@@ -10,13 +10,16 @@
           <label for="email">{{ $t("email") }}</label>
           <select name="email" id="email" v-model="email_id" required>
             <option value="" selected>{{ $t("select-email") }}</option>
-            <option v-for="email in emails" :key="email['email_id']" :value="email['email_id']">{{ email["title"] }}</option>
+            <option
+              v-for="email in emails"
+              :key="email['email_id']"
+              :value="email['email_id']"
+            >
+              {{ email["title"] }}
+            </option>
           </select>
           <div>
-            <button
-                type="submit"
-                class="button"
-            >
+            <button type="submit" class="button">
               {{ $t("send") }}
             </button>
             <button
@@ -34,7 +37,7 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "SendEmailUser",
@@ -42,13 +45,13 @@ export default {
   data() {
     return {
       emails: {},
-      email_id: ''
-    }
+      email_id: "",
+    };
   },
   mounted() {
     this.addEvents("", document.getElementsByClassName("popup")[0]);
 
-    API.getEmails('', '').then(response => {
+    API.getEmails("", "").then((response) => {
       this.emails = response;
     });
   },
@@ -56,30 +59,38 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    sendEmail: function() {
+    sendEmail: function () {
       API.sendEmails(this.email_id, [this.selected_user["user_id"]])
         .then(() => {
-            this.$notify({
+          this.$notify(
+            {
               group: "success",
               title: this.$t("email-send-user"),
-              text: this.$t("email-send-user-msg")
-            }, 3500);
-            this.$emit('component', { name: '' });
+              text: this.$t("email-send-user-msg"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
         })
         .catch(() => {
-          this.$notify({
-            group: "error",
-            title: this.$t("error"),
-            text: this.$t("email-send-user-error")
-          }, 3500);
-          this.$emit('component', { name: '' });
+          this.$notify(
+            {
+              group: "error",
+              title: this.$t("error"),
+              text: this.$t("email-send-user-error"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
         });
-    }
+    },
   },
   computed: {
     full_name: function () {
-      return this.selected_user["first_name"] + ' ' + this.selected_user["last_name"];
-    }
-  }
+      return (
+        this.selected_user["first_name"] + " " + this.selected_user["last_name"]
+      );
+    },
+  },
 };
 </script>

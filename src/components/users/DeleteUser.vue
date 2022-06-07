@@ -9,10 +9,7 @@
         <form @submit.prevent="deleteUser">
           <p>{{ $t("user-delete-confirm") }} {{ full_name }} ?</p>
           <div>
-            <button
-                type="submit"
-                class="button btn-warning"
-            >
+            <button type="submit" class="button btn-warning">
               {{ $t("remove") }}
             </button>
             <button
@@ -30,7 +27,7 @@
 </template>
 
 <script>
-import {API} from "@/assets/js/api";
+import { API } from "@/assets/js/api";
 
 export default {
   name: "DeleteUser",
@@ -42,32 +39,40 @@ export default {
     this.removeEvents("", document.getElementsByClassName("popup")[0]);
   },
   methods: {
-    deleteUser: function() {
+    deleteUser: function () {
       API.deleteUser(this.selected_user["user_id"])
         .then(() => {
-          this.$notify({
-            group: "success",
-            title: this.$("user-delete"),
-            text: this.$("user-delete-msg")
-          }, 3500);
-          this.$emit('component', { name: '' });
-          this.$emit('reload');
+          this.$notify(
+            {
+              group: "success",
+              title: this.$("user-delete"),
+              text: this.$("user-delete-msg"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
+          this.$emit("reload");
         })
         .catch(() => {
-          this.$notify({
-            group: "error",
-            title: this.$t("error"),
-            text:  this.$("user-delete-error"),
-          }, 3500);
-          this.$emit('component', { name: '' });
+          this.$notify(
+            {
+              group: "error",
+              title: this.$t("error"),
+              text: this.$("user-delete-error"),
+            },
+            3500
+          );
+          this.$emit("component", { name: "" });
         });
-    }
+    },
   },
   computed: {
     full_name: function () {
-      return this.selected_user["first_name"] + ' ' + this.selected_user["last_name"];
-    }
-  }
+      return (
+        this.selected_user["first_name"] + " " + this.selected_user["last_name"]
+      );
+    },
+  },
 };
 </script>
 
