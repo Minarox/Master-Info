@@ -49,7 +49,7 @@ class BaseControllerTest extends TestCase
         // Check if request = database and http code is correct
         self::assertSame(
             json_encode([
-                "version"     => "v1.5.1",
+                "version"     => "v1.5.2",
                 "title"       => "Cerealis API",
                 "description" => "Enterprise Resource Management API",
                 "host"        => "https://mspr.minarox.fr",
