@@ -233,13 +233,12 @@ class StatisticController extends Controller
 
         // Convert key to integer
         $raw_data    = array_values($raw_data);
-        $length_data = count($raw_data);
 
         // Compute average for one day
         $data = [[], []];
         for ($i = 0; $i < 24; $i++) {
             $data[0][]   = $i;
-            $data[1][$i] = $this->average($raw_data, $i, $length_data);
+            $data[1][$i] = $this->average($raw_data, $i);
         }
 
         // Display statistiques information
@@ -259,8 +258,7 @@ class StatisticController extends Controller
     private function fetchUsages(Request $request): array
     {
         // Select dates
-        $end_date = date("Y-m-d");
-        $start_date = explode('-', $end_date);
+        $start_date = explode('-', date("Y-m-d"));
         $start_date = $start_date[0] . '-' . $start_date[1] . "-01";
 
         // Fetch statistics
@@ -268,9 +266,9 @@ class StatisticController extends Controller
             "users",
             ["updated_at"],
             [
-                "updated_at >=" => $start_date,
-                "updated_at <=" => $end_date
+                "updated_at >=" => $start_date
             ],
+            findOne: 1000,
             order: "updated_at",
             exception: false
         );
@@ -285,17 +283,12 @@ class StatisticController extends Controller
      *
      * @return float
      */
-    private function average(array $data, int $i, int $lengthData): float
+    private function average(array $data, int $i): float
     {
         $sum = 0;
         foreach ($data as $value) {
             $sum += $value[$i];
         }
-
-        if ($sum == 0) {
-            return 0;
-        } else {
-            return round($sum / $lengthData, 3);
-        }
+        return $sum;
     }
 }
