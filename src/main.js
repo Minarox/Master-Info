@@ -8,11 +8,6 @@ import { createI18n } from "vue-i18n";
 const app = createApp(App);
 
 app.mixin({
-  data() {
-    return {
-      api_url: "https://mspr.minarox.fr/api",
-    };
-  },
   methods: {
     checkSessionExist() {
       if (localStorage.getItem("session")) {

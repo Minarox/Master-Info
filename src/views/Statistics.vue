@@ -84,11 +84,11 @@
 </template>
 
 <script>
-import Header from "@/components/global/Header";
-import UserInfo from "@/components/session/UserInfo";
-import EditPassword from "@/components/session/EditPassword";
+import Header from "../components/global/Header";
+import UserInfo from "../components/session/UserInfo";
+import EditPassword from "../components/session/EditPassword";
 import Chart from "chart.js";
-import { API } from "@/assets/js/api";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Logs",

@@ -3,7 +3,7 @@
     <article>
       <section>
         <router-link id="logo" :to="'/'">
-          <img src="@/assets/img/logo_cerealis.png" alt="Logo Cerealis" />
+          <img src="../../assets/img/logo_cerealis.png" alt="Logo Cerealis" />
           <p>Cerealis</p>
         </router-link>
       </section>
@@ -49,7 +49,7 @@
             opened = !opened;
           "
         >
-          <img src="@/assets/img/user_logo.png" alt="User logo" />
+          <img src="../../assets/img/user_logo.png" alt="User logo" />
           {{ current_user["first_name"] }}
           <i class="fas fa-sort-down"></i>
         </a>

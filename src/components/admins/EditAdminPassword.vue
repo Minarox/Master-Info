@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { API } from "@/assets/js/api";
+import { API } from "../../assets/js/api";
 
 export default {
   name: "EditAdminPassword",
