@@ -45,8 +45,8 @@ export default {
           this.$notify(
             {
               group: "success",
-              title: this.$("user-delete"),
-              text: this.$("user-delete-msg"),
+              title: this.$t("user-delete"),
+              text: this.$t("user-delete-msg"),
             },
             3500
           );
@@ -58,7 +58,7 @@ export default {
             {
               group: "error",
               title: this.$t("error"),
-              text: this.$("user-delete-error"),
+              text: this.$t("user-delete-error"),
             },
             3500
           );
