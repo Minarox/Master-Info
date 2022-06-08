@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Users from "@/views/Users.vue";
-import Emails from "@/views/Emails";
-import Admins from "@/views/Admins";
-import Logs from "@/views/Logs";
-import Statistics from "@/views/Statistics";
-import Login from "@/views/Login.vue";
-import Logout from "@/views/Logout.vue";
-import { API } from "@/assets/js/api";
+import Users from "../views/Users.vue";
+import Emails from "../views/Emails";
+import Admins from "../views/Admins";
+import Logs from "../views/Logs";
+import Statistics from "../views/Statistics";
+import Login from "../views/Login.vue";
+import Logout from "../views/Logout.vue";
+import { API } from "../assets/js/api";
 
 const routes = [
   { path: "/", name: "Users", component: Users },

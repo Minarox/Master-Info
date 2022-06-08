@@ -166,7 +166,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 main > div {

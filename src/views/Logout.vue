@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { API } from "@/assets/js/api";
-import Header from "@/components/global/Header";
+import { API } from "../assets/js/api";
+import Header from "../components/global/Header";
 
 export default {
   name: "Logout",

@@ -216,16 +216,16 @@
 </template>
 
 <script>
-import Header from "@/components/global/Header";
-import UserInfo from "@/components/session/UserInfo";
-import EditPassword from "@/components/session/EditPassword";
-import AddUser from "@/components/users/AddUser";
-import EditUser from "@/components/users/EditUser";
-import DeleteUser from "@/components/users/DeleteUser";
-import SendEmailUser from "@/components/users/SendEmailUser";
-import DeleteUsers from "@/components/users/DeleteUsers";
-import SendEmailUsers from "@/components/users/SendEmailUsers";
-import { API } from "@/assets/js/api";
+import Header from "../components/global/Header";
+import UserInfo from "../components/session/UserInfo";
+import EditPassword from "../components/session/EditPassword";
+import AddUser from "../components/users/AddUser";
+import EditUser from "../components/users/EditUser";
+import DeleteUser from "../components/users/DeleteUser";
+import SendEmailUser from "../components/users/SendEmailUser";
+import DeleteUsers from "../components/users/DeleteUsers";
+import SendEmailUsers from "../components/users/SendEmailUsers";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Users",

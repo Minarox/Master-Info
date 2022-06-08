@@ -190,14 +190,14 @@
 </template>
 
 <script>
-import Header from "@/components/global/Header";
-import UserInfo from "@/components/session/UserInfo";
-import EditPassword from "@/components/session/EditPassword";
-import AddAdmin from "@/components/admins/AddAdmin";
-import EditAdmin from "@/components/admins/EditAdmin";
-import EditAdminPassword from "@/components/admins/EditAdminPassword";
-import DeleteAdmin from "@/components/admins/DeleteAdmin";
-import { API } from "@/assets/js/api";
+import Header from "../components/global/Header";
+import UserInfo from "../components/session/UserInfo";
+import EditPassword from "../components/session/EditPassword";
+import AddAdmin from "../components/admins/AddAdmin";
+import EditAdmin from "../components/admins/EditAdmin";
+import EditAdminPassword from "../components/admins/EditAdminPassword";
+import DeleteAdmin from "../components/admins/DeleteAdmin";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Admins",

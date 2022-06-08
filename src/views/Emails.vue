@@ -162,14 +162,14 @@
 </template>
 
 <script>
-import Header from "@/components/global/Header";
-import UserInfo from "@/components/session/UserInfo";
-import EditPassword from "@/components/session/EditPassword";
-import AddEmail from "@/components/emails/AddEmail";
-import CloneEmail from "@/components/emails/CloneEmail";
-import EditEmail from "@/components/emails/EditEmail";
-import DeleteEmail from "@/components/emails/DeleteEmail";
-import { API } from "@/assets/js/api";
+import Header from "../components/global/Header";
+import UserInfo from "../components/session/UserInfo";
+import EditPassword from "../components/session/EditPassword";
+import AddEmail from "../components/emails/AddEmail";
+import CloneEmail from "../components/emails/CloneEmail";
+import EditEmail from "../components/emails/EditEmail";
+import DeleteEmail from "../components/emails/DeleteEmail";
+import { API } from "../assets/js/api";
 
 export default {
   name: "Emails",
