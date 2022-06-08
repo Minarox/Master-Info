@@ -300,4 +300,14 @@ export default {
     flex: 1 1 100%;
   }
 }
+
+@media only screen and (max-width: 700px) {
+  #main > section > article:first-of-type {
+    height: max-content;
+  }
+
+  #main > section {
+    height: calc(100vh - 172px);
+  }
+}
 </style>

@@ -212,9 +212,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#main > section {
-  height: calc(100vh - 304px);
-}
-</style>
