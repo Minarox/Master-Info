@@ -40,6 +40,7 @@ public class AugmentedImageRenderer {
 
     private final ObjectRenderer snake = new ObjectRenderer();
     private final ObjectRenderer monkey = new ObjectRenderer();
+    private final ObjectRenderer rhino = new ObjectRenderer();
 
     public AugmentedImageRenderer() {
     }
@@ -53,8 +54,12 @@ public class AugmentedImageRenderer {
         snake.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
 
         monkey.createOnGlThread(
-                context, "models/cube.obj", "models/serpent.png");
+                context, "models/singe.obj", "models/singe.png");
         monkey.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
+
+        rhino.createOnGlThread(
+                context, "models/rhino.obj", "models/rhino.png");
+        rhino.setMaterialProperties(0.0f, 3.5f, 1.0f, 6.0f);
 
     }
 
@@ -92,9 +97,12 @@ public class AugmentedImageRenderer {
         if (number == 0) {
             snake.updateModelMatrix(modelMatrix, mazeScaleFactor); // This line relies on a change in ObjectRenderer.updateModelMatrix later in this codelab.
             snake.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
-        } else if (number == 1 || number == 2) {
+        } else if (number == 1) {
             monkey.updateModelMatrix(modelMatrix, mazeScaleFactor); // This line relies on a change in ObjectRenderer.updateModelMatrix later in this codelab.
             monkey.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
+        } else if ( number == 2) {
+            rhino.updateModelMatrix(modelMatrix, mazeScaleFactor); // This line relies on a change in ObjectRenderer.updateModelMatrix later in this codelab.
+            rhino.draw(viewMatrix, projectionMatrix, colorCorrectionRgba, tintColor);
         }
     }
 
