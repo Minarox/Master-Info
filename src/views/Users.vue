@@ -330,4 +330,10 @@ export default {
 .empty-table {
   height: calc(100vh - 406px);
 }
+
+@media only screen and (max-width: 700px) {
+  #main > section {
+    height: calc(100vh - 290px);
+  }
+}
 </style>

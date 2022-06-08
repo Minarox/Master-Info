@@ -166,7 +166,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  overflow: hidden;
+  overflow: auto;
 }
 
 main > div {
@@ -428,6 +428,10 @@ form button > * {
     inset 0 0.6px 1.8px 0 rgb(0 0 0 / 11%);
 }
 
+#main > section {
+  height: calc(100vh - 304px);
+}
+
 #main section {
   border-radius: 8px !important;
   box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%), 0 0.6px 1.8px 0 rgb(0 0 0 / 11%);
@@ -524,6 +528,24 @@ form button > * {
   #buttons .button,
   #filter form > * {
     width: 100%;
+  }
+
+  #filter {
+    display: none;
+  }
+
+  main > div {
+    margin: 12px auto;
+    padding: 0 12px;
+    gap: 20px;
+  }
+
+  .popup article > section {
+    padding: 12px;
+  }
+
+  #main > section {
+    height: calc(100vh - 172px);
   }
 }
 </style>
