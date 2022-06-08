@@ -288,6 +288,10 @@ class StatisticController extends Controller
         foreach ($data as $value) {
             $sum += $value[$i];
         }
+
+        if ($sum === 0) {
+            return 0;
+        }
         return round($sum / count($data), 3);
     }
 }
