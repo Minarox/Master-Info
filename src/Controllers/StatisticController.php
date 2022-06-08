@@ -232,7 +232,7 @@ class StatisticController extends Controller
         }
 
         // Convert key to integer
-        $raw_data    = array_values($raw_data);
+        $raw_data = array_values($raw_data);
 
         // Compute average for one day
         $data = [[], []];
@@ -279,7 +279,6 @@ class StatisticController extends Controller
      *
      * @param array $data
      * @param int   $i
-     * @param int   $lengthData
      *
      * @return float
      */
@@ -289,6 +288,6 @@ class StatisticController extends Controller
         foreach ($data as $value) {
             $sum += $value[$i];
         }
-        return $sum;
+        return round($sum / count($data), 3);
     }
 }
