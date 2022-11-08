@@ -1,30 +1,75 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <Header />
+
   <router-view />
 </template>
 
+<script>
+import Header from "@/components/Header";
+
+export default {
+  components: {
+    Header,
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
+
+:root {
+  --font-family: "Montserrat", "Georgia", "Arial", sans-serif;
+  --max-width: 1300px;
+  --spacing: 4rem;
+  --border-radius: 2px;
+  --primary-bg-color: #090817;
+  --secondary-bg-color: #1e1c3b;
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #edebe8;
 }
 
-nav {
-  padding: 30px;
+::-webkit-scrollbar {
+  width: 14px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 14px 14px var(--primary-text-color);
+  border: solid 4px transparent;
+  border-radius: 14px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  font-family: var(--font-family);
+  overflow: overlay;
+
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
   }
+}
+
+.content {
+  padding: var(--spacing) 0;
+  width: min(100% - 2rem, var(--max-width));
+  margin-inline: auto;
 }
 </style>
