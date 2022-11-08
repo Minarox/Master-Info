@@ -5,9 +5,18 @@
       <h1>Nom du site</h1>
     </router-link>
     <section>
-      <router-link to="/">Les gestes responsables</router-link>
-      <router-link to="/">Pourquoi ce service ?</router-link>
-      <router-link to="/">EcoWatt.fr</router-link>
+      <router-link to="/">
+        <font-awesome-icon icon="fa-solid fa-leaf" />
+        Les gestes responsables
+      </router-link>
+      <router-link to="/">
+        <font-awesome-icon icon="fa-solid fa-circle-question" />
+        Pourquoi ce service ?
+      </router-link>
+      <a href="https://monecowatt.fr/">
+        <img src="@/assets/img/ecowatt.webp" alt="Icon EcoWatt" />
+        <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
+      </a>
     </section>
   </header>
 </template>
@@ -56,6 +65,13 @@ header {
     > a {
       position: relative;
       padding: 0.6rem;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      img {
+        margin-right: 0.6rem;
+      }
 
       &::after {
         content: "";
@@ -71,6 +87,11 @@ header {
       &:hover::after {
         right: 0.6rem;
       }
+    }
+
+    > a:first-of-type svg {
+      margin-right: 0.6rem;
+      color: #02f0c6;
     }
   }
 }
