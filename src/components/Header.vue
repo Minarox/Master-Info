@@ -9,10 +9,7 @@
         <font-awesome-icon icon="fa-solid fa-leaf" />
         Les gestes responsables
       </router-link>
-      <router-link to="/">
-        <font-awesome-icon icon="fa-solid fa-circle-question" />
-        Pourquoi ce service ?
-      </router-link>
+      <router-link to="/">Pourquoi ce service ?</router-link>
       <a href="https://monecowatt.fr/">
         <img src="@/assets/img/ecowatt.webp" alt="Icon EcoWatt" />
         <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
