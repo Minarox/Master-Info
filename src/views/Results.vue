@@ -1,6 +1,6 @@
 <template>
   <main>
-    <article>{{ JSON.stringify(dataset) }}</article>
+    <pre>{{ JSON.stringify(dataset, null, 4) }}</pre>
   </main>
 </template>
 
@@ -17,6 +17,7 @@ export default {
       this.$router.push("/");
     }
   },
+  mounted() {},
 };
 </script>
 

@@ -96,10 +96,78 @@ export default {
           delete el.geom;
         });
 
+        // Parse and rearrange data
+        let parsed_data = [];
+        let sectors = [];
+        Object.keys(request).forEach((i) => {
+          let registered = false;
+          Object.keys(parsed_data).forEach((y) => {
+            if (parsed_data[y].annee === request[i].annee) {
+              registered = true;
+            }
+          });
+          if (!registered) {
+            parsed_data.push({
+              annee: request[i].annee,
+              records: [],
+            });
+          }
+
+          registered = false;
+          Object.keys(sectors).forEach((y) => {
+            if (sectors[y] === request[i].code_grand_secteur) {
+              registered = true;
+            }
+          });
+          if (!registered) {
+            sectors.push(request[i].code_grand_secteur);
+          }
+        });
+
+        Object.keys(parsed_data).forEach((i) => {
+          Object.keys(request).forEach((y) => {
+            let index = false;
+            if (request[y].annee === parsed_data[i].annee) {
+              Object.keys(parsed_data[i].records).forEach((z) => {
+                if (
+                  request[y].code_grand_secteur ===
+                  parsed_data[i].records[z].code_grand_secteur
+                ) {
+                  index = z;
+                }
+              });
+
+              delete request[y].annee;
+              delete request[y].code_categorie_consommation;
+              delete request[y].code_secteur_naf2;
+
+              if (index) {
+                let skip = true;
+                Object.keys(parsed_data[i].records[index]).forEach((z) => {
+                  if (skip) {
+                    skip = false;
+                  } else {
+                    parsed_data[i].records[index][z] =
+                      parsed_data[i].records[index][z] + request[y][z];
+                  }
+                });
+              } else {
+                parsed_data[i].records.push(request[y]);
+              }
+            }
+          });
+        });
+
+        // Fetch EcoWatt indicators from personal API
+        let indicators = await fetch("https://api.minarox.fr/rte");
+        indicators = await indicators.json();
+
         // Merge selected city and data from request
         const dataset = {
           information: information,
-          data: request,
+          sectors: sectors,
+          data: parsed_data,
+          ecowatt: indicators,
         };
         localStorage.setItem("dataset", JSON.stringify(dataset));
         this.$router.push("/results");
