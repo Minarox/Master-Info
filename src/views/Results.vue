@@ -183,10 +183,7 @@
         </div>
       </section>
     </article>
-    <section class="content">
-      <canvas id="myChart" width="400" height="400"></canvas>
-    </section>
-    <pre class="content">{{ JSON.stringify(selection, null, 4) }}</pre>
+    <!--<pre class="content">{{ JSON.stringify(selection, null, 4) }}</pre>-->
   </main>
 </template>
 
@@ -484,8 +481,25 @@ export default {
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
+  position: relative;
+
+  &::after {
+    opacity: 0.15;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: "";
+    border-radius: 16px;
+    background-image: url("@/assets/svg/separator_1.svg");
+    background-position-y: 10px;
+    background-size: cover;
+  }
 
   section:first-of-type {
+    z-index: 1;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
@@ -513,6 +527,7 @@ export default {
   }
 
   section:last-of-type {
+    z-index: 1;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-end;
@@ -671,10 +686,34 @@ hr {
       justify-content: center;
       gap: 0.8rem;
       color: var(--primary-bg-color);
+      position: relative;
+
+      &::after {
+        opacity: 0.4;
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        content: "";
+        border-radius: 16px;
+        background-image: url("@/assets/svg/separator_1.svg");
+        background-size: cover;
+        background-position-x: -80px;
+        background-position-y: 20px;
+        background-repeat: no-repeat;
+      }
 
       h4 {
+        z-index: 1;
         text-transform: capitalize;
         margin-bottom: 0;
+      }
+
+      p {
+        font-size: 1.1em;
+        z-index: 1;
       }
     }
   }
