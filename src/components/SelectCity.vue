@@ -1,16 +1,28 @@
 <template>
-  <article class="content">
-    <form @submit.prevent="selectCity">
+  <form @submit.prevent="selectCity">
+    <h3>Choisissez une commune</h3>
+    <div>
+      <label for="postal_code">Code postal</label>
       <input
         type="number"
         name="postal_code"
         id="postal_code"
         v-model="postal_code"
       />
+    </div>
+    <div>
+      <label for="city">Commune</label>
       <select name="city" id="city" v-model="index" disabled></select>
-      <button type="submit" id="submit" disabled>Confirmer</button>
-    </form>
-  </article>
+    </div>
+    <span v-if="loading">
+      <button type="submit" id="submit" disabled>
+        <font-awesome-icon icon="fa-solid fa-circle-notch fa-spin" />
+      </button>
+    </span>
+    <span v-else>
+      <button type="submit" id="submit" disabled>Valider</button>
+    </span>
+  </form>
 </template>
 
 <script>
@@ -208,4 +220,60 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+form {
+  padding: 2.5rem 3rem;
+  background-color: var(--secondary-bg-color);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+  h3 {
+    font-size: 1.4em;
+    text-align: center;
+  }
+
+  div {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    input,
+    select {
+      width: 500px;
+      padding: 0.6rem;
+      border-radius: 8px;
+      outline: none;
+      border: none;
+      font-size: 1.1em;
+    }
+  }
+
+  button {
+    transition: all 250ms;
+    padding: 0.5rem 2rem;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    font-size: 1.2em;
+    background-color: var(--green-touch);
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--primary-bg-color);
+
+    &:disabled {
+      color: rgba(9, 8, 23, 0.5);
+    }
+
+    &:enabled:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+</style>
