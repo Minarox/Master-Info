@@ -2,14 +2,14 @@
   <header>
     <router-link to="/">
       <img src="@/assets/img/logo.png" alt="Logo" />
-      <h1>Nom du site</h1>
+      <h1>Localelec</h1>
     </router-link>
     <section>
-      <router-link to="/">
-        <font-awesome-icon icon="fa-solid fa-leaf" />
-        Les gestes responsables
-      </router-link>
       <router-link to="/">Pourquoi ce service ?</router-link>
+      <router-link to="/">
+        Les gestes responsables
+        <font-awesome-icon icon="fa-solid fa-leaf" />
+      </router-link>
       <a href="https://monecowatt.fr/">
         <img src="@/assets/img/ecowatt.webp" alt="Icon EcoWatt" />
         <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
@@ -30,9 +30,10 @@ header {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.5rem;
   background-color: var(--secondary-bg-color);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  height: 80px;
 
   > a,
   > section {
@@ -50,9 +51,9 @@ header {
 
     img {
       width: auto;
-      max-width: 60px;
+      max-width: 46px;
       height: auto;
-      max-height: 60px;
+      max-height: 46px;
     }
 
     > h1 {
@@ -86,8 +87,8 @@ header {
       }
     }
 
-    > a:first-of-type svg {
-      margin-right: 0.6rem;
+    > a:nth-of-type(2) svg {
+      margin-left: 0.6rem;
       color: #02f0c6;
     }
   }

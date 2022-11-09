@@ -2,14 +2,18 @@
   <Header />
 
   <router-view />
+
+  <Footer />
 </template>
 
 <script>
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default {
   components: {
     Header,
+    Footer,
   },
 };
 </script>
@@ -20,10 +24,10 @@ export default {
 :root {
   --font-family: "Montserrat", "Georgia", "Arial", sans-serif;
   --max-width: 1300px;
-  --spacing: 4rem;
   --border-radius: 2px;
   --primary-bg-color: #090817;
   --secondary-bg-color: #1e1c3b;
+  --green-touch: #02f0c6;
   --primary-text-color: #ffffff;
   --secondary-text-color: #edebe8;
 }
@@ -68,7 +72,6 @@ body {
 }
 
 .content {
-  padding: var(--spacing) 0;
   width: min(100% - 2rem, var(--max-width));
   margin-inline: auto;
 }
