@@ -5,8 +5,8 @@
       <h1>Localelec</h1>
     </router-link>
     <section>
-      <router-link to="/">Pourquoi ce service ?</router-link>
-      <router-link to="/">
+      <router-link to="/#pourquoi-localelec">Pourquoi ce service ?</router-link>
+      <router-link to="/#gestes-responsables">
         Les gestes responsables
         <font-awesome-icon icon="fa-solid fa-leaf" />
       </router-link>

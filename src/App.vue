@@ -3,16 +3,19 @@
 
   <router-view />
 
+  <Newsletter />
   <Footer />
 </template>
 
 <script>
 import Header from "@/components/Header";
+import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 
 export default {
   components: {
     Header,
+    Newsletter,
     Footer,
   },
 };
@@ -28,6 +31,8 @@ export default {
   --primary-bg-color: #090817;
   --secondary-bg-color: #1e1c3b;
   --green-touch: #02f0c6;
+  --yellow-touch: #f2790f;
+  --red-touch: #e63946;
   --primary-text-color: #ffffff;
   --secondary-text-color: #edebe8;
 }
