@@ -16,7 +16,7 @@
     </div>
     <span v-if="loading">
       <button type="submit" id="submit" disabled>
-        <font-awesome-icon icon="fa-solid fa-circle-notch fa-spin" />
+        <font-awesome-icon icon="fa-solid fa-circle-notch" id="spin" />
       </button>
     </span>
     <span v-else>
@@ -182,7 +182,11 @@ export default {
           ecowatt: indicators,
         };
         localStorage.setItem("dataset", JSON.stringify(dataset));
-        this.$router.push("/results");
+        if (this.$route.name === "results") {
+          this.$router.go(0);
+        } else {
+          this.$router.push("/results");
+        }
       }
     },
   },
@@ -222,6 +226,7 @@ export default {
 
 <style scoped lang="scss">
 form {
+  z-index: 1;
   padding: 2.5rem 3rem;
   background-color: var(--secondary-bg-color);
   display: flex;
@@ -273,6 +278,19 @@ form {
 
     &:enabled:hover {
       transform: scale(1.05);
+    }
+  }
+}
+
+#spin {
+  animation: spin 2.6s linear infinite;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 }

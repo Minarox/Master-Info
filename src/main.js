@@ -7,9 +7,17 @@ import {
   faLeaf,
   faArrowUpRightFromSquare,
   faCircleNotch,
+  faAngleRight,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faLeaf, faArrowUpRightFromSquare, faCircleNotch);
+library.add(
+  faLeaf,
+  faArrowUpRightFromSquare,
+  faCircleNotch,
+  faAngleRight,
+  faXmark
+);
 
 createApp(App)
   .use(router)

@@ -18,7 +18,7 @@
 
       <div>
         <section class="content">
-          <h3>Pourquoi Localelec ?</h3>
+          <h3 id="pourquoi-localelec">Pourquoi Localelec ?</h3>
           <p>
             Localelec vous permet d'en apprendre plus sur la consommation
             électrique de votre commune et les tendances qui en découlent.<br />
@@ -28,7 +28,52 @@
         </section>
         <section class="content">
           <h3>Les analyses de Localelec</h3>
-          <div></div>
+          <div>
+            <Splide
+              class="splide"
+              :has-track="false"
+              :options="options"
+              aria-label="analyses"
+            >
+              <SplideTrack>
+                <SplideSlide>
+                  <img src="@/assets/svg/fake_graph.svg" alt="Graph" />
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Phasellus orci magna, tincidunt vitae magna eu, lacinia
+                    dictum metus. Ut pretium euismod ligula, eget blandit arcu
+                    finibus sodales. Nam sem magna, tristique quis augue ut,
+                    fermentum elementum leo. Etiam nec justo non quam ultricies
+                    scelerisque. Fusce sit amet felis nunc. Curabitur finibus
+                    magna vitae sodales viverra.
+                  </p>
+                </SplideSlide>
+                <SplideSlide>
+                  <img src="@/assets/svg/fake_graph.svg" alt="Graph" />
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Phasellus orci magna, tincidunt vitae magna eu, lacinia
+                    dictum metus. Ut pretium euismod ligula, eget blandit arcu
+                    finibus sodales. Nam sem magna, tristique quis augue ut,
+                    fermentum elementum leo. Etiam nec justo non quam ultricies
+                    scelerisque. Fusce sit amet felis nunc. Curabitur finibus
+                    magna vitae sodales viverra.
+                  </p>
+                </SplideSlide>
+              </SplideTrack>
+
+              <div class="splide__arrows">
+                <button class="splide__arrow splide__arrow--prev">
+                  <font-awesome-icon icon="fa-solid fa-angle-right" />
+                </button>
+                <button class="splide__arrow splide__arrow--next">
+                  <font-awesome-icon icon="fa-solid fa-angle-right" />
+                </button>
+              </div>
+
+              <ul class="splide__pagination"></ul>
+            </Splide>
+          </div>
         </section>
 
         <img
@@ -40,7 +85,7 @@
     </article>
 
     <article class="content">
-      <h3>Les gestes responsables</h3>
+      <h3 id="gestes-responsables">Les gestes responsables</h3>
       <div>
         <section>
           <img
@@ -136,46 +181,37 @@
         </section>
       </div>
     </article>
-    <article>
-      <section class="content">
-        <h3>Inscrivez-vous aux alertes</h3>
-        <p>
-          Une alerte vous sera envoyé en cas de forte consommation au sein de<br />
-          votre commune ou si une coupure est prévue dans votre secteur.
-        </p>
-        <form @submit.prevent="newsletter">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Adresse email"
-            required
-            v-model="email"
-          />
-          <button type="submit">Valider</button>
-        </form>
-      </section>
-    </article>
   </main>
 </template>
 
 <script>
 import SelectCity from "@/components/SelectCity";
+import { Splide, SplideTrack, SplideSlide } from "@splidejs/vue-splide";
+import "@splidejs/vue-splide/css";
 
 export default {
   name: "HomeView",
   components: {
     SelectCity,
+    Splide,
+    SplideTrack,
+    SplideSlide,
   },
   data() {
     return {
-      email: null,
+      options: {
+        type: "loop",
+        rewind: true,
+        rewindByDrag: true,
+        autoplay: true,
+        keyboard: true,
+        heightRatio: 0.4,
+        speed: 350,
+        rewindSpeed: this.speed,
+        easing: "cubic-bezier(0.25, 0, 0.25, 1)",
+        interval: 7500,
+      },
     };
-  },
-  methods: {
-    newsletter() {
-      alert(this.email + " enregistré.");
-    },
   },
 };
 </script>
@@ -261,6 +297,53 @@ article:nth-of-type(1) {
         height: 360px;
         border-radius: 16px;
         background-color: var(--primary-bg-color);
+
+        .splide {
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: rgba(0, 0, 0, 0.15) 0 8px 16px 0;
+          position: relative;
+
+          .splide__slide {
+            padding: 5rem;
+            height: 100% !important;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5rem;
+
+            img {
+              width: 530px;
+              height: 300px;
+            }
+          }
+
+          .splide__arrow {
+            height: 100%;
+            border-radius: unset;
+            color: var(--text-color);
+            font-size: 1.2em;
+            padding: 0 1rem;
+            width: auto;
+            transition: all 250ms;
+          }
+
+          .splide__arrow--prev {
+            left: 0;
+            background-color: rgba(0, 0, 0, 0);
+          }
+
+          .splide__arrow--next {
+            right: 0;
+            background-color: rgba(0, 0, 0, 0);
+          }
+
+          .splide__pagination {
+            gap: 0.5rem;
+            bottom: 0.7rem;
+          }
+        }
       }
     }
   }
@@ -306,70 +389,6 @@ article:nth-of-type(2) {
 
       p {
         font-size: 1.1rem;
-      }
-    }
-  }
-}
-
-article:nth-of-type(3) {
-  margin-top: 5rem;
-  padding: 3.5rem 0;
-  background-color: var(--secondary-bg-color);
-  text-align: center;
-
-  section {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-
-    h3 {
-      font-size: 1.9em;
-    }
-
-    p {
-      font-size: 1.1em;
-      line-height: 1.5rem;
-    }
-
-    form {
-      margin-top: 2rem;
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-
-      input,
-      select {
-        width: 400px;
-        padding: 0.6rem;
-        border-radius: 8px;
-        outline: none;
-        border: none;
-        font-size: 1.1em;
-      }
-
-      button {
-        transition: all 250ms;
-        padding: 0.5rem 2rem;
-        border-radius: 8px;
-        outline: none;
-        border: none;
-        font-size: 1.2em;
-        background-color: var(--green-touch);
-        font-weight: bold;
-        cursor: pointer;
-        color: var(--primary-bg-color);
-
-        &:disabled {
-          color: rgba(9, 8, 23, 0.5);
-        }
-
-        &:enabled:hover {
-          transform: scale(1.05);
-        }
       }
     }
   }
