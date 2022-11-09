@@ -357,6 +357,7 @@ article:nth-of-type(1) {
 
 article:nth-of-type(2) {
   margin-top: 20rem;
+  margin-bottom: 6rem;
   text-align: center;
 
   h3 {
