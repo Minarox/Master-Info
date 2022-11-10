@@ -514,6 +514,7 @@ export default {
 
 <style scoped lang="scss">
 #popup {
+  z-index: 100;
   transition: all 300ms;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
@@ -539,7 +540,7 @@ export default {
     padding: 0.6rem;
     z-index: 2;
     position: absolute;
-    top: 28.6%;
+    top: 31.6%;
     right: 34.9%;
     font-size: 1.1em;
     cursor: pointer;
