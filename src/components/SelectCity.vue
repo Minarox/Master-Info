@@ -179,7 +179,9 @@ export default {
           information: information,
           sectors: sectors,
           data: parsed_data,
-          ecowatt: indicators,
+          ecowatt: indicators.ecowatt,
+          conso: indicators.conso,
+          updated_at: indicators.updated_at,
         };
         localStorage.setItem("dataset", JSON.stringify(dataset));
         if (this.$route.name === "results") {

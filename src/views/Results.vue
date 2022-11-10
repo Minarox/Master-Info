@@ -28,9 +28,7 @@
         </h2>
         <p>
           Données mises à jour le :
-          {{
-            new Date(dataset.ecowatt.updated_at * 1000).toLocaleString("fr-FR")
-          }}
+          {{ new Date(dataset.updated_at * 1000).toLocaleString("fr-FR") }}
         </p>
       </section>
       <section>
@@ -138,7 +136,7 @@
       <div>
         <section>
           <div
-            v-for="signal of dataset.ecowatt.ecowatt[0].values"
+            v-for="signal of dataset.ecowatt[0].values"
             :key="signal.pas"
             :class="color(signal.hvalue)"
           ></div>
@@ -161,7 +159,7 @@
       </div>
       <section>
         <div
-          v-for="date of dataset.ecowatt.ecowatt"
+          v-for="date of dataset.ecowatt"
           :key="date.jour"
           :class="color(date.dvalue)"
         >
@@ -183,7 +181,26 @@
         </div>
       </section>
     </article>
-    <!--<pre class="content">{{ JSON.stringify(selection, null, 4) }}</pre>-->
+    <article id="realtime" class="content">
+      <section>
+        <h4>Consommation réelle et prévue en France (MW)</h4>
+        <div>
+          <Chart
+            chart_id="realtime_conso"
+            type="line"
+            :labels="chart.conso.labels"
+            :data="chart.conso.data"
+            :colors="[
+              [2, 240, 198],
+              [120, 120, 120],
+              [242, 151, 15],
+              [230, 57, 70],
+            ]"
+          />
+        </div>
+      </section>
+    </article>
+    <!--<pre class="content">{{ JSON.stringify(dataset, null, 4) }}</pre>-->
   </main>
 </template>
 
@@ -224,6 +241,10 @@ export default {
           labels: [],
           data: [],
         },
+        conso: {
+          labels: [],
+          data: [],
+        },
       },
     };
   },
@@ -246,6 +267,61 @@ export default {
       labels.push(this.dataset.data[i].annee);
     });
     this.chart.avg_conso.labels = this.chart.total_conso.labels = labels;
+
+    let date = [];
+    let realized = [];
+    let guest = [];
+    let d_1 = [];
+    let d_2 = [];
+    Object.keys(this.dataset.conso[0].values).forEach((i) => {
+      realized.push(this.dataset.conso[0].values[i].value);
+    });
+    Object.keys(this.dataset.conso[1].values).forEach((i) => {
+      guest.push(this.dataset.conso[1].values[i].value);
+      d_1.push(null);
+      d_2.push(null);
+      date.push(
+        new Date(this.dataset.conso[1].values[i].start_date).toLocaleString(
+          "fr-FR"
+        )
+      );
+    });
+    Object.keys(this.dataset.conso[2].values).forEach((i) => {
+      d_1.push(this.dataset.conso[2].values[i].value);
+      d_2.push(null);
+      date.push(
+        new Date(this.dataset.conso[2].values[i].start_date).toLocaleString(
+          "fr-FR"
+        )
+      );
+    });
+    Object.keys(this.dataset.conso[3].values).forEach((i) => {
+      d_2.push(this.dataset.conso[3].values[i].value);
+      date.push(
+        new Date(this.dataset.conso[3].values[i].start_date).toLocaleString(
+          "fr-FR"
+        )
+      );
+    });
+    this.chart.conso.labels = date;
+    this.chart.conso.data = [
+      {
+        label: "Consommation réalisée",
+        data: realized,
+      },
+      {
+        label: "Consommation prévue",
+        data: guest,
+      },
+      {
+        label: "Consommation prévue (J+1)",
+        data: d_1,
+      },
+      {
+        label: "Consommation prévue (J+2)",
+        data: d_2,
+      },
+    ];
   },
   methods: {
     color(signal) {
@@ -729,5 +805,25 @@ hr {
   user-select: none;
   user-focus: none;
   overflow: hidden;
+}
+
+#realtime {
+  margin: 2.6rem auto;
+
+  section {
+    border-top: 4px solid var(--green-touch);
+    padding: 1rem;
+    background-color: var(--secondary-bg-color);
+    border-radius: 16px;
+
+    h4 {
+      font-size: 1.2em;
+      margin-bottom: 0.7rem;
+    }
+
+    div {
+      height: 500px;
+    }
+  }
 }
 </style>
