@@ -1,0 +1,13 @@
+plugins {
+  id 'java'
+  id 'build-dashboard' // aggregates all reports in a common place
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+}
