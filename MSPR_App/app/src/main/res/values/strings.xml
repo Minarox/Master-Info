@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MSPR_arcore</string>
+    <string name="mArButton">Button</string>
+    <string name="presentation">TextView</string>
+    <string name="welcome_on_our_application">Welcome on our application !</string>
+    <string name="camera">Camera</string>
+</resources>

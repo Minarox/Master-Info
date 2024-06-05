@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920.068" height="535.384" viewBox="0 0 1920.068 535.384">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="5" y="23" width="1920.068" height="535.384" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" y1="1" x2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2571dd"/>
+      <stop offset="1" stop-color="#012060"/>
+    </linearGradient>
+    <clipPath id="clip-path-2">
+      <rect y="171" width="346.137" height="162.137" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <rect y="10" width="312.995" height="256.495" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <rect x="0.5" y="47" width="169.284" height="119" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-5">
+      <rect y="2" width="175.284" height="79.784" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-6">
+      <rect y="60" width="162.284" height="100.284" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-7">
+      <rect y="-2" width="162.284" height="124.284" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-8">
+      <rect x="3" width="101.284" height="164.284" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-9">
+      <rect x="10" width="122.853" height="301.853" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-10">
+      <rect y="260" width="301.853" height="30.853" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Groupe_défilant_10" data-name="Groupe défilant 10" transform="translate(-5 -23)" clip-path="url(#clip-path)" style="isolation: isolate">
+    <g id="Groupe_14" data-name="Groupe 14" transform="translate(2324.142 -34.547)">
+      <path id="Tracé_3" data-name="Tracé 3" d="M0-60.444H1920v416s-480,120-960,120-960-120-960-120Z" transform="translate(-2320 117.376)" fill="url(#linear-gradient)"/>
+      <g id="Groupe_défilant_1" data-name="Groupe défilant 1" transform="translate(-2145.069 -114.069)" clip-path="url(#clip-path-2)" style="isolation: isolate">
+        <line id="Ligne_1" data-name="Ligne 1" y1="233" x2="233" transform="translate(56.569 56.569)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="80" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_8" data-name="Groupe défilant 8" transform="translate(-1894.997 303.447)" clip-path="url(#clip-path-3)" style="isolation: isolate">
+        <line id="Ligne_2" data-name="Ligne 2" y1="213.5" x2="214" transform="translate(49.497 49.497)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="70" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_2" data-name="Groupe défilant 2" transform="translate(-1993.642 9.931)" clip-path="url(#clip-path-4)" style="isolation: isolate">
+        <line id="Ligne_5" data-name="Ligne 5" y1="141" x2="141" transform="translate(14.642 14.142)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      </g>
+      <line id="Ligne_6" data-name="Ligne 6" y1="147.5" x2="147" transform="translate(-1909 385.944)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      <g id="Groupe_défilant_9" data-name="Groupe défilant 9" transform="translate(-2324.142 418.802)" clip-path="url(#clip-path-5)" style="isolation: isolate">
+        <line id="Ligne_10" data-name="Ligne 10" y1="147.5" x2="147" transform="translate(14.142 14.142)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      </g>
+      <line id="Ligne_7" data-name="Ligne 7" y1="135" x2="135" transform="translate(-1002.5 264.849)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      <g id="Groupe_défilant_3" data-name="Groupe défilant 3" transform="translate(-1303.642 -3.069)" clip-path="url(#clip-path-6)" style="isolation: isolate">
+        <line id="Ligne_9" data-name="Ligne 9" y1="134" x2="134" transform="translate(14.142 14.142)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_7" data-name="Groupe défilant 7" transform="translate(-942.642 451.858)" clip-path="url(#clip-path-7)" style="isolation: isolate">
+        <line id="Ligne_14" data-name="Ligne 14" y1="134" x2="134" transform="translate(14.142 14.142)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_5" data-name="Groupe défilant 5" transform="translate(-504.284 58.216)" clip-path="url(#clip-path-8)" style="isolation: isolate">
+        <line id="Ligne_8" data-name="Ligne 8" y1="136" x2="136" transform="translate(14.142 14.142)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="20" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_6" data-name="Groupe défilant 6" transform="translate(-532.853 34.547)" clip-path="url(#clip-path-9)" style="isolation: isolate">
+        <line id="Ligne_4" data-name="Ligne 4" y1="217" x2="217" transform="translate(42.426 42.426)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="60" opacity="0.19"/>
+      </g>
+      <g id="Groupe_défilant_4" data-name="Groupe défilant 4" transform="translate(-687.926 -203.069)" clip-path="url(#clip-path-10)" style="isolation: isolate">
+        <line id="Ligne_11" data-name="Ligne 11" y1="217" x2="217" transform="translate(42.426 42.426)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="60" opacity="0.19"/>
+      </g>
+      <line id="Ligne_3" data-name="Ligne 3" y1="204.5" x2="204" transform="translate(-1119.5 203.046)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="90" opacity="0.19"/>
+    </g>
+  </g>
+</svg>

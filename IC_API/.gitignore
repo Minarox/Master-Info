@@ -1,0 +1,8 @@
+/.idea/
+/vendor/
+/build/
+config.ini
+.phpunit.result.cache
+composer.lock
+composer.phar
+result_test.xml
