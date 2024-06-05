@@ -1,0 +1,308 @@
+swagger: '2.0'
+info:
+  title: Pet Feeder API
+  description: API of a connected object design project
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+host: petfeeder.minarox.fr
+basePath: /api
+schemes:
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: Base
+    description: API Description
+  - name: Passage
+    description: Passage management
+  - name: Food
+    description: Food management
+paths:
+  /:
+    get:
+      tags:
+        - Base
+      summary: API Description
+      description: Display information about the API
+      operationId: basePath
+      responses:
+        '200':
+          description: API Description
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/api_description'
+  /food:
+    get:
+      tags:
+        - Food
+      summary: List of Foods
+      description: Return list of all foods in the database
+      operationId: getFoods
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/food'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+    post:
+      tags:
+        - Food
+      summary: Create new food
+      description: Create new food in the database
+      operationId: addFood
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/201'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '409':
+          description: Conflict
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/409'
+  /food/{food_id}:
+    get:
+      tags:
+        - Food
+      summary: Information of food
+      description: Return information of food
+      operationId: getFood
+      parameters:
+        - name: food_id
+          in: path
+          description: Target food
+          required: true
+          type: string
+      responses:
+        '200':
+          description: food information
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/food'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '404':
+          description: Not found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+  /passage:
+    get:
+      tags:
+        - Passage
+      summary: List of Passages
+      description: Return list of all passages in the database
+      operationId: getPassages
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/passage'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+    post:
+      tags:
+        - Passage
+      summary: Create new passage
+      description: Create new passage in the database
+      operationId: addPassage
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/201'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '409':
+          description: Conflict
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/409'
+  /passage/{passage_id}:
+    get:
+      tags:
+        - Passage
+      summary: Information of passage
+      description: Return information of passage
+      operationId: getPassage
+      parameters:
+        - name: passage_id
+          in: path
+          description: Target passage
+          required: true
+          type: string
+      responses:
+        '200':
+          description: passage information
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/passage'
+        '400':
+          description: Bad Request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/400'
+        '404':
+          description: Not found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/404'
+definitions:
+  '200':
+    type: object
+    properties:
+      code_value:
+        type: integer
+        format: int32
+        example: 200
+      code_description:
+        type: string
+        example: Success
+    xml:
+      name: '200'
+  '201':
+    type: object
+    properties:
+      code_value:
+        type: integer
+        format: int32
+        example: 201
+      code_description:
+        type: string
+        example: Created
+    xml:
+      name: '201'
+  '400':
+    type: object
+    properties:
+      code_value:
+        type: integer
+        format: int32
+        example: 400
+      code_description:
+        type: string
+        example: Bad Request
+    xml:
+      name: '400'
+  '404':
+    type: object
+    properties:
+      code_value:
+        type: integer
+        format: int32
+        example: 404
+      code_description:
+        type: string
+        example: Not Found
+    xml:
+      name: '404'
+  '409':
+    type: object
+    properties:
+      code_value:
+        type: integer
+        format: int32
+        example: 409
+      code_description:
+        type: string
+        example: Conflict
+    xml:
+      name: '409'
+  api_description:
+    type: object
+    properties:
+      version:
+        type: string
+        example: v1.0
+      title:
+        type: string
+        example: Pet Feeder API
+      description:
+        type: string
+        example: API of a connected object design project
+      host:
+        type: string
+        example: https://petfeeder.minarox.fr
+      base_path:
+        type: string
+        example: /api
+    xml:
+      name: api_description
+  food:
+    type: object
+    properties:
+      food_id:
+        type: integer
+        example: 10
+      given_at:
+        type: string
+        example: '9999-12-31 23:59:59'
+    xml:
+      name: food
+  passage:
+    type: object
+    properties:
+      passage_id:
+        type: integer
+        example: 10
+      seen_at:
+        type: string
+        example: '9999-12-31 23:59:59'
+    xml:
+      name: passage
